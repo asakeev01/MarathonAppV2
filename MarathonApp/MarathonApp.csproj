@@ -7,7 +7,46 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.6">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6" />
+    <PackageReference Include="MailKit" Version="3.3.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Remove="Microsoft.EntityFrameworkCore" />
+    <None Remove="Microsoft.AspNetCore.Identity" />
+    <None Remove="Microsoft.EntityFrameworkCore.Tools" />
+    <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
+    <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
+    <None Remove="DAL\" />
+    <None Remove="DAL\EF\" />
+    <None Remove="DAL\Models\" />
+    <None Remove="DAL\Models\User\" />
+    <None Remove="DLL\" />
+    <None Remove="BLL\Services\" />
+    <None Remove="API\" />
+    <None Remove="API\Controllers\" />
+    <None Remove="DAL\Entities\" />
+    <None Remove="MailKit" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="DAL\" />
+    <Folder Include="DAL\EF\" />
+    <Folder Include="DAL\Models\" />
+    <Folder Include="DAL\Models\User\" />
+    <Folder Include="BLL\" />
+    <Folder Include="BLL\Services\" />
+    <Folder Include="API\" />
+    <Folder Include="API\Controllers\" />
+    <Folder Include="DAL\Entities\" />
+  </ItemGroup>
 </Project>

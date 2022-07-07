@@ -1,4 +1,41 @@
 ﻿<Properties StartupConfiguration="{D92D0A23-0E0C-4E88-B09D-36383D396B34}|Default">
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.MarathonApp FirstBuild="True" />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.MarathonApp PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="MarathonApp/Properties/launchSettings.json">
+    <Files>
+      <File FileName="MarathonApp/BLL/Services/IUserService.cs" Line="57" Column="1" />
+      <File FileName="MarathonApp/BLL/Services/IMailService.cs" Line="48" Column="32" />
+      <File FileName="MarathonApp/appsettings.json" Line="19" Column="37" />
+      <File FileName="MarathonApp/Program.cs" Line="25" Column="33" />
+      <File FileName="MarathonApp/API/Controllers/UserController.cs" Line="58" Column="34" />
+      <File FileName="MarathonApp/Properties/launchSettings.json" Line="30" Column="4" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="MarathonApp" expanded="True">
+            <Node name="MarathonApp" expanded="True">
+              <Node name="API" expanded="True">
+                <Node name="Controllers" expanded="True" />
+              </Node>
+              <Node name="BLL" expanded="True">
+                <Node name="Services" expanded="True" />
+              </Node>
+              <Node name="Properties" expanded="True">
+                <Node name="launchSettings.json" selected="True" />
+              </Node>
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
