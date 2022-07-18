@@ -1,23 +1,40 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using MarathonApp.DAL.Enums;
-using Microsoft.AspNetCore.Identity;
 
-namespace MarathonApp.DAL.Entities
+namespace MarathonApp.DAL.Models.User
 {
-    public class User : IdentityUser
+    public class ProfileViewModel
     {
-        public string? Name { get; set; }
-        public string? Surname { get; set; }
+        [StringLength(50)]
+        [EmailAddress]
+        public string Email { get; set; }
 
+        [Required]
+        public string Name { get; set; }
+
+        [Required]
+        public string Surname { get; set; }
+
+        [Required]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? DateOfBirth { get; set; }
 
-        public bool NewUser { get; set; }
+        [Required]
         public bool Gender { get; set; }
+
+        [Required]
         public TshirtEnum? Tshirt { get; set; }
+
+        [Required]
         public CountriesEnum? Country { get; set; }
+
+        [Required]
+        public string PhoneNumber { get; set; }
+
+        [Required]
         public string? ExtraPhoneNumber { get; set; }
     }
 }
+

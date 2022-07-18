@@ -4,6 +4,8 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
+    <UserSecretsId>121a1f78-c05c-45bb-a04a-75584709e9f3</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,6 +20,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.6" />
     <PackageReference Include="MailKit" Version="3.3.0" />
+    <PackageReference Include="Docker.DotNet" Version="3.125.5" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,6 +40,9 @@
     <None Remove="API\Controllers\" />
     <None Remove="DAL\Entities\" />
     <None Remove="MailKit" />
+    <None Remove="DAL\Enums\" />
+    <None Remove="BLL\Policies\" />
+    <None Remove="Docker.DotNet" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DAL\" />
@@ -48,5 +54,7 @@
     <Folder Include="API\" />
     <Folder Include="API\Controllers\" />
     <Folder Include="DAL\Entities\" />
+    <Folder Include="DAL\Enums\" />
+    <Folder Include="BLL\Policies\" />
   </ItemGroup>
 </Project>

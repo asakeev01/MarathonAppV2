@@ -1,0 +1,21 @@
+version: '3.4'
+
+services:
+  marathonapp:
+    image:  0555753974/marathonapp
+    build:
+      context: .
+      dockerfile: MarathonApp/Dockerfile
+    environment:
+      DS_SERVER: "ms-sql-server"
+    ports:
+      - "8000:80"
+      - "8001:443"
+  ms-sql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    environment:
+        ACCEPT_EULA: "Y"
+        SA_PASSWORD: "Asakeev3008!"
+        MSSQL_PID: Express
+    ports:
+      - "1433:1433"

@@ -1,32 +1,28 @@
 ﻿<Properties StartupConfiguration="{D92D0A23-0E0C-4E88-B09D-36383D396B34}|Default">
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.ItemProperties.MarathonApp PreferredExecutionTarget="/Applications/Safari.app" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="MarathonApp/Properties/launchSettings.json">
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workbench ActiveDocument="docker-compose.yml">
     <Files>
-      <File FileName="MarathonApp/BLL/Services/IUserService.cs" Line="57" Column="1" />
-      <File FileName="MarathonApp/BLL/Services/IMailService.cs" Line="48" Column="32" />
-      <File FileName="MarathonApp/appsettings.json" Line="19" Column="37" />
-      <File FileName="MarathonApp/Program.cs" Line="25" Column="33" />
-      <File FileName="MarathonApp/API/Controllers/UserController.cs" Line="58" Column="34" />
-      <File FileName="MarathonApp/Properties/launchSettings.json" Line="30" Column="4" />
+      <File FileName="MarathonApp/Program.cs" Line="111" Column="1" />
+      <File FileName="MarathonApp/appsettings.json" Line="11" Column="5" />
+      <File FileName="MarathonApp/Dockerfile" Line="17" Column="22" />
+      <File FileName=".dockerignore" Line="1" Column="1" />
+      <File FileName="docker-compose.yml" Line="18" Column="21" />
+      <File FileName="MarathonApp/Properties/launchSettings.json" Line="21" Column="7" />
+      <File FileName="docker-compose.override.yml" Line="1" Column="1" />
+      <File FileName="MarathonApp/DAL/EF/MarathonContext.cs" Line="13" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MarathonApp" expanded="True">
+            <Node name="docker-compose" expanded="True">
+              <Node name="docker-compose.yml" expanded="True" selected="True" />
+            </Node>
             <Node name="MarathonApp" expanded="True">
-              <Node name="API" expanded="True">
-                <Node name="Controllers" expanded="True" />
-              </Node>
-              <Node name="BLL" expanded="True">
-                <Node name="Services" expanded="True" />
-              </Node>
-              <Node name="Properties" expanded="True">
-                <Node name="launchSettings.json" selected="True" />
+              <Node name="DAL" expanded="True">
+                <Node name="EF" expanded="True" />
               </Node>
             </Node>
           </Node>
@@ -37,5 +33,9 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.docker-compose PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
 </Properties>

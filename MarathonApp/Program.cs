@@ -1,8 +1,11 @@
 ﻿using System.Text;
+using MarathonApp.BLL.Policies;
 using MarathonApp.BLL.Services;
 using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Entities;
+using MarathonApp.DAL.Models.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -24,8 +27,10 @@ builder.Services.AddIdentityCore<User>(options =>
     .AddEntityFrameworkStores<MarathonContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddTransient<IMailService, MailService>();
+builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IAuthorizationHandler, UserPolicyHandler>();
+builder.Services.AddTransient<IProfileService, ProfileService>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -47,6 +52,14 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             ClockSkew = TimeSpan.Zero,
         };
     });
+
+builder.Services.AddAuthorization(options => {
+    options.AddPolicy("NewUserPolicy", policy =>
+    {
+        policy.Requirements.Add(new UserPolicy(true));
+    });
+}); 
+
 builder.Services.AddSwaggerGen(x =>
 { 
     x.SwaggerDoc("v1", new OpenApiInfo { Title = "MarathonApp", Version = "v1" });

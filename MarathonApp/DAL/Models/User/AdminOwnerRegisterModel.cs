@@ -1,10 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using MarathonApp.DAL.Enums;
 
 namespace MarathonApp.DAL.Models.User
 {
-    public class LoginViewModel
+    public class AdminOwnerRegisterModel
     {
         [Required]
         [StringLength(50)]
@@ -14,6 +13,10 @@ namespace MarathonApp.DAL.Models.User
         [Required]
         [StringLength(50, MinimumLength = 5)]
         public string Password { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 5)]
+        public string ConfirmPassword { get; set; }
     }
 }
 

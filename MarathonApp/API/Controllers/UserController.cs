@@ -17,6 +17,25 @@ namespace MarathonApp.API.Controllers
             _userService = userService;
         }
 
+        [HttpGet("registerowner")]
+        public async Task<ObjectResult> RegisterOwnerAsync()
+        {
+            var result = await _userService.RegisterOwnerAsync();
+            if (result.IsSuccess)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
+        [HttpPost("registeradmin")]
+        [Authorize(Roles = UserRolesModel.Owner)]
+        public async Task<ObjectResult> RegisterAdminAsync(AdminOwnerRegisterModel model)
+        {
+            var result = await _userService.RegisterAdminAsync(model);
+            if (result.IsSuccess)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
         [HttpPost("register")]
         public async Task<ObjectResult> RegisterAsync(RegisterViewModel model)
         {
@@ -33,6 +52,7 @@ namespace MarathonApp.API.Controllers
             }
             return BadRequest("Some properties are not valid");
         }
+
         [HttpPost("login")]
         public async Task<ObjectResult> LoginAsync(LoginViewModel model)
         {
@@ -47,7 +67,7 @@ namespace MarathonApp.API.Controllers
         }
 
         [HttpGet("confirmemail")]
-        public async Task<ActionResult> ConfirmEmail(string userId, string token)
+        public async Task<ActionResult> ConfirmEmailAsync(string userId, string token)
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
                 return NotFound();
@@ -58,6 +78,33 @@ namespace MarathonApp.API.Controllers
                 return Ok(result);
 
             return BadRequest(result);
+        }
+
+        [HttpPost("forgetpassword")]
+        public async Task<ActionResult> ForgetPasswordAsync(string email)
+        {
+            if (string.IsNullOrEmpty(email))
+                return NotFound();
+
+            var result = await _userService.ForgetPasswordAsync(email);
+
+            if (result.IsSuccess)
+                return Ok(result);
+            return BadRequest(result);
+        }
+
+        [HttpPost("resetpassword")]
+        public async Task<ActionResult> ResetPasswordAsync(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _userService.ResetPasswordAsync(model);
+
+                if (result.IsSuccess)
+                    return Ok(result);
+                return BadRequest(result);
+            }
+            return BadRequest("Some properties are not valid");
         }
     }
 }

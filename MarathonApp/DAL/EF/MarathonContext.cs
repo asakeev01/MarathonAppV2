@@ -10,13 +10,20 @@ namespace MarathonApp.DAL.EF
     {
         public MarathonContext(DbContextOptions<MarathonContext> options) : base(options)
         {
-
+            Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
         {
 
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.Entity<User>(u => u.Property(p => p.NewUser).HasDefaultValue(true));
+        }
+
     }
 }
 
