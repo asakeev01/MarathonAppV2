@@ -4,7 +4,6 @@ using MarathonApp.DAL.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -12,10 +11,9 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarathonApp.Migrations
 {
     [DbContext(typeof(MarathonContext))]
-    [Migration("20220720083750_AllMigrations")]
-    partial class AllMigrations
+    partial class MarathonContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,6 +22,94 @@ namespace MarathonApp.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
+            modelBuilder.Entity("MarathonApp.DAL.Entities.Distance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AgeFrom")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("MarathonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("NumberOfParticipants")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("PassingLimit")
+                        .HasColumnType("time");
+
+                    b.Property<int>("RegistredParticipants")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MarathonId");
+
+                    b.ToTable("Distance");
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.DistanceAge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("AgeFrom")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AgeTo")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DistanceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistanceId");
+
+                    b.ToTable("DistanceAge");
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.DistancePrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("DistanceId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistanceId");
+
+                    b.ToTable("DistancePrice");
+                });
+
             modelBuilder.Entity("MarathonApp.DAL.Entities.ImagesEntity", b =>
                 {
                     b.Property<Guid>("Id")
@@ -31,19 +117,15 @@ namespace MarathonApp.Migrations
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("BackPassportPath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DisabilityPath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FrontPassportPath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("InsurancePath")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserId")
@@ -56,6 +138,54 @@ namespace MarathonApp.Migrations
                         .IsUnique();
 
                     b.ToTable("ImagesEntity");
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.Marathon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Marathons");
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.Partner", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Logo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Partners");
                 });
 
             modelBuilder.Entity("MarathonApp.DAL.Entities.User", b =>
@@ -147,6 +277,21 @@ namespace MarathonApp.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+                });
+
+            modelBuilder.Entity("MarathonPartner", b =>
+                {
+                    b.Property<int>("MarathonsId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PartnersId")
+                        .HasColumnType("int");
+
+                    b.HasKey("MarathonsId", "PartnersId");
+
+                    b.HasIndex("PartnersId");
+
+                    b.ToTable("MarathonPartner");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -282,6 +427,27 @@ namespace MarathonApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("MarathonApp.DAL.Entities.Distance", b =>
+                {
+                    b.HasOne("MarathonApp.DAL.Entities.Marathon", null)
+                        .WithMany("Distances")
+                        .HasForeignKey("MarathonId");
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.DistanceAge", b =>
+                {
+                    b.HasOne("MarathonApp.DAL.Entities.Distance", null)
+                        .WithMany("DistanceAges")
+                        .HasForeignKey("DistanceId");
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.DistancePrice", b =>
+                {
+                    b.HasOne("MarathonApp.DAL.Entities.Distance", null)
+                        .WithMany("DistancePrices")
+                        .HasForeignKey("DistanceId");
+                });
+
             modelBuilder.Entity("MarathonApp.DAL.Entities.ImagesEntity", b =>
                 {
                     b.HasOne("MarathonApp.DAL.Entities.User", "User")
@@ -291,6 +457,21 @@ namespace MarathonApp.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MarathonPartner", b =>
+                {
+                    b.HasOne("MarathonApp.DAL.Entities.Marathon", null)
+                        .WithMany()
+                        .HasForeignKey("MarathonsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("MarathonApp.DAL.Entities.Partner", null)
+                        .WithMany()
+                        .HasForeignKey("PartnersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -342,6 +523,18 @@ namespace MarathonApp.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.Distance", b =>
+                {
+                    b.Navigation("DistanceAges");
+
+                    b.Navigation("DistancePrices");
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.Marathon", b =>
+                {
+                    b.Navigation("Distances");
                 });
 
             modelBuilder.Entity("MarathonApp.DAL.Entities.User", b =>

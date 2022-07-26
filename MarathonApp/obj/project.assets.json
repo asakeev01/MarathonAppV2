@@ -3961,11 +3961,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Timely\\MarathonApp\\MarathonApp\\MarathonApp.csproj",
+      "projectUniqueName": "D:\\Timely\\MarathonAppTest\\MarathonApp\\MarathonApp.csproj",
       "projectName": "MarathonApp",
-      "projectPath": "D:\\Timely\\MarathonApp\\MarathonApp\\MarathonApp.csproj",
+      "projectPath": "D:\\Timely\\MarathonAppTest\\MarathonApp\\MarathonApp.csproj",
       "packagesPath": "C:\\Users\\mint\\.nuget\\packages\\",
-      "outputPath": "D:\\Timely\\MarathonApp\\MarathonApp\\obj\\",
+      "outputPath": "D:\\Timely\\MarathonAppTest\\MarathonApp\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

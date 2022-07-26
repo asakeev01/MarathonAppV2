@@ -4,6 +4,7 @@ using MarathonApp.DAL.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarathonApp.Migrations
 {
     [DbContext(typeof(MarathonContext))]
-    partial class MarathonContextModelSnapshot : ModelSnapshot
+    [Migration("20220726090048_Init")]
+    partial class Init
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,6 +110,36 @@ namespace MarathonApp.Migrations
                     b.HasIndex("DistanceId");
 
                     b.ToTable("DistancePrice");
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.ImagesEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BackPassportPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisabilityPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FrontPassportPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InsurancePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("ImagesEntity");
                 });
 
             modelBuilder.Entity("MarathonApp.DAL.Entities.Marathon", b =>
@@ -418,6 +450,17 @@ namespace MarathonApp.Migrations
                         .HasForeignKey("DistanceId");
                 });
 
+            modelBuilder.Entity("MarathonApp.DAL.Entities.ImagesEntity", b =>
+                {
+                    b.HasOne("MarathonApp.DAL.Entities.User", "User")
+                        .WithOne("Images")
+                        .HasForeignKey("MarathonApp.DAL.Entities.ImagesEntity", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("MarathonPartner", b =>
                 {
                     b.HasOne("MarathonApp.DAL.Entities.Marathon", null)
@@ -494,6 +537,12 @@ namespace MarathonApp.Migrations
             modelBuilder.Entity("MarathonApp.DAL.Entities.Marathon", b =>
                 {
                     b.Navigation("Distances");
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.User", b =>
+                {
+                    b.Navigation("Images")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

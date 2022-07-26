@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "YQ4czBL5VubBaXy1Li41mksrvkIQQ3bvB2LqkhP1AwzUwMUqVerF4WQ0k0KdgBwseteoNMBDvPLAvKX95ZR1YQ==",
+  "dgSpecHash": "DW1dGnl9r7WLmxj2p57gxSnQATH+bTTW37BobsuANwB0TrTrcKMPOMwEuBp74/iRAp0aHn2f+vhXPsmd29ZBhg==",
   "success": true,
-  "projectFilePath": "D:\\Timely\\MarathonApp\\MarathonApp\\MarathonApp.csproj",
+  "projectFilePath": "D:\\Timely\\MarathonAppTest\\MarathonApp\\MarathonApp.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\mint\\.nuget\\packages\\automapper\\11.0.0\\automapper.11.0.0.nupkg.sha512",
     "C:\\Users\\mint\\.nuget\\packages\\automapper.extensions.microsoft.dependencyinjection\\11.0.0\\automapper.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
