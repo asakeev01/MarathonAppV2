@@ -72,7 +72,10 @@ builder.Services.AddAuthorization(options => {
     });
 });
 
-builder.Services.AddCors();
+builder.Services.AddCors(x => x.AddDefaultPolicy(b => b
+            .AllowAnyOrigin()
+            .AllowAnyMethod()
+            .AllowAnyHeader()));
 
 builder.Services.AddSwaggerGen(x =>
 { 
@@ -113,7 +116,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
