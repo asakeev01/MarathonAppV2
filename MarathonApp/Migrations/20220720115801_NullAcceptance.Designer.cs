@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace MarathonApp.Migrations
 {
     [DbContext(typeof(MarathonContext))]
-    [Migration("20220711062038_AddedNullToFields")]
-    partial class AddedNullToFields
+    [Migration("20220720115801_NullAcceptance")]
+    partial class NullAcceptance
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,6 +23,36 @@ namespace MarathonApp.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.ImagesEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("BackPassportPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisabilityPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FrontPassportPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InsurancePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("ImagesEntity");
+                });
 
             modelBuilder.Entity("MarathonApp.DAL.Entities.User", b =>
                 {
@@ -36,7 +66,7 @@ namespace MarathonApp.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("Contries")
+                    b.Property<int?>("Country")
                         .HasColumnType("int");
 
                     b.Property<DateTime?>("DateOfBirth")
@@ -63,6 +93,11 @@ namespace MarathonApp.Migrations
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("NewUser")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bit")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -243,6 +278,17 @@ namespace MarathonApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("MarathonApp.DAL.Entities.ImagesEntity", b =>
+                {
+                    b.HasOne("MarathonApp.DAL.Entities.User", "User")
+                        .WithOne("Images")
+                        .HasForeignKey("MarathonApp.DAL.Entities.ImagesEntity", "UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -291,6 +337,12 @@ namespace MarathonApp.Migrations
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.User", b =>
+                {
+                    b.Navigation("Images")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

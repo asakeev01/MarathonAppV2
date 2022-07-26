@@ -4,7 +4,7 @@
 
 namespace MarathonApp.Migrations
 {
-    public partial class ChangedNameOfCountry : Migration
+    public partial class AllMigrations : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
