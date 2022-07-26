@@ -1,4 +1,5 @@
 ﻿using System.Text;
+using System.Text.Json.Serialization;
 using MarathonApp.BLL.Policies;
 using MarathonApp.BLL.Services;
 using MarathonApp.DAL.EF;
@@ -7,6 +8,7 @@ using MarathonApp.DAL.Models.User;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -29,12 +31,16 @@ builder.Services.AddIdentityCore<User>(options =>
     .AddEntityFrameworkStores<MarathonContext>()
     .AddDefaultTokenProviders();
 
+builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+builder.Services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
 builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IAuthorizationHandler, UserPolicyHandler>();
 builder.Services.AddTransient<IProfileService, ProfileService>();
+builder.Services.AddTransient<IImagesService, ImagesService>();
 builder.Services.AddTransient<IPartnerService, PartnerService>();
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.RegisterMapster();
@@ -64,7 +70,9 @@ builder.Services.AddAuthorization(options => {
     {
         policy.Requirements.Add(new UserPolicy(true));
     });
-}); 
+});
+
+builder.Services.AddCors();
 
 builder.Services.AddSwaggerGen(x =>
 { 
@@ -98,13 +106,14 @@ builder.Services.AddSwaggerGen(x =>
 });
 
 var app = builder.Build();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
-
+app.UseCors(c => c.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
 app.UseHttpsRedirection();
 
 app.UseAuthentication();

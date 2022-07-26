@@ -2,6 +2,7 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Entities;
 using MarathonApp.DAL.Models.User;
 using Microsoft.AspNetCore.Identity;
@@ -29,13 +30,15 @@ namespace MarathonApp.BLL.Services
         private IConfiguration _configuration;
         private IEmailService _emailService;
         private RoleManager<IdentityRole> _roleManager;
+        private MarathonContext _context;
 
-        public UserService(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService, RoleManager<IdentityRole> roleManager)
+        public UserService(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService, RoleManager<IdentityRole> roleManager, MarathonContext context)
         {
             _userManager = userManager;
             _configuration = configuration;
             _emailService = emailService;
             _roleManager = roleManager;
+            _context = context;
         }
 
         public async Task<UserManagerResponse> RegisterOwnerAsync()
@@ -121,7 +124,23 @@ namespace MarathonApp.BLL.Services
                 UserName = model.Email
             };
 
+            try
+            {
+                await _emailService.SendConfirmEmailAsync(identityUser);
+            }
+            catch
+            {
+                return new UserManagerResponse
+                {
+                    Message = "User was not created, something wrong with email",
+                    IsSuccess = false
+                };
+            }
+
+            identityUser.Images = new ImagesEntity();
+
             var result = await _userManager.CreateAsync(identityUser, model.Password);
+
 
             if (result.Succeeded)
             {
@@ -134,7 +153,8 @@ namespace MarathonApp.BLL.Services
 
                 await _userManager.AddToRoleAsync(identityUser, UserRolesModel.User);
 
-                await _emailService.SendConfirmEmailAsync(identityUser);
+                
+
 
                 return new UserManagerResponse
                 {

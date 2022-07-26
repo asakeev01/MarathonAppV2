@@ -45,11 +45,25 @@
     <None Remove="DAL\Enums\" />
     <None Remove="BLL\Policies\" />
     <None Remove="Docker.DotNet" />
+    <None Remove="Images\" />
+    <None Remove="Images\FrontPassword\" />
+    <None Remove="Images\BackPassport\" />
+    <None Remove="Images\Insurance\" />
+    <None Remove="Images\Disability\" />
+    <None Remove="DAL\Models\Profile\" />
+    <None Remove="DAL\Models\Image\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DAL\EF\" />
     <Folder Include="DAL\Models\User\" />
     <Folder Include="DAL\Enums\" />
     <Folder Include="BLL\Policies\" />
+    <Folder Include="Images\" />
+    <Folder Include="Images\FrontPassport\" />
+    <Folder Include="Images\BackPassport\" />
+    <Folder Include="Images\Insurance\" />
+    <Folder Include="Images\Disability\" />
+    <Folder Include="DAL\Models\Profile\" />
+    <Folder Include="DAL\Models\Image\" />
   </ItemGroup>
 </Project>

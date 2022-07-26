@@ -19,5 +19,7 @@ namespace MarathonApp.DAL.Entities
         public TshirtEnum? Tshirt { get; set; }
         public CountriesEnum? Country { get; set; }
         public string? ExtraPhoneNumber { get; set; }
+
+        public ImagesEntity Images {get; set;}
     }
 }

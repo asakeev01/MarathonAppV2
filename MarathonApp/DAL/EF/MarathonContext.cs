@@ -8,6 +8,8 @@ namespace MarathonApp.DAL.EF
 {
     public class MarathonContext : IdentityDbContext<User>
     {
+        public virtual DbSet<ImagesEntity> ImagesEntity { get; set; }
+
         public MarathonContext(DbContextOptions<MarathonContext> options) : base(options)
         {
             Database.EnsureCreated();

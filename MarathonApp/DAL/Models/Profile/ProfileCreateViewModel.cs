@@ -2,13 +2,13 @@
 using System.ComponentModel.DataAnnotations;
 using MarathonApp.DAL.Enums;
 
-namespace MarathonApp.DAL.Models.User
+namespace MarathonApp.DAL.Models.Profile
 {
-    public class ProfileViewModel
+    public class ProfileCreateViewModel
     {
-        [StringLength(50)]
-        [EmailAddress]
-        public string Email { get; set; }
+        //[StringLength(50)]
+        //[EmailAddress]
+        //public string Email { get; set; }
 
         [Required]
         public string Name { get; set; }
