@@ -1,25 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/Users/admin/Projects/MarathonApp/MarathonApp/MarathonApp.csproj": {}
+    "D:\\Timely\\MarathonApp\\MarathonApp\\MarathonApp.csproj": {}
   },
   "projects": {
-    "/Users/admin/Projects/MarathonApp/MarathonApp/MarathonApp.csproj": {
+    "D:\\Timely\\MarathonApp\\MarathonApp\\MarathonApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/admin/Projects/MarathonApp/MarathonApp/MarathonApp.csproj",
+        "projectUniqueName": "D:\\Timely\\MarathonApp\\MarathonApp\\MarathonApp.csproj",
         "projectName": "MarathonApp",
-        "projectPath": "/Users/admin/Projects/MarathonApp/MarathonApp/MarathonApp.csproj",
-        "packagesPath": "/Users/admin/.nuget/packages/",
-        "outputPath": "/Users/admin/Projects/MarathonApp/MarathonApp/obj/",
+        "projectPath": "D:\\Timely\\MarathonApp\\MarathonApp\\MarathonApp.csproj",
+        "packagesPath": "C:\\Users\\mint\\.nuget\\packages\\",
+        "outputPath": "D:\\Timely\\MarathonApp\\MarathonApp\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        ],
         "configFilePaths": [
-          "/Users/admin/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\mint\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,6 +44,10 @@
         "net6.0": {
           "targetAlias": "net6.0",
           "dependencies": {
+            "AutoMapper.Extensions.Microsoft.DependencyInjection": {
+              "target": "Package",
+              "version": "[11.0.0, )"
+            },
             "Docker.DotNet": {
               "target": "Package",
               "version": "[3.125.5, )"
@@ -45,6 +55,10 @@
             "MailKit": {
               "target": "Package",
               "version": "[3.3.0, )"
+            },
+            "Mapster": {
+              "target": "Package",
+              "version": "[7.3.0, )"
             },
             "Microsoft.AspNetCore.Authentication.JwtBearer": {
               "target": "Package",
@@ -95,7 +109,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.301/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.301\\RuntimeIdentifierGraph.json"
         }
       }
     }
