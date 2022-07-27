@@ -35,7 +35,6 @@
     <None Remove="DAL\" />
     <None Remove="DAL\EF\" />
     <None Remove="DAL\Models\" />
-    <None Remove="DAL\Models\User\" />
     <None Remove="DLL\" />
     <None Remove="BLL\Services\" />
     <None Remove="API\" />
@@ -50,12 +49,11 @@
     <None Remove="Images\BackPassport\" />
     <None Remove="Images\Insurance\" />
     <None Remove="Images\Disability\" />
-    <None Remove="DAL\Models\Profile\" />
-    <None Remove="DAL\Models\Image\" />
+    <None Remove="Models\" />
+    <None Remove="Models\Exceptions\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DAL\EF\" />
-    <Folder Include="DAL\Models\User\" />
     <Folder Include="DAL\Enums\" />
     <Folder Include="BLL\Policies\" />
     <Folder Include="Images\" />
@@ -63,8 +61,8 @@
     <Folder Include="Images\BackPassport\" />
     <Folder Include="Images\Insurance\" />
     <Folder Include="Images\Disability\" />
-    <Folder Include="DAL\Models\Profile\" />
-    <Folder Include="DAL\Models\Image\" />
     <Folder Include="Migrations\" />
+    <Folder Include="Models\" />
+    <Folder Include="Models\Exceptions\" />
   </ItemGroup>
 </Project>

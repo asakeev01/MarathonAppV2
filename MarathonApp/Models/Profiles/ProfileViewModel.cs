@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MarathonApp.DAL.Models.Profile
+namespace MarathonApp.Models.Profiles
 {
     public class ProfileViewModel
     {

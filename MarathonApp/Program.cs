@@ -4,7 +4,7 @@ using MarathonApp.BLL.Policies;
 using MarathonApp.BLL.Services;
 using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Entities;
-using MarathonApp.DAL.Models.User;
+using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

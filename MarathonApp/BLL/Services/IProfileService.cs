@@ -2,8 +2,8 @@
 using System.Security.Claims;
 using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Entities;
-using MarathonApp.DAL.Models.Profile;
-using MarathonApp.DAL.Models.User;
+using MarathonApp.Models.Profiles;
+using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Identity;
 
 namespace MarathonApp.BLL.Services

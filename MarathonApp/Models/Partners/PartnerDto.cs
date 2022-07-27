@@ -1,4 +1,4 @@
-﻿namespace MarathonApp.DAL.Models.Partner
+﻿namespace MarathonApp.Models.Partners
 {
     public static class PartnerDto
     {

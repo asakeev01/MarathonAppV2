@@ -1,20 +1,18 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MarathonApp.DAL.Models.User
+namespace MarathonApp.Models.Users
 {
-    public class ResetPasswordViewModel
+    public class AdminOwnerRegisterModel
     {
         [Required]
-        public string Token { get; set; }
-
-        [Required]
+        [StringLength(50)]
         [EmailAddress]
         public string Email { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 5)]
-        public string NewPassword { get; set; }
+        public string Password { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 5)]

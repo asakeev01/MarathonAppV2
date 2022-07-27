@@ -1,7 +1,7 @@
 ﻿using System;
 using MarathonApp.DAL.Enums;
 
-namespace MarathonApp.DAL.Models.Image
+namespace MarathonApp.Models.Images
 {
     public class ImageTypeViewModel
     {

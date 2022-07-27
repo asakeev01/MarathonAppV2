@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MarathonApp.DAL.Models.Image
+namespace MarathonApp.Models.Images
 {
     public class ImageDetailViewModel
     {

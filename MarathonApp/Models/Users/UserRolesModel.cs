@@ -1,5 +1,5 @@
 ﻿using System;
-namespace MarathonApp.DAL.Models.User
+namespace MarathonApp.Models.Users
 {
     public class UserRolesModel
     {

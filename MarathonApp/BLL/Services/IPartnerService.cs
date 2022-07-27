@@ -1,5 +1,5 @@
 ﻿using MarathonApp.DAL.EF;
-using MarathonApp.DAL.Models.Partner;
+using MarathonApp.Models.Partners;
 using Microsoft.EntityFrameworkCore;
 using Mapster;
 using MarathonApp.DAL.Entities;

@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using MarathonApp.DAL.Enums;
 
-namespace MarathonApp.DAL.Models.User
+namespace MarathonApp.Models.Users
 {
     public class LoginViewModel
     {

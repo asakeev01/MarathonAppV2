@@ -1,7 +1,7 @@
 ﻿using System;
 using MarathonApp.BLL.Services;
-using MarathonApp.DAL.Models.Profile;
-using MarathonApp.DAL.Models.User;
+using MarathonApp.Models.Profiles;
+using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

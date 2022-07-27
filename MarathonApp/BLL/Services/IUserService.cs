@@ -4,7 +4,7 @@ using System.Security.Claims;
 using System.Text;
 using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Entities;
-using MarathonApp.DAL.Models.User;
+using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.IdentityModel.Tokens;

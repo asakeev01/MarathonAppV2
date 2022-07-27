@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MarathonApp.DAL.Models.User
+namespace MarathonApp.Models.Users
 {
-    public class AdminOwnerRegisterModel
+    public class RegisterViewModel
     {
         [Required]
         [StringLength(50)]

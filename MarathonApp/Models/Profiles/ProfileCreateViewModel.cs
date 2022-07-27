@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using MarathonApp.DAL.Enums;
 
-namespace MarathonApp.DAL.Models.Profile
+namespace MarathonApp.Models.Profiles
 {
     public class ProfileCreateViewModel
     {

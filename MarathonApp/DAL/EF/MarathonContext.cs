@@ -12,7 +12,7 @@ namespace MarathonApp.DAL.EF
 
         public MarathonContext(DbContextOptions<MarathonContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)

@@ -1,6 +1,6 @@
 ﻿using Mapster;
 using MarathonApp.DAL.Entities;
-using MarathonApp.DAL.Models.Partner;
+using MarathonApp.Models.Partners;
 
 namespace MarathonApp.Infrastructure;
 

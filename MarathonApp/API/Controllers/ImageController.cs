@@ -1,6 +1,6 @@
 ﻿using System;
 using MarathonApp.BLL.Services;
-using MarathonApp.DAL.Models.Image;
+using MarathonApp.Models.Images;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

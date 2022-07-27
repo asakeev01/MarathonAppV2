@@ -2,8 +2,8 @@
 using System.Security.Claims;
 using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Enums;
-using MarathonApp.DAL.Models.Image;
-using MarathonApp.DAL.Models.User;
+using MarathonApp.Models.Images;
+using MarathonApp.Models.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarathonApp.BLL.Services
@@ -86,6 +86,11 @@ namespace MarathonApp.BLL.Services
             };
             return result;
         }
+
+        //public async Task<UserManagerResponse> UploadImageAsAdmin(string userId)
+        //{
+        //    var user = 
+        //}
     }
 }
 
