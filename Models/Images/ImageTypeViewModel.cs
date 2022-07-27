@@ -1,5 +1,6 @@
 ﻿using System;
 using MarathonApp.DAL.Enums;
+using Microsoft.AspNetCore.Http;
 
 namespace MarathonApp.Models.Images
 {

@@ -9,12 +9,21 @@ namespace MarathonApp.Models.Exceptions
         public string ErrorMessage { get; set; }
         public new Exception InnerException { get; set; }
 
-        public HttpException(string message, Exception innerException, HttpStatusCode statusCode)
+        public HttpException(string message, Exception innerException, HttpStatusCode statusCode) : base(message, innerException)
         {
             ErrorMessage = message;
             StatusCode = statusCode;
             InnerException = innerException;
         }
+
+        public HttpException(Exception ex, HttpStatusCode statusCode) : base(ex.Message, ex)
+        {
+            ErrorMessage = ex.Message;
+            StatusCode = statusCode;
+            InnerException = ex.InnerException;
+        }
+
+        //public HttpException()
     }
 }
 

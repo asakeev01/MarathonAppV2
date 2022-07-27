@@ -4,6 +4,8 @@ using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Enums;
 using MarathonApp.Models.Images;
 using MarathonApp.Models.Users;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace MarathonApp.BLL.Services

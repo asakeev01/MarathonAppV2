@@ -4,7 +4,9 @@ using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Entities;
 using MarathonApp.Models.Profiles;
 using MarathonApp.Models.Users;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 
 namespace MarathonApp.BLL.Services
 {
@@ -22,15 +24,15 @@ namespace MarathonApp.BLL.Services
     {
         private UserManager<User> _userManager;
         private IConfiguration _configuration;
-        private IEmailService _emailService;
+        //private IEmailService _emailService;
         private RoleManager<IdentityRole> _roleManager;
         private IHttpContextAccessor _context;
 
-        public ProfileService(UserManager<User> userManager, IConfiguration configuration, IEmailService emailService, RoleManager<IdentityRole> roleManager, IHttpContextAccessor context)
+        public ProfileService(UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IHttpContextAccessor context)
         {
             _userManager = userManager;
             _configuration = configuration;
-            _emailService = emailService;
+            //_emailService = emailService;
             _roleManager = roleManager;
             _context = context;
         }

@@ -1,21 +1,17 @@
-﻿<Properties StartupConfiguration="{D92D0A23-0E0C-4E88-B09D-36383D396B34}|Default">
-  <MonoDevelop.Ide.Workbench ActiveDocument="MarathonApp/Program.cs">
+﻿<Properties StartupConfiguration="{F2060002-4FD4-4387-820F-C1842C0E4CA1}|MarathonApp">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BLL/Services/IUserService.cs">
     <Files>
-      <File FileName="MarathonApp/Program.cs" Line="7" Column="31" />
+      <File FileName="BLL/Services/IEmailService.cs" Line="86" Column="1" />
+      <File FileName="BLL/Services/IUserService.cs" Line="106" Column="35" />
+      <File FileName="API/Program.cs" Line="18" Column="1" />
+      <File FileName="API/Properties/launchSettings.json" Line="1" Column="1" />
+      <File FileName="API/appsettings.json" Line="1" Column="1" />
+      <File FileName="API/appsettings.Development.json" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="MarathonApp" expanded="True">
-            <Node name="docker-compose" expanded="True">
-              <Node name="docker-compose.yml" expanded="True" />
-            </Node>
-            <Node name="MarathonApp" expanded="True">
-              <Node name="Models" expanded="True">
-                <Node name="User" selected="True" />
-              </Node>
-            </Node>
-          </Node>
+          <Node name="MarathonApp" expanded="True" />
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
@@ -23,12 +19,12 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.ItemProperties.docker-compose PreferredExecutionTarget="MonoDevelop.Default" />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.MarathonApp PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.ItemProperties.API PreferredExecutionTarget="/Applications/Safari.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.ItemProperties.docker-compose PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MultiItemStartupConfigurations />
 </Properties>

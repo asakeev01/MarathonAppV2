@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
+using System.Net;
 using System.Security.Claims;
 using System.Text;
 using MarathonApp.DAL.EF;
@@ -7,6 +8,7 @@ using MarathonApp.DAL.Entities;
 using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace MarathonApp.BLL.Services
@@ -229,11 +231,17 @@ namespace MarathonApp.BLL.Services
                     Message = "User not found",
                     IsSuccess = false,
                 };
-            var decodedToken = WebEncoders.Base64UrlDecode(token);
 
-            string normalToken = Encoding.UTF8.GetString(decodedToken);
+            var codeDecodedBytes = WebEncoders.Base64UrlDecode(token);
 
-            var result = await _userManager.ConfirmEmailAsync(user, normalToken);
+            var codeDecoded = Encoding.UTF8.GetString(codeDecodedBytes);
+
+            //var decodedToken = WebUtility.UrlDecode(token);
+            //decodedToken = decodedToken.Replace(' ', '+');
+
+            //var decodedToken = WebEncoders.Base64UrlDecode(token);
+
+            var result = await _userManager.ConfirmEmailAsync(user, codeDecoded);
 
             if (result.Succeeded)
                 return new UserManagerResponse

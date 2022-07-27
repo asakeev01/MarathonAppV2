@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Net;
 using System.Text;
+using System.Web;
 using MailKit.Net.Smtp;
 using MarathonApp.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 
 namespace MarathonApp.BLL.Services
@@ -54,7 +57,7 @@ namespace MarathonApp.BLL.Services
                 await client.AuthenticateAsync(emailAddress, password);
                 await client.SendAsync(message);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -70,9 +73,11 @@ namespace MarathonApp.BLL.Services
         {
             var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
 
-            var encodedEmailToken = Encoding.UTF8.GetBytes(confirmEmailToken);
+            //var validEmailToken = WebUtility.UrlEncode(confirmEmailToken);
 
-            var validEmailToken = WebEncoders.Base64UrlEncode(encodedEmailToken);
+            byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(confirmEmailToken);
+
+            var validEmailToken = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
 
             string url = $"{_configuration.GetSection("AppUrl").Value}/api/auth/confirmemail?userid={identityUser.Id}&token={validEmailToken}";
 
