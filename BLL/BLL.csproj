@@ -9,7 +9,6 @@
   <ItemGroup>
     <None Remove="Policies\" />
     <None Remove="Services\" />
-    <None Remove="Images\" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <None Remove="Microsoft.AspNetCore.Identity" />
     <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
@@ -23,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Policies\" />
     <Folder Include="Services\" />
-    <Folder Include="Images\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Models\Models.csproj" />

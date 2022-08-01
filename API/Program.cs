@@ -45,8 +45,6 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.RegisterMapster();
 
-
-
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
@@ -79,7 +77,7 @@ builder.Services.AddCors(x => x.AddDefaultPolicy(b => b
 
 builder.Services.AddSwaggerGen(x =>
 { 
-    x.SwaggerDoc("v1", new OpenApiInfo { Title = "MarathonApp", Version = "v1" });
+    x.SwaggerDoc("v1", new OpenApiInfo { Title = "Marathon", Version = "v1" });
     x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         In = ParameterLocation.Header,

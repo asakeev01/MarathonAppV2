@@ -97,7 +97,7 @@ namespace MarathonApp.BLL.Services
                 await _userManager.AddToRoleAsync(identityUser, UserRolesModel.Admin);
             return new UserManagerResponse
             {
-                Message = "Admin was successfully registrated",
+                Message = "Admin was successfully registered",
                 IsSuccess = true
             };
             return new UserManagerResponse
@@ -126,6 +126,10 @@ namespace MarathonApp.BLL.Services
                 UserName = model.Email
             };
 
+            identityUser.Images = new ImagesEntity();
+
+            var result = await _userManager.CreateAsync(identityUser, model.Password);
+            
             try
             {
                 await _emailService.SendConfirmEmailAsync(identityUser);
@@ -138,11 +142,6 @@ namespace MarathonApp.BLL.Services
                     IsSuccess = false
                 };
             }
-
-            identityUser.Images = new ImagesEntity();
-
-            var result = await _userManager.CreateAsync(identityUser, model.Password);
-
 
             if (result.Succeeded)
             {
@@ -240,7 +239,6 @@ namespace MarathonApp.BLL.Services
             //decodedToken = decodedToken.Replace(' ', '+');
 
             //var decodedToken = WebEncoders.Base64UrlDecode(token);
-
             var result = await _userManager.ConfirmEmailAsync(user, codeDecoded);
 
             if (result.Succeeded)

@@ -91,7 +91,9 @@ namespace MarathonApp.BLL.Services
             return user;
         }
 
+
         // FOR ADMINS AND OWNER
+
 
         public async Task<IQueryable<ProfileViewModel>> GetProfilesAsync()
         {
@@ -155,13 +157,13 @@ namespace MarathonApp.BLL.Services
             {
                 return new UserManagerResponse
                 {
-                    Message = "Profile was successfully created!",
+                    Message = "Profile was successfully changed!",
                     IsSuccess = true
                 };
             }
             return new UserManagerResponse
             {
-                Message = "Profile was not created",
+                Message = "Profile was not updated",
                 IsSuccess = false,
                 Errors = result.Errors.Select(e => e.Description)
             };

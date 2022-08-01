@@ -1,8 +1,10 @@
 ﻿using System;
 using MarathonApp.BLL.Services;
 using MarathonApp.Models.Images;
+using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models.Images;
 
 namespace MarathonApp.API.Controllers
 {
@@ -17,20 +19,6 @@ namespace MarathonApp.API.Controllers
             _imagesService = imagesService;
         }
 
-        [HttpPut("upload")]
-        public async Task<ObjectResult> UploadImageAsync([FromForm]ImageTypeViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var result = await _imagesService.UploadImageAsync(model);
-
-                if (result.IsSuccess)
-                    return Ok(result);
-                return BadRequest(result);
-            }
-            return BadRequest("Some properties are not valid");
-        }
-
         [HttpGet]
         [Authorize]
         public async Task<ObjectResult> GetImagesAsync()
@@ -38,6 +26,28 @@ namespace MarathonApp.API.Controllers
             var result = await _imagesService.GetImagesAsync();
 
             return Ok(result);
+        }
+
+        [HttpPut("upload")]
+        public async Task<ObjectResult> UploadImageAsync([FromForm]ImageTypeViewModel model)
+        {
+            var result = await _imagesService.UploadImageAsync(model);
+            if (result.IsSuccess)
+                 return Ok(result);
+            return BadRequest(result);
+        }
+
+        //FOR ADMINS AND OWNER
+
+        [HttpPut("uploadasadmin")]
+        [Authorize(Roles = UserRolesModel.Admin + "," + UserRolesModel.Owner)]
+        public async Task<ObjectResult> UplaodImageAsAdminAsync([FromForm]ImageTypeIdViewModel model)
+        {
+            var result = await _imagesService.UploadImageAsAdminAsync(model);
+
+            if (result.IsSuccess)
+                return Ok(result);
+            return BadRequest(result);
         }
     }
 }
