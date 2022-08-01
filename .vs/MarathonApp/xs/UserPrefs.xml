@@ -1,13 +1,12 @@
-﻿<Properties StartupConfiguration="{F2060002-4FD4-4387-820F-C1842C0E4CA1}|MarathonApp">
+﻿<Properties StartupConfiguration="{D92D0A23-0E0C-4E88-B09D-36383D396B34}|Default">
   <MonoDevelop.Ide.Workbench ActiveDocument=".dockerignore">
     <Files>
-      <File FileName="BLL/Services/IImagesService.cs" Line="113" Column="75" />
       <File FileName=".dockerignore" Line="25" Column="10" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="MarathonApp" expanded="True" />
+          <Node name="MarathonApp" expanded="True" selected="True" />
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
@@ -18,6 +17,7 @@
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MultiItemStartupConfigurations />
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.ItemProperties.MarathonApp PreferredExecutionTarget="/Applications/Safari.app" />
   <MonoDevelop.Ide.ItemProperties.API PreferredExecutionTarget="/Applications/Safari.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
