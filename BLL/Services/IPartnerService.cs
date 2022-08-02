@@ -8,10 +8,10 @@ namespace MarathonApp.BLL.Services
 {
     public interface IPartnerService
     {
-        Task<IEnumerable<PartnerDto.List>> List();
-        Task Add(PartnerDto.Add model);
-        Task <PartnerDto.Get> ById(int id);
-        Task Edit(PartnerDto.Edit model);
+        Task<IEnumerable<PartnerModel.ListPartner>> List();
+        Task Add(PartnerModel.AddPartner model);
+        Task <PartnerModel.Get> ById(int id);
+        Task Edit(PartnerModel.Edit model);
     }
 
 
@@ -23,30 +23,30 @@ namespace MarathonApp.BLL.Services
             Context = context;
         }
 
-        public async Task Add(PartnerDto.Add model)
+        public async Task Add(PartnerModel.AddPartner model)
         {
             var entity = model.Adapt<Partner>();
             await Context.Set<Partner>().AddAsync(entity);
             await Context.SaveChangesAsync();
         }
 
-        public async Task <IEnumerable<PartnerDto.List>> List()
+        public async Task <IEnumerable<PartnerModel.ListPartner>> List()
         {
             return await Context.Partners
                 .AsNoTracking()
-                .ProjectToType<PartnerDto.List>()
+                .ProjectToType<PartnerModel.ListPartner>()
                 .ToListAsync();
         }
 
-        public async Task<PartnerDto.Get> ById(int id)
+        public async Task<PartnerModel.Get> ById(int id)
         {
             return await Context.Partners
                 .AsNoTracking()
-                .ProjectToType<PartnerDto.Get>()
+                .ProjectToType<PartnerModel.Get>()
                 .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task Edit(PartnerDto.Edit model)
+        public async Task Edit(PartnerModel.Edit model)
         {
             var entity = await Context.Partners
                 .FirstOrDefaultAsync(x => x.Id == model.Id);

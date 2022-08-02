@@ -1,6 +1,6 @@
 ﻿namespace MarathonApp.Models.Partners
 {
-    public static class PartnerDto
+    public static class PartnerModel
     {
         public class Base
         {
@@ -13,9 +13,9 @@
             public int Id { get; set; }
         }
 
-        public class List: BaseHasId { }
+        public class ListPartner : BaseHasId { }
         public class Get: BaseHasId { }
-        public class Add: Base { }
+        public class AddPartner: Base { }
         public class Edit: BaseHasId { }
     }
 }

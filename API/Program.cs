@@ -14,6 +14,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Mapster;
 using MarathonApp.Extensions;
+using Microsoft.OpenApi.Any;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,6 +40,7 @@ builder.Services.AddTransient<IAuthorizationHandler, UserPolicyHandler>();
 builder.Services.AddTransient<IProfileService, ProfileService>();
 builder.Services.AddTransient<IImagesService, ImagesService>();
 builder.Services.AddTransient<IPartnerService, PartnerService>();
+builder.Services.AddTransient<IMarathonService, MarathonService>();
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -85,6 +87,11 @@ builder.Services.AddSwaggerGen(x =>
         Name = "Authorization",
         Type = SecuritySchemeType.ApiKey,
         Scheme = "bearer",
+    });
+    x.MapType<TimeSpan>(() => new OpenApiSchema
+    {
+        Type = "string",
+        Example = new OpenApiString("00:00:00")
     });
 
     x.AddSecurityRequirement(new OpenApiSecurityRequirement

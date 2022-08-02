@@ -44,7 +44,6 @@
     <None Remove="Images\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Infrastructure\" />
     <Folder Include="Properties\" />

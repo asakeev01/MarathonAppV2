@@ -9,10 +9,17 @@ internal static class MapsterProfile
     public static void Register()
     {
         #region Partners
-        TypeAdapterConfig<Partner, PartnerDto.List>
+        TypeAdapterConfig<Partner, PartnerModel.ListPartner>
             .NewConfig();
-        TypeAdapterConfig<Partner?, PartnerDto.Get>
+        TypeAdapterConfig<Partner?, PartnerModel.Get>
             .NewConfig();
+        #endregion
+
+        #region Marathons
+        TypeAdapterConfig<Marathon, MarathonModel.ListMarathon>
+            .NewConfig();
+        TypeAdapterConfig<Marathon, MarathonModel.GetMarathon>
+    .NewConfig();
         #endregion
     }
 }

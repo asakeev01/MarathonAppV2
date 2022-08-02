@@ -1,0 +1,38 @@
+﻿namespace MarathonApp.Models.Partners
+{
+    public static class MarathonModel
+    {
+        public class Base
+        {
+            public string Name { get; set; }
+            public DateTime Date { get; set; }
+            public string Text { get; set; }
+        }
+        public class BaseHasId : Base
+        {
+            public int Id { get; set; }
+        }
+
+        public class MarathonDistancesPartners: BaseHasId
+        {
+            public ICollection<PartnerModel.ListPartner> Partners { get; set; }
+            public ICollection<DistanceModel.ListDistance> Distances { get; set; }
+        }
+        public class ListMarathon : BaseHasId { }
+        public class GetMarathon : MarathonDistancesPartners {
+            public ICollection<PartnerModel.ListPartner> Partners { get; set; }
+            public ICollection<DistanceModel.GetDistance> Distances { get; set; }
+        }
+        public class AddMarathon : Base
+        {
+            public ICollection<DistanceModel.AddDistance> Distances { get; set; }
+        }
+        public class EditMarathon : BaseHasId { }
+
+        public class EditMarathonDistance
+        {
+            public int Id { get; set; }
+            public ICollection<DistanceModel.EditDistance> Distances { get; set; }
+        }
+    }
+}

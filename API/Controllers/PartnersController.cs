@@ -22,16 +22,16 @@ namespace MarathonApp.API.Controllers
         [Route("")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task Add(PartnerDto.Add model)
+        public async Task Add(PartnerModel.AddPartner model)
         {
             await _partnerService.Add(model);
         }
 
         [HttpGet]
         [Route("")]
-        [ProducesResponseType(typeof(IEnumerable<PartnerDto.List>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(IEnumerable<PartnerModel.ListPartner>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IEnumerable<PartnerDto.List>> List()
+        public async Task<IEnumerable<PartnerModel.ListPartner>> List()
         {
             return await _partnerService.List();
         }
@@ -39,9 +39,9 @@ namespace MarathonApp.API.Controllers
         [HttpGet]
         [Route("{id}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(typeof(PartnerDto.Get), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(PartnerModel.Get), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<PartnerDto.Get> ById(int id)
+        public async Task<PartnerModel.Get> ById(int id)
         {
             var result = await _partnerService.ById(id);
             if (result == null)
@@ -56,7 +56,7 @@ namespace MarathonApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task Edit(PartnerDto.Edit model)
+        public async Task Edit(PartnerModel.Edit model)
         {
             await _partnerService.Edit(model);
         }

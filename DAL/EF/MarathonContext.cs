@@ -23,10 +23,12 @@ namespace MarathonApp.DAL.EF
         public DbSet<Partner> Partners { get; set; }
         public DbSet<Marathon> Marathons { get; set; }
 
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<User>(u => u.Property(p => p.NewUser).HasDefaultValue(true));
+
         }
 
     }
