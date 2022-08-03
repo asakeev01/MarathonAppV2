@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace MarathonApp.Migrations
+namespace DAL.Migrations
 {
     [DbContext(typeof(MarathonContext))]
     partial class MarathonContextModelSnapshot : ModelSnapshot
@@ -17,7 +17,7 @@ namespace MarathonApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.6")
+                .HasAnnotation("ProductVersion", "6.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -35,6 +35,9 @@ namespace MarathonApp.Migrations
 
                     b.Property<int?>("MarathonId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("MedicalCertificate")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -151,9 +154,15 @@ namespace MarathonApp.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("EndDateAcceptingApplications")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDateAcceptingApplications")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Text")
                         .IsRequired()
@@ -172,6 +181,9 @@ namespace MarathonApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("ImageId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Logo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -184,6 +196,9 @@ namespace MarathonApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ImageId")
+                        .IsUnique();
 
                     b.ToTable("Partners");
                 });
@@ -427,6 +442,34 @@ namespace MarathonApp.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("SavedFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("MarathonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("nvarchar(128)");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasMaxLength(512)
+                        .HasColumnType("nvarchar(512)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MarathonId");
+
+                    b.ToTable("SavedFile");
+                });
+
             modelBuilder.Entity("MarathonApp.DAL.Entities.Distance", b =>
                 {
                     b.HasOne("MarathonApp.DAL.Entities.Marathon", null)
@@ -457,6 +500,17 @@ namespace MarathonApp.Migrations
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("MarathonApp.DAL.Entities.Partner", b =>
+                {
+                    b.HasOne("SavedFile", "Image")
+                        .WithOne("Partner")
+                        .HasForeignKey("MarathonApp.DAL.Entities.Partner", "ImageId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("MarathonPartner", b =>
@@ -525,6 +579,13 @@ namespace MarathonApp.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SavedFile", b =>
+                {
+                    b.HasOne("MarathonApp.DAL.Entities.Marathon", null)
+                        .WithMany("Images")
+                        .HasForeignKey("MarathonId");
+                });
+
             modelBuilder.Entity("MarathonApp.DAL.Entities.Distance", b =>
                 {
                     b.Navigation("DistanceAges");
@@ -535,11 +596,19 @@ namespace MarathonApp.Migrations
             modelBuilder.Entity("MarathonApp.DAL.Entities.Marathon", b =>
                 {
                     b.Navigation("Distances");
+
+                    b.Navigation("Images");
                 });
 
             modelBuilder.Entity("MarathonApp.DAL.Entities.User", b =>
                 {
                     b.Navigation("Images")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SavedFile", b =>
+                {
+                    b.Navigation("Partner")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

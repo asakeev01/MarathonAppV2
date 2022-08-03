@@ -15,6 +15,7 @@ using Microsoft.OpenApi.Models;
 using Mapster;
 using MarathonApp.Extensions;
 using Microsoft.OpenApi.Any;
+using Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace MarathonApp.Migrations
+namespace DAL.Migrations
 {
-    public partial class Init : Migration
+    public partial class AddedFiles : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -64,26 +64,13 @@ namespace MarathonApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StartDateAcceptingApplications = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDateAcceptingApplications = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Marathons", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Partners",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Logo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Partners", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -226,6 +213,7 @@ namespace MarathonApp.Migrations
                     AgeFrom = table.Column<int>(type: "int", nullable: false),
                     NumberOfParticipants = table.Column<int>(type: "int", nullable: false),
                     RegistredParticipants = table.Column<int>(type: "int", nullable: false),
+                    MedicalCertificate = table.Column<bool>(type: "bit", nullable: false),
                     MarathonId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -239,27 +227,23 @@ namespace MarathonApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MarathonPartner",
+                name: "SavedFile",
                 columns: table => new
                 {
-                    MarathonsId = table.Column<int>(type: "int", nullable: false),
-                    PartnersId = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    Path = table.Column<string>(type: "nvarchar(512)", maxLength: 512, nullable: false),
+                    MarathonId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MarathonPartner", x => new { x.MarathonsId, x.PartnersId });
+                    table.PrimaryKey("PK_SavedFile", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MarathonPartner_Marathons_MarathonsId",
-                        column: x => x.MarathonsId,
+                        name: "FK_SavedFile_Marathons_MarathonId",
+                        column: x => x.MarathonId,
                         principalTable: "Marathons",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_MarathonPartner_Partners_PartnersId",
-                        column: x => x.PartnersId,
-                        principalTable: "Partners",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -301,6 +285,52 @@ namespace MarathonApp.Migrations
                         column: x => x.DistanceId,
                         principalTable: "Distance",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Partners",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Logo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ImageId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Partners", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Partners_SavedFile_ImageId",
+                        column: x => x.ImageId,
+                        principalTable: "SavedFile",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MarathonPartner",
+                columns: table => new
+                {
+                    MarathonsId = table.Column<int>(type: "int", nullable: false),
+                    PartnersId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MarathonPartner", x => new { x.MarathonsId, x.PartnersId });
+                    table.ForeignKey(
+                        name: "FK_MarathonPartner_Marathons_MarathonsId",
+                        column: x => x.MarathonsId,
+                        principalTable: "Marathons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_MarathonPartner_Partners_PartnersId",
+                        column: x => x.PartnersId,
+                        principalTable: "Partners",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -367,6 +397,17 @@ namespace MarathonApp.Migrations
                 name: "IX_MarathonPartner_PartnersId",
                 table: "MarathonPartner",
                 column: "PartnersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Partners_ImageId",
+                table: "Partners",
+                column: "ImageId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SavedFile_MarathonId",
+                table: "SavedFile",
+                column: "MarathonId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -409,6 +450,9 @@ namespace MarathonApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Partners");
+
+            migrationBuilder.DropTable(
+                name: "SavedFile");
 
             migrationBuilder.DropTable(
                 name: "Marathons");

@@ -9,6 +9,7 @@
         public int AgeFrom { get; set; }
         public int NumberOfParticipants { get; set; }
         public int RegistredParticipants { get; set; }
+        public bool MedicalCertificate { get; set; }
         public virtual ICollection<DistancePrice> DistancePrices { get; set; }
         public virtual ICollection<DistanceAge> DistanceAges { get; set; }
     }

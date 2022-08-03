@@ -1,9 +1,11 @@
 ﻿using System;
+using API.Extensions;
 using MarathonApp.BLL.Services;
 using MarathonApp.Models.Partners;
 using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models.SavedFiles;
 
 namespace MarathonApp.API.Controllers
 {
@@ -22,9 +24,9 @@ namespace MarathonApp.API.Controllers
         [Route("")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task Add(PartnerModel.AddPartner model)
+        public async Task Add(PartnerModel.AddPartner model, [FromForm] SavedFileModel.Add<IFormFile> file)
         {
-            await _partnerService.Add(model);
+            await _partnerService.Add(model, await file.File.ToFile());
         }
 
         [HttpGet]

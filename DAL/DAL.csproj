@@ -21,7 +21,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="EF\" />
-    <Folder Include="Entities\" />
     <Folder Include="Enums\" />
     <Folder Include="Migrations\" />
   </ItemGroup>
