@@ -14,8 +14,9 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Mapster;
 using MarathonApp.Extensions;
+using Microsoft.Extensions.FileProviders;
+using API.Middlewares;
 using Microsoft.OpenApi.Any;
-using Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -125,9 +126,20 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 app.UseHttpsRedirection();
 
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+           Path.Combine(builder.Environment.ContentRootPath, "staticfiles")),
+    RequestPath = "/staticfiles"
+});
+
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 app.MapControllers();
+
+
 
 app.Run();

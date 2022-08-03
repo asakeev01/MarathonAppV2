@@ -56,14 +56,8 @@ namespace MarathonApp.API.Controllers
         [HttpPost("login")]
         public async Task<ObjectResult> LoginAsync(LoginViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _userService.LoginAsync(model);
-
-                if (result.IsSuccess)
-                    return Ok(result);
-            }
-            return BadRequest("Some properties are not valid");
+            var result = await _userService.LoginAsync(model);
+            return Ok(result);
         }
 
         [HttpGet("confirmemail")]
