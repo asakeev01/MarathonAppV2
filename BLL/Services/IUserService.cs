@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Entities;
+using MarathonApp.Models.Exceptions;
 using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
@@ -23,6 +24,9 @@ namespace MarathonApp.BLL.Services
         Task<UserManagerResponse> ConfirmEmailAsync(string userIs, string token);
         Task<UserManagerResponse> ForgetPasswordAsync(string email);
         Task<UserManagerResponse> ResetPasswordAsync(ResetPasswordViewModel model);
+        Task<(User, IEnumerable<Claim>)> UserClaimsAsync(string email, string password);
+        Task<IEnumerable<Claim>> ClaimsAsync(User user);
+        Task<(string, DateTime)> CreateAccessToken(IEnumerable<Claim> claims);
     }
 
 
@@ -41,6 +45,79 @@ namespace MarathonApp.BLL.Services
             _emailService = emailService;
             _roleManager = roleManager;
             _context = context;
+        }
+
+        public async Task<(User, IEnumerable<Claim>)> UserClaimsAsync(string email, string password)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+                throw new HttpException($"Пользователя не существует.", HttpStatusCode.BadRequest);
+
+            if (!user.EmailConfirmed)
+                throw new HttpException($"Почта не подтверждена.", HttpStatusCode.BadRequest);
+
+            if (!await _userManager.CheckPasswordAsync(user, password))
+                throw new HttpException("Неверный пароль.", HttpStatusCode.BadRequest);
+
+            var claims = await ClaimsAsync(user);
+
+            return (user, claims);
+        }
+
+        public async Task<IEnumerable<Claim>> ClaimsAsync(User user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            var claims = new List<Claim>
+            {
+                new Claim(ClaimTypes.Email, user.Email),
+                new Claim(ClaimTypes.NameIdentifier, user.Id)
+            };
+
+            claims.AddRange(roles.Select(x => new Claim(ClaimTypes.Role, x)));
+
+            return claims;
+        }
+
+        public async Task<(string, DateTime)> CreateAccessToken(IEnumerable<Claim> claims)
+        {
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetSection("AuthSettings:Key").Value));
+            var expirationDateUtc = DateTime.Now.AddMinutes(5);
+
+            var token = new JwtSecurityToken(
+                issuer: "me",
+                audience: "you",
+                claims: claims,
+                expires: expirationDateUtc,
+                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+                );
+
+            string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return (tokenAsString, expirationDateUtc);
+        }
+
+        //public async Task<LoginViewModel>
+
+        public void IsAccessTokenValid(string accessToken)
+        {
+            var securityKey = _configuration.GetSection("AuthSettins:Key").Value;
+            var tokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateAudience = true,
+                ValidateIssuer = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = "me",
+                ValidAudience = "you",
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(securityKey)),
+                ValidateLifetime = false
+            };
+
+            var tokenHandler = new JwtSecurityTokenHandler();
+            tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken securityToken);
+            var jwtSecurityToken = securityToken as JwtSecurityToken;
+            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256Signature, StringComparison.InvariantCultureIgnoreCase))
+                throw new HttpException("Access токен невалиден.", HttpStatusCode.NotAcceptable);
         }
 
         public async Task<UserManagerResponse> RegisterOwnerAsync()
@@ -171,7 +248,7 @@ namespace MarathonApp.BLL.Services
             };
         }
 
-        public async Task<UserManagerResponse> LoginAsync(LoginViewModel model)
+        public async Task<UserManagerResponse> LoginAsync(LoginViewModel.LoginIn model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
 
@@ -235,10 +312,6 @@ namespace MarathonApp.BLL.Services
 
             var codeDecoded = Encoding.UTF8.GetString(codeDecodedBytes);
 
-            //var decodedToken = WebUtility.UrlDecode(token);
-            //decodedToken = decodedToken.Replace(' ', '+');
-
-            //var decodedToken = WebEncoders.Base64UrlDecode(token);
             var result = await _userManager.ConfirmEmailAsync(user, codeDecoded);
 
             if (result.Succeeded)

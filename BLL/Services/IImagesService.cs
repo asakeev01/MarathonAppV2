@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Models.Images;
 
 namespace MarathonApp.BLL.Services
@@ -26,13 +27,15 @@ namespace MarathonApp.BLL.Services
         private IHttpContextAccessor _httpContext;
         private IWebHostEnvironment _webHostEnvironment;
         private UserManager<User> _userManager;
+        private IConfiguration _configuration;
 
-        public ImagesService(MarathonContext context, IHttpContextAccessor httpContext, IWebHostEnvironment webHostEnvironment, UserManager<User> userManager)
+        public ImagesService(MarathonContext context, IHttpContextAccessor httpContext, IWebHostEnvironment webHostEnvironment, UserManager<User> userManager, IConfiguration configuration)
         {
             _context = context;
             _httpContext = httpContext;
             _webHostEnvironment = webHostEnvironment;
             _userManager = userManager;
+            _configuration = configuration;
         }
 
         public async Task<UserManagerResponse> UploadImageAsync(ImageTypeViewModel model)
@@ -50,21 +53,23 @@ namespace MarathonApp.BLL.Services
             var image = await _context.ImagesEntity.FirstOrDefaultAsync(i => i.UserId == userId.Value);
             
 
-            string directoryPath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images/" + model.Image);
+            string directoryPath = Path.Combine(_webHostEnvironment.ContentRootPath, "staticfiles/" + model.Image);
             string filePath = Path.Combine(directoryPath, file.FileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
 
+            string databasePath = Path.Combine("/staticfiles/" + model.Image, file.FileName);
+
             if (model.Image == ImagesEnum.BackPassport)
-                image.BackPassportPath = filePath;
+                image.BackPassportPath = databasePath;
             else if (model.Image == ImagesEnum.FrontPassport)
-                image.FrontPassportPath = filePath;
+                image.FrontPassportPath = databasePath;
             else if (model.Image == ImagesEnum.Insurance)
-                image.InsurancePath = filePath;
+                image.InsurancePath = databasePath;
             else
-                image.DisabilityPath = filePath;
+                image.DisabilityPath = databasePath;
 
             await _context.SaveChangesAsync();
 
@@ -79,12 +84,13 @@ namespace MarathonApp.BLL.Services
         {
             var userId = _httpContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
             var image = await _context.ImagesEntity.FirstOrDefaultAsync(i => i.UserId == userId.Value);
+            var url = _configuration.GetSection("AppUrl").Value;
             var result = new ImageDetailViewModel
             {
-                FrontPassportPath = image.FrontPassportPath,
-                BackPassportPath = image.BackPassportPath,
-                InsurancePath = image.InsurancePath,
-                DisabilityPath = image.DisabilityPath
+                FrontPassportPath = url + image.FrontPassportPath,
+                BackPassportPath = url + image.BackPassportPath,
+                InsurancePath = url + image.InsurancePath,
+                DisabilityPath = url + image.DisabilityPath
             };
             return result;
         }
@@ -108,21 +114,23 @@ namespace MarathonApp.BLL.Services
             var userId = user.Id;
             var image = await _context.ImagesEntity.FirstOrDefaultAsync(i => i.UserId == userId);
 
-            string directoryPath = Path.Combine(_webHostEnvironment.ContentRootPath, "Images/" + model.Image);
+            string directoryPath = Path.Combine(_webHostEnvironment.ContentRootPath, "staticfiles/" + model.Image);
             string filePath = Path.Combine(directoryPath, file.FileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
 
+            string databasePath = Path.Combine("/staticfiles/" + model.Image, file.FileName);
+
             if (model.Image == ImagesEnum.BackPassport)
-                image.BackPassportPath = filePath;
+                image.BackPassportPath = databasePath;
             else if (model.Image == ImagesEnum.FrontPassport)
-                image.FrontPassportPath = filePath;
+                image.FrontPassportPath = databasePath;
             else if (model.Image == ImagesEnum.Insurance)
-                image.InsurancePath = filePath;
+                image.InsurancePath = databasePath;
             else
-                image.DisabilityPath = filePath;
+                image.DisabilityPath = databasePath;
 
             await _context.SaveChangesAsync();
 
