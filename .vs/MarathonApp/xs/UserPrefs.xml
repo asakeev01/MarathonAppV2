@@ -2,21 +2,20 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="API/Program.cs">
     <Files>
       <File FileName="BLL/Services/IImagesService.cs" Line="1" Column="1" />
-      <File FileName="BLL/Services/IUserService.cs" Line="253" Column="73" />
-      <File FileName="API/Program.cs" Line="133" Column="1" />
+      <File FileName="BLL/Services/IUserService.cs" Line="176" Column="73" />
+      <File FileName="API/Program.cs" Line="123" Column="1" />
       <File FileName="API/Controllers/UserController.cs" Line="1" Column="1" />
       <File FileName="BLL/Services/IProfileService.cs" Line="1" Column="1" />
-      <File FileName="Models/Users/LoginViewModel.cs" Line="17" Column="50" />
+      <File FileName="Models/Users/LoginViewModel.cs" Line="15" Column="46" />
       <File FileName="Models/Users/RegisterViewModel.cs" Line="1" Column="1" />
       <File FileName="Models/Users/ResetPasswordViewModel.cs" Line="1" Column="1" />
       <File FileName="Models/Users/UserManagerResponse.cs" Line="1" Column="1" />
       <File FileName="Models/Users/AdminOwnerRegisterModel.cs" Line="1" Column="1" />
-      <File FileName="API/Middlewares/ExceptionMiddleware.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="MarathonApp" expanded="True" />
+          <Node name="MarathonApp" expanded="True" selected="True" />
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">

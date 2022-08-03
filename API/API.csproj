@@ -41,14 +41,24 @@
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
     <None Remove="Microsoft.EntityFrameworkCore.Tools" />
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
-    <None Remove="Images\" />
+    <None Remove="staticfiles\" />
+    <None Remove="staticfiles\FrontPassport\" />
+    <None Remove="staticfiles\BackPassport\" />
+    <None Remove="staticfiles\Insurance\" />
+    <None Remove="staticfiles\Disability\" />
+    <None Remove="Middlewares\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Extensions\" />
     <Folder Include="Infrastructure\" />
     <Folder Include="Properties\" />
-    <Folder Include="Images\" />
+    <Folder Include="staticfiles\" />
+    <Folder Include="staticfiles\FrontPassport\" />
+    <Folder Include="staticfiles\BackPassport\" />
+    <Folder Include="staticfiles\Insurance\" />
+    <Folder Include="staticfiles\Disability\" />
+    <Folder Include="Middlewares\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Properties\launchSettings.json" />
