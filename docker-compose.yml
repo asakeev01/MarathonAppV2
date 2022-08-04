@@ -1,15 +1,6 @@
 version: '3.4'
 
 services:
-  marathonapp:
-    image: 0555753974/marathonapp2ll
-    build:
-      context: .
-      dockerfile: MarathonApp/Dockerfile
-    environment:
-      DS_SERVER: "ms-sql-server"
-    ports:
-      - "8000:80"
   ms-sql-server:
     image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
@@ -18,4 +9,12 @@ services:
         MSSQL_PID: Express
     ports:
       - "1433:1433"
-
+  marathonapp:
+    image: 0555753974/marathonapp2
+    build:
+      context: .
+      dockerfile: MarathonApp/Dockerfile
+    environment:
+      DS_SERVER: "ms-sql-server"
+    ports:
+      - "8000:80"
