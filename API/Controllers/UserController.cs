@@ -54,7 +54,7 @@ namespace MarathonApp.API.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<ObjectResult> LoginAsync(LoginViewModel model)
+        public async Task<ObjectResult> LoginAsync(LoginViewModel.LoginIn model)
         {
             var result = await _userService.LoginAsync(model);
             return Ok(result);

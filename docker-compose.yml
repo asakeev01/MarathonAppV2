@@ -2,7 +2,7 @@ version: '3.4'
 
 services:
   marathonapp:
-    image: 0555753974/marathonapp2
+    image: 0555753974/marathonapp2ll
     build:
       context: .
       dockerfile: MarathonApp/Dockerfile
