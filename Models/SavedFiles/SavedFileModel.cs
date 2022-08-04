@@ -37,12 +37,9 @@ namespace Models.SavedFiles
             public T File { get; set; }
         }
 
-        public class Get : IdHasBase
+        public class GetFiles : IdHasBase
         {
-            /// <summary>
-            /// Ссылка на файл
-            /// </summary>
-            public string Link { get; set; }
+            public string Path { get; set; }
         }
 
         public class Save

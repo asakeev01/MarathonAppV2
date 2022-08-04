@@ -2,6 +2,7 @@
 using Mapster;
 using MarathonApp.DAL.Entities;
 using MarathonApp.Models.Partners;
+using Models.SavedFiles;
 using System.Configuration;
 
 namespace MarathonApp.Infrastructure;
@@ -23,7 +24,13 @@ internal static class MapsterProfile
         TypeAdapterConfig<Marathon, MarathonModel.ListMarathon>
             .NewConfig();
         TypeAdapterConfig<Marathon, MarathonModel.GetMarathon>
-    .NewConfig();
+            .NewConfig();
+        #endregion
+
+        #region SavedFiles
+        TypeAdapterConfig<SavedFile, SavedFileModel.GetFiles>
+        .NewConfig()
+        .Map(x => x.Path, x => AppConstants.BaseUri + x.Path);
         #endregion
     }
 }

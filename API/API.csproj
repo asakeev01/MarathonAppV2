@@ -57,6 +57,7 @@
     <Folder Include="staticfiles\Insurance\" />
     <Folder Include="staticfiles\Disability\" />
     <Folder Include="Middlewares\" />
+    <Folder Include="staticfiles\Marathons\" />
     <Folder Include="staticfiles\Partners\" />
   </ItemGroup>
   <ItemGroup>

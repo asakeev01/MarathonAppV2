@@ -8,6 +8,7 @@
         public string Text { get; set; }
         public DateTime StartDateAcceptingApplications { get; set; }
         public DateTime EndDateAcceptingApplications { get; set; }
+        public bool IsActive { get; set; }
 
         public virtual ICollection<Partner>? Partners { get; set; }
         public virtual ICollection<Distance> Distances { get; set; }

@@ -4,6 +4,7 @@ using MarathonApp.Models.Partners;
 using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models.SavedFiles;
 
 namespace MarathonApp.API.Controllers
 {
@@ -71,8 +72,8 @@ namespace MarathonApp.API.Controllers
             await _marathonService.EditDistance(model);
         }
 
-        [HttpPut]
-        [Route("addPartner")]
+        [HttpPost]
+        [Route("partner")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -81,14 +82,34 @@ namespace MarathonApp.API.Controllers
             await _marathonService.AddPartner(model);
         }
 
-        [HttpPut]
-        [Route("removePartner")]
+        [HttpDelete]
+        [Route("partner")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task RemovePartner(MarathonModel.RemovePartner model)
         {
-            await _marathonService.RemovePartner(model);
+            await _marathonService.DeletePartner(model);
+        }
+
+        [HttpPost]
+        [Route("image")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task AddImage([FromForm] int id, [FromForm] SavedFileModel.Add<IFormFile> file)
+        {
+            await _marathonService.AddImage(id, file);
+        }
+
+        [HttpDelete]
+        [Route("image")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task DeleteImage(MarathonModel.DeleteImage model)
+        {
+            await _marathonService.DeleteImage(model);
         }
     }
 }
