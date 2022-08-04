@@ -1,20 +1,18 @@
-﻿<Properties StartupConfiguration="{B57EAC3E-8037-4321-865B-6B28330FFCF2}|Default">
+﻿<Properties StartupConfiguration="{F2060002-4FD4-4387-820F-C1842C0E4CA1}|MarathonApp">
   <MonoDevelop.Ide.Workbench ActiveDocument="docker-compose.yml">
     <Files>
       <File FileName="docker-compose.yml" Line="5" Column="35" />
+      <File FileName="BLL/Services/IUserService.cs" Line="23" Column="68" />
+      <File FileName="API/Controllers/UserController.cs" Line="59" Column="63" />
+      <File FileName="Dockerfile" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MarathonApp" expanded="True">
-            <Node name="API" expanded="True">
-              <Node name="Controllers" expanded="True" />
-            </Node>
-            <Node name="BLL" expanded="True">
-              <Node name="Services" expanded="True" />
-            </Node>
+            <Node name="Solution Items" expanded="True" />
             <Node name="docker-compose" expanded="True">
-              <Node name="docker-compose.yml" expanded="True" selected="True" />
+              <Node name="docker-compose.yml" expanded="True" />
             </Node>
           </Node>
         </State>
