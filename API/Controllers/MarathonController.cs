@@ -70,5 +70,25 @@ namespace MarathonApp.API.Controllers
         {
             await _marathonService.EditDistance(model);
         }
+
+        [HttpPut]
+        [Route("addPartner")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task AddPartner(MarathonModel.AddPartner model)
+        {
+            await _marathonService.AddPartner(model);
+        }
+
+        [HttpPut]
+        [Route("removePartner")]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task RemovePartner(MarathonModel.RemovePartner model)
+        {
+            await _marathonService.RemovePartner(model);
+        }
     }
 }

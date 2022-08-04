@@ -13,6 +13,8 @@ namespace MarathonApp.BLL.Services
         Task<MarathonModel.GetMarathon> ById(int id);
         Task Edit(MarathonModel.EditMarathon model);
         Task EditDistance(MarathonModel.EditMarathonDistance model);
+        Task AddPartner(MarathonModel.AddPartner model);
+        Task RemovePartner(MarathonModel.RemovePartner model);
     }
 
 
@@ -43,10 +45,15 @@ namespace MarathonApp.BLL.Services
         {
             return await Context.Marathons
                 .AsNoTracking()
+                .Include(x => x.Partners)
                 .ProjectToType<MarathonModel.GetMarathon>()
-                .FirstOrDefaultAsync(x => x.Id == id);
+                .FirstOrDefaultAsync(x => x.Id == id) ?? throw HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
         }
 
+        private Exception HttpException(string v, object htt)
+        {
+            throw new NotImplementedException();
+        }
 
         public async Task Edit(MarathonModel.EditMarathon model)
         {
@@ -61,6 +68,35 @@ namespace MarathonApp.BLL.Services
             var entity = await Context.Marathons
                 .FirstOrDefaultAsync(x => x.Id == model.Id);
             model.Adapt(entity);
+            await Context.SaveChangesAsync();
+        }
+
+        public async Task AddPartner(MarathonModel.AddPartner model)
+        {
+            var marathon = await Context.Marathons
+                .Include(x => x.Partners)
+                .FirstOrDefaultAsync(x => x.Id == model.MarathonId)
+                ?? throw HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
+            var partner = await Context.Partners
+                .FirstOrDefaultAsync(x => x.Id == model.PartnerId)
+                ?? throw HttpException("Partner does not exists!", System.Net.HttpStatusCode.NotFound);
+
+            marathon.Partners.Add(partner);
+            await Context.SaveChangesAsync();
+
+        }
+
+        public async Task RemovePartner(MarathonModel.RemovePartner model)
+        {
+            var marathon = await Context.Marathons
+                .Include(x => x.Partners)
+                .FirstOrDefaultAsync(x => x.Id == model.MarathonId)
+                ?? throw HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
+            var partner = await Context.Partners
+                .FirstOrDefaultAsync(x => x.Id == model.PartnerId)
+                ?? throw HttpException("Partner does not exists!", System.Net.HttpStatusCode.NotFound);
+
+            marathon.Partners.Remove(partner);
             await Context.SaveChangesAsync();
         }
     }

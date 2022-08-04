@@ -7,6 +7,8 @@
             public string Name { get; set; }
             public DateTime Date { get; set; }
             public string Text { get; set; }
+            public DateTime StartDateAcceptingApplications { get; set; }
+            public DateTime EndDateAcceptingApplications { get; set; }
         }
         public class BaseHasId : Base
         {
@@ -34,5 +36,12 @@
             public int Id { get; set; }
             public ICollection<DistanceModel.EditDistance> Distances { get; set; }
         }
+
+        public class AddPartner
+        {
+            public int MarathonId { get; set; }
+            public int PartnerId { get; set; }
+        }
+        public class RemovePartner: AddPartner { }
     }
 }
