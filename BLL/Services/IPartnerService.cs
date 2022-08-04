@@ -19,6 +19,7 @@ namespace MarathonApp.BLL.Services
         Task Add(SavedFileModel.Add<IFormFile> file);
         Task <PartnerModel.Get> ById(int id);
         Task Edit(int id, SavedFileModel.Add<IFormFile> file);
+        Task Delete(int id);
     }
 
 
@@ -86,6 +87,21 @@ namespace MarathonApp.BLL.Services
             entity.ImageId = savedFile.Id;
             await Context.SaveChangesAsync();
         }
+        public async Task Delete(int id)
+        {
+            var entity = await Context.Partners
+                .Include(m => m.Image)
+                .FirstOrDefaultAsync(x => x.Id == id);
+            if (entity == null)
+                throw new HttpException("Partner does not exists!", System.Net.HttpStatusCode.NotFound);
+            var file = entity.Image;
+            string filePath = Path.Combine(_webHostEnvironment.ContentRootPath, file.Path).Replace("/", "\\");
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+            Context.Remove(entity);
+            Context.Remove(file);
 
+            await Context.SaveChangesAsync();
+        }
     }
 }
