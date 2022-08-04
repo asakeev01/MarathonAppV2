@@ -46,6 +46,9 @@ builder.Services.AddTransient<IImagesService, ImagesService>();
 builder.Services.AddTransient<IPartnerService, PartnerService>();
 builder.Services.AddTransient<IMarathonService, MarathonService>();
 builder.Services.AddTransient<ISavedFileService, SavedFileService>();
+builder.Services.AddTransient<IDistanceService, DistanceService>();
+builder.Services.AddTransient<IDistanceAgeService, DistanceAgeService>();
+builder.Services.AddTransient<IDistancePriceService, DistancePriceService>();
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

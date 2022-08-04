@@ -27,6 +27,14 @@ namespace MarathonApp.DAL.EF
         {
             base.OnModelCreating(builder);
             builder.Entity<User>(u => u.Property(p => p.NewUser).HasDefaultValue(true));
+            builder.Entity<Distance>()
+                .HasMany(b => b.DistancePrices)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Distance>()
+                .HasMany(b => b.DistanceAges)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
 
         }
 
