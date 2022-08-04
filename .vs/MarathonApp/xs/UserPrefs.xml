@@ -1,4 +1,5 @@
 ﻿<Properties StartupConfiguration="{B57EAC3E-8037-4321-865B-6B28330FFCF2}|Default">
+<<<<<<< HEAD
   <MonoDevelop.Ide.Workbench ActiveDocument="BLL/Services/IImagesService.cs">
     <Files>
       <File FileName="BLL/Services/IImagesService.cs" Line="63" Column="94" />
@@ -14,11 +15,17 @@
       <File FileName="API/Controllers/UserController.cs" Line="59" Column="63" />
       <File FileName="API/Program.cs" Line="122" Column="41" />
       <File FileName=".dockerignore" Line="1" Column="1" />
+=======
+  <MonoDevelop.Ide.Workbench ActiveDocument="docker-compose.yml">
+    <Files>
+      <File FileName="docker-compose.yml" Line="5" Column="35" />
+>>>>>>> aidar
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="MarathonApp" expanded="True">
+<<<<<<< HEAD
             <Node name="Solution Items" expanded="True" />
             <Node name="API" expanded="True" />
             <Node name="BLL" expanded="True">
@@ -28,6 +35,16 @@
             </Node>
             <Node name="docker-compose" expanded="True">
               <Node name="docker-compose.yml" expanded="True" />
+=======
+            <Node name="API" expanded="True">
+              <Node name="Controllers" expanded="True" />
+            </Node>
+            <Node name="BLL" expanded="True">
+              <Node name="Services" expanded="True" />
+            </Node>
+            <Node name="docker-compose" expanded="True">
+              <Node name="docker-compose.yml" expanded="True" selected="True" />
+>>>>>>> aidar
             </Node>
           </Node>
         </State>
