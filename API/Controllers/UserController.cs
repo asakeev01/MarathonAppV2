@@ -53,12 +53,12 @@ namespace MarathonApp.API.Controllers
             return BadRequest("Some properties are not valid");
         }
 
-        [HttpPost("login")]
-        public async Task<ObjectResult> LoginAsync(LoginViewModel model)
-        {
-            var result = await _userService.LoginAsync(model);
-            return Ok(result);
-        }
+        //[HttpPost("login")]
+        //public async Task<ObjectResult> LoginAsync(LoginViewModel model)
+        //{
+        //    var result = await _userService.LoginAsync(model);
+        //    return Ok(result);
+        //}
 
         [HttpGet("confirmemail")]
         public async Task<ActionResult> ConfirmEmailAsync(string userId, string token)

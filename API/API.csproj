@@ -51,12 +51,12 @@
   <ItemGroup>
     <Folder Include="Extensions\" />
     <Folder Include="Properties\" />
-    <Folder Include="staticfiles\" />
     <Folder Include="staticfiles\FrontPassport\" />
     <Folder Include="staticfiles\BackPassport\" />
     <Folder Include="staticfiles\Insurance\" />
     <Folder Include="staticfiles\Disability\" />
     <Folder Include="Middlewares\" />
+    <Folder Include="staticfiles\Partners\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Properties\launchSettings.json" />

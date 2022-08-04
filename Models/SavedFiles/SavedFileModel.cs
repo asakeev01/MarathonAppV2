@@ -44,6 +44,14 @@ namespace Models.SavedFiles
             /// </summary>
             public string Link { get; set; }
         }
+
+        public class Save
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Path { get; set; }
+            public int MarathonId { get; set; }
+        }
     }
 
 }
