@@ -8,16 +8,17 @@ using MarathonApp.Models.Exceptions;
 using Models.SavedFiles;
 using Microsoft.AspNetCore.Http;
 using MarathonApp.DAL.Enums;
+using System.Transactions;
+using Microsoft.Extensions.Configuration;
 
 namespace MarathonApp.BLL.Services
 {
     public interface IPartnerService
     {
         Task<IEnumerable<PartnerModel.ListPartner>> List();
-        Task Add(PartnerModel.AddPartner model, SavedFileModel.Add<IFormFile> file);
+        Task Add(SavedFileModel.Add<IFormFile> file);
         Task <PartnerModel.Get> ById(int id);
-        Task Edit(PartnerModel.Edit model);
-        Task AttachFile(Partner entity, SavedFileModel.Add<IFormFile> file);
+        Task Edit(int id, SavedFileModel.Add<IFormFile> file);
     }
 
 
@@ -26,26 +27,34 @@ namespace MarathonApp.BLL.Services
         protected MarathonContext Context { get; }
         public object AppConstants { get; private set; }
         private ISavedFileService FileService { get; }
-        public PartnerService(MarathonContext context, ISavedFileService fileService)
+        private IConfiguration _configuration;
+        private IWebHostEnvironment _webHostEnvironment;
+        public PartnerService(MarathonContext context, ISavedFileService fileService, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
         {
             Context = context;
-            FileService = fileService;  
+            FileService = fileService;
+            _configuration = configuration;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        public async Task Add(PartnerModel.AddPartner model, SavedFileModel.Add<IFormFile> file)
+        public async Task Add(SavedFileModel.Add<IFormFile> file)
         {
+            using var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
             var savedFile = await FileService.UploadFile(file, FileTypeEnum.Partners);
-            var entity = model.Adapt<Partner>();
+            var entity = new Partner();
             await Context.Set<Partner>().AddAsync(entity);
             entity.ImageId = savedFile.Id;
-            //await AttachFile(entity, file);
             await Context.SaveChangesAsync();
+
+            tran.Complete();
         }
 
         public async Task <IEnumerable<PartnerModel.ListPartner>> List()
         {
             return await Context.Partners
                 .AsNoTracking()
+                .Include(m => m.Image)
                 .ProjectToType<PartnerModel.ListPartner>()
                 .ToListAsync();
         }
@@ -54,6 +63,7 @@ namespace MarathonApp.BLL.Services
         {
             var result = await Context.Partners
                 .AsNoTracking()
+                .Include(m => m.Image)
                 .ProjectToType<PartnerModel.Get>()
                 .FirstOrDefaultAsync(x => x.Id == id);
             if (result == null)
@@ -61,20 +71,21 @@ namespace MarathonApp.BLL.Services
             return result;
         }
 
-        public async Task Edit(PartnerModel.Edit model)
+        public async Task Edit(int id, SavedFileModel.Add<IFormFile> newFile)
         {
             var entity = await Context.Partners
-                .FirstOrDefaultAsync(x => x.Id == model.Id);
+                .Include(m => m.Image)
+                .FirstOrDefaultAsync(x => x.Id == id);
             if (entity == null)
                 throw new HttpException("Partner does not exists!", System.Net.HttpStatusCode.NotFound);
-            model.Adapt(entity);
+            var file = entity.Image;
+            string filePath = Path.Combine(_webHostEnvironment.ContentRootPath, file.Path).Replace("/", "\\");
+            if (File.Exists(filePath))
+                File.Delete(filePath);
+            var savedFile = await FileService.UploadFile(newFile, FileTypeEnum.Partners);
+            entity.ImageId = savedFile.Id;
             await Context.SaveChangesAsync();
         }
 
-        public async Task AttachFile(Partner entity, SavedFileModel.Add<IFormFile> file)
-        {
-            var savedFile = await FileService.UploadFile(file, FileTypeEnum.Partners);
-            entity.ImageId = savedFile.Id;
-        }
     }
 }

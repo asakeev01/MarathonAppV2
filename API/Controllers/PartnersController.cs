@@ -24,9 +24,9 @@ namespace MarathonApp.API.Controllers
         [Route("")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task Add([FromForm] PartnerModel.AddPartner model, [FromForm] SavedFileModel.Add<IFormFile> file)
+        public async Task Add([FromForm] SavedFileModel.Add<IFormFile> file)
         {
-            await _partnerService.Add(model, file);
+            await _partnerService.Add(file);
         }
 
         [HttpGet]
@@ -53,9 +53,9 @@ namespace MarathonApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task Edit(PartnerModel.Edit model)
+        public async Task Edit([FromForm] int id, [FromForm] SavedFileModel.Add<IFormFile> file)
         {
-            await _partnerService.Edit(model);
+            await _partnerService.Edit(id, file);
         }
     }
 }

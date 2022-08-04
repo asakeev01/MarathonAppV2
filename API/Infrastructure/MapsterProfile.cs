@@ -1,6 +1,8 @@
-﻿using Mapster;
+﻿using Common.Helpers;
+using Mapster;
 using MarathonApp.DAL.Entities;
 using MarathonApp.Models.Partners;
+using System.Configuration;
 
 namespace MarathonApp.Infrastructure;
 
@@ -10,9 +12,11 @@ internal static class MapsterProfile
     {
         #region Partners
         TypeAdapterConfig<Partner, PartnerModel.ListPartner>
-            .NewConfig();
-        TypeAdapterConfig<Partner?, PartnerModel.Get>
-            .NewConfig();
+            .NewConfig()
+            .Map(x => x.Image, x => AppConstants.BaseUri +  x.Image.Path);
+        TypeAdapterConfig<Partner, PartnerModel.Get>
+            .NewConfig()
+            .Map(x => x.Image, x => AppConstants.BaseUri + x.Image.Path);
         #endregion
 
         #region Marathons

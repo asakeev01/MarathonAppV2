@@ -9,6 +9,8 @@ namespace MarathonApp.DAL.EF
     public class MarathonContext : IdentityDbContext<User>
     {
         public virtual DbSet<ImagesEntity> ImagesEntity { get; set; }
+        public virtual DbSet<Partner> Partners { get; set; }
+        public virtual DbSet<Marathon> Marathons { get; set; }
 
         public MarathonContext(DbContextOptions<MarathonContext> options) : base(options)
         {
@@ -19,9 +21,6 @@ namespace MarathonApp.DAL.EF
         {
 
         }
-
-        public DbSet<Partner> Partners { get; set; }
-        public DbSet<Marathon> Marathons { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)

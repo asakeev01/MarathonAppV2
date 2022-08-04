@@ -17,10 +17,12 @@ using MarathonApp.Extensions;
 using Microsoft.Extensions.FileProviders;
 using API.Middlewares;
 using Microsoft.OpenApi.Any;
+using Common.Helpers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 
 builder.Services.AddDbContext<MarathonContext>(s => s.UseSqlServer(builder.Configuration.GetConnectionString("MarathonContext")));
 builder.Services.AddIdentityCore<User>(options =>
@@ -49,6 +51,8 @@ builder.Services.AddControllers()
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.RegisterMapster();
+
+AppConstants.BaseUri = builder.Configuration.GetSection("AppUrl").Value;
 
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>

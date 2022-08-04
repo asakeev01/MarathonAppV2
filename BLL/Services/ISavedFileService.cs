@@ -35,14 +35,14 @@ namespace MarathonApp.BLL.Services
         {
             var file = model.File;
 
-            string directoryPath = Path.Combine(_webHostEnvironment.ContentRootPath, "staticfiles\\" + fileType);
+            string directoryPath = Path.Combine(_webHostEnvironment.ContentRootPath, "staticfiles", fileType.ToString());
             string filePath = Path.Combine(directoryPath, file.FileName);
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
                 await file.CopyToAsync(stream);
             }
 
-            string databasePath = Path.Combine("/staticfiles/" + fileType, file.FileName);
+            string databasePath = "staticfiles/" + fileType + '/' + file.FileName;
             var dbFile = new SavedFile();
             dbFile.Path = databasePath;
             dbFile.Name = file.FileName;

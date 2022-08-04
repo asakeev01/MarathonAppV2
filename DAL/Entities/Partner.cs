@@ -3,9 +3,6 @@
     public class Partner
     {
         public int Id { get; set; }
-        public string Name { get; set; }
-        public string Logo { get; set; }
-        public string? Url { get; set; }
         public int ImageId { get; set; }
         public virtual SavedFile Image { get; set; }
         public virtual ICollection<Marathon>? Marathons { get; set; }

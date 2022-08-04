@@ -4,11 +4,9 @@
     {
         public class Base
         {
-            public string Name { get; set; }
-            public string Logo { get; set; }
-            public string Url { get; set; }
+            public string Image { get; set; }
         }
-        public class BaseHasId: Base
+        public class BaseHasId:Base
         {
             public int Id { get; set; }
         }
