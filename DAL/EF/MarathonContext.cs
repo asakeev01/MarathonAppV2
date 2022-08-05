@@ -9,10 +9,12 @@ namespace MarathonApp.DAL.EF
     public class MarathonContext : IdentityDbContext<User>
     {
         public virtual DbSet<ImagesEntity> ImagesEntity { get; set; }
+        public virtual DbSet<Partner> Partners { get; set; }
+        public virtual DbSet<Marathon> Marathons { get; set; }
 
         public MarathonContext(DbContextOptions<MarathonContext> options) : base(options)
         {
-            Database.EnsureCreated();
+            //Database.EnsureCreated();
         }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionBuilder)
@@ -20,13 +22,20 @@ namespace MarathonApp.DAL.EF
 
         }
 
-        public DbSet<Partner> Partners { get; set; }
-        public DbSet<Marathon> Marathons { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<User>(u => u.Property(p => p.NewUser).HasDefaultValue(true));
+            builder.Entity<Distance>()
+                .HasMany(b => b.DistancePrices)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Distance>()
+                .HasMany(b => b.DistanceAges)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
 
     }

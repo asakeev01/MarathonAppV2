@@ -4,6 +4,7 @@ using MarathonApp.DAL.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DAL.Migrations
 {
     [DbContext(typeof(MarathonContext))]
-    partial class MarathonContextModelSnapshot : ModelSnapshot
+    [Migration("20220804083922_AddedIsActiveMarathon")]
+    partial class AddedIsActiveMarathon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -473,16 +475,14 @@ namespace DAL.Migrations
                 {
                     b.HasOne("MarathonApp.DAL.Entities.Distance", null)
                         .WithMany("DistanceAges")
-                        .HasForeignKey("DistanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DistanceId");
                 });
 
             modelBuilder.Entity("MarathonApp.DAL.Entities.DistancePrice", b =>
                 {
                     b.HasOne("MarathonApp.DAL.Entities.Distance", null)
                         .WithMany("DistancePrices")
-                        .HasForeignKey("DistanceId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("DistanceId");
                 });
 
             modelBuilder.Entity("MarathonApp.DAL.Entities.ImagesEntity", b =>

@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
     <UserSecretsId>fc02f242-b2b7-4c7f-8a23-3cbda6dc6681</UserSecretsId>
+    <BaseIntermediateOutputPath />
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(RunConfiguration)' == 'MarathonApp' " />
@@ -49,16 +50,15 @@
     <None Remove="Middlewares\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Infrastructure\" />
     <Folder Include="Properties\" />
-    <Folder Include="staticfiles\" />
     <Folder Include="staticfiles\FrontPassport\" />
     <Folder Include="staticfiles\BackPassport\" />
     <Folder Include="staticfiles\Insurance\" />
     <Folder Include="staticfiles\Disability\" />
     <Folder Include="Middlewares\" />
+    <Folder Include="staticfiles\Marathons\" />
+    <Folder Include="staticfiles\Partners\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="Properties\launchSettings.json" />
