@@ -20,7 +20,7 @@ namespace MarathonApp.BLL.Services
         Task<UserManagerResponse> RegisterOwnerAsync();
         Task<UserManagerResponse> RegisterAdminAsync(AdminOwnerRegisterModel model);
         Task<UserManagerResponse> RegisterAsync(RegisterViewModel model);
-        //Task<UserManagerResponse> LoginAsync(LoginViewModel model);
+        Task<UserManagerResponse> LoginAsync(LoginViewModel.LoginIn model);
         Task<UserManagerResponse> ConfirmEmailAsync(string userIs, string token);
         Task<UserManagerResponse> ForgetPasswordAsync(string email);
         Task<UserManagerResponse> ResetPasswordAsync(ResetPasswordViewModel model);
@@ -230,9 +230,6 @@ namespace MarathonApp.BLL.Services
                     await _roleManager.CreateAsync(new IdentityRole(UserRolesModel.Owner));
 
                 await _userManager.AddToRoleAsync(identityUser, UserRolesModel.User);
-
-                
-
 
                 return new UserManagerResponse
                 {
