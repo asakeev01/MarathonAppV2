@@ -9,7 +9,6 @@ namespace MarathonApp.BLL.Services
         Task Delete(int id);
     }
 
-
     public class DistanceService : IDistanceService
     {
         protected MarathonContext Context { get; }

@@ -7,6 +7,8 @@ using Models.SavedFiles;
 using Microsoft.AspNetCore.Http;
 using MarathonApp.DAL.Enums;
 using Microsoft.AspNetCore.Hosting;
+using MarathonApp.Models.Exceptions;
+using System.Transactions;
 
 namespace MarathonApp.BLL.Services
 {
@@ -18,11 +20,10 @@ namespace MarathonApp.BLL.Services
         Task Edit(MarathonModel.EditMarathon model);
         Task EditDistance(MarathonModel.EditMarathonDistance model);
         Task AddPartner(MarathonModel.AddPartner model);
-        Task DeletePartner(MarathonModel.RemovePartner model);
+        Task DeletePartner(MarathonModel.DeletePartner model);
         Task AddImage(int id, SavedFileModel.Add<IFormFile> file);
         Task DeleteImage(MarathonModel.DeleteImage model);
     }
-
 
     public class MarathonService : IMarathonService
     {
@@ -60,12 +61,7 @@ namespace MarathonApp.BLL.Services
                 .Include(x => x.Partners)
                 .Include(x => x.Images)
                 .ProjectToType<MarathonModel.GetMarathon>()
-                .FirstOrDefaultAsync(x => x.Id == id) ?? throw HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
-        }
-
-        private Exception HttpException(string v, object htt)
-        {
-            throw new NotImplementedException();
+                .FirstOrDefaultAsync(x => x.Id == id) ?? throw new HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
         }
 
         public async Task Edit(MarathonModel.EditMarathon model)
@@ -89,25 +85,25 @@ namespace MarathonApp.BLL.Services
             var marathon = await Context.Marathons
                 .Include(x => x.Partners)
                 .FirstOrDefaultAsync(x => x.Id == model.MarathonId)
-                ?? throw HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
+                ?? throw new HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
             var partner = await Context.Partners
                 .FirstOrDefaultAsync(x => x.Id == model.PartnerId)
-                ?? throw HttpException("Partner does not exists!", System.Net.HttpStatusCode.NotFound);
+                ?? throw new HttpException("Partner does not exists!", System.Net.HttpStatusCode.NotFound);
 
             marathon.Partners.Add(partner);
             await Context.SaveChangesAsync();
 
         }
 
-        public async Task DeletePartner(MarathonModel.RemovePartner model)
+        public async Task DeletePartner(MarathonModel.DeletePartner model)
         {
             var marathon = await Context.Marathons
                 .Include(x => x.Partners)
                 .FirstOrDefaultAsync(x => x.Id == model.MarathonId)
-                ?? throw HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
+                ?? throw new HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
             var partner = await Context.Partners
                 .FirstOrDefaultAsync(x => x.Id == model.PartnerId)
-                ?? throw HttpException("Partner does not exists!", System.Net.HttpStatusCode.NotFound);
+                ?? throw new HttpException("Partner does not exists!", System.Net.HttpStatusCode.NotFound);
 
             marathon.Partners.Remove(partner);
             await Context.SaveChangesAsync();
@@ -115,29 +111,36 @@ namespace MarathonApp.BLL.Services
 
         public async Task AddImage(int id, SavedFileModel.Add<IFormFile> file)
         {
+            using var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
             var savedFile = await FileService.UploadFile(file, FileTypeEnum.Marathons);
             var marathon = await Context.Marathons
             .Include(x => x.Images)
             .FirstOrDefaultAsync(x => x.Id == id)
-            ?? throw HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
+            ?? throw new HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
             marathon.Images.Add(savedFile);
             await Context.SaveChangesAsync();
+            tran.Complete();
         }
 
         public async Task DeleteImage(MarathonModel.DeleteImage model)
         {
+            using var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
             var marathon = await Context.Marathons
             .Include(x => x.Images)
             .FirstOrDefaultAsync(x => x.Id == model.MarathonId)
-            ?? throw HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
+            ?? throw new HttpException("Marathon does not exists!", System.Net.HttpStatusCode.NotFound);
 
             var file = await Context.FindAsync<SavedFile>(model.ImageId) 
-                ?? throw HttpException("Iamge does not exists!", System.Net.HttpStatusCode.NotFound); ;
+                ?? throw new HttpException("Iamge does not exists!", System.Net.HttpStatusCode.NotFound); ;
             string filePath = Path.Combine(_webHostEnvironment.ContentRootPath, file.Path).Replace("/", "\\");
             if (File.Exists(filePath))
                 File.Delete(filePath);
             Context.Remove(file);
             await Context.SaveChangesAsync();
+
+            tran.Complete();
         }
     }
 }

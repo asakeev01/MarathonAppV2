@@ -9,7 +9,6 @@ using Models.SavedFiles;
 using Microsoft.AspNetCore.Http;
 using MarathonApp.DAL.Enums;
 using System.Transactions;
-using Microsoft.Extensions.Configuration;
 
 namespace MarathonApp.BLL.Services
 {
@@ -22,19 +21,16 @@ namespace MarathonApp.BLL.Services
         Task Delete(int id);
     }
 
-
     public class PartnerService : IPartnerService
     {
         protected MarathonContext Context { get; }
         public object AppConstants { get; private set; }
         private ISavedFileService FileService { get; }
-        private IConfiguration _configuration;
         private IWebHostEnvironment _webHostEnvironment;
-        public PartnerService(MarathonContext context, ISavedFileService fileService, IConfiguration configuration, IWebHostEnvironment webHostEnvironment)
+        public PartnerService(MarathonContext context, ISavedFileService fileService, IWebHostEnvironment webHostEnvironment)
         {
             Context = context;
             FileService = fileService;
-            _configuration = configuration;
             _webHostEnvironment = webHostEnvironment;
         }
 
@@ -74,6 +70,7 @@ namespace MarathonApp.BLL.Services
 
         public async Task Edit(int id, SavedFileModel.Add<IFormFile> newFile)
         {
+            using var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
             var entity = await Context.Partners
                 .Include(m => m.Image)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -86,9 +83,12 @@ namespace MarathonApp.BLL.Services
             var savedFile = await FileService.UploadFile(newFile, FileTypeEnum.Partners);
             entity.ImageId = savedFile.Id;
             await Context.SaveChangesAsync();
+            tran.Complete();
         }
         public async Task Delete(int id)
         {
+            using var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
             var entity = await Context.Partners
                 .Include(m => m.Image)
                 .FirstOrDefaultAsync(x => x.Id == id);
@@ -102,6 +102,8 @@ namespace MarathonApp.BLL.Services
             Context.Remove(file);
 
             await Context.SaveChangesAsync();
+
+            tran.Complete();
         }
     }
 }

@@ -87,7 +87,7 @@ namespace MarathonApp.API.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task RemovePartner(MarathonModel.RemovePartner model)
+        public async Task RemovePartner(MarathonModel.DeletePartner model)
         {
             await _marathonService.DeletePartner(model);
         }

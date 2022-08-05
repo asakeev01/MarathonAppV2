@@ -1,16 +1,7 @@
-﻿using System;
-using System.Security.Claims;
-using MarathonApp.DAL.EF;
-using MarathonApp.DAL.Entities;
+﻿using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Enums;
-using MarathonApp.Models.Images;
-using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Models.Images;
 using Models.SavedFiles;
 
 namespace MarathonApp.BLL.Services
