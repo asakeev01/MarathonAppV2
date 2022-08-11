@@ -79,7 +79,7 @@ namespace MarathonApp.BLL.Services
 
             var validEmailToken = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
 
-            string url = $"{_configuration.GetSection("AppUrl").Value}/api/auth/confirmemail?userid={identityUser.Id}&token={validEmailToken}";
+            string url = $"{_configuration.GetSection("FrontUrl").Value}/user/register/confirmEmail?userid={identityUser.Id}&token={validEmailToken}";
 
             await SendEmailAsync(identityUser.Email, "Confirm your email", $"<h1>Marathon App</h1>" + $"<p>Please confirm your email by <a href='{url}'>Clicking here</a></p>");
         }
@@ -92,7 +92,7 @@ namespace MarathonApp.BLL.Services
 
             var validToken = WebEncoders.Base64UrlEncode(encodedToken);
 
-            string url = $"{_configuration.GetSection("AppUrl").Value}/api/auth/resetpassword?email={email}&token={validToken}";
+            string url = $"{_configuration.GetSection("FrontUrl").Value}/user/changePassword?email={email}&token={validToken}";
 
             await SendEmailAsync(email, "Reset your password", $"<h1>Marathon App</h1>" + $"<p>To reset your password <a href='{url}'>Clicking here</a></p>");
         }
