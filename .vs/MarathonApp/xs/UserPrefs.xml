@@ -2,10 +2,7 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="BLL/Services/IUserService.cs">
     <Files>
       <File FileName="API/Program.cs" Line="1" Column="1" />
-      <File FileName="BLL/Services/IUserService.cs" Line="344" Column="43" />
-      <File FileName="BLL/Services/IEmailService.cs" Line="1" Column="1" />
-      <File FileName="Models/Exceptions/HttpException.cs" Line="26" Column="1" />
-      <File FileName="API/Controllers/UserController.cs" Line="100" Column="14" />
+      <File FileName="BLL/Services/IUserService.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">

@@ -16,6 +16,7 @@ using Mapster;
 using MarathonApp.Extensions;
 using Microsoft.Extensions.FileProviders;
 using API.Middlewares;
+using BLL.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -41,6 +42,7 @@ builder.Services.AddTransient<IAuthorizationHandler, UserPolicyHandler>();
 builder.Services.AddTransient<IProfileService, ProfileService>();
 builder.Services.AddTransient<IImagesService, ImagesService>();
 builder.Services.AddTransient<IPartnerService, PartnerService>();
+builder.Services.AddTransient<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddControllers()
     .AddJsonOptions(options => options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter())); ;
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -110,6 +112,8 @@ builder.Services.AddSwaggerGen(x =>
 
 var app = builder.Build();
 
+app.UseMiddleware<ExceptionMiddleware>();
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -128,8 +132,6 @@ app.UseStaticFiles(new StaticFileOptions
 
 app.UseAuthentication();
 app.UseAuthorization();
-
-app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 

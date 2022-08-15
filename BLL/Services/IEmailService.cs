@@ -4,6 +4,8 @@ using System.Text;
 using System.Web;
 using MailKit.Net.Smtp;
 using MarathonApp.DAL.Entities;
+using MarathonApp.Models.Exceptions;
+using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
@@ -15,9 +17,11 @@ namespace MarathonApp.BLL.Services
     {
         Task SendEmailAsync(string toEmail, string subject, string content);
         Task SendConfirmEmailAsync(User identityUser);
-        Task ForgetPasswordEmailAsync(User identityUser, string email);
+        Task SendResetPasswordEmailAsync(User identityUser, string email);
+        Task ConfirmEmailAsync(string userIs, string token);
+        Task ForgetPasswordAsync(string email);
+        Task ResetPasswordAsync(ResetPasswordViewModel model);
     }
-
 
     public class EmailService : IEmailService
     {
@@ -59,7 +63,7 @@ namespace MarathonApp.BLL.Services
             }
             catch (Exception ex)
             {
-                throw new Exception(ex.Message);
+                throw new HttpException(ex.Message, HttpStatusCode.InternalServerError);
             }
 
             finally
@@ -71,30 +75,88 @@ namespace MarathonApp.BLL.Services
 
         public async Task SendConfirmEmailAsync(User identityUser)
         {
-            var confirmEmailToken = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+            if (identityUser.EmailConfirmed)
+                throw new HttpException($"Email '{identityUser.Email}' arleady confirmed", HttpStatusCode.BadRequest);
 
-            //var validEmailToken = WebUtility.UrlEncode(confirmEmailToken);
+            var token = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
 
-            byte[] tokenGeneratedBytes = Encoding.UTF8.GetBytes(confirmEmailToken);
+            var validToken = WebEncodeToken(token);
 
-            var validEmailToken = WebEncoders.Base64UrlEncode(tokenGeneratedBytes);
-
-            string url = $"{_configuration.GetSection("AppUrl").Value}/api/auth/confirmemail?userid={identityUser.Id}&token={validEmailToken}";
+            string url = $"{_configuration.GetSection("AppUrl").Value}/api/auth/confirmemail?userid={identityUser.Id}&token={validToken}";
 
             await SendEmailAsync(identityUser.Email, "Confirm your email", $"<h1>Marathon App</h1>" + $"<p>Please confirm your email by <a href='{url}'>Clicking here</a></p>");
         }
 
-        public async Task ForgetPasswordEmailAsync(User identityUser, string email)
+        public async Task SendResetPasswordEmailAsync(User identityUser, string email)
         {
             var token = await _userManager.GeneratePasswordResetTokenAsync(identityUser);
 
-            var encodedToken = Encoding.UTF8.GetBytes(token);
-
-            var validToken = WebEncoders.Base64UrlEncode(encodedToken);
+            var validToken = WebEncodeToken(token);
 
             string url = $"{_configuration.GetSection("AppUrl").Value}/api/auth/resetpassword?email={email}&token={validToken}";
 
             await SendEmailAsync(email, "Reset your password", $"<h1>Marathon App</h1>" + $"<p>To reset your password <a href='{url}'>Clicking here</a></p>");
+        }
+
+        public async Task ForgetPasswordAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user == null)
+                throw new HttpException($"Пользователя не существует.", HttpStatusCode.BadRequest);
+
+            await SendResetPasswordEmailAsync(user, email);
+        }
+
+        public async Task ConfirmEmailAsync(string userId, string token)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                throw new HttpException($"Пользователя не существует.", HttpStatusCode.BadRequest);
+
+            var normalToken = WebDecodeToken(token);
+
+            var result = await _userManager.ConfirmEmailAsync(user, normalToken);
+
+            if (!result.Succeeded)
+                throw new HttpException("Wrong token or user does not exist.", HttpStatusCode.BadRequest);
+        }
+
+        public async Task ResetPasswordAsync(ResetPasswordViewModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+
+            if (user == null)
+                throw new HttpException($"Пользователя не существует.", HttpStatusCode.BadRequest);
+
+            if (model.NewPassword != model.ConfirmPassword)
+                throw new HttpException("Пароли не сходятся.", HttpStatusCode.BadRequest);
+
+            var normalToken = WebDecodeToken(model.Token);
+
+            var result = await _userManager.ResetPasswordAsync(user, normalToken, model.NewPassword);
+
+            if (!result.Succeeded)
+                throw new HttpException("Wrong token or user does not exist.", HttpStatusCode.BadRequest);
+        }
+
+        public string WebEncodeToken(string token)
+        {
+            var encodedToken = Encoding.UTF8.GetBytes(token);
+
+            var validToken = WebEncoders.Base64UrlEncode(encodedToken);
+
+            return validToken;
+        }
+
+        public string WebDecodeToken(string token)
+        {
+            var decodedToken = WebEncoders.Base64UrlDecode(token);
+
+            var normalToken = Encoding.UTF8.GetString(decodedToken);
+
+            return normalToken;
         }
     }
 }

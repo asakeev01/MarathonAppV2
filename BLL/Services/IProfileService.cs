@@ -26,15 +26,15 @@ namespace MarathonApp.BLL.Services
         private IConfiguration _configuration;
         //private IEmailService _emailService;
         private RoleManager<IdentityRole> _roleManager;
-        private IHttpContextAccessor _context;
+        private IHttpContextAccessor _httpContext;
 
-        public ProfileService(UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IHttpContextAccessor context)
+        public ProfileService(UserManager<User> userManager, IConfiguration configuration, RoleManager<IdentityRole> roleManager, IHttpContextAccessor httpContext)
         {
             _userManager = userManager;
             _configuration = configuration;
             //_emailService = emailService;
             _roleManager = roleManager;
-            _context = context;
+            _httpContext = httpContext;
         }
 
         public async Task<UserManagerResponse> CreateProfileAsync(ProfileCreateViewModel model)
@@ -42,7 +42,7 @@ namespace MarathonApp.BLL.Services
             if (model == null)
                 throw new NullReferenceException("Register form is empty");
 
-            var email = _context.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email);
+            var email = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email);
             var identityUser = await _userManager.FindByEmailAsync(email.Value);
             
             identityUser.Name = model.Name;
@@ -74,7 +74,7 @@ namespace MarathonApp.BLL.Services
 
         public async Task<ProfileDetailViewModel> GetProfileAsync()
         {
-            var email = _context.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email);
+            var email = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email);
             var identityUser = await _userManager.FindByEmailAsync(email.Value);
             var user = new ProfileDetailViewModel
             {
