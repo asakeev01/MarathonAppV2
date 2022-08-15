@@ -93,7 +93,7 @@ namespace MarathonApp.BLL.Services
 
             var validToken = WebEncodeToken(token);
 
-            string url = $"{_configuration.GetSection("AppUrl").Value}/api/auth/resetpassword?email={email}&token={validToken}";
+            string url = $"{_configuration.GetSection("AppUrl").Value}/user/changePassword?email={email}&token={validToken}";
 
             await SendEmailAsync(email, "Reset your password", $"<h1>Marathon App</h1>" + $"<p>To reset your password <a href='{url}'>Clicking here</a></p>");
         }

@@ -9,6 +9,7 @@ namespace MarathonApp.DAL.EF
 {
     public class MarathonContext : IdentityDbContext<User>
     {
+
         public MarathonContext(DbContextOptions<MarathonContext> options) : base(options)
         {
             Database.EnsureCreated();
@@ -20,14 +21,23 @@ namespace MarathonApp.DAL.EF
         }
 
         public virtual DbSet<ImagesEntity> ImagesEntity { get; set; }
-        public DbSet<Partner> Partners { get; set; }
-        public DbSet<Marathon> Marathons { get; set; }
-        public DbSet<RefreshToken> RefreshTokens { get; set; } 
+        public virtual DbSet<Partner> Partners { get; set; }
+        public virtual DbSet<Marathon> Marathons { get; set; }
+        public virtual DbSet<RefreshToken> RefreshTokens { get; set; } 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
             builder.Entity<User>(u => u.Property(p => p.NewUser).HasDefaultValue(true));
+            builder.Entity<Distance>()
+                .HasMany(b => b.DistancePrices)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+            builder.Entity<Distance>()
+                .HasMany(b => b.DistanceAges)
+                .WithOne()
+                .OnDelete(DeleteBehavior.Cascade);
+
         }
 
     }
