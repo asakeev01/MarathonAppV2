@@ -1,20 +1,16 @@
 ﻿<Properties StartupConfiguration="{F2060002-4FD4-4387-820F-C1842C0E4CA1}|MarathonApp">
-  <MonoDevelop.Ide.Workbench ActiveDocument="docker-compose.yml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BLL/Services/IUserService.cs">
     <Files>
-      <File FileName="docker-compose.yml" Line="5" Column="35" />
-      <File FileName="BLL/Services/IUserService.cs" Line="23" Column="68" />
-      <File FileName="API/Controllers/UserController.cs" Line="59" Column="63" />
-      <File FileName="Dockerfile" Line="1" Column="1" />
+      <File FileName="API/Program.cs" Line="1" Column="1" />
+      <File FileName="BLL/Services/IUserService.cs" Line="344" Column="43" />
+      <File FileName="BLL/Services/IEmailService.cs" Line="1" Column="1" />
+      <File FileName="Models/Exceptions/HttpException.cs" Line="26" Column="1" />
+      <File FileName="API/Controllers/UserController.cs" Line="100" Column="14" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State name="__root__">
-          <Node name="MarathonApp" expanded="True">
-            <Node name="Solution Items" expanded="True" />
-            <Node name="docker-compose" expanded="True">
-              <Node name="docker-compose.yml" expanded="True" />
-            </Node>
-          </Node>
+          <Node name="MarathonApp" expanded="True" />
         </State>
       </Pad>
       <Pad Id="MonoDevelop.Debugger.WatchPad">
@@ -22,13 +18,13 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.ItemProperties.MarathonApp PreferredExecutionTarget="/Applications/Safari.app" />
-  <MonoDevelop.Ide.ItemProperties.API PreferredExecutionTarget="/Applications/Safari.app" />
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.ItemProperties.docker-compose PreferredExecutionTarget="MonoDevelop.Default" />
+  <MonoDevelop.Ide.ItemProperties.MarathonApp PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.ItemProperties.API PreferredExecutionTarget="/Applications/Safari.app" />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
 </Properties>
