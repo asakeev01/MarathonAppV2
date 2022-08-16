@@ -149,4 +149,4 @@ obj/
 #Nuget packages folder
 packages/
 #Images
-API/Images/
+API/staticfiles
