@@ -48,6 +48,7 @@
     <None Remove="staticfiles\Insurance\" />
     <None Remove="staticfiles\Disability\" />
     <None Remove="Middlewares\" />
+    <None Remove=".dockerignore" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Extensions\" />

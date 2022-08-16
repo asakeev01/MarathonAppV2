@@ -29,6 +29,15 @@ namespace MarathonApp.Models.Users
             public string Role { get; set; }
 
         }
+
+        public class RefreshIn
+        {
+            [Required]
+            public string RefreshToken { get; set; }
+
+            [Required]
+            public string AccessToken { get; set; }
+        }
     }
 }
 

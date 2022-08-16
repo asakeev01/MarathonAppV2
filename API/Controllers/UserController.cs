@@ -11,94 +11,61 @@ namespace MarathonApp.API.Controllers
     public class UserController : ControllerBase
     {
         private IUserService _userService;
+        private IEmailService _emailService;
 
-        public UserController(IUserService userService)
+        public UserController(IUserService userService, IEmailService emailService)
         {
             _userService = userService;
+            _emailService = emailService;
         }
 
         [HttpGet("registerowner")]
-        public async Task<ObjectResult> RegisterOwnerAsync()
+        public async Task RegisterOwnerAsync()
         {
-            var result = await _userService.RegisterOwnerAsync();
-            if (result.IsSuccess)
-                return Ok(result);
-            return BadRequest(result);
+            await _userService.RegisterOwnerAsync();
         }
 
         [HttpPost("registeradmin")]
         [Authorize(Roles = UserRolesModel.Owner)]
-        public async Task<ObjectResult> RegisterAdminAsync(AdminOwnerRegisterModel model)
+        public async Task RegisterAdminAsync(AdminOwnerRegisterModel model)
         {
-            var result = await _userService.RegisterAdminAsync(model);
-            if (result.IsSuccess)
-                return Ok(result);
-            return BadRequest(result);
+            await _userService.RegisterAdminAsync(model);
         }
 
         [HttpPost("register")]
-        public async Task<ObjectResult> RegisterAsync(RegisterViewModel model)
+        public async Task RegisterAsync(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _userService.RegisterAsync(model);
-
-                if (result.IsSuccess)
-                {
-                    return Ok(result);
-                }
-
-                return BadRequest(result);
-            }
-            return BadRequest("Some properties are not valid");
+            await _userService.RegisterAsync(model);
         }
 
         [HttpPost("login")]
-        public async Task<ObjectResult> LoginAsync(LoginViewModel.LoginIn model)
+        public async Task<LoginViewModel.LoginOut> LoginAsync(LoginViewModel.LoginIn model)
         {
-            var result = await _userService.LoginAsync(model);
-            return Ok(result);
+            return await _userService.LoginAsync(model);
         }
 
         [HttpGet("confirmemail")]
-        public async Task<ActionResult> ConfirmEmailAsync(string userId, string token)
+        public async Task ConfirmEmailAsync(string userId, string token)
         {
-            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(token))
-                return NotFound();
-
-            var result = await _userService.ConfirmEmailAsync(userId, token);
-
-            if (result.IsSuccess)
-                return Ok(result);
-
-            return BadRequest(result);
+            await _emailService.ConfirmEmailAsync(userId, token);
         }
 
         [HttpPost("forgetpassword")]
-        public async Task<ActionResult> ForgetPasswordAsync(string email)
+        public async Task ForgetPasswordAsync(string email)
         {
-            if (string.IsNullOrEmpty(email))
-                return NotFound();
-
-            var result = await _userService.ForgetPasswordAsync(email);
-
-            if (result.IsSuccess)
-                return Ok(result);
-            return BadRequest(result);
+            await _emailService.ForgetPasswordAsync(email);
         }
 
         [HttpPost("resetpassword")]
-        public async Task<ActionResult> ResetPasswordAsync(ResetPasswordViewModel model)
+        public async Task ResetPasswordAsync(ResetPasswordViewModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _userService.ResetPasswordAsync(model);
+            await _emailService.ResetPasswordAsync(model);
+        }
 
-                if (result.IsSuccess)
-                    return Ok(result);
-                return BadRequest(result);
-            }
-            return BadRequest("Some properties are not valid");
+        [HttpPost("refresh")]
+        public async Task<LoginViewModel.LoginOut> UseRefreshTokenAsync(LoginViewModel.RefreshIn model)
+        {
+            return await _userService.UseRefreshTokenAsync(model);
         }
     }
 }
