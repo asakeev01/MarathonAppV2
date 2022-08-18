@@ -20,7 +20,7 @@ namespace MarathonApp.BLL.Services
         Task SendResetPasswordEmailAsync(User identityUser, string email);
         Task ConfirmEmailAsync(string userIs, string token);
         Task ForgetPasswordAsync(string email);
-        Task ResetPasswordAsync(ResetPasswordViewModel model);
+        Task ResetPasswordAsync(ResetPasswordModel model);
     }
 
     public class EmailService : IEmailService
@@ -123,7 +123,7 @@ namespace MarathonApp.BLL.Services
                 throw new HttpException("Wrong token or user does not exist.", HttpStatusCode.BadRequest);
         }
 
-        public async Task ResetPasswordAsync(ResetPasswordViewModel model)
+        public async Task ResetPasswordAsync(ResetPasswordModel model)
         {
             var user = await _userManager.FindByEmailAsync(model.Email);
 

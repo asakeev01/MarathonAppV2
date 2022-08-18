@@ -1,9 +1,9 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace MarathonApp.Models.Users
+namespace Models.Users
 {
-    public class RegisterViewModel
+    public class ChangePasswordModel
     {
         [Required]
         [StringLength(50)]
@@ -13,6 +13,10 @@ namespace MarathonApp.Models.Users
         [Required]
         [StringLength(50, MinimumLength = 5)]
         public string Password { get; set; }
+
+        [Required]
+        [StringLength(50, MinimumLength = 5)]
+        public string NewPassword { get; set; }
 
         [Required]
         [StringLength(50, MinimumLength = 5)]

@@ -1,7 +1,7 @@
 ﻿using System;
-namespace MarathonApp.Models.Images
+namespace MarathonApp.Models.Documents
 {
-    public class ImageDetailViewModel
+    public class DocumentDetailModel
     {
         public string? FrontPassportPath { get; set; }
         public string? BackPassportPath { get; set; }

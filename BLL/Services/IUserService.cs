@@ -23,13 +23,15 @@ namespace MarathonApp.BLL.Services
     {
         Task RegisterOwnerAsync();
         Task RegisterAdminAsync(AdminOwnerRegisterModel model);
-        Task RegisterAsync(RegisterViewModel model);
-        Task<LoginViewModel.LoginOut> LoginAsync(LoginViewModel.LoginIn model);
+        Task RegisterAsync(RegisterModel model);
+        Task SendConfirmEmailAgainAsync(LoginModel.LoginIn model);
+        Task ChangePasswordAsync(ChangePasswordModel model);
+        Task<LoginModel.LoginOut> LoginAsync(LoginModel.LoginIn model);
         Task<(User, IEnumerable<Claim>, IList<string>)> UserClaimsAndRolesAsync(string email, string password);
         Task<(IEnumerable<Claim>, IList<string>)> ClaimsAndRolesAsync(User user);
         (string, DateTime) CreateAccessToken(IEnumerable<Claim> claims);
-        Task<LoginViewModel.LoginOut> BuildResponse(User user, IEnumerable<Claim> claims, IList<string> roles);
-        Task<LoginViewModel.LoginOut> UseRefreshTokenAsync(LoginViewModel.RefreshIn model);
+        Task<LoginModel.LoginOut> BuildResponse(User user, IEnumerable<Claim> claims, IList<string> roles);
+        Task<LoginModel.LoginOut> UseRefreshTokenAsync(LoginModel.RefreshIn model);
     }
 
 
@@ -54,7 +56,7 @@ namespace MarathonApp.BLL.Services
             _httpContext = httpContext;
         }
 
-        public async Task<LoginViewModel.LoginOut> LoginAsync(LoginViewModel.LoginIn model)
+        public async Task<LoginModel.LoginOut> LoginAsync(LoginModel.LoginIn model)
         {
             var (user, claims, roleNames) = await UserClaimsAndRolesAsync(model.Email, model.Password);
             return await BuildResponse(user, claims, roleNames);
@@ -110,7 +112,7 @@ namespace MarathonApp.BLL.Services
             return (tokenAsString, expirationDateUtc);
         }
 
-        public async Task<LoginViewModel.LoginOut> BuildResponse(User user, IEnumerable<Claim> claims, IList<string> roles)
+        public async Task<LoginModel.LoginOut> BuildResponse(User user, IEnumerable<Claim> claims, IList<string> roles)
         {
             var (accessToken, accessExpireDate) = CreateAccessToken(claims);
             var refreshToken = _refreshTokenService.GenerateRefreshToken();
@@ -121,7 +123,7 @@ namespace MarathonApp.BLL.Services
             }, TimeSpan.FromMinutes(1400));
 
 
-            return new LoginViewModel.LoginOut
+            return new LoginModel.LoginOut
             {
                 AccessToken = accessToken,
                 AccessTokenExpireUtc = accessExpireDate,
@@ -133,7 +135,7 @@ namespace MarathonApp.BLL.Services
             };
         }
 
-        public async Task<LoginViewModel.LoginOut> UseRefreshTokenAsync(LoginViewModel.RefreshIn model)
+        public async Task<LoginModel.LoginOut> UseRefreshTokenAsync(LoginModel.RefreshIn model)
         {
             IsAccessTokenValid(model.AccessToken);
 
@@ -202,6 +204,9 @@ namespace MarathonApp.BLL.Services
 
         public async Task RegisterAdminAsync(AdminOwnerRegisterModel model)
         {
+            if (await _userManager.Users.AnyAsync(u => u.Email == model.Email))
+                throw new HttpException("Admin already exist", HttpStatusCode.BadRequest);
+
             var identityUser = new User
             {
                 Email = model.Email,
@@ -215,10 +220,13 @@ namespace MarathonApp.BLL.Services
                 throw new HttpException("Admin was not created", HttpStatusCode.BadRequest);
         }
 
-        public async Task RegisterAsync(RegisterViewModel model)
+        public async Task RegisterAsync(RegisterModel model)
         {
             if (model.Password != model.ConfirmPassword)
                 throw new HttpException("Passwords do not match", HttpStatusCode.BadRequest);
+
+            if (await _userManager.Users.AnyAsync(u => u.Email == model.Email))
+                throw new HttpException("User already exist", HttpStatusCode.BadRequest);
 
             var identityUser = new User
             {
@@ -226,7 +234,7 @@ namespace MarathonApp.BLL.Services
                 UserName = model.Email
             };
 
-            identityUser.Images = new ImagesEntity();
+            identityUser.Document = new Document();
 
             var result = await _userManager.CreateAsync(identityUser, model.Password);
 
@@ -253,6 +261,47 @@ namespace MarathonApp.BLL.Services
                 await _roleManager.CreateAsync(new IdentityRole(UserRolesModel.Owner));
 
             await _userManager.AddToRoleAsync(identityUser, UserRolesModel.User);
+        }
+
+        public async Task SendConfirmEmailAgainAsync(LoginModel.LoginIn model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                throw new HttpException("There is no such user", HttpStatusCode.BadRequest);
+
+            if (!await _userManager.CheckPasswordAsync(user, model.Password))
+                throw new HttpException("Неверный пароль.", HttpStatusCode.BadRequest);
+
+            if (user.EmailConfirmed)
+                throw new HttpException("Email is already confirmed", HttpStatusCode.BadRequest);
+
+            try
+            {
+                await _emailService.SendConfirmEmailAsync(user);
+            }
+
+            catch(Exception ex)
+            {
+                throw new HttpException("Something wrong with email", ex.InnerException, HttpStatusCode.BadRequest);
+            }
+        }
+
+        public async Task ChangePasswordAsync(ChangePasswordModel model)
+        {
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+                throw new HttpException("There is no such user", HttpStatusCode.BadRequest);
+
+            if (!await _userManager.CheckPasswordAsync(user, model.Password))
+                throw new HttpException("Неверный пароль.", HttpStatusCode.BadRequest);
+
+            if (model.NewPassword != model.ConfirmPassword)
+                throw new HttpException("Passwords do not match", HttpStatusCode.BadRequest);
+
+            var result = await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
+
+            if (!result.Succeeded)
+                throw new HttpException("Password was not changed", HttpStatusCode.BadRequest);
         }
     }
 }

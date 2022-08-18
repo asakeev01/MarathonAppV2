@@ -3,25 +3,27 @@ using System.Security.Claims;
 using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Entities;
 using MarathonApp.DAL.Enums;
-using MarathonApp.Models.Images;
+using MarathonApp.Models.Documents;
 using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using Models.Images;
+using Models.Documents;
 
 namespace MarathonApp.BLL.Services
 {
-    public interface IImagesService
+    public interface IDocumentService
     {
-        Task<UserManagerResponse> UploadImageAsync(ImageTypeViewModel model);
-        Task<ImageDetailViewModel> GetImagesAsync();
-        Task<UserManagerResponse> UploadImageAsAdminAsync(ImageTypeIdViewModel model);
+        Task UploadDocumentAsync(DocumentUploadModel model);
+        Task<DocumentDetailModel> GetDocumentAsync();
+
+        // FOR ADMINS AND OWNER
+        Task UploadDocumentAsAdminAsync(DocumentUploadAsAdminModel model);
     }
 
-    public class ImagesService : IImagesService
+    public class DocumentService : IDocumentService
     {
         private MarathonContext _context;
         private IHttpContextAccessor _httpContext;
@@ -29,7 +31,7 @@ namespace MarathonApp.BLL.Services
         private UserManager<User> _userManager;
         private IConfiguration _configuration;
 
-        public ImagesService(MarathonContext context, IHttpContextAccessor httpContext, IWebHostEnvironment webHostEnvironment, UserManager<User> userManager, IConfiguration configuration)
+        public DocumentService(MarathonContext context, IHttpContextAccessor httpContext, IWebHostEnvironment webHostEnvironment, UserManager<User> userManager, IConfiguration configuration)
         {
             _context = context;
             _httpContext = httpContext;
@@ -38,20 +40,11 @@ namespace MarathonApp.BLL.Services
             _configuration = configuration;
         }
 
-        public async Task<UserManagerResponse> UploadImageAsync(ImageTypeViewModel model)
+        public async Task UploadDocumentAsync(DocumentUploadModel model)
         {
             var file = model.File;
-            if (file == null)
-                return new UserManagerResponse
-                {
-                    Message = "There is no file",
-                    IsSuccess = false
-                };
-
             var userId = _httpContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-
-            var image = await _context.ImagesEntity.FirstOrDefaultAsync(i => i.UserId == userId.Value);
-            
+            var image = await _context.Documents.FirstOrDefaultAsync(i => i.UserId == userId.Value);
 
             string directoryPath = Path.Combine(_webHostEnvironment.ContentRootPath, "staticfiles/" + model.Image);
             string filePath = Path.Combine(directoryPath, file.FileName);
@@ -72,20 +65,14 @@ namespace MarathonApp.BLL.Services
                 image.DisabilityPath = databasePath;
 
             await _context.SaveChangesAsync();
-
-            return new UserManagerResponse
-            {
-                Message = "Image was successfully uploaded",
-                IsSuccess = true
-            };
         }
 
-        public async Task<ImageDetailViewModel> GetImagesAsync()
+        public async Task<DocumentDetailModel> GetDocumentAsync()
         {
             var userId = _httpContext.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier);
-            var image = await _context.ImagesEntity.FirstOrDefaultAsync(i => i.UserId == userId.Value);
+            var image = await _context.Documents.FirstOrDefaultAsync(i => i.UserId == userId.Value);
             var url = _configuration.GetSection("AppUrl").Value;
-            var result = new ImageDetailViewModel
+            var result = new DocumentDetailModel
             {
                 FrontPassportPath = url + image.FrontPassportPath,
                 BackPassportPath = url + image.BackPassportPath,
@@ -99,20 +86,13 @@ namespace MarathonApp.BLL.Services
         // FOR ADMINS AND OWNER
 
 
-        public async Task<UserManagerResponse> UploadImageAsAdminAsync(ImageTypeIdViewModel model)
+        public async Task UploadDocumentAsAdminAsync(DocumentUploadAsAdminModel model)
         {
             var file = model.File;
-            if (file == null)
-                return new UserManagerResponse
-                {
-                    Message = "There is no file",
-                    IsSuccess = false
-                };
-
             var email = model.Email;
             var user = await _userManager.FindByEmailAsync(email);
             var userId = user.Id;
-            var image = await _context.ImagesEntity.FirstOrDefaultAsync(i => i.UserId == userId);
+            var image = await _context.Documents.FirstOrDefaultAsync(i => i.UserId == userId);
 
             string directoryPath = Path.Combine(_webHostEnvironment.ContentRootPath, "staticfiles/" + model.Image);
             string filePath = Path.Combine(directoryPath, file.FileName);
@@ -133,12 +113,6 @@ namespace MarathonApp.BLL.Services
                 image.DisabilityPath = databasePath;
 
             await _context.SaveChangesAsync();
-
-            return new UserManagerResponse
-            {
-                Message = "Image was successfully uploaded",
-                IsSuccess = true
-            };
         }
     }
 }

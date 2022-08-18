@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MarathonApp.Models.Profiles
 {
-    public class ProfileViewModel
+    public class ProfilesModel
     {
         [StringLength(50)]
         [EmailAddress]

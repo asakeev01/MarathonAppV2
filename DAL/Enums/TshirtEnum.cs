@@ -3,12 +3,12 @@ namespace MarathonApp.DAL.Enums
 {
     public enum TshirtEnum
     {
-        XSmall,
-        Small,
-        Middle,
-        Large,
-        XLarge,
-        XXLarge
+        XS,
+        S,
+        M,
+        L,
+        XL,
+        XXL
     }
 }
 

@@ -4,7 +4,7 @@ using MarathonApp.DAL.Enums;
 
 namespace MarathonApp.Models.Users
 {
-    public class LoginViewModel
+    public class LoginModel
     {
         public class LoginIn
         {

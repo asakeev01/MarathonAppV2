@@ -1,10 +1,10 @@
 ﻿using System;
 using MarathonApp.BLL.Services;
-using MarathonApp.Models.Images;
+using MarathonApp.Models.Documents;
 using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Models.Images;
+using Models.Documents;
 
 namespace MarathonApp.API.Controllers
 {
@@ -12,42 +12,35 @@ namespace MarathonApp.API.Controllers
     [Route("api/images")]
     public class ImageController : ControllerBase
     {
-        private IImagesService _imagesService;
+        private IDocumentService _documentService;
 
-        public ImageController(IImagesService imagesService)
+        public ImageController(IDocumentService documentService)
         {
-            _imagesService = imagesService;
+            _documentService = documentService;
         }
 
         [HttpGet]
         [Authorize]
-        public async Task<ObjectResult> GetImagesAsync()
+        public async Task<ObjectResult> GetDocumentAsync()
         {
-            var result = await _imagesService.GetImagesAsync();
+            var result = await _documentService.GetDocumentAsync();
 
             return Ok(result);
         }
 
         [HttpPut("upload")]
-        public async Task<ObjectResult> UploadImageAsync([FromForm]ImageTypeViewModel model)
+        public async Task UploadDocumentAsync([FromForm]DocumentUploadModel model)
         {
-            var result = await _imagesService.UploadImageAsync(model);
-            if (result.IsSuccess)
-                 return Ok(result);
-            return BadRequest(result);
+            await _documentService.UploadDocumentAsync(model);
         }
 
         //FOR ADMINS AND OWNER
 
         [HttpPut("uploadasadmin")]
         [Authorize(Roles = UserRolesModel.Admin + "," + UserRolesModel.Owner)]
-        public async Task<ObjectResult> UplaodImageAsAdminAsync([FromForm]ImageTypeIdViewModel model)
+        public async Task UplaodDocumentAsAdminAsync([FromForm]DocumentUploadAsAdminModel model)
         {
-            var result = await _imagesService.UploadImageAsAdminAsync(model);
-
-            if (result.IsSuccess)
-                return Ok(result);
-            return BadRequest(result);
+            await _documentService.UploadDocumentAsAdminAsync(model);
         }
     }
 }

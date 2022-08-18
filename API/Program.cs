@@ -43,7 +43,7 @@ builder.Services.AddTransient<IEmailService, EmailService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IAuthorizationHandler, UserPolicyHandler>();
 builder.Services.AddTransient<IProfileService, ProfileService>();
-builder.Services.AddTransient<IImagesService, ImagesService>();
+builder.Services.AddTransient<IDocumentService, DocumentService>();
 builder.Services.AddTransient<IPartnerService, PartnerService>();
 builder.Services.AddTransient<IRefreshTokenService, RefreshTokenService>();
 builder.Services.AddTransient<IMarathonService, MarathonService>();
