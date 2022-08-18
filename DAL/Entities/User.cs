@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using DAL.Enums;
 using MarathonApp.DAL.Enums;
 using Microsoft.AspNetCore.Identity;
 
@@ -15,11 +16,12 @@ namespace MarathonApp.DAL.Entities
         public DateTime? DateOfBirth { get; set; }
 
         public bool NewUser { get; set; }
-        public bool Gender { get; set; }
+        public GenderEnum? Gender { get; set; } 
         public TshirtEnum? Tshirt { get; set; }
         public CountriesEnum? Country { get; set; }
         public string? ExtraPhoneNumber { get; set; }
 
-        public ImagesEntity Images {get; set;}
+        public Document Document {get; set;}
+        public virtual ICollection<Application> Applications { get; set; }
     }
 }

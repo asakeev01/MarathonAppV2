@@ -20,16 +20,9 @@ namespace MarathonApp.API.Controllers
 
         [HttpPut("register")]
         [Authorize(Policy = "NewUserPolicy")]
-        public async Task<ActionResult> CreateProfileAsync(ProfileCreateViewModel model)
+        public async Task CreateProfileAsync(ProfileCreateModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _profileService.CreateProfileAsync(model);
-
-                if (result.IsSuccess)
-                    return Ok(result);
-            }
-            return BadRequest("Some properties are not valid");
+            await _profileService.CreateProfileAsync(model);
         }
 
         [HttpGet]
@@ -63,16 +56,10 @@ namespace MarathonApp.API.Controllers
 
         [HttpPut("{email}")]
         [Authorize(Roles = UserRolesModel.Admin + "," + UserRolesModel.Owner)]
-        public async Task<ObjectResult> UpdateProfileAsync(ProfileDetailViewModel model)
+        public async Task UpdateProfileAsync(ProfileDetailModel model)
         {
-            if (ModelState.IsValid)
-            {
-                var result = await _profileService.UpdateProfileAsync(model);
+            await _profileService.UpdateProfileAsync(model);
 
-                if (result.IsSuccess)
-                    return Ok(result);
-            }
-            return BadRequest("Some properties are not valid");
         }
 
     }

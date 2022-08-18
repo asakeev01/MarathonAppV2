@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MarathonApp.DAL.Entities
 {
-    public class ImagesEntity
+    public class Document
     {
         public Guid Id { get; set; }
         public string? FrontPassportPath { get; set; }

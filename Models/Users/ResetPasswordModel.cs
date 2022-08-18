@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MarathonApp.Models.Users
 {
-    public class ResetPasswordViewModel
+    public class ResetPasswordModel
     {
         [Required]
         public string Token { get; set; }

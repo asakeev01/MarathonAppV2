@@ -19,7 +19,7 @@ namespace MarathonApp.DAL.EF
 
         }
 
-        public virtual DbSet<ImagesEntity> ImagesEntity { get; set; }
+        public virtual DbSet<Document> Documents { get; set; }
         public virtual DbSet<Partner> Partners { get; set; }
         public virtual DbSet<Marathon> Marathons { get; set; }
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }

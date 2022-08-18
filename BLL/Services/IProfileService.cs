@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Net;
 using System.Security.Claims;
 using MarathonApp.DAL.EF;
 using MarathonApp.DAL.Entities;
+using MarathonApp.Models.Exceptions;
 using MarathonApp.Models.Profiles;
 using MarathonApp.Models.Users;
 using Microsoft.AspNetCore.Http;
@@ -12,12 +14,12 @@ namespace MarathonApp.BLL.Services
 {
     public interface IProfileService
     {
-        Task<UserManagerResponse> CreateProfileAsync(ProfileCreateViewModel model);
-        Task<ProfileDetailViewModel> GetProfileAsync();
+        Task CreateProfileAsync(ProfileCreateModel model);
+        Task<ProfileDetailModel> GetProfileAsync();
         // FOR ADMINS AND OWNER
-        Task<IQueryable<ProfileViewModel>> GetProfilesAsync();
-        Task<ProfileDetailViewModel> GetProfileAsAdminAsync(string userId);
-        Task<UserManagerResponse> UpdateProfileAsync(ProfileDetailViewModel model);
+        Task<IQueryable<ProfilesModel>> GetProfilesAsync();
+        Task<ProfileDetailModel> GetProfileAsAdminAsync(string userId);
+        Task UpdateProfileAsync(ProfileDetailModel model);
     }
 
     public class ProfileService : IProfileService
@@ -32,16 +34,12 @@ namespace MarathonApp.BLL.Services
         {
             _userManager = userManager;
             _configuration = configuration;
-            //_emailService = emailService;
             _roleManager = roleManager;
             _httpContext = httpContext;
         }
 
-        public async Task<UserManagerResponse> CreateProfileAsync(ProfileCreateViewModel model)
+        public async Task CreateProfileAsync(ProfileCreateModel model)
         {
-            if (model == null)
-                throw new NullReferenceException("Register form is empty");
-
             var email = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email);
             var identityUser = await _userManager.FindByEmailAsync(email.Value);
             
@@ -56,27 +54,15 @@ namespace MarathonApp.BLL.Services
 
             var result = await _userManager.UpdateAsync(identityUser);
 
-            if (result.Succeeded)
-            {
-                return new UserManagerResponse
-                {
-                    Message = "Profile was successfully created!",
-                    IsSuccess = true
-                };
-            }
-            return new UserManagerResponse
-            {
-                Message = "Profile was not created",
-                IsSuccess = false,
-                Errors = result.Errors.Select(e => e.Description)
-            };
+            if (!result.Succeeded)
+                throw new HttpException("Ошибка во время создания профиля", HttpStatusCode.BadRequest);
         }
 
-        public async Task<ProfileDetailViewModel> GetProfileAsync()
+        public async Task<ProfileDetailModel> GetProfileAsync()
         {
             var email = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email);
             var identityUser = await _userManager.FindByEmailAsync(email.Value);
-            var user = new ProfileDetailViewModel
+            var user = new ProfileDetailModel
             {
                 Email = identityUser.Email,
                 Name = identityUser.Name,
@@ -95,10 +81,10 @@ namespace MarathonApp.BLL.Services
         // FOR ADMINS AND OWNER
 
 
-        public async Task<IQueryable<ProfileViewModel>> GetProfilesAsync()
+        public async Task<IQueryable<ProfilesModel>> GetProfilesAsync()
         {
             var identityUsers = _userManager.Users;
-            var users = identityUsers.Select(c => new ProfileViewModel
+            var users = identityUsers.Select(c => new ProfilesModel
             {
                 Email = c.Email,
                 Name = c.Name,
@@ -107,15 +93,13 @@ namespace MarathonApp.BLL.Services
             return users;
         }
 
-        public async Task<ProfileDetailViewModel> GetProfileAsAdminAsync(string email)
+        public async Task<ProfileDetailModel> GetProfileAsAdminAsync(string email)
         {
             var identityUser = await _userManager.FindByEmailAsync(email);
             if (identityUser == null)
-            {
-                throw new Exception("There is no such user");
-            }
+                throw new HttpException("There is no such user", HttpStatusCode.BadRequest);
 
-            var user = new ProfileDetailViewModel
+            var user = new ProfileDetailModel
             {
                 Email = identityUser.Email,
                 Name = identityUser.Name,
@@ -130,17 +114,11 @@ namespace MarathonApp.BLL.Services
             return user;
         }
 
-        public async Task<UserManagerResponse> UpdateProfileAsync(ProfileDetailViewModel model)
+        public async Task UpdateProfileAsync(ProfileDetailModel model)
         {
             var identityUser = await _userManager.FindByEmailAsync(model.Email);
             if (identityUser == null)
-            {
-                return new UserManagerResponse
-                {
-                    Message = "There is no such user",
-                    IsSuccess = false
-                };
-            }
+                throw new HttpException("There is no such user", HttpStatusCode.BadRequest);
 
             identityUser.Name = model.Name;
             identityUser.Surname = model.Surname;
@@ -153,20 +131,8 @@ namespace MarathonApp.BLL.Services
 
             var result = await _userManager.UpdateAsync(identityUser);
 
-            if (result.Succeeded)
-            {
-                return new UserManagerResponse
-                {
-                    Message = "Profile was successfully changed!",
-                    IsSuccess = true
-                };
-            }
-            return new UserManagerResponse
-            {
-                Message = "Profile was not updated",
-                IsSuccess = false,
-                Errors = result.Errors.Select(e => e.Description)
-            };
+            if (!result.Succeeded)
+                throw new HttpException("Profile was not updated", HttpStatusCode.BadRequest);
         }
     }
 }

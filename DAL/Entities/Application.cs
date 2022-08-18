@@ -1,8 +1,10 @@
 ﻿using System;
 namespace MarathonApp.DAL.Entities
 {
-    public class RegistrationEntity
+    public class Application
     {
+        public Guid Id { get; set; }
+
     }
 }
 

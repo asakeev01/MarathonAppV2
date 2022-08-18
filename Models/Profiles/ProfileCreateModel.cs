@@ -1,15 +1,12 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using DAL.Enums;
 using MarathonApp.DAL.Enums;
 
 namespace MarathonApp.Models.Profiles
 {
-    public class ProfileCreateViewModel
+    public class ProfileCreateModel
     {
-        //[StringLength(50)]
-        //[EmailAddress]
-        //public string Email { get; set; }
-
         [Required]
         public string Name { get; set; }
 
@@ -22,7 +19,7 @@ namespace MarathonApp.Models.Profiles
         public DateTime? DateOfBirth { get; set; }
 
         [Required]
-        public bool Gender { get; set; }
+        public GenderEnum? Gender { get; set; }
 
         [Required]
         public TshirtEnum? Tshirt { get; set; }
