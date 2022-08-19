@@ -22,5 +22,6 @@ namespace MarathonApp.DAL.Entities
         public bool MedicalCertificate { get; set; }
         public virtual ICollection<DistancePrice> DistancePrices { get; set; }
         public virtual ICollection<DistanceAge> DistanceAges { get; set; }
+        public virtual ICollection<Application> Applications { get; set; }
     }
 }

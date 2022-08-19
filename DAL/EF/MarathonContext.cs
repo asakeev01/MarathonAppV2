@@ -23,6 +23,7 @@ namespace MarathonApp.DAL.EF
         public virtual DbSet<Partner> Partners { get; set; }
         public virtual DbSet<Marathon> Marathons { get; set; }
         public virtual DbSet<RefreshToken> RefreshTokens { get; set; }
+        public virtual DbSet<Application> Applications { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

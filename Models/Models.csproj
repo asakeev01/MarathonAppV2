@@ -11,11 +11,13 @@
     <None Remove="Partners\" />
     <None Remove="Profiles\" />
     <None Remove="Users\" />
+    <None Remove="Applications\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Exceptions\" />
     <Folder Include="Profiles\" />
     <Folder Include="Users\" />
+    <Folder Include="Applications\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj" />
