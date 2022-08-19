@@ -2,6 +2,7 @@
 using Mapster;
 using MarathonApp.DAL.Entities;
 using MarathonApp.Models.Partners;
+using Models.Applications;
 using Models.SavedFiles;
 using System.Configuration;
 
@@ -31,6 +32,11 @@ internal static class MapsterProfile
         TypeAdapterConfig<SavedFile, SavedFileModel.GetFiles>
         .NewConfig()
         .Map(x => x.Path, x => AppConstants.BaseUri + x.Path);
+        #endregion
+
+        #region Applications
+        TypeAdapterConfig<Application, ApplyModel>
+            .NewConfig();
         #endregion
     }
 }

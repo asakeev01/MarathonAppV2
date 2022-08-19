@@ -139,11 +139,24 @@ if (app.Environment.IsDevelopment())
 app.UseCors();
 app.UseHttpsRedirection();
 
-app.UseStaticFiles(new StaticFileOptions
+//app.UseStaticFiles(new StaticFileOptions
+//{
+//    FileProvider = new PhysicalFileProvider(
+//           Path.Combine(builder.Environment.ContentRootPath, "staticfiles")),
+//    RequestPath = "/staticfiles"
+//});
+
+var dir = Path.Combine(Directory.GetCurrentDirectory(), builder.Configuration.GetSection("FileSettings:PhysicalPath").Value);
+var requestPath = builder.Configuration.GetSection("FileSettings:RequestPath").Value;
+if (!Directory.Exists(dir))
 {
-    FileProvider = new PhysicalFileProvider(
-           Path.Combine(builder.Environment.ContentRootPath, "staticfiles")),
-    RequestPath = "/staticfiles"
+    Directory.CreateDirectory(dir);
+}
+
+app.UseFileServer(new FileServerOptions
+{
+    FileProvider = new PhysicalFileProvider(dir),
+    RequestPath = new PathString(requestPath),
 });
 
 app.UseAuthentication();
