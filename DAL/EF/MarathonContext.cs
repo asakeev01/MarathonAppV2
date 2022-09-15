@@ -11,6 +11,7 @@ namespace MarathonApp.DAL.EF
     {
         public MarathonContext(DbContextOptions<MarathonContext> options) : base(options)
         {
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
