@@ -1,0 +1,60 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Validations" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.7" />
+      <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.7" />
+      <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Common\Resources\SharedResource.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>SharedResource.Designer.cs</LastGenOutput>
+        <DependentUpon>SharedResource.properties</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Common\Resources\SharedResource.en-us.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <DependentUpon>SharedResource.resx</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Common\Resources\SharedResource.ru-ru.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <DependentUpon>SharedResource.resx</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Common\Resources\AccountResource.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>AccountResource.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.Localization.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\6.0.3\Microsoft.Extensions.Localization.Abstractions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Common\Resources\SharedResource.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>SharedResource.resx</DependentUpon>
+      </Compile>
+      <Compile Update="Common\Resources\AccountResource.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>AccountResource.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+</Project>
