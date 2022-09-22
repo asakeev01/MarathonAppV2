@@ -9,11 +9,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
 
-namespace Infrastructure.Persistence.Migrations
+namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220824115647_AddTransactionTable")]
-    partial class AddTransactionTable
+    [Migration("20220922060746_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -109,6 +109,218 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AccountTypes");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Distances.Distance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("AgeFrom")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DistanceCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DistanceId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MarathonsId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("MedicalCertificate")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("NumberOfParticipants")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("PassingLimit")
+                        .HasColumnType("time");
+
+                    b.Property<int>("RegistredParticipants")
+                        .HasColumnType("int");
+
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistanceCategoryId");
+
+                    b.HasIndex("MarathonsId");
+
+                    b.ToTable("Distances");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Distances.DistanceAge", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("AgeFrom")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("AgeTo")
+                        .HasColumnType("int");
+
+                    b.Property<int>("DistanceId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistanceId");
+
+                    b.ToTable("DistanceAges");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Distances.DistanceCategory", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DistanceCategories");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Distances.DistanceCategoryTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("DistanceCategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistanceCategoryId");
+
+                    b.HasIndex("LanguageId");
+
+                    b.ToTable("DistanceCategoryTranslations");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Distances.DistancePrice", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("DateEnd")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("DateStart")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DistanceId")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DistanceId");
+
+                    b.ToTable("DistancePrices");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Languages.Language", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Languages");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Marathons.Marathon", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("EndDateAcceptingApplications")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("StartDateAcceptingApplications")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Marathons");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Marathons.MarathonTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MarathonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Place")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("MarathonId");
+
+                    b.ToTable("MarathonTranslations");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transactions.Transaction", b =>
@@ -419,6 +631,85 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Distances.Distance", b =>
+                {
+                    b.HasOne("Domain.Entities.Distances.DistanceCategory", "DistanceCategory")
+                        .WithMany("Distances")
+                        .HasForeignKey("DistanceCategoryId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Marathons.Marathon", "Marathons")
+                        .WithMany("Distances")
+                        .HasForeignKey("MarathonsId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("DistanceCategory");
+
+                    b.Navigation("Marathons");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Distances.DistanceAge", b =>
+                {
+                    b.HasOne("Domain.Entities.Distances.Distance", "Distance")
+                        .WithMany("DistanceAges")
+                        .HasForeignKey("DistanceId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Distance");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Distances.DistanceCategoryTranslation", b =>
+                {
+                    b.HasOne("Domain.Entities.Distances.DistanceCategory", "DistanceCategory")
+                        .WithMany("DistanceCategoryTranslations")
+                        .HasForeignKey("DistanceCategoryId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Languages.Language", "Language")
+                        .WithMany("DistanceCategoryTranslations")
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("DistanceCategory");
+
+                    b.Navigation("Language");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Distances.DistancePrice", b =>
+                {
+                    b.HasOne("Domain.Entities.Distances.Distance", "Distance")
+                        .WithMany("DistancePrices")
+                        .HasForeignKey("DistanceId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Distance");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Marathons.MarathonTranslation", b =>
+                {
+                    b.HasOne("Domain.Entities.Languages.Language", "Language")
+                        .WithMany("MarathonTranslations")
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
+                        .WithMany("MarathonTranslations")
+                        .HasForeignKey("MarathonId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Language");
+
+                    b.Navigation("Marathon");
+                });
+
             modelBuilder.Entity("Domain.Entities.Transactions.Transaction", b =>
                 {
                     b.HasOne("Domain.Entities.Accounts.Account", "Account")
@@ -514,6 +805,34 @@ namespace Infrastructure.Persistence.Migrations
             modelBuilder.Entity("Domain.Entities.Accounts.AccountType", b =>
                 {
                     b.Navigation("Accounts");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Distances.Distance", b =>
+                {
+                    b.Navigation("DistanceAges");
+
+                    b.Navigation("DistancePrices");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Distances.DistanceCategory", b =>
+                {
+                    b.Navigation("DistanceCategoryTranslations");
+
+                    b.Navigation("Distances");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Languages.Language", b =>
+                {
+                    b.Navigation("DistanceCategoryTranslations");
+
+                    b.Navigation("MarathonTranslations");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Marathons.Marathon", b =>
+                {
+                    b.Navigation("Distances");
+
+                    b.Navigation("MarathonTranslations");
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.Role", b =>

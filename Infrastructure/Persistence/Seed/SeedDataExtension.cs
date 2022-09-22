@@ -10,6 +10,7 @@ public static class SeedDataExtension
         await dbContext.SeedUser();
         await dbContext.SeedAccount();
         await dbContext.SeedTransaction();
+        await dbContext.SeedLanguage();
         await dbContext.SaveChangesAsync();
     }
 }

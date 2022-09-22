@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Infrastructure.Persistence.Migrations
+namespace Infrastructure.Migrations
 {
-    public partial class AddTransactionTable : Migration
+    public partial class Init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -75,6 +75,47 @@ namespace Infrastructure.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DistanceCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DistanceCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Languages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Languages", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Marathons",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    StartDateAcceptingApplications = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    EndDateAcceptingApplications = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Marathons", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -238,6 +279,89 @@ namespace Infrastructure.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "DistanceCategoryTranslations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LanguageId = table.Column<int>(type: "int", nullable: false),
+                    DistanceCategoryId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DistanceCategoryTranslations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DistanceCategoryTranslations_DistanceCategories_DistanceCategoryId",
+                        column: x => x.DistanceCategoryId,
+                        principalTable: "DistanceCategories",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_DistanceCategoryTranslations_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Distances",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    PassingLimit = table.Column<TimeSpan>(type: "time", nullable: false),
+                    AgeFrom = table.Column<int>(type: "int", nullable: false),
+                    NumberOfParticipants = table.Column<int>(type: "int", nullable: false),
+                    RegistredParticipants = table.Column<int>(type: "int", nullable: false),
+                    MedicalCertificate = table.Column<bool>(type: "bit", nullable: false),
+                    DistanceId = table.Column<int>(type: "int", nullable: false),
+                    DistanceCategoryId = table.Column<int>(type: "int", nullable: false),
+                    MarathonsId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Distances", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Distances_DistanceCategories_DistanceCategoryId",
+                        column: x => x.DistanceCategoryId,
+                        principalTable: "DistanceCategories",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Distances_Marathons_MarathonsId",
+                        column: x => x.MarathonsId,
+                        principalTable: "Marathons",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "MarathonTranslations",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Text = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Place = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LanguageId = table.Column<int>(type: "int", nullable: false),
+                    MarathonId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MarathonTranslations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_MarathonTranslations_Languages_LanguageId",
+                        column: x => x.LanguageId,
+                        principalTable: "Languages",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_MarathonTranslations_Marathons_MarathonId",
+                        column: x => x.MarathonId,
+                        principalTable: "Marathons",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Transactions",
                 columns: table => new
                 {
@@ -266,6 +390,47 @@ namespace Infrastructure.Persistence.Migrations
                         name: "FK_Transactions_TransactionsTypes_TransactionTypeId",
                         column: x => x.TransactionTypeId,
                         principalTable: "TransactionsTypes",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DistanceAges",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AgeFrom = table.Column<int>(type: "int", nullable: true),
+                    AgeTo = table.Column<int>(type: "int", nullable: true),
+                    DistanceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DistanceAges", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DistanceAges_Distances_DistanceId",
+                        column: x => x.DistanceId,
+                        principalTable: "Distances",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "DistancePrices",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DateStart = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateEnd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Price = table.Column<double>(type: "float", nullable: false),
+                    DistanceId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DistancePrices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DistancePrices_Distances_DistanceId",
+                        column: x => x.DistanceId,
+                        principalTable: "Distances",
                         principalColumn: "Id");
                 });
 
@@ -324,6 +489,46 @@ namespace Infrastructure.Persistence.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
+                name: "IX_DistanceAges_DistanceId",
+                table: "DistanceAges",
+                column: "DistanceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DistanceCategoryTranslations_DistanceCategoryId",
+                table: "DistanceCategoryTranslations",
+                column: "DistanceCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DistanceCategoryTranslations_LanguageId",
+                table: "DistanceCategoryTranslations",
+                column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DistancePrices_DistanceId",
+                table: "DistancePrices",
+                column: "DistanceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Distances_DistanceCategoryId",
+                table: "Distances",
+                column: "DistanceCategoryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Distances_MarathonsId",
+                table: "Distances",
+                column: "MarathonsId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MarathonTranslations_LanguageId",
+                table: "MarathonTranslations",
+                column: "LanguageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_MarathonTranslations_MarathonId",
+                table: "MarathonTranslations",
+                column: "MarathonId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Transactions_AccountId",
                 table: "Transactions",
                 column: "AccountId");
@@ -357,10 +562,28 @@ namespace Infrastructure.Persistence.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "DistanceAges");
+
+            migrationBuilder.DropTable(
+                name: "DistanceCategoryTranslations");
+
+            migrationBuilder.DropTable(
+                name: "DistancePrices");
+
+            migrationBuilder.DropTable(
+                name: "MarathonTranslations");
+
+            migrationBuilder.DropTable(
                 name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Distances");
+
+            migrationBuilder.DropTable(
+                name: "Languages");
 
             migrationBuilder.DropTable(
                 name: "Accounts");
@@ -370,6 +593,12 @@ namespace Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "TransactionsTypes");
+
+            migrationBuilder.DropTable(
+                name: "DistanceCategories");
+
+            migrationBuilder.DropTable(
+                name: "Marathons");
 
             migrationBuilder.DropTable(
                 name: "AccountStatuses");
