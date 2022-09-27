@@ -11,5 +11,6 @@ public static class RepositoryServiceExtension
         services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork));
         services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
         services.AddScoped(typeof(IAccountRepository), typeof(AccountRepository));
+        services.AddScoped(typeof(IMarathonRepository), typeof(MarathonRepository));
     }
 }

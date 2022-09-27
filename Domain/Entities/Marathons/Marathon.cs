@@ -15,6 +15,6 @@ namespace Domain.Entities.Marathons
         public DateTime EndDateAcceptingApplications { get; set; }
         public bool IsActive { get; set; }
         public virtual ICollection<Distance> Distances { get; set; }
-        public virtual ICollection<MarathonTranslation> MarathonTranslations { get; set; }
+        public ICollection<MarathonTranslation> MarathonTranslations { get; set; }
     }
 }

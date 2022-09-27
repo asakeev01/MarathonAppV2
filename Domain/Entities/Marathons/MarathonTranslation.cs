@@ -15,7 +15,7 @@ namespace Domain.Entities.Marathons
         public string Place { get; set; }
         public int LanguageId { get; set; }
         public int MarathonId { get; set; }
-        public virtual Marathon Marathon { get; set; }
+        public Marathon Marathon { get; set; }
         public virtual Language Language { get; set; }
     }
 }

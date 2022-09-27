@@ -4,7 +4,7 @@ public static class AppConstants
 {
     public const string AppName = "MarathonApp";
 
-    public static readonly string[] SupportedLanguages = { "en-us", "ru-ru" };
+    public static readonly string[] SupportedLanguages = { "en-us", "ru-ru", "ky-kg"};
 
     public static readonly string DefaultLanguage = "en";
 
