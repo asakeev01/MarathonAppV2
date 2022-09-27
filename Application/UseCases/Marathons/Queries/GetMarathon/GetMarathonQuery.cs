@@ -9,29 +9,33 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.UseCases.Marathons.Queries.GetMarathon;
 
-public class GetMarathonsQuery : IRequest<QueryablePaging<GetMarathonsOutDto>>
+public class GetMarathonQuery : IRequest<GetMarathonOutDto>
 {
-    public GridifyQuery Query { get; set; }
-
     public string LanguageCode { get; set; }
+    public int MarathonId { get; set; }
 }
 
-public class GetMarathonsHandler : IRequestHandler<GetMarathonsQuery, QueryablePaging<GetMarathonsOutDto>>
+public class GetMarathonHandler : IRequestHandler<GetMarathonQuery, GetMarathonOutDto>
 {
     private readonly IMarathonRepository _marathonRepository;
+    private readonly IDistanceRepository _distanceRepository;
 
-    public GetMarathonsHandler(IMarathonRepository marathonRepository)
+    public GetMarathonHandler(IMarathonRepository marathonRepository, IDistanceRepository distanceRepository)
     {
         _marathonRepository = marathonRepository;
+        _distanceRepository = distanceRepository;
     }
 
-    public async Task<QueryablePaging<GetMarathonsOutDto>> Handle(GetMarathonsQuery request,
+    public async Task<GetMarathonOutDto> Handle(GetMarathonQuery request,
         CancellationToken cancellationToken)
     {
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
-        var marathons = (await _marathonRepository
-            .GetAllAsync(include: source => source.Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))));
-        var response = marathons.Adapt<IEnumerable<GetMarathonsOutDto>>().AsQueryable().GridifyQueryable(request.Query);
-        return response;
+        var marathon = _marathonRepository
+            .FindByCondition(x => x.Id == request.MarathonId, include: source => source.Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))).First();
+        var marathonDto = marathon.Adapt<GetMarathonOutDto>();
+        var distances =  _distanceRepository
+            .FindByCondition(x => x.MarathonId == request.MarathonId, include: source => source.Include(a => a.DistanceCategory.DistanceCategoryTranslations.Where(t => t.Language.Code == request.LanguageCode)).Include(a=> a.DistanceAges).Include(a=>a.DistancePrices));
+        marathonDto.Distances = distances.Adapt<IEnumerable<GetMarathonOutDto.DistanceDto>>();
+        return marathonDto;
     }
 }

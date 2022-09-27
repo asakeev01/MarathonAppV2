@@ -1,4 +1,5 @@
 ﻿using System.Net.Mime;
+using Core.UseCases.Marathons.Queries.GetMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathons;
 using Gridify;
 using MediatR;
@@ -39,34 +40,26 @@ public class MarathonsController : BaseController
         return Ok(result);
     }
 
-    ///// <summary>
-    ///// Withdraw from my account
-    ///// </summary>
-    ///// <returns>New Updated Account</returns>
-    ///// <response code="200">New Updated Account</response>
-    //[HttpPatch("{accountId:int}/withdraw")]
-    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    //[ProducesResponseType(typeof(WithdrawAccountOut), StatusCodes.Status200OK)]
-    //[SwaggerRequestExample(typeof(WithdrawRequestDto), typeof(WithdrawExamples))]
-    //public async Task<ActionResult<Account>> Withdraw(
-    //    [FromBody] WithdrawRequestDto dto,
-    //    [FromRoute] int accountId,
-    //    [FromServices] IValidator<WithdrawRequestDto> validator)
-    //{
-    //    dto.AccountId = accountId;
+    /// <summary>
+    /// Get Marathon by id
+    /// </summary>
+    /// <response code="200">Marathon</response>
+    [HttpGet("{marathonId:int}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(GetMarathonOutDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<GetMarathonOutDto>> ById(
+        [FromRoute] int marathonId)
+    {
+        var getMarathonQuery = new GetMarathonQuery()
+        {
+            LanguageCode = this.Request.Headers["Accept-Language"],
+            MarathonId = marathonId,
+        };
 
-    //    var validation = await validator.ValidateAsync(dto);
-    //    if (!validation.IsValid)
-    //    {
-    //        return validation.ToBadRequest();
-    //    }
+        var result = await _mediator.Send(getMarathonQuery);
 
-    //    var command = dto.Adapt<WithdrawCommand>();
-
-    //    var result = await _mediator.Send(command);
-
-    //    return Ok(result);
-    //}
+        return Ok(result);
+    }
 
     ///// <summary>
     ///// Transfer balance from one account to another

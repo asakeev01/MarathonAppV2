@@ -25,7 +25,7 @@ namespace Domain.Entities.Distances
             }
         }
         public bool MedicalCertificate { get; set; }
-        public int DistanceId { get; set; }
+        public int MarathonId { get; set; }
         public int DistanceCategoryId { get; set; }
         public virtual Marathon Marathons { get; set; }
         public virtual DistanceCategory DistanceCategory { get; set; }
