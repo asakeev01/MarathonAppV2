@@ -1,22 +1,9 @@
-﻿using System.Net;
-using System.Net.Mime;
-using Core.UseCases.Accounts.Commands.Transfer;
-using Core.UseCases.Accounts.Commands.Withdraw;
-using Core.UseCases.Accounts.Queries.GetUserAccount;
-using Core.UseCases.Accounts.Queries.GetUserAccounts;
-using Core.UseCases.Marathons.Queries.GetMarathon;
-using Domain.Entities.Accounts;
-using FluentValidation;
+﻿using System.Net.Mime;
+using Core.UseCases.Marathons.Queries.GetMarathons;
 using Gridify;
-using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Filters;
-using WebApi.Common.Extensions;
 using WebApi.Common.Extensions.ErrorHandlingServices;
-using WebApi.Common.Services;
-using WebApi.Endpoints.Accounts.Dtos.Requests;
-using WebApi.Endpoints.Accounts.Dtos.SwaggeExamples;
 
 namespace WebApi.Endpoints.Accounts;
 
@@ -38,14 +25,16 @@ public class MarathonsController : BaseController
     [HttpGet("")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(IEnumerable<GetMarathonsOutDto>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IQueryable<GetMarathonsOutDto>>> Me()
+    public async Task<ActionResult<IQueryable<GetMarathonsOutDto>>> List(
+        [FromQuery] GridifyQuery query)
     {
-        var query = new GetMarathonsQuery()
+        var getMarathonsQuery = new GetMarathonsQuery()
         {
-            LanguageCode = this.Request.Headers["Accept-Language"]
+            LanguageCode = this.Request.Headers["Accept-Language"],
+            Query = query
         };
 
-        var result = await _mediator.Send(query);
+        var result = await _mediator.Send(getMarathonsQuery);
 
         return Ok(result);
     }

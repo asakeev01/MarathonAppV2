@@ -11,7 +11,7 @@ public class WithdrawRequestDto
 
     [JsonIgnore]
     public int AccountId { get; set; }
-    
+
     [JsonIgnore]
     public int UserId => UserService.GetCurrentUser();
 }

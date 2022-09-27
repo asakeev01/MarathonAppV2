@@ -1,15 +1,11 @@
 ﻿using Core.Common.Bases;
 using Domain.Entities.Marathons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.UseCases.Marathons.Queries.GetMarathon
+namespace Core.UseCases.Marathons.Queries.GetMarathons
 {
-    public record GetMarathonsOutDto : BaseDto<MarathonTranslation, GetMarathonsOutDto>
+    public record GetMarathonsOutDto: BaseDto<Marathon, GetMarathonsOutDto>
     {
+
         public int Id { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
@@ -19,15 +15,12 @@ namespace Core.UseCases.Marathons.Queries.GetMarathon
         public DateTime EndDateAcceptingApplications { get; set; }
         public bool IsActive { get; set; }
 
-
         public override void AddCustomMappings()
         {
             SetCustomMappings()
-                .Map(x => x.Id, y => y.Marathon.Id)
-                .Map(x => x.Date, y => y.Marathon.Date)
-                .Map(x => x.StartDateAcceptingApplications, y => y.Marathon.StartDateAcceptingApplications)
-                .Map(x => x.EndDateAcceptingApplications, y => y.Marathon.EndDateAcceptingApplications)
-                .Map(x => x.IsActive, y => y.Marathon.IsActive);
+                .Map(x => x.Name, y => y.MarathonTranslations.First().Name)
+                .Map(x => x.Text, y => y.MarathonTranslations.First().Text)
+                .Map(x => x.Place, y => y.MarathonTranslations.First().Place);
 
         }
     }
