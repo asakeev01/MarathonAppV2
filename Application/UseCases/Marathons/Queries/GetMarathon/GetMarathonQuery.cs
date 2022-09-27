@@ -30,8 +30,8 @@ public class GetMarathonHandler : IRequestHandler<GetMarathonQuery, GetMarathonO
         CancellationToken cancellationToken)
     {
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
-        var marathon = _marathonRepository
-            .FindByCondition(x => x.Id == request.MarathonId, include: source => source.Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))).First();
+        var marathon = await _marathonRepository
+            .FirstAsync(x => x.Id == request.MarathonId, include: source => source.Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)));
         var marathonDto = marathon.Adapt<GetMarathonOutDto>();
         var distances =  _distanceRepository
             .FindByCondition(x => x.MarathonId == request.MarathonId, include: source => source.Include(a => a.DistanceCategory.DistanceCategoryTranslations.Where(t => t.Language.Code == request.LanguageCode)).Include(a=> a.DistanceAges).Include(a=>a.DistancePrices));
