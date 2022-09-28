@@ -1,7 +1,9 @@
+using FluentValidation;
 using Serilog;
 using Serilog.Core;
 using WebApi.Common.Extensions;
 using WebApi.Common.Extensions.SerialogServices;
+using static WebApi.Common.Extensions.FluentValidationServices.FluentValidationServiceExtension;
 
 namespace WebApi;
 

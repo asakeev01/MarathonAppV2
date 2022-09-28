@@ -2,6 +2,7 @@ using Domain.Common.Constants;
 using FluentValidation;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -16,7 +17,6 @@ public static class SwaggerServiceExtension
         services.AddSwaggerExamplesFromAssemblyOf<WithdrawExamples>();
         services.TryAddTransient<IValidatorFactory, ServiceProviderValidatorFactory>();
         services.AddFluentValidationRulesToSwagger();
-
         services.AddSwaggerGen(x =>
         {
             x.SwaggerDoc("v1", new OpenApiInfo
@@ -29,6 +29,11 @@ public static class SwaggerServiceExtension
             x.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{nameof(WebApi)}.xml"));
             x.ExampleFilters();
             x.OperationFilter<LanguageHeaderFilter>();
+            x.MapType<TimeSpan>(() => new OpenApiSchema
+            {
+                Type = "string",
+                Example = new OpenApiString("00:00:00")
+            });
         });
     }
     

@@ -7,6 +7,12 @@ public interface IUnitOfWork : IDisposable
     
     ITransactionRepository TransactionRepository { get; }
     
+    IMarathonRepository MarathonRepository { get; }
+
+    IDistanceRepository DistanceRepository { get; }
+
+    IMarathonTranslationRepository MarathonTranslationRepository { get; }
+
     void Save();
     Task SaveAsync();
     Task BeginTransactionAsync();

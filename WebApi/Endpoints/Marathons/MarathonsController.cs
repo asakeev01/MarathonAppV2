@@ -1,10 +1,17 @@
-﻿using System.Net.Mime;
+﻿using System.Net;
+using System.Net.Mime;
+using Core.UseCases.Marathons.Commands.CraeteMarathon;
+using Core.UseCases.Marathons.Commands.CreateMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathons;
+using FluentValidation;
 using Gridify;
+using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using WebApi.Common.Extensions;
 using WebApi.Common.Extensions.ErrorHandlingServices;
+using WebApi.Endpoints.Marathons.Dtos.Requests;
 
 namespace WebApi.Endpoints.Accounts;
 
@@ -57,6 +64,33 @@ public class MarathonsController : BaseController
         };
 
         var result = await _mediator.Send(getMarathonQuery);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Create marathon with distances
+    /// </summary>
+    /// <response code="200">Id of created marathon</response>
+    [HttpPost("")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    public async Task<ActionResult<HttpStatusCode>> Create(
+        [FromBody] CreateMarathonRequestDto dto,
+        [FromServices] IValidator<CreateMarathonRequestDto> validator)
+    {
+        var validation = await validator.ValidateAsync(dto);
+
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+        var createMarathonCommand = new CreateMarathonCommand()
+        {
+            marathonDto = dto.Adapt<CreateMarathonRequestInDto>(),
+        };
+
+        var result = await _mediator.Send(createMarathonCommand);
 
         return Ok(result);
     }

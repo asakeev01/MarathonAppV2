@@ -1,4 +1,5 @@
-﻿using Gridify;
+﻿using FluentValidation;
+using Gridify;
 using Serilog;
 using Serilog.Core;
 using WebApi.Common.Extensions.DomainServices;
@@ -11,6 +12,7 @@ using WebApi.Common.Extensions.MapsterServices;
 using WebApi.Common.Extensions.MediatrServices;
 using WebApi.Common.Extensions.RepositoryServices;
 using WebApi.Common.Extensions.SwaggerServices;
+using static WebApi.Common.Extensions.FluentValidationServices.FluentValidationServiceExtension;
 
 namespace WebApi.Common.Extensions;
 
@@ -34,6 +36,7 @@ public static class WebApplicationBuilderExtension
         services.AddAppDbContext(configuration, env);
         services.AddRepositories();
         services.RegisterDomainServices(configuration);
+        ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
     }
 
     internal static async Task ConfigureApp(this WebApplicationBuilder builder)
@@ -51,6 +54,8 @@ public static class WebApplicationBuilderExtension
         
         app.UseAuthorization();
         app.MapControllers();
+
+        ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
 
         app.AutoMigrateDb();
         await app.Seed();

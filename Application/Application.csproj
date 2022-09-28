@@ -13,7 +13,6 @@
       <Folder Include="Common\Exceptions" />
       <Folder Include="Common\Extensions" />
       <Folder Include="Common\Interfaces" />
-      <Folder Include="UseCases\Marathons\Commands\" />
     </ItemGroup>
 
     <ItemGroup>
