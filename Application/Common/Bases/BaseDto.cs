@@ -16,6 +16,7 @@ public abstract record BaseDto<TSource, TDestination> : IRegister
     }
 
     protected TypeAdapterSetter<TSource, TDestination> SetCustomMappings() => Config.ForType<TSource, TDestination>();
+    protected TypeAdapterSetter<TDestination, TSource> SetCustomMappingsInverse() => Config.ForType<TDestination, TSource>();
 
     public void Register(TypeAdapterConfig config)
     {

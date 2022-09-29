@@ -1,3 +1,4 @@
+using System.Data.SqlClient;
 using System.Net;
 using Domain.Common.Exceptions;
 using FluentValidation;

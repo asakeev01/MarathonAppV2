@@ -2,7 +2,9 @@
 using System.Net.Mime;
 using Core.UseCases.Marathons.Commands.CraeteMarathon;
 using Core.UseCases.Marathons.Commands.CreateMarathon;
+using Core.UseCases.Marathons.Commands.PutMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathon;
+using Core.UseCases.Marathons.Queries.GetMarathonAdmin;
 using Core.UseCases.Marathons.Queries.GetMarathons;
 using FluentValidation;
 using Gridify;
@@ -69,6 +71,26 @@ public class MarathonsController : BaseController
     }
 
     /// <summary>
+    /// Get Marathon by id for Admin
+    /// </summary>
+    /// <response code="200">Marathon</response>
+    [HttpGet("admin/{marathonId:int}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(GetMarathonAdminOutDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<GetMarathonAdminOutDto>> ByIdAdmin(
+        [FromRoute] int marathonId)
+    {
+        var getMarathonQuery = new GetMarathonAdminQuery()
+        {
+            MarathonId = marathonId,
+        };
+
+        var result = await _mediator.Send(getMarathonQuery);
+
+        return Ok(result);
+    }
+
+    /// <summary>
     /// Create marathon with distances
     /// </summary>
     /// <response code="200">Id of created marathon</response>
@@ -95,33 +117,32 @@ public class MarathonsController : BaseController
         return Ok(result);
     }
 
-    ///// <summary>
-    ///// Transfer balance from one account to another
-    ///// </summary>
-    ///// <response code="200"></response>
-    //[HttpPatch("{accountId:int}/transfer")]
-    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    //[ProducesResponseType(StatusCodes.Status200OK)]
-    //[SwaggerRequestExample(typeof(TransferRequestDto), typeof(TransferRequestExamples))]
-    //public async Task<ActionResult<HttpStatusCode>> Transfer(
-    //    [FromBody] TransferRequestDto dto,
-    //    [FromRoute] int accountId,
-    //    [FromServices] IValidator<TransferRequestDto> validator)
+    /// <summary>
+    /// Update marathon
+    /// </summary>
+    /// <response code="200">Response stauts code</response>
+    [HttpPut("")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    public async Task<ActionResult<HttpStatusCode>> Update(
+        [FromBody] PutMarathonRequestDto dto){
+    //    [FromServices] IValidator<PutMarathonRequestDto> validator)
     //{
-    //    dto.AccountSenderId = accountId;
-
     //    var validation = await validator.ValidateAsync(dto);
+
     //    if (!validation.IsValid)
     //    {
     //        return validation.ToBadRequest();
     //    }
+        var createMarathonCommand = new PutMarathonCommand()
+        {
+            marathonDto = dto.Adapt<PutMarathonInDto>(),
+        };
 
-    //    var command = dto.Adapt<TransferCommand>();
+        var result = await _mediator.Send(createMarathonCommand);
 
-    //    var result = await _mediator.Send(command);
-
-    //    return result;
-    //}
+        return Ok(result);
+    }
 
     ///// <summary>
     ///// Get Account by id

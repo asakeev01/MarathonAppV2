@@ -1,5 +1,4 @@
 ﻿using Core.Common.Bases;
-using Domain.Entities.Distances;
 using Domain.Entities.Marathons;
 using System;
 using System.Collections.Generic;
@@ -7,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.UseCases.Marathons.Commands.CreateMarathon
+namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
 {
-    public record CreateMarathonRequestInDto: BaseDto<CreateMarathonRequestInDto, Marathon>
+    public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
     {
         public ICollection<TranslationDto> Translations { get; set; }
         public DateTime Date { get; set; }
@@ -21,7 +20,7 @@ namespace Core.UseCases.Marathons.Commands.CreateMarathon
         public override void AddCustomMappings()
         {
             SetCustomMappings()
-                .Map(x => x.MarathonTranslations, y => y.Translations);
+                .Map(x => x.Translations, y => y.MarathonTranslations);
         }
         public class TranslationDto
         {

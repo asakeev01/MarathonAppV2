@@ -1,23 +1,24 @@
-﻿using FluentValidation;
+﻿using Domain.Common.Constants;
+using FluentValidation;
 
 namespace WebApi.Endpoints.Marathons.Dtos.Requests
 {
     public class CreateMarathonRequestDto
     {
-        public string NameRu { get; set; }
-        public string TextRu { get; set; }
-        public string PlaceRu { get; set; }
-        public string NameEn { get; set; }
-        public string TextEn { get; set; }
-        public string PlaceEn { get; set; }
-        public string NameKg { get; set; }
-        public string TextKg { get; set; }
-        public string PlaceKg { get; set; }
+        public ICollection<TranslationDto> Translations { get; set; }
         public DateTime Date { get; set; }
         public DateTime StartDateAcceptingApplications { get; set; }
         public DateTime EndDateAcceptingApplications { get; set; }
         public bool IsActive { get; set; }
         public ICollection<DistanceDto> Distances { get; set; }
+
+        public class TranslationDto
+        {
+            public string Name { get; set; }
+            public string Text { get; set; }
+            public string Place { get; set; }
+            public int LanguageId { get; set; }
+        }
 
         public class DistanceDto
         {
@@ -49,19 +50,17 @@ namespace WebApi.Endpoints.Marathons.Dtos.Requests
     {
         public CreateMarathonRequestValidator()
         {
-            RuleFor(x => x.NameRu).NotEmpty();
-            RuleFor(x => x.TextRu).NotEmpty();
-            RuleFor(x => x.PlaceRu).NotEmpty();
-            RuleFor(x => x.NameEn).NotEmpty();
-            RuleFor(x => x.TextEn).NotEmpty();
-            RuleFor(x => x.PlaceEn).NotEmpty();
-            RuleFor(x => x.NameKg).NotEmpty();
-            RuleFor(x => x.TextKg).NotEmpty();
-            RuleFor(x => x.PlaceKg).NotEmpty();
             RuleFor(x => x.Date).NotEmpty();
             RuleFor(x => x.StartDateAcceptingApplications).NotEmpty();
             RuleFor(x => x.IsActive).NotEmpty();
-            RuleFor(x => x.Distances).NotEmpty();
+            RuleFor(x => x.Translations).Must(x => x.Select((o) => o.LanguageId).OrderBy(x => x).ToArray().SequenceEqual(AppConstants.SupportedLanguagesIds)).WithMessage($"Wrong LanguageIds in Translations. Ids must be {string.Join(", ", AppConstants.SupportedLanguagesIds)}");
+
+            RuleForEach(x => x.Translations).ChildRules(translations =>
+            {
+                translations.RuleFor(x => x.Name).NotEmpty();
+                translations.RuleFor(x => x.Text).NotEmpty();
+                translations.RuleFor(x => x.Place).NotEmpty();
+            });
 
             RuleForEach(x => x.Distances).ChildRules(orders =>
             {
