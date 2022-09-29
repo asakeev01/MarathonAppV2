@@ -1,7 +1,5 @@
 ﻿using Core.Common.Helpers;
-using Core.UseCases.Marathons.Queries.GetMarathons;
 using Domain.Common.Contracts;
-using Domain.Entities.Marathons;
 using Gridify;
 using Mapster;
 using MediatR;
@@ -18,18 +16,18 @@ public class GetMarathonsQuery : IRequest<QueryablePaging<GetMarathonsOutDto>>
 
 public class GetMarathonsHandler : IRequestHandler<GetMarathonsQuery, QueryablePaging<GetMarathonsOutDto>>
 {
-    private readonly IMarathonRepository _marathonRepository;
+    private readonly IUnitOfWork _unit;
 
-    public GetMarathonsHandler(IMarathonRepository marathonRepository)
+    public GetMarathonsHandler(IUnitOfWork unit)
     {
-        _marathonRepository = marathonRepository;
+        _unit = unit;
     }
 
     public async Task<QueryablePaging<GetMarathonsOutDto>> Handle(GetMarathonsQuery request,
         CancellationToken cancellationToken)
     {
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
-        var marathons = (await _marathonRepository
+        var marathons = (await _unit.MarathonRepository
             .GetAllAsync(include: source => source.Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))));
         var response = marathons.Adapt<IEnumerable<GetMarathonsOutDto>>().AsQueryable().GridifyQueryable(request.Query);
         return response;

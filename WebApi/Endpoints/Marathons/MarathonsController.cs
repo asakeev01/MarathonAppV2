@@ -125,16 +125,16 @@ public class MarathonsController : BaseController
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> Update(
-        [FromBody] PutMarathonRequestDto dto){
-    //    [FromServices] IValidator<PutMarathonRequestDto> validator)
-    //{
-    //    var validation = await validator.ValidateAsync(dto);
+        [FromBody] PutMarathonRequestDto dto,
+        [FromServices] IValidator<PutMarathonRequestDto> validator)
+    {
+            var validation = await validator.ValidateAsync(dto);
 
-    //    if (!validation.IsValid)
-    //    {
-    //        return validation.ToBadRequest();
-    //    }
-        var createMarathonCommand = new PutMarathonCommand()
+            if (!validation.IsValid)
+            {
+                return validation.ToBadRequest();
+            }
+            var createMarathonCommand = new PutMarathonCommand()
         {
             marathonDto = dto.Adapt<PutMarathonInDto>(),
         };

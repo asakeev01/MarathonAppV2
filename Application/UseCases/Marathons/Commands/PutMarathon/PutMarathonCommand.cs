@@ -19,12 +19,10 @@ namespace Core.UseCases.Marathons.Commands.PutMarathon
 
     public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, HttpStatusCode>
     {
-        private readonly IAccountService _accountService;
         private readonly IUnitOfWork _unit;
 
-        public PutMarathonCommandHandler(IAccountService accountService, IUnitOfWork unit)
+        public PutMarathonCommandHandler(IUnitOfWork unit)
         {
-            _accountService = accountService;
             _unit = unit;
         }
 

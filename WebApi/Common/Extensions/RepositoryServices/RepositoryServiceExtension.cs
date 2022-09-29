@@ -14,5 +14,6 @@ public static class RepositoryServiceExtension
         services.AddScoped(typeof(IMarathonRepository), typeof(MarathonRepository));
         services.AddScoped(typeof(IDistanceRepository), typeof(DistanceRepository));
         services.AddScoped(typeof(IMarathonTranslationRepository), typeof(MarathonTranslationRepository));
+        services.AddScoped(typeof(IDistanceCategoryRepository), typeof(DistanceCategoryRepository));
     }
 }

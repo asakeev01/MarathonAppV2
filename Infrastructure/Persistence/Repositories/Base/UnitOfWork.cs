@@ -15,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
     private IMarathonRepository? _marathonRepository;
     private IDistanceRepository? _distanceRepository;
     private IMarathonTranslationRepository? _marathonTranslationRepository;
+    private IDistanceCategoryRepository? _distanceCategoryRepository;
 
     private bool disposed = false;
 
@@ -69,7 +70,14 @@ public class UnitOfWork : IUnitOfWork
             return _marathonTranslationRepository;
         }
     }
-
+    public IDistanceCategoryRepository DistanceCategoryRepository
+    {
+        get
+        {
+            _distanceCategoryRepository ??= new DistanceCategoryRepository(_context, _localizer);
+            return _distanceCategoryRepository;
+        }
+    }
     public void Save()
     {
         _context.SaveChanges();

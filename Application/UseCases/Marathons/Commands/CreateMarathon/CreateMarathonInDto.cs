@@ -50,7 +50,6 @@ namespace Core.UseCases.Marathons.Commands.CreateMarathon
                 public DateTime DateEnd { get; set; }
                 public double Price { get; set; }
             }
-
             public class DistanceAgeDto
             {
                 public int? AgeFrom { get; set; }
