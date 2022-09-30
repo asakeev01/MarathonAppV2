@@ -33,6 +33,7 @@ namespace Core.UseCases.Marathons.Commands.CreateMarathon
 
         public class DistanceDto
         {
+            public string Name { get; set; }
             public TimeSpan StartTime { get; set; }
             public TimeSpan PassingLimit { get; set; }
             public int AgeFrom { get; set; }

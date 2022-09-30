@@ -41,12 +41,6 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
         public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
         public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
 
-        public override void AddCustomMappings()
-        {
-            SetCustomMappings()
-                .Map(x => x.Name, y => y.DistanceCategory.DistanceCategoryTranslations.First().Name);
-        }
-
         public record DistancePriceDto : BaseDto<DistancePrice, DistancePriceDto>
         {
             public int Id { get; set; }

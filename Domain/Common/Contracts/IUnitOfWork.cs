@@ -12,7 +12,6 @@ public interface IUnitOfWork : IDisposable
     IDistanceRepository DistanceRepository { get; }
 
     IMarathonTranslationRepository MarathonTranslationRepository { get; }
-    IDistanceCategoryRepository DistanceCategoryRepository { get; }
 
     void Save();
     Task SaveAsync();

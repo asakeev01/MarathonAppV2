@@ -42,6 +42,7 @@
       <Folder Include="Common\Filters" />
       <Folder Include="Common\Helpers" />
       <Folder Include="Endpoints\Accounts\Dtos\Responses" />
+      <Folder Include="Endpoints\Distances\Dtos\Requests\" />
     </ItemGroup>
 
     <ItemGroup>

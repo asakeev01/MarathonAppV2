@@ -44,8 +44,6 @@ public class AppDbContext : IdentityDbContext<User, Role, long,
     public DbSet<MarathonTranslation> MarathonTranslations { get; set; }
     public DbSet<Distance> Distances { get; set; }
     public DbSet<DistanceAge> DistanceAges { get; set; }
-    public DbSet<DistanceCategory> DistanceCategories { get; set; }
-    public DbSet<DistanceCategoryTranslation> DistanceCategoryTranslations { get; set; }
     public DbSet<DistancePrice> DistancePrices { get; set; }
 
 

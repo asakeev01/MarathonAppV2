@@ -13,6 +13,5 @@ namespace Domain.Entities.Languages
         public int Id { get; set; }
         public string Code { get; set; }
         public virtual ICollection<MarathonTranslation> MarathonTranslations { get; set; }
-        public virtual ICollection<DistanceCategoryTranslation> DistanceCategoryTranslations { get; set; }
     }
 }

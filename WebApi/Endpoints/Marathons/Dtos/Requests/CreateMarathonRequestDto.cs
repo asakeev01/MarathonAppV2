@@ -22,13 +22,13 @@ namespace WebApi.Endpoints.Marathons.Dtos.Requests
 
         public class DistanceDto
         {
+            public string Name { get; set; }
             public TimeSpan StartTime { get; set; }
             public TimeSpan PassingLimit { get; set; }
             public int AgeFrom { get; set; }
             public int NumberOfParticipants { get; set; }
             public int RegistredParticipants { get; set; }
             public bool MedicalCertificate { get; set; }
-            public int DistanceCategoryId { get; set; }
             public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
             public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
 
@@ -62,24 +62,24 @@ namespace WebApi.Endpoints.Marathons.Dtos.Requests
                 translations.RuleFor(x => x.Place).NotEmpty();
             });
 
-            RuleForEach(x => x.Distances).ChildRules(orders =>
+            RuleForEach(x => x.Distances).ChildRules(distances =>
             {
-                orders.RuleFor(x => x.StartTime).NotEmpty();
-                orders.RuleFor(x => x.PassingLimit).NotEmpty();
-                orders.RuleFor(x => x.AgeFrom).GreaterThan(-1);
-                orders.RuleFor(x => x.NumberOfParticipants).GreaterThan(0);
-                orders.RuleFor(x => x.RegistredParticipants).GreaterThan(0);
-                orders.RuleFor(x => x.MedicalCertificate).NotEmpty();
-                orders.RuleFor(x => x.DistanceCategoryId).NotEmpty();
+                distances.RuleFor(x => x.Name).NotEmpty();
+                distances.RuleFor(x => x.StartTime).NotEmpty();
+                distances.RuleFor(x => x.PassingLimit).NotEmpty();
+                distances.RuleFor(x => x.AgeFrom).GreaterThan(-1);
+                distances.RuleFor(x => x.NumberOfParticipants).GreaterThan(0);
+                distances.RuleFor(x => x.RegistredParticipants).GreaterThan(0);
+                distances.RuleFor(x => x.MedicalCertificate).NotEmpty();
 
-                orders.RuleForEach(x => x.DistancePrices).ChildRules(distancePrices =>
+                distances.RuleForEach(x => x.DistancePrices).ChildRules(distancePrices =>
                 {
                     distancePrices.RuleFor(x => x.DateStart).NotEmpty();
                     distancePrices.RuleFor(x => x.DateEnd).NotEmpty();
                     distancePrices.RuleFor(x => x.Price).GreaterThan(0);
                 });
 
-                orders.RuleForEach(x => x.DistanceAges).ChildRules(distanceAges =>
+                distances.RuleForEach(x => x.DistanceAges).ChildRules(distanceAges =>
                 {
                     distanceAges.RuleFor(x => x.AgeFrom).GreaterThan(-1);
                     distanceAges.RuleFor(x => x.AgeTo).GreaterThan(-1);

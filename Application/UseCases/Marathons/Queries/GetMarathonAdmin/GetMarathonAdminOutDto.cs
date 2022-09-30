@@ -10,6 +10,7 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
 {
     public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
     {
+        public int Id { get; set; }
         public ICollection<TranslationDto> Translations { get; set; }
         public DateTime Date { get; set; }
         public DateTime StartDateAcceptingApplications { get; set; }
@@ -24,6 +25,7 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
         }
         public class TranslationDto
         {
+            public int Id { get; set; }
             public string Name { get; set; }
             public string Text { get; set; }
             public string Place { get; set; }
@@ -32,6 +34,8 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
 
         public class DistanceDto
         {
+            public int Id { get; set; }
+            public string Name { get; set; }
             public TimeSpan StartTime { get; set; }
             public TimeSpan PassingLimit { get; set; }
             public int AgeFrom { get; set; }
@@ -39,12 +43,12 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
             public int RegistredParticipants { get; set; }
             public int RemainingPlaces { get; set; }
             public bool MedicalCertificate { get; set; }
-            public int DistanceCategoryId { get; set; }
             public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
             public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
 
             public class DistancePriceDto
             {
+                public int Id { get; set; }
                 public DateTime DateStart { get; set; }
                 public DateTime DateEnd { get; set; }
                 public double Price { get; set; }
@@ -52,6 +56,7 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
 
             public class DistanceAgeDto
             {
+                public int Id { get; set; }
                 public int? AgeFrom { get; set; }
                 public int? AgeTo { get; set; }
             }

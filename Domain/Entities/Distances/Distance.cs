@@ -11,6 +11,7 @@ namespace Domain.Entities.Distances
     public class Distance
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public TimeSpan StartTime { get; set; }
         public TimeSpan PassingLimit { get; set; }
         public int AgeFrom { get; set; }
@@ -26,9 +27,7 @@ namespace Domain.Entities.Distances
         }
         public bool MedicalCertificate { get; set; }
         public int MarathonId { get; set; }
-        public int DistanceCategoryId { get; set; }
         public virtual Marathon Marathons { get; set; }
-        public virtual DistanceCategory DistanceCategory { get; set; }
         public virtual ICollection<DistancePrice> DistancePrices { get; set; }
         public virtual ICollection<DistanceAge> DistanceAges { get; set; }
     }

@@ -23,10 +23,6 @@ public class CreateMarathonCommandHandler : IRequestHandler<CreateMarathonComman
     public async Task<int> Handle(CreateMarathonCommand cmd, CancellationToken cancellationToken)
     {
         var entity = cmd.marathonDto.Adapt<Marathon>();
-        foreach(var distance in entity.Distances)
-        {
-            await _unit.DistanceCategoryRepository.ByIdAsync<int>(distance.DistanceCategoryId);
-        }
         var marathon = await _unit.MarathonRepository.CreateAsync(entity, save: true);
         return marathon.Id;
  

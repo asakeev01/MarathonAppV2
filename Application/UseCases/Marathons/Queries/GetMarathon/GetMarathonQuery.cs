@@ -29,7 +29,7 @@ public class GetMarathonHandler : IRequestHandler<GetMarathonQuery, GetMarathonO
             .FirstAsync(x => x.Id == request.MarathonId, include: source => source.Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)));
         var marathonDto = marathon.Adapt<GetMarathonOutDto>();
         var distances =  _unit.DistanceRepository
-            .FindByCondition(x => x.MarathonId == request.MarathonId, include: source => source.Include(a => a.DistanceCategory.DistanceCategoryTranslations.Where(t => t.Language.Code == request.LanguageCode)).Include(a=> a.DistanceAges).Include(a=>a.DistancePrices));
+            .FindByCondition(x => x.MarathonId == request.MarathonId, include: source => source.Include(a=> a.DistanceAges).Include(a=>a.DistancePrices));
         marathonDto.Distances = distances.Adapt<IEnumerable<GetMarathonOutDto.DistanceDto>>();
         return marathonDto;
     }
