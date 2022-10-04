@@ -28,7 +28,7 @@ public class GetMarathonsHandler : IRequestHandler<GetMarathonsQuery, QueryableP
     {
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
         var marathons = (await _unit.MarathonRepository
-            .GetAllAsync(include: source => source.Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))));
+            .GetAllAsync(include: source => source.Include(a => a.Logo).Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))));
         var response = marathons.Adapt<IEnumerable<GetMarathonsOutDto>>().AsQueryable().GridifyQueryable(request.Query);
         return response;
     }

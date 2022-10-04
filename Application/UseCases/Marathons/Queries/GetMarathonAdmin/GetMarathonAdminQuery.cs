@@ -25,9 +25,11 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
             var marathon = await _unit.MarathonRepository
                 .FirstToAsync<GetMarathonAdminOutDto>(x => x.Id == request.MarathonId,
                 include: source => source
+                .Include(a => a.Logo)
                 .Include(a => a.MarathonTranslations)
-                .Include(a=> a.Distances).ThenInclude(a => a.DistancePrices)
+                .Include(a => a.Distances).ThenInclude(a => a.DistancePrices)
                 .Include(a => a.Distances).ThenInclude(a => a.DistanceAges));
+                
             return marathon;
         }
     }

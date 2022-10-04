@@ -3,6 +3,7 @@ using System.Net.Mime;
 using Core.UseCases.Marathons.Commands.AddLogo;
 using Core.UseCases.Marathons.Commands.CraeteMarathon;
 using Core.UseCases.Marathons.Commands.CreateMarathon;
+using Core.UseCases.Marathons.Commands.DeleteLogo;
 using Core.UseCases.Marathons.Commands.PutMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathonAdmin;
@@ -149,8 +150,7 @@ public class MarathonsController : BaseController
     /// <summary>
     /// Add logo to Marathon
     /// </summary>
-    /// <returns>200t</returns>
-    /// <response code="200">New Updated Account</response>
+    /// <response code="200">/response>
     [HttpPost("logo/{marathonId:int}")]
     [Consumes("multipart/form-data")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
@@ -166,8 +166,8 @@ public class MarathonsController : BaseController
         {
             return validation.ToBadRequest();
         }
-        {
-            var addLogoCommand = new AddLogoCommand()
+
+        var addLogoCommand = new AddLogoCommand()
             {
                 marathonId = marathonId,
                 logo = dto.logo
@@ -176,6 +176,28 @@ public class MarathonsController : BaseController
             var result = await _mediator.Send(addLogoCommand);
 
             return Ok(result);
-        }
+
+    }
+
+    /// <summary>
+    /// Delete logo from marathon
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpDelete("logo/{marathonId:int}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<AddLogoToMarathonRequestDto>> DeleteLogo(
+        [FromRoute] int marathonId)
+    {
+
+            var deleteLogoCommand = new DeleteLogoCommand()
+            {
+                marathonId = marathonId,
+            };
+
+            var result = await _mediator.Send(deleteLogoCommand);
+
+            return Ok(result);
+
     }
 }

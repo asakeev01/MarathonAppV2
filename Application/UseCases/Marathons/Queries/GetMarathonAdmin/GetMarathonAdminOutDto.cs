@@ -11,6 +11,7 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
     public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
     {
         public int Id { get; set; }
+        public string Logo { get; set; }
         public ICollection<TranslationDto> Translations { get; set; }
         public DateTime Date { get; set; }
         public DateTime StartDateAcceptingApplications { get; set; }
@@ -21,6 +22,7 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
         public override void AddCustomMappings()
         {
             SetCustomMappings()
+                .Map(x => x.Logo, y => y.Logo.Path)
                 .Map(x => x.Translations, y => y.MarathonTranslations);
         }
         public class TranslationDto
