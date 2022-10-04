@@ -5,6 +5,7 @@ using Core.UseCases.Marathons.Commands.CraeteMarathon;
 using Core.UseCases.Marathons.Commands.CreateMarathon;
 using Core.UseCases.Marathons.Commands.DeleteLogo;
 using Core.UseCases.Marathons.Commands.PutMarathon;
+using Core.UseCases.Marathons.Commands.PutMarathonDistances;
 using Core.UseCases.Marathons.Queries.GetMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathonAdmin;
 using Core.UseCases.Marathons.Queries.GetMarathons;
@@ -140,6 +141,33 @@ public class MarathonsController : BaseController
         var createMarathonCommand = new PutMarathonCommand()
         {
             marathonDto = dto.Adapt<PutMarathonInDto>(),
+        };
+
+        var result = await _mediator.Send(createMarathonCommand);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Update marathon`s distances
+    /// </summary>
+    /// <response code="200">Response stauts code</response>
+    [HttpPut("distances")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    public async Task<ActionResult<HttpStatusCode>> UpdateDistances(
+        [FromBody] PutMarathonDistancesRequestDto dto,
+        [FromServices] IValidator<PutMarathonDistancesRequestDto> validator)
+    {
+        var validation = await validator.ValidateAsync(dto);
+
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+        var createMarathonCommand = new PutMarathonDistancesCommand()
+        {
+            marathonDto = dto.Adapt<PutMarathonDistancesInDto>(),
         };
 
         var result = await _mediator.Send(createMarathonCommand);
