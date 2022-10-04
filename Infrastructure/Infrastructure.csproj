@@ -9,12 +9,13 @@
     <ItemGroup>
       <Folder Include="Common\Attributes" />
       <Folder Include="Common\Bases" />
-      <Folder Include="Common\Constants" />
+      <Folder Include="Common\Constants\" />
       <Folder Include="Common\Helpers" />
       <Folder Include="Common\Resources" />
       <Folder Include="Files" />
       <Folder Include="Identity" />
       <Folder Include="Persistence\Migrations\" />
+      <Folder Include="Services\Interfaces\" />
     </ItemGroup>
 
     <ItemGroup>

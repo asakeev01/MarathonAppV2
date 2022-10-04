@@ -1,4 +1,5 @@
 ﻿using Domain.Entities.Distances;
+using Domain.Entities.SavedFiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,8 @@ namespace Domain.Entities.Marathons
         public DateTime EndDateAcceptingApplications { get; set; }
         public bool IsActive { get; set; }
         public virtual ICollection<Distance> Distances { get; set; }
+        public virtual SavedFile? Logo { get; set; }
+        public int? LogoId { get; set; }
         public ICollection<MarathonTranslation> MarathonTranslations { get; set; }
     }
 }

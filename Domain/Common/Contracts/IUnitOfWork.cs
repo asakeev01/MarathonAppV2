@@ -13,6 +13,8 @@ public interface IUnitOfWork : IDisposable
 
     IMarathonTranslationRepository MarathonTranslationRepository { get; }
 
+    ISavedFileRepository SavedFileRepository { get; }
+
     void Save();
     Task SaveAsync();
     Task BeginTransactionAsync();

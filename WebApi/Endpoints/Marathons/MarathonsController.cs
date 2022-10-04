@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mime;
+using Core.UseCases.Marathons.Commands.AddLogo;
 using Core.UseCases.Marathons.Commands.CraeteMarathon;
 using Core.UseCases.Marathons.Commands.CreateMarathon;
 using Core.UseCases.Marathons.Commands.PutMarathon;
@@ -99,7 +100,8 @@ public class MarathonsController : BaseController
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> Create(
         [FromBody] CreateMarathonRequestDto dto,
-        [FromServices] IValidator<CreateMarathonRequestDto> validator)
+        [FromServices] IValidator<CreateMarathonRequestDto> validator
+        )
     {
         var validation = await validator.ValidateAsync(dto);
 
@@ -109,7 +111,7 @@ public class MarathonsController : BaseController
         }
         var createMarathonCommand = new CreateMarathonCommand()
         {
-            marathonDto = dto.Adapt<CreateMarathonRequestInDto>(),
+            marathonDto = dto.Adapt<CreateMarathonRequestInDto>()
         };
 
         var result = await _mediator.Send(createMarathonCommand);
@@ -128,13 +130,13 @@ public class MarathonsController : BaseController
         [FromBody] PutMarathonRequestDto dto,
         [FromServices] IValidator<PutMarathonRequestDto> validator)
     {
-            var validation = await validator.ValidateAsync(dto);
+        var validation = await validator.ValidateAsync(dto);
 
-            if (!validation.IsValid)
-            {
-                return validation.ToBadRequest();
-            }
-            var createMarathonCommand = new PutMarathonCommand()
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+        var createMarathonCommand = new PutMarathonCommand()
         {
             marathonDto = dto.Adapt<PutMarathonInDto>(),
         };
@@ -144,28 +146,36 @@ public class MarathonsController : BaseController
         return Ok(result);
     }
 
-    ///// <summary>
-    ///// Get Account by id
-    ///// </summary>
-    ///// <returns>New Updated Account</returns>
-    ///// <response code="200">New Updated Account</response>
-    //[HttpGet("{accountId:int}")]
-    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    //[ProducesResponseType(typeof(GetUserAccountOutDto), StatusCodes.Status200OK)]
-    //[SwaggerResponseExample(200, typeof(GetAccountResponseExamples))]
-    //public async Task<ActionResult<GetUserAccountOutDto>> ById(
-    //    [FromRoute] int accountId,
-    //    [FromQuery] GridifyQuery query)
-    //{
-    //    var getUserAccountQuery = new GetUserAccountQuery()
-    //    {
-    //        AccountId = accountId,
-    //        UserId = UserService.GetCurrentUser(),
-    //        Query = query
-    //    };
+    /// <summary>
+    /// Add logo to Marathon
+    /// </summary>
+    /// <returns>200t</returns>
+    /// <response code="200">New Updated Account</response>
+    [HttpPost("logo/{marathonId:int}")]
+    [Consumes("multipart/form-data")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddLogo(
+        [FromRoute] int marathonId,
+        [FromForm] AddLogoToMarathonRequestDto dto,
+        [FromServices] IValidator<AddLogoToMarathonRequestDto> validator)
+    {
+        var validation = await validator.ValidateAsync(dto);
 
-    //    var result = await _mediator.Send(getUserAccountQuery);
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+        {
+            var addLogoCommand = new AddLogoCommand()
+            {
+                marathonId = marathonId,
+                logo = dto.logo
+            };
 
-    //    return Ok(result);
-    //}
+            var result = await _mediator.Send(addLogoCommand);
+
+            return Ok(result);
+        }
+    }
 }

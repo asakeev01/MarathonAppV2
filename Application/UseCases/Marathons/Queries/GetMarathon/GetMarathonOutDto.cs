@@ -8,6 +8,7 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
 {
 
     public int Id { get; set; }
+    public string logo { get; set; }
     public string Name { get; set; }
     public string Text { get; set; }
     public string Place { get; set; }
@@ -22,6 +23,7 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
         SetCustomMappings()
             .Map(x => x.Name, y => y.MarathonTranslations.First().Name)
             .Map(x => x.Text, y => y.MarathonTranslations.First().Text)
+            .Map(x => x.logo, y => y.Logo.Path)
             .Map(x => x.Place, y => y.MarathonTranslations.First().Place);
     }
 

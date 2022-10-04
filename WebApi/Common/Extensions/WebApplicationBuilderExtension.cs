@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Gridify;
+using Microsoft.Extensions.FileProviders;
 using Serilog;
 using Serilog.Core;
 using WebApi.Common.Extensions.DomainServices;
@@ -54,6 +55,12 @@ public static class WebApplicationBuilderExtension
         
         app.UseAuthorization();
         app.MapControllers();
+        app.UseStaticFiles(new StaticFileOptions
+        {
+            FileProvider = new PhysicalFileProvider(
+                   Path.Combine(builder.Environment.ContentRootPath, "staticfiles")),
+            RequestPath = "/staticfiles"
+        });
 
         ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
 

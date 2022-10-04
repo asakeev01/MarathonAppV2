@@ -15,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
     private IMarathonRepository? _marathonRepository;
     private IDistanceRepository? _distanceRepository;
     private IMarathonTranslationRepository? _marathonTranslationRepository;
+    private ISavedFileRepository? _savedFileRepository;
 
     private bool disposed = false;
 
@@ -67,6 +68,15 @@ public class UnitOfWork : IUnitOfWork
         {
             _marathonTranslationRepository ??= new MarathonTranslationRepository(_context, _localizer);
             return _marathonTranslationRepository;
+        }
+    }
+
+    public ISavedFileRepository SavedFileRepository
+    {
+        get
+        {
+            _savedFileRepository ??= new SavedFileRepository(_context, _localizer);
+            return _savedFileRepository;
         }
     }
     public void Save()
