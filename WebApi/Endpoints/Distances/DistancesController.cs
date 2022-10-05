@@ -17,7 +17,8 @@ using WebApi.Endpoints.Marathons.Dtos.Requests;
 
 namespace WebApi.Endpoints.Distances;
 
-[Route("api/distances")]
+[ApiController]
+[Route("api/v{version:apiVersion}/distances")]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
 public class DistancesController : BaseController

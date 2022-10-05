@@ -9,26 +9,28 @@
     <ItemGroup>
       <Folder Include="Common\Attributes" />
       <Folder Include="Common\Bases" />
-      <Folder Include="Common\Constants\" />
+      <Folder Include="Common\Constants" />
       <Folder Include="Common\Helpers" />
       <Folder Include="Common\Resources" />
       <Folder Include="Files" />
       <Folder Include="Identity" />
-      <Folder Include="Persistence\Migrations\" />
       <Folder Include="Services\Interfaces\" />
+
     </ItemGroup>
 
     <ItemGroup>
       <PackageReference Include="EFCore.BulkExtensions" Version="6.5.5" />
       <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.9" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        <PrivateAssets>all</PrivateAssets>
+      </PackageReference>
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.7" />
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
-      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.7">
-        <PrivateAssets>all</PrivateAssets>
-        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-      </PackageReference>
-      <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.9" />
     </ItemGroup>
 
     <ItemGroup>
@@ -42,4 +44,7 @@
       </Reference>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Microsoft.EntityFrameworkCore.Design" />
+    </ItemGroup>
 </Project>

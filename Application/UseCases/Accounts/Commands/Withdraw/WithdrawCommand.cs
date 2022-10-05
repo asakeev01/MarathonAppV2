@@ -2,12 +2,13 @@ using Domain.Common.Contracts;
 using Domain.Entities.Accounts.Exceptions;
 using Domain.Services.Interfaces;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Core.UseCases.Accounts.Commands.Withdraw;
 
 public class WithdrawCommand : IRequest<WithdrawAccountOut>
 {
-    public int UserId { get; set; }
+    public long UserId { get; set; }
     
     public decimal Balance { get; set; }
     

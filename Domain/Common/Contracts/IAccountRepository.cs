@@ -4,5 +4,5 @@ namespace Domain.Common.Contracts;
 
 public interface IAccountRepository : IBaseRepository<Account>
 {
-    Task<Account> GetUserAccount(int userId, int accountId);
+    Task<Account> GetUserAccount(long userId, long accountId);
 }

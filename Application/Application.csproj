@@ -10,11 +10,18 @@
     <ItemGroup>
       <Folder Include="Common\Attributes" />
       <Folder Include="Common\Behaviours" />
-      <Folder Include="Common\Exceptions" />
-      <Folder Include="Common\Extensions" />
-      <Folder Include="Common\Interfaces" />
       <Folder Include="UseCases\Distances\Commands\" />
       <Folder Include="UseCases\Distances\Queries\" />
+      <Folder Include="Common\Constants" />
+      <Folder Include="Common\Exceptions" />
+      <Folder Include="Common\Extensions" />
+      <Folder Include="Common\Helpers" />
+      <Folder Include="Common\Interfaces" />
+      <Folder Include="UseCases\Auth\" />
+      <Folder Include="UseCases\Auth\Commands\" />
+      <Folder Include="UseCases\Auth\Queries\" />
+      <Folder Include="UseCases\Auth\Commands\RegisterUser\" />
+      <Folder Include="UseCases\Auth\Commands\ConfirmEmail\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -32,4 +39,11 @@
       <ProjectReference Include="..\Domain\Domain.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="UseCases\Auth\" />
+      <None Remove="UseCases\Auth\Commands\" />
+      <None Remove="UseCases\Auth\Queries\" />
+      <None Remove="UseCases\Auth\Commands\RegisterUser\" />
+      <None Remove="UseCases\Auth\Commands\ConfirmEmail\" />
+    </ItemGroup>
 </Project>

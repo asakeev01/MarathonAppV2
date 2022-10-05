@@ -11,5 +11,8 @@ public static class DomainServicesExtension
     {
         services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<ISavedFileService, SavedFileService>();
+        services.AddScoped<IUserService, UserService>();
+        services.AddScoped<IEmailService, EmailService>();
+
     }
 }

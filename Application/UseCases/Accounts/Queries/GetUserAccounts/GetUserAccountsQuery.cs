@@ -6,7 +6,7 @@ namespace Core.UseCases.Accounts.Queries.GetUserAccounts;
 
 public class GetUserAccountsQuery : IRequest<IQueryable<UserAccountsGetOutDto>>
 {
-    public int UserId { get; set; }
+    public long UserId { get; set; }
 }
 
 public class GetUserAccountsHandler : IRequestHandler<GetUserAccountsQuery, IQueryable<UserAccountsGetOutDto>>

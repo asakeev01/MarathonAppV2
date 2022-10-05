@@ -9,7 +9,6 @@ public static class AppConstants
     public static readonly int NumberOfSupportedLanguages = 3;
 
     public static readonly string DefaultLanguage = "en";
-
     /// <summary>
     /// Update this value when you throw new Exceptions
     /// </summary>

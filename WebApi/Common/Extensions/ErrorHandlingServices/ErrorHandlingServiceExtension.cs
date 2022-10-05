@@ -31,7 +31,7 @@ public static class ErrorHandlingServiceExtension
             opt.MapToStatusCode<AuthorizationException>((int) HttpStatusCode.Forbidden);
             opt.Map<DomainException>(ex => new CustomProblemDetails()
             {
-                Title = ex.Message,
+                Title = ex.GetMessage(),
                 Status = (int) HttpStatusCode.BadRequest,
                 Type = "https://httpstatuses.io/400",
                 Code = ex.Code
