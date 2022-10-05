@@ -1,10 +1,13 @@
 ﻿using System.Net;
 using System.Net.Mime;
 using Core.UseCases.Marathons.Commands.AddLogo;
+using Core.UseCases.Marathons.Commands.AddPartnerLogo;
 using Core.UseCases.Marathons.Commands.AddPartners;
 using Core.UseCases.Marathons.Commands.CraeteMarathon;
 using Core.UseCases.Marathons.Commands.CreateMarathon;
 using Core.UseCases.Marathons.Commands.DeleteLogo;
+using Core.UseCases.Marathons.Commands.DeletePartner;
+using Core.UseCases.Marathons.Commands.DeletePartnerLogo;
 using Core.UseCases.Marathons.Commands.PutMarathon;
 using Core.UseCases.Marathons.Commands.PutMarathonDistances;
 using Core.UseCases.Marathons.Queries.GetMarathon;
@@ -258,6 +261,73 @@ public class MarathonsController : BaseController
         };
 
         var result = await _mediator.Send(addPartnerCommand);
+
+        return Ok(result);
+
+    }
+    /// <summary>
+    /// Delete partner
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpDelete("partner/{partnerId:int}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<AddLogoToMarathonRequestDto>> DeletePartner(
+        [FromRoute] int partnerId)
+    {
+
+        var deletePartnerCommand = new DeletePartnerCommand()
+        {
+            PartnerId = partnerId,
+        };
+
+        var result = await _mediator.Send(deletePartnerCommand);
+
+        return Ok(result);
+
+    }
+    /// <summary>
+    /// Delete file
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpDelete("file/{fileId:int}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<AddLogoToMarathonRequestDto>> DeleteFile(
+        [FromRoute] int fileId)
+    {
+
+        var deleteFileCommand = new DeleteFileCommand()
+        {
+            FileId = fileId,
+        };
+
+        var result = await _mediator.Send(deleteFileCommand);
+
+        return Ok(result);
+
+    }
+
+    /// <summary>
+    /// Add logos to partner
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpPost("partner/logo/{partnerId:int}")]
+    [Consumes("multipart/form-data", "application/json")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddLogoPartner(
+        [FromRoute] int partnerId,
+        [FromForm] ICollection<IFormFile> logos)
+    {
+
+        var addPartnerLogo = new AddPartnerLogo()
+        {
+            PartnerId = partnerId,
+            Logos = logos,
+        };
+
+        var result = await _mediator.Send(addPartnerLogo);
 
         return Ok(result);
 

@@ -1,4 +1,4 @@
-﻿using Domain.Entities.Marathons;
+﻿using Domain.Entities.SavedFiles;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -9,15 +9,12 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
-    public class PartnerTranslationConfiguration : IEntityTypeConfiguration<PartnerTranslation>
+    public class SavedFileConfiguration : IEntityTypeConfiguration<SavedFile>
     {
-        public void Configure(EntityTypeBuilder<PartnerTranslation> builder)
+        public void Configure(EntityTypeBuilder<SavedFile> builder)
         {
-            builder
-                .HasIndex(p => new { p.PartnerId, p.LanguageId })
-                .IsUnique();
             builder.HasOne(x => x.Partner)
-                .WithMany(x => x.Translations)
+                .WithMany(x => x.Logos)
                 .HasForeignKey(x => x.PartnerId)
                 .OnDelete(DeleteBehavior.Cascade);
         }
