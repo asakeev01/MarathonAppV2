@@ -26,7 +26,11 @@ public class GetMarathonHandler : IRequestHandler<GetMarathonQuery, GetMarathonO
     {
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
         var marathon = await _unit.MarathonRepository
-            .FirstAsync(x => x.Id == request.MarathonId, include: source => source.Include(a => a.Logo).Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)));
+            .FirstAsync(x => x.Id == request.MarathonId, include: source => source
+            .Include(a => a.Logo)
+            .Include(a => a.Partners).ThenInclude(a => a.Translations.Where(t => t.Language.Code == request.LanguageCode))
+            .Include(a => a.Partners).ThenInclude(a => a.Logos)
+            .Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)));
         var marathonDto = marathon.Adapt<GetMarathonOutDto>();
         var distances =  _unit.DistanceRepository
             .FindByCondition(x => x.MarathonId == request.MarathonId, include: source => source.Include(a=> a.DistanceAges).Include(a=>a.DistancePrices));

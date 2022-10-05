@@ -1,5 +1,6 @@
 ﻿using Core.Common.Bases;
 using Domain.Entities.Marathons;
+using Domain.Entities.SavedFiles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,20 +13,52 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
     {
         public int Id { get; set; }
         public string Logo { get; set; }
-        public ICollection<TranslationDto> Translations { get; set; }
+        public ICollection<TranslationMarathonDto> Translations { get; set; }
         public DateTime Date { get; set; }
         public DateTime StartDateAcceptingApplications { get; set; }
         public DateTime EndDateAcceptingApplications { get; set; }
         public bool IsActive { get; set; }
         public ICollection<DistanceDto> Distances { get; set; }
+        public ICollection<PartnerDto> Partners { get; set; }
 
         public override void AddCustomMappings()
         {
             SetCustomMappings()
                 .Map(x => x.Logo, y => y.Logo.Path)
-                .Map(x => x.Translations, y => y.MarathonTranslations);
+                .Map(x => x.Translations, y => y.MarathonTranslations)
+                .Map(x => x.Partners, y => y.Partners);
         }
-        public class TranslationDto
+
+        public record PartnerDto : BaseDto<Partner, PartnerDto>
+        {
+            public int Id { get; set; }
+            public ICollection<PartnerTranslationDto> Translations { get; set; }
+            public ICollection<LogosDto> Logos { get; set; }
+            public override void AddCustomMappings()
+            {
+                SetCustomMappings()
+                    .Map(x => x.Translations, y => y.Translations)
+                    .Map(x => x.Logos, y => y.Logos);
+            }
+        }
+
+        public record LogosDto : BaseDto<SavedFile, LogosDto>
+        {
+            public int Id { get; set; }
+            public string Logo { get; set; }
+            public override void AddCustomMappings()
+            {
+                SetCustomMappings()
+                    .Map(x => x.Logo, y => y.Path);
+            }
+        }
+        public class PartnerTranslationDto
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string LanguageId { get; set; }
+        }
+        public class TranslationMarathonDto
         {
             public int Id { get; set; }
             public string Name { get; set; }

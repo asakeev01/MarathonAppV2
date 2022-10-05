@@ -1,6 +1,7 @@
 ﻿using Core.Common.Bases;
 using Domain.Entities.Distances;
 using Domain.Entities.Marathons;
+using Domain.Entities.SavedFiles;
 
 namespace Core.UseCases.Marathons.Queries.GetMarathon;
 
@@ -17,7 +18,7 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public IEnumerable<DistanceDto> Distances { get; set; }
-
+    public ICollection<PartnerDto> Partners { get; set; }
     public override void AddCustomMappings()
     {
         SetCustomMappings()
@@ -26,6 +27,30 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
             .Map(x => x.Logo, y => y.Logo.Path)
             .Map(x => x.Place, y => y.MarathonTranslations.First().Place);
     }
+    public record PartnerDto : BaseDto<Partner, PartnerDto>
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public ICollection<LogosDto> Logos { get; set; }
+        public override void AddCustomMappings()
+        {
+            SetCustomMappings()
+                .Map(x => x.Name, y => y.Translations.First().Name)
+                .Map(x => x.Logos, y => y.Logos);
+        }
+    }
+
+    public record LogosDto : BaseDto<SavedFile, LogosDto>
+    {
+        public int Id { get; set; }
+        public string Logo { get; set; }
+        public override void AddCustomMappings()
+        {
+            SetCustomMappings()
+                .Map(x => x.Logo, y => y.Path);
+        }
+    }
+
 
     public record DistanceDto : BaseDto<Distance, DistanceDto>
     {
