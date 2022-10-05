@@ -19,5 +19,6 @@ namespace Domain.Entities.Marathons
         public virtual SavedFile? Logo { get; set; }
         public int? LogoId { get; set; }
         public ICollection<MarathonTranslation> MarathonTranslations { get; set; }
+        public ICollection<Partner>? Partners { get; set; }
     }
 }

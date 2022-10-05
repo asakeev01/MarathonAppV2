@@ -44,6 +44,7 @@
       <Folder Include="Endpoints\Accounts\Dtos\Responses" />
       <Folder Include="Endpoints\Distances\Dtos\Requests\" />
       <Folder Include="staticfiles\Marathons\" />
+      <Folder Include="staticfiles\Partners\" />
     </ItemGroup>
 
     <ItemGroup>

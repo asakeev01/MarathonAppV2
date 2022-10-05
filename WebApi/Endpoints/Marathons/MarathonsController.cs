@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Mime;
 using Core.UseCases.Marathons.Commands.AddLogo;
+using Core.UseCases.Marathons.Commands.AddPartners;
 using Core.UseCases.Marathons.Commands.CraeteMarathon;
 using Core.UseCases.Marathons.Commands.CreateMarathon;
 using Core.UseCases.Marathons.Commands.DeleteLogo;
@@ -198,7 +199,7 @@ public class MarathonsController : BaseController
         var addLogoCommand = new AddLogoCommand()
             {
                 marathonId = marathonId,
-                logo = dto.logo
+                logo = dto.Logo
             };
 
             var result = await _mediator.Send(addLogoCommand);
@@ -226,6 +227,39 @@ public class MarathonsController : BaseController
             var result = await _mediator.Send(deleteLogoCommand);
 
             return Ok(result);
+
+    }
+
+    /// <summary>
+    /// Add logo to Marathon
+    /// </summary>
+    /// <response code="200">/response>
+    [HttpPost("partners/{marathonId:int}")]
+    [Consumes("multipart/form-data", "application/json")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddPartners(
+        [FromRoute] int marathonId,
+        [FromForm] AddPartnersRequestDto dto,
+        [FromServices] IValidator<AddPartnersRequestDto> validator)
+    {
+        var validation = await validator.ValidateAsync(dto);
+        Console.WriteLine(marathonId);
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+
+        var addPartnerCommand = new AddPartnerCommand()
+        {
+            marathonId = marathonId,
+            partnerDto = dto.Adapt<AddPartnerCommandInDto>(),
+            logos = dto.Logos,
+        };
+
+        var result = await _mediator.Send(addPartnerCommand);
+
+        return Ok(result);
 
     }
 }

@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221005090735_AddedTranslationPartner")]
+    partial class AddedTranslationPartner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -757,12 +759,10 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.SavedFiles.SavedFile", b =>
                 {
-                    b.HasOne("Domain.Entities.Marathons.Partner", "Partner")
+                    b.HasOne("Domain.Entities.Marathons.Partner", null)
                         .WithMany("Logos")
                         .HasForeignKey("PartnerId")
                         .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.Navigation("Partner");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transactions.Transaction", b =>
