@@ -1,4 +1,3 @@
-
 namespace Domain.Common.Contracts;
 
 public interface IUnitOfWork : IDisposable
@@ -14,6 +13,7 @@ public interface IUnitOfWork : IDisposable
     IMarathonTranslationRepository MarathonTranslationRepository { get; }
 
     ISavedFileRepository SavedFileRepository { get; }
+
     IPartnerRepository PartnerRepository { get; }
 
     IUserRepository UserRepository { get; }

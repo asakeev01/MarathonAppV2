@@ -7,7 +7,6 @@ namespace Core.UseCases.Marathons.Queries.GetMarathon;
 
 public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
 {
-
     public int Id { get; set; }
     public string Logo { get; set; }
     public string Name { get; set; }
@@ -63,7 +62,6 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
                 .Map(x => x.Logo, y => y.Path);
         }
     }
-
 
     public record DistanceDto : BaseDto<Distance, DistanceDto>
     {

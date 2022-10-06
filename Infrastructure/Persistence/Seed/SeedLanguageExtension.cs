@@ -1,5 +1,3 @@
-
-
 using Domain.Entities.Languages;
 
 namespace Infrastructure.Persistence.Seed;

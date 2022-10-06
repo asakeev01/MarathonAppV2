@@ -4,46 +4,43 @@ using Infrastructure.Services.Interfaces;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.UseCases.Marathons.Commands.AddLogo
+namespace Core.UseCases.Marathons.Commands.AddLogo;
+
+public class AddLogoCommand : IRequest<HttpStatusCode>
 {
-    public class AddLogoCommand : IRequest<HttpStatusCode>
+    public int MarathonId { get; set; }
+    public IFormFile Logo { get; set; }
+}
+
+public class AddLogoCommandHandler : IRequestHandler<AddLogoCommand, HttpStatusCode>
+{
+    private readonly IUnitOfWork _unit;
+    private readonly ISavedFileService _savedFileService;
+
+    public AddLogoCommandHandler(IUnitOfWork unit, ISavedFileService savedFileService)
     {
-        public int marathonId { get; set; }
-        public IFormFile logo { get; set; }
+        _unit = unit;
+        _savedFileService = savedFileService;
     }
 
-    public class AddLogoCommandHandler : IRequestHandler<AddLogoCommand, HttpStatusCode>
+    public async Task<HttpStatusCode> Handle(AddLogoCommand cmd, CancellationToken cancellationToken)
     {
-        private readonly IUnitOfWork _unit;
-        private readonly ISavedFileService _savedFileService;
+        var marathon = await _unit.MarathonRepository
+            .FirstAsync(x => x.Id == cmd.MarathonId, include: source => source.Include(a => a.Logo));
 
-        public AddLogoCommandHandler(IUnitOfWork unit, ISavedFileService savedFileService)
+        var oldLogo = marathon.Logo;
+        var logo = await _savedFileService.UploadFile(cmd.Logo, FileTypeEnum.Marathons);
+        marathon.Logo = logo;
+        await _unit.MarathonTranslationRepository.SaveAsync();
+
+        if (oldLogo != null)
         {
-            _unit = unit;
-            _savedFileService = savedFileService;
+            await _savedFileService.DeleteFile(oldLogo);
         }
 
-        public async Task<HttpStatusCode> Handle(AddLogoCommand cmd, CancellationToken cancellationToken)
-        {
-            var marathon = await _unit.MarathonRepository
-                .FirstAsync(x => x.Id == cmd.marathonId, include: source => source.Include(a => a.Logo));
-            var oldLogo = marathon.Logo;
-            var logo = await _savedFileService.UploadFile(cmd.logo, FileTypeEnum.Marathons);
-            marathon.Logo = logo;
-            await _unit.MarathonTranslationRepository.SaveAsync();
-            if (oldLogo != null)
-            {
-                await _savedFileService.DeleteFile(oldLogo);
-            }
-            return HttpStatusCode.OK;
+        return HttpStatusCode.OK;
 
-        }
     }
 }

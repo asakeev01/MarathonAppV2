@@ -877,20 +877,4 @@ MigrationBackup/
 FodyWeavers.xsd
 WebApi/staticfiles/Marathons/
 WebApi/staticfiles/Partners/
-<<<<<<< HEAD
-WebApi/staticfiles/Marathons/
-=======
-
-# VS Code files for those working on multiple tools
-
-# Local History for Visual Studio Code
-
-# Windows Installer files from build outputs
-
-# JetBrains Rider
-
-### VisualStudio Patch ###
-# Additional files built by Visual Studio
-
-# End of https://www.toptal.com/developers/gitignore/api/visualstudio,aspnetcore,windows,visualstudiocode,dotnetcore,azurite,azurefunctions
->>>>>>> github/aidar
+WebApi/staticfiles/Documents/

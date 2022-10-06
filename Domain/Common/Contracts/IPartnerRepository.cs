@@ -1,13 +1,7 @@
 ﻿using Domain.Entities.Marathons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Domain.Common.Contracts
+namespace Domain.Common.Contracts;
+
+public interface IPartnerRepository : IBaseRepository<Partner>
 {
-    public interface IPartnerRepository : IBaseRepository<Partner>
-    {
-    }
 }

@@ -1,5 +1,4 @@
-﻿using Domain.Entities.Accounts;
-using Domain.Entities.Marathons;
+﻿using Domain.Entities.Marathons;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

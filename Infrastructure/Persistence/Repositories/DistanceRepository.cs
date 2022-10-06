@@ -3,18 +3,12 @@ using Domain.Common.Resources.SharedResource;
 using Domain.Entities.Distances;
 using Infrastructure.Persistence.Repositories.Base;
 using Microsoft.Extensions.Localization;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Infrastructure.Persistence.Repositories
+namespace Infrastructure.Persistence.Repositories;
+
+public class DistanceRepository : BaseRepository<Distance>, IDistanceRepository
 {
-    public class DistanceRepository : BaseRepository<Distance>, IDistanceRepository
+    public DistanceRepository(AppDbContext repositoryContext, IStringLocalizer<SharedResource> localizer) : base(repositoryContext, localizer)
     {
-        public DistanceRepository(AppDbContext repositoryContext, IStringLocalizer<SharedResource> localizer) : base(repositoryContext, localizer)
-        {
-        }
     }
 }

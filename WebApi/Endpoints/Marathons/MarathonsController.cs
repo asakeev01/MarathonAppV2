@@ -3,7 +3,7 @@ using System.Net.Mime;
 using Core.UseCases.Marathons.Commands.AddDocuments;
 using Core.UseCases.Marathons.Commands.AddLogo;
 using Core.UseCases.Marathons.Commands.AddPartnerLogo;
-using Core.UseCases.Marathons.Commands.AddPartners;
+using Core.UseCases.Marathons.Commands.AddPartner;
 using Core.UseCases.Marathons.Commands.CraeteMarathon;
 using Core.UseCases.Marathons.Commands.CreateMarathon;
 using Core.UseCases.Marathons.Commands.DeleteLogo;
@@ -117,7 +117,7 @@ public class MarathonsController : BaseController
         }
         var createMarathonCommand = new CreateMarathonCommand()
         {
-            marathonDto = dto.Adapt<CreateMarathonRequestInDto>()
+            MarathonDto = dto.Adapt<CreateMarathonRequestInDto>()
         };
 
         var result = await _mediator.Send(createMarathonCommand);
@@ -144,7 +144,7 @@ public class MarathonsController : BaseController
         }
         var createMarathonCommand = new PutMarathonCommand()
         {
-            marathonDto = dto.Adapt<PutMarathonInDto>(),
+            MarathonDto = dto.Adapt<PutMarathonInDto>(),
         };
 
         var result = await _mediator.Send(createMarathonCommand);
@@ -174,8 +174,8 @@ public class MarathonsController : BaseController
 
         var addLogoCommand = new AddLogoCommand()
             {
-                marathonId = marathonId,
-                logo = dto.Logo
+                MarathonId = marathonId,
+                Logo = dto.Logo
             };
 
             var result = await _mediator.Send(addLogoCommand);
@@ -197,7 +197,7 @@ public class MarathonsController : BaseController
 
             var deleteLogoCommand = new DeleteLogoCommand()
             {
-                marathonId = marathonId,
+                MarathonId = marathonId,
             };
 
             var result = await _mediator.Send(deleteLogoCommand);
@@ -227,9 +227,9 @@ public class MarathonsController : BaseController
 
         var addPartnerCommand = new AddPartnerCommand()
         {
-            marathonId = marathonId,
-            partnerDto = dto.Adapt<AddPartnerCommandInDto>(),
-            logos = dto.Logos,
+            MarathonId = marathonId,
+            PartnerDto = dto.Adapt<AddPartnerCommandInDto>(),
+            Logos = dto.Logos,
         };
 
         var result = await _mediator.Send(addPartnerCommand);

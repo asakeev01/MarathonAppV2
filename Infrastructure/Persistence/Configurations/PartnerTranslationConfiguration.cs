@@ -1,25 +1,19 @@
 ﻿using Domain.Entities.Marathons;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Infrastructure.Persistence.Configurations
+namespace Infrastructure.Persistence.Configurations;
+
+public class PartnerTranslationConfiguration : IEntityTypeConfiguration<PartnerTranslation>
 {
-    public class PartnerTranslationConfiguration : IEntityTypeConfiguration<PartnerTranslation>
+    public void Configure(EntityTypeBuilder<PartnerTranslation> builder)
     {
-        public void Configure(EntityTypeBuilder<PartnerTranslation> builder)
-        {
-            builder
-                .HasIndex(p => new { p.PartnerId, p.LanguageId })
-                .IsUnique();
-            builder.HasOne(x => x.Partner)
-                .WithMany(x => x.Translations)
-                .HasForeignKey(x => x.PartnerId)
-                .OnDelete(DeleteBehavior.Cascade);
-        }
+        builder
+            .HasIndex(p => new { p.PartnerId, p.LanguageId })
+            .IsUnique();
+        builder.HasOne(x => x.Partner)
+            .WithMany(x => x.Translations)
+            .HasForeignKey(x => x.PartnerId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

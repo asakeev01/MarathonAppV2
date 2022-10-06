@@ -1,20 +1,16 @@
-﻿using System;
-using Domain.Entities.Documents;
-using Domain.Entities.Users;
+﻿using Domain.Entities.Documents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Configurations
+namespace Infrastructure.Persistence.Configurations;
+
+public class DocumentConfiguration : IEntityTypeConfiguration<Document>
 {
-    public class DocumentConfiguration : IEntityTypeConfiguration<Document>
+    public void Configure(EntityTypeBuilder<Document> builder)
     {
-        public void Configure(EntityTypeBuilder<Document> builder)
-        {
-            builder
-                .HasOne(x => x.User)
-                .WithOne(u => u.Document)
-                .HasForeignKey<Document>(x => x.UserId);
-        }
+        builder
+            .HasOne(x => x.User)
+            .WithOne(u => u.Document)
+            .HasForeignKey<Document>(x => x.UserId);
     }
 }
-
