@@ -29,8 +29,11 @@ namespace Core.UseCases.Marathons.Commands.PutMarathon
         public async Task<HttpStatusCode> Handle(PutMarathonCommand cmd, CancellationToken cancellationToken)
         {
             var marathon = await _unit.MarathonRepository
-            .FirstAsync(x => x.Id == cmd.marathonDto.Id, include: source => source.Include(a => a.MarathonTranslations));
-
+                .FirstAsync(x => x.Id == cmd.marathonDto.Id, include: source => source
+                .Include(a => a.MarathonTranslations)
+                .Include(a => a.Distances).ThenInclude(a => a.DistancePrices)
+                .Include(a => a.Distances).ThenInclude(a => a.DistanceAges));
+                
             cmd.marathonDto.Adapt(marathon);
             await _unit.MarathonRepository.SaveAsync();
 

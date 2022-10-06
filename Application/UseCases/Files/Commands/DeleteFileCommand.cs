@@ -1,16 +1,9 @@
-﻿using Core.UseCases.Marathons.Commands.DeletePartner;
-using Domain.Common.Contracts;
+﻿using Domain.Common.Contracts;
 using Infrastructure.Services.Interfaces;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Core.UseCases.Marathons.Commands.DeletePartnerLogo
+namespace Core.UseCases.Files.Commands.DeleteFile
 {
     public class DeleteFileCommand : IRequest<HttpStatusCode>
     {

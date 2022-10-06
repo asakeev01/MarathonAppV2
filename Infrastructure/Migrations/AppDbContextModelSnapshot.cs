@@ -292,7 +292,9 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LogoId");
+                    b.HasIndex("LogoId")
+                        .IsUnique()
+                        .HasFilter("[LogoId] IS NOT NULL");
 
                     b.ToTable("Marathons");
                 });
@@ -387,6 +389,9 @@ namespace Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("MarathonId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -399,6 +404,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("MarathonId");
 
                     b.HasIndex("PartnerId");
 
@@ -805,8 +812,8 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Marathons.Marathon", b =>
                 {
                     b.HasOne("Domain.Entities.SavedFiles.SavedFile", "Logo")
-                        .WithMany()
-                        .HasForeignKey("LogoId")
+                        .WithOne("MarathonLogo")
+                        .HasForeignKey("Domain.Entities.Marathons.Marathon", "LogoId")
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.Navigation("Logo");
@@ -863,10 +870,17 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domain.Entities.SavedFiles.SavedFile", b =>
                 {
+                    b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
+                        .WithMany("Documents")
+                        .HasForeignKey("MarathonId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
                     b.HasOne("Domain.Entities.Marathons.Partner", "Partner")
                         .WithMany("Logos")
                         .HasForeignKey("PartnerId")
                         .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("Marathon");
 
                     b.Navigation("Partner");
                 });
@@ -984,6 +998,8 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("Distances");
 
+                    b.Navigation("Documents");
+
                     b.Navigation("MarathonTranslations");
 
                     b.Navigation("Partners");
@@ -994,6 +1010,11 @@ namespace Infrastructure.Migrations
                     b.Navigation("Logos");
 
                     b.Navigation("Translations");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SavedFiles.SavedFile", b =>
+                {
+                    b.Navigation("MarathonLogo");
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.Role", b =>

@@ -14,6 +14,7 @@
       <Folder Include="Common\Resources" />
       <Folder Include="Files" />
       <Folder Include="Identity" />
+      <Folder Include="Migrations\" />
       <Folder Include="Services\Interfaces\" />
 
     </ItemGroup>
@@ -30,6 +31,10 @@
       </PackageReference>
       <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.9" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.7" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.9">
+        <PrivateAssets>all</PrivateAssets>
+        <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      </PackageReference>
     </ItemGroup>
 
     <ItemGroup>

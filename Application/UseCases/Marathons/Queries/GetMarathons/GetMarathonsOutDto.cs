@@ -1,5 +1,6 @@
 ﻿using Core.Common.Bases;
 using Domain.Entities.Marathons;
+using Domain.Entities.SavedFiles;
 
 namespace Core.UseCases.Marathons.Queries.GetMarathons
 {
@@ -25,5 +26,6 @@ namespace Core.UseCases.Marathons.Queries.GetMarathons
                 .Map(x => x.Place, y => y.MarathonTranslations.First().Place);
 
         }
+
     }
 }

@@ -9,6 +9,7 @@ namespace Domain.Common.Constants
     public enum FileTypeEnum
     {
         Partners,
-        Marathons
+        Marathons,
+        Documents
     }
 }

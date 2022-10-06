@@ -27,6 +27,7 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
                 include: source => source
                 .Include(a => a.Logo)
                 .Include(a => a.MarathonTranslations)
+                .Include(a => a.Documents)
                 .Include(a => a.Partners).ThenInclude(a => a.Translations)
                 .Include(a => a.Partners).ThenInclude(a => a.Logos)
                 .Include(a => a.Distances).ThenInclude(a => a.DistancePrices)

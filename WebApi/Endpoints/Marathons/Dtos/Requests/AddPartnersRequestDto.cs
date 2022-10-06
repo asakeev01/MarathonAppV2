@@ -7,33 +7,6 @@ using WebApi.Common.Extensions.SwaggerServices;
 
 namespace WebApi.Endpoints.Marathons.Dtos.Requests
 {
-    //public class AddPartnersRequestDto{
-    //    public ICollection<AddPartnersDto> Partners { get; set; }
-    //}
-    //public class AddPartnersRequestValidator : AbstractValidator<AddPartnersRequestDto>
-    //{
-    //    public AddPartnersRequestValidator()
-    //    {
-    //        RuleForEach(x => x.Partners).ChildRules(partners =>
-    //        {
-    //            partners.RuleFor(x => x.Logos).NotNull();
-    //            partners.RuleForEach(x => x.Logos).ChildRules(logos =>
-    //            {
-    //                logos.RuleFor(x => x.ContentType).Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
-    //                .WithMessage("Only images are allowed");
-    //                logos.RuleFor(x => x.Length).LessThanOrEqualTo(20 * 1024 * 1024)
-    //                .WithMessage("File size is larger than allowed");
-    //            });
-    //        }
-    //        );
-    //    }
-    //}
-    //public class AddPartnersDto
-    //{
-    //    public string Name { get; set; }
-    //    public ICollection<IFormFile> Logos { get; set; }
-    //}
-
     public class AddPartnersRequestDto
     {
         public ICollection<TrasnlationDto> Translations { get; set; }

@@ -53,6 +53,7 @@
       <Folder Include="Endpoints\Users\" />
       <Folder Include="Endpoints\Users\Dtos\" />
       <Folder Include="Endpoints\Users\Dtos\Requests\" />
+      <Folder Include="staticfiles\Documents\" />
       <Folder Include="staticfiles\Partners\" />
     </ItemGroup>
 

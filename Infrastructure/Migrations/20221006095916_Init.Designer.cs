@@ -12,14 +12,14 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220929064705_IndexForMarathonTranslation1")]
-    partial class IndexForMarathonTranslation1
+    [Migration("20221006095916_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.7")
+                .HasAnnotation("ProductVersion", "6.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
@@ -111,6 +111,25 @@ namespace Infrastructure.Migrations
                     b.ToTable("AccountTypes");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Applications.Application", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("DistanceId")
+                        .HasColumnType("int");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Applications");
+                });
+
             modelBuilder.Entity("Domain.Entities.Distances.Distance", b =>
                 {
                     b.Property<int>("Id")
@@ -122,14 +141,15 @@ namespace Infrastructure.Migrations
                     b.Property<int>("AgeFrom")
                         .HasColumnType("int");
 
-                    b.Property<int>("DistanceCategoryId")
-                        .HasColumnType("int");
-
                     b.Property<int>("MarathonId")
                         .HasColumnType("int");
 
                     b.Property<bool>("MedicalCertificate")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("NumberOfParticipants")
                         .HasColumnType("int");
@@ -144,8 +164,6 @@ namespace Infrastructure.Migrations
                         .HasColumnType("time");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DistanceCategoryId");
 
                     b.HasIndex("MarathonId");
 
@@ -176,46 +194,6 @@ namespace Infrastructure.Migrations
                     b.ToTable("DistanceAges");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Distances.DistanceCategory", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("DistanceCategories");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Distances.DistanceCategoryTranslation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("DistanceCategoryId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("LanguageId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistanceCategoryId");
-
-                    b.HasIndex("LanguageId");
-
-                    b.ToTable("DistanceCategoryTranslations");
-                });
-
             modelBuilder.Entity("Domain.Entities.Distances.DistancePrice", b =>
                 {
                     b.Property<int>("Id")
@@ -241,6 +219,37 @@ namespace Infrastructure.Migrations
                     b.HasIndex("DistanceId");
 
                     b.ToTable("DistancePrices");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Documents.Document", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<string>("BackPassportPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DisabilityPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("FrontPassportPath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InsurancePath")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Documents");
                 });
 
             modelBuilder.Entity("Domain.Entities.Languages.Language", b =>
@@ -277,10 +286,17 @@ namespace Infrastructure.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("LogoId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartDateAcceptingApplications")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LogoId")
+                        .IsUnique()
+                        .HasFilter("[LogoId] IS NOT NULL");
 
                     b.ToTable("Marathons");
                 });
@@ -319,6 +335,83 @@ namespace Infrastructure.Migrations
                         .IsUnique();
 
                     b.ToTable("MarathonTranslations");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Marathons.Partner", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("MarathonId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MarathonId");
+
+                    b.ToTable("Partner");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Marathons.PartnerTranslation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("LanguageId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PartnerId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LanguageId");
+
+                    b.HasIndex("PartnerId", "LanguageId")
+                        .IsUnique();
+
+                    b.ToTable("PartnerTranslation");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SavedFiles.SavedFile", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int?>("MarathonId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("PartnerId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Path")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("MarathonId");
+
+                    b.HasIndex("PartnerId");
+
+                    b.ToTable("SavedFile");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transactions.Transaction", b =>
@@ -441,12 +534,24 @@ namespace Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("Country")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
+
+                    b.Property<string>("ExtraPhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Gender")
+                        .HasColumnType("int");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
@@ -458,6 +563,12 @@ namespace Infrastructure.Migrations
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("NewUser")
+                        .HasColumnType("bit");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256)
@@ -479,6 +590,12 @@ namespace Infrastructure.Migrations
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Surname")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("Tshirt")
+                        .HasColumnType("int");
+
                     b.Property<bool>("TwoFactorEnabled")
                         .HasColumnType("bit");
 
@@ -497,21 +614,6 @@ namespace Infrastructure.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.Users.UserRole", b =>
-                {
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("RoleId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("UserId", "RoleId");
-
-                    b.HasIndex("RoleId");
-
-                    b.ToTable("AspNetUserRoles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -583,6 +685,25 @@ namespace Infrastructure.Migrations
                     b.ToTable("AspNetUserLogins", (string)null);
                 });
 
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<long>", b =>
+                {
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("RoleId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<long>");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<long>", b =>
                 {
                     b.Property<long>("UserId")
@@ -600,6 +721,15 @@ namespace Infrastructure.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Domain.Entities.Users.UserRole", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUserRole<long>");
+
+                    b.HasIndex("RoleId");
+
+                    b.HasDiscriminator().HasValue("UserRole");
                 });
 
             modelBuilder.Entity("Domain.Entities.Accounts.Account", b =>
@@ -629,21 +759,21 @@ namespace Infrastructure.Migrations
                     b.Navigation("Customer");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Applications.Application", b =>
+                {
+                    b.HasOne("Domain.Entities.Users.User", null)
+                        .WithMany("Applications")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+                });
+
             modelBuilder.Entity("Domain.Entities.Distances.Distance", b =>
                 {
-                    b.HasOne("Domain.Entities.Distances.DistanceCategory", "DistanceCategory")
-                        .WithMany("Distances")
-                        .HasForeignKey("DistanceCategoryId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
                     b.HasOne("Domain.Entities.Marathons.Marathon", "Marathons")
                         .WithMany("Distances")
                         .HasForeignKey("MarathonId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
-
-                    b.Navigation("DistanceCategory");
 
                     b.Navigation("Marathons");
                 });
@@ -659,25 +789,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("Distance");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Distances.DistanceCategoryTranslation", b =>
-                {
-                    b.HasOne("Domain.Entities.Distances.DistanceCategory", "DistanceCategory")
-                        .WithMany("DistanceCategoryTranslations")
-                        .HasForeignKey("DistanceCategoryId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Languages.Language", "Language")
-                        .WithMany("DistanceCategoryTranslations")
-                        .HasForeignKey("LanguageId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("DistanceCategory");
-
-                    b.Navigation("Language");
-                });
-
             modelBuilder.Entity("Domain.Entities.Distances.DistancePrice", b =>
                 {
                     b.HasOne("Domain.Entities.Distances.Distance", "Distance")
@@ -687,6 +798,27 @@ namespace Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Distance");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Documents.Document", b =>
+                {
+                    b.HasOne("Domain.Entities.Users.User", "User")
+                        .WithOne("Document")
+                        .HasForeignKey("Domain.Entities.Documents.Document", "UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Marathons.Marathon", b =>
+                {
+                    b.HasOne("Domain.Entities.SavedFiles.SavedFile", "Logo")
+                        .WithOne("MarathonLogo")
+                        .HasForeignKey("Domain.Entities.Marathons.Marathon", "LogoId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("Logo");
                 });
 
             modelBuilder.Entity("Domain.Entities.Marathons.MarathonTranslation", b =>
@@ -706,6 +838,53 @@ namespace Infrastructure.Migrations
                     b.Navigation("Language");
 
                     b.Navigation("Marathon");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Marathons.Partner", b =>
+                {
+                    b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
+                        .WithMany("Partners")
+                        .HasForeignKey("MarathonId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Marathon");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Marathons.PartnerTranslation", b =>
+                {
+                    b.HasOne("Domain.Entities.Languages.Language", "Language")
+                        .WithMany()
+                        .HasForeignKey("LanguageId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Marathons.Partner", "Partner")
+                        .WithMany("Translations")
+                        .HasForeignKey("PartnerId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Language");
+
+                    b.Navigation("Partner");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SavedFiles.SavedFile", b =>
+                {
+                    b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
+                        .WithMany("Documents")
+                        .HasForeignKey("MarathonId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.HasOne("Domain.Entities.Marathons.Partner", "Partner")
+                        .WithMany("Logos")
+                        .HasForeignKey("PartnerId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("Marathon");
+
+                    b.Navigation("Partner");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transactions.Transaction", b =>
@@ -733,25 +912,6 @@ namespace Infrastructure.Migrations
                     b.Navigation("TransactionStatus");
 
                     b.Navigation("TransactionType");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Users.UserRole", b =>
-                {
-                    b.HasOne("Domain.Entities.Users.Role", "Role")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Users.User", "User")
-                        .WithMany("UserRoles")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Role");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -790,6 +950,25 @@ namespace Infrastructure.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("Domain.Entities.Users.UserRole", b =>
+                {
+                    b.HasOne("Domain.Entities.Users.Role", "Role")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Users.User", "User")
+                        .WithMany("UserRoles")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Domain.Entities.Accounts.Account", b =>
                 {
                     b.Navigation("Transactions");
@@ -812,17 +991,8 @@ namespace Infrastructure.Migrations
                     b.Navigation("DistancePrices");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Distances.DistanceCategory", b =>
-                {
-                    b.Navigation("DistanceCategoryTranslations");
-
-                    b.Navigation("Distances");
-                });
-
             modelBuilder.Entity("Domain.Entities.Languages.Language", b =>
                 {
-                    b.Navigation("DistanceCategoryTranslations");
-
                     b.Navigation("MarathonTranslations");
                 });
 
@@ -830,7 +1000,23 @@ namespace Infrastructure.Migrations
                 {
                     b.Navigation("Distances");
 
+                    b.Navigation("Documents");
+
                     b.Navigation("MarathonTranslations");
+
+                    b.Navigation("Partners");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Marathons.Partner", b =>
+                {
+                    b.Navigation("Logos");
+
+                    b.Navigation("Translations");
+                });
+
+            modelBuilder.Entity("Domain.Entities.SavedFiles.SavedFile", b =>
+                {
+                    b.Navigation("MarathonLogo");
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.Role", b =>
@@ -841,6 +1027,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Users.User", b =>
                 {
                     b.Navigation("Accounts");
+
+                    b.Navigation("Applications");
+
+                    b.Navigation("Document")
+                        .IsRequired();
 
                     b.Navigation("UserRoles");
                 });

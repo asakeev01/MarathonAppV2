@@ -20,6 +20,19 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin
         public bool IsActive { get; set; }
         public ICollection<DistanceDto> Distances { get; set; }
         public ICollection<PartnerDto> Partners { get; set; }
+        public ICollection<DocumentDto> Documents { get; set; }
+
+        public record DocumentDto : BaseDto<SavedFile, DocumentDto>
+        {
+            public int Id { get; set; }
+            public string Document { get; set; }
+
+            public override void AddCustomMappings()
+            {
+                SetCustomMappings()
+                    .Map(x => x.Document, y => y.Path);
+            }
+        }
 
         public override void AddCustomMappings()
         {
