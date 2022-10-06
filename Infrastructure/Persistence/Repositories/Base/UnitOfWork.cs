@@ -1,6 +1,8 @@
 using System.Transactions;
 using Domain.Common.Contracts;
 using Domain.Common.Resources.SharedResource;
+using Domain.Entities.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 
 namespace Infrastructure.Persistence.Repositories.Base;
@@ -9,22 +11,25 @@ public class UnitOfWork : IUnitOfWork
 {
     private readonly AppDbContext _context;
     private readonly IStringLocalizer<SharedResource> _localizer;
-    
+    private readonly UserManager<User> _userManager;
+
     private IAccountRepository? _accountRepository;
     private ITransactionRepository? _transactionRepository;
     private IMarathonRepository? _marathonRepository;
     private IDistanceRepository? _distanceRepository;
     private IMarathonTranslationRepository? _marathonTranslationRepository;
     private ISavedFileRepository? _savedFileRepository;
+    private IUserRepository? _userRepository;
     private IPartnerRepository? _partnerRepository;
 
     private bool disposed = false;
 
 
-    public UnitOfWork(AppDbContext context, IStringLocalizer<SharedResource> localizer)
+    public UnitOfWork(UserManager<User> userManager, AppDbContext context, IStringLocalizer<SharedResource> localizer)
     {
         _context = context;
         _localizer = localizer;
+        _userManager = userManager;
     }
         
     public IAccountRepository AccountRepository
@@ -80,6 +85,16 @@ public class UnitOfWork : IUnitOfWork
             return _savedFileRepository;
         }
     }
+
+    public IUserRepository UserRepository
+    {
+        get
+        {
+            _userRepository ??= new UserRepository(_userManager, _context, _localizer);
+            return _userRepository;
+        }
+    }
+
     public IPartnerRepository PartnerRepository
     {
         get

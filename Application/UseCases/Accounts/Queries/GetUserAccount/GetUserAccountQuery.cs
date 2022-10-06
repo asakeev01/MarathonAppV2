@@ -10,9 +10,9 @@ public class GetUserAccountQuery : IRequest<GetUserAccountOutDto>
 {
     public GridifyQuery Query { get; set; }
     
-    public int AccountId { get; set; }
+    public long AccountId { get; set; }
     
-    public int UserId { get; set; }
+    public long UserId { get; set; }
 }
 
 public class GetUserAccountsHandler : IRequestHandler<GetUserAccountQuery, GetUserAccountOutDto>

@@ -8,7 +8,11 @@
 
     <ItemGroup>
       <Folder Include="Entities\Distances\Exceptions\" />
-      <Folder Include="Validations" />
+      <Folder Include="Entities\Users\UserEnums\" />
+      <Folder Include="Entities\Documents\" />
+      <Folder Include="Entities\Applications\" />
+      <Folder Include="Entities\Users\Exceptions\" />
+      <Folder Include="Common\Options\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -17,7 +21,8 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.7" />
       <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.7" />
       <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.7" />
-      <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.9" />
+      <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.9" />
+      <PackageReference Include="MailKit" Version="3.4.1" />
     </ItemGroup>
 
     <ItemGroup>
@@ -59,4 +64,13 @@
       </Compile>
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Microsoft.Extensions.Localization" />
+      <None Remove="Entities\Users\UserEnums\" />
+      <None Remove="Entities\Documents\" />
+      <None Remove="Entities\Applications\" />
+      <None Remove="Entities\Users\Exceptions\" />
+      <None Remove="Common\Options\" />
+      <None Remove="MailKit" />
+    </ItemGroup>
 </Project>

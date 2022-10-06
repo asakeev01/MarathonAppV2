@@ -16,6 +16,8 @@ public interface IUnitOfWork : IDisposable
     ISavedFileRepository SavedFileRepository { get; }
     IPartnerRepository PartnerRepository { get; }
 
+    IUserRepository UserRepository { get; }
+
     void Save();
     Task SaveAsync();
     Task BeginTransactionAsync();

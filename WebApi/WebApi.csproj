@@ -23,6 +23,9 @@
         <PackageReference Include="MediatR" Version="10.0.1" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
         <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.7">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -34,6 +37,7 @@
         <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
         <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -44,6 +48,10 @@
       <Folder Include="Endpoints\Accounts\Dtos\Responses" />
       <Folder Include="Endpoints\Distances\Dtos\Requests\" />
       <Folder Include="staticfiles\Marathons\" />
+      <Folder Include="Common\Extensions\IdentityServices\" />
+      <Folder Include="Endpoints\Users\" />
+      <Folder Include="Endpoints\Users\Dtos\" />
+      <Folder Include="Endpoints\Users\Dtos\Requests\" />
       <Folder Include="staticfiles\Partners\" />
     </ItemGroup>
 
@@ -51,4 +59,11 @@
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="Common\Extensions\IdentityServices\" />
+      <None Remove="Microsoft.AspNetCore.Identity" />
+      <None Remove="Endpoints\Users\" />
+      <None Remove="Endpoints\Users\Dtos\" />
+      <None Remove="Endpoints\Users\Dtos\Requests\" />
+    </ItemGroup>
 </Project>

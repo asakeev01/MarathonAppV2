@@ -3,6 +3,8 @@ using FluentValidation;
 using MicroElements.Swashbuckle.FluentValidation.AspNetCore;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.OpenApi.Any;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
@@ -19,30 +21,27 @@ public static class SwaggerServiceExtension
         services.AddFluentValidationRulesToSwagger();
         services.AddSwaggerGen(x =>
         {
-            x.SwaggerDoc("v1", new OpenApiInfo
-            {
-                Title = "MarathonApp Api",
-                Version = "v1",
-            });
             x.DescribeAllParametersInCamelCase();
-            x.CustomSchemaIds(t => t.FullName?.Replace("+", "."));
             x.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, $"{nameof(WebApi)}.xml"));
-            x.ExampleFilters();
+            x.ExampleFilters(); 
             x.OperationFilter<LanguageHeaderFilter>();
-            x.MapType<TimeSpan>(() => new OpenApiSchema
-            {
-                Type = "string",
-                Example = new OpenApiString("00:00:00")
-            });
         });
+        
+        services.ConfigureOptions<ConfigureSwaggerOptions>();
     }
     
     internal static void UseSwaggerUi(this IApplicationBuilder app)
     {
+        var apiVersionDescriptionProvider =  app.ApplicationServices
+            .GetRequiredService<IApiVersionDescriptionProvider>();
         app.UseSwagger();
         app.UseSwaggerUI(x =>
         {
-            x.SwaggerEndpoint("/swagger/v1/swagger.json", $"{AppConstants.AppName} API v1");
+            foreach (var description in apiVersionDescriptionProvider.ApiVersionDescriptions.Reverse())
+            {
+                x.SwaggerEndpoint($"/swagger/{description.GroupName}/swagger.json",
+                    description.GroupName.ToUpperInvariant());
+            }
             x.DefaultModelExpandDepth(3);
             x.DefaultModelRendering(ModelRendering.Example);
             x.DefaultModelsExpandDepth(-1);

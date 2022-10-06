@@ -24,7 +24,8 @@ using WebApi.Endpoints.Marathons.Dtos.Requests;
 
 namespace WebApi.Endpoints.Accounts;
 
-[Route("api/marathons")]
+//[ApiController]
+[Route("api/v{version:apiVersion}/marathons")]
 [Consumes(MediaTypeNames.Application.Json)]
 [Produces(MediaTypeNames.Application.Json)]
 public class MarathonsController : BaseController
@@ -39,7 +40,7 @@ public class MarathonsController : BaseController
     /// <summary>
     /// List of marathons
     /// </summary>
-    [HttpGet("")]
+    [HttpGet("", Name = "GetMarathons")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(IEnumerable<GetMarathonsOutDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IQueryable<GetMarathonsOutDto>>> List(
@@ -60,7 +61,7 @@ public class MarathonsController : BaseController
     /// Get Marathon by id
     /// </summary>
     /// <response code="200">Marathon</response>
-    [HttpGet("{marathonId:int}")]
+    [HttpGet("{marathonId:int}", Name = "GetMarathon")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetMarathonOutDto), StatusCodes.Status200OK)]
     public async Task<ActionResult<GetMarathonOutDto>> ById(
@@ -81,7 +82,7 @@ public class MarathonsController : BaseController
     /// Get Marathon by id for Admin
     /// </summary>
     /// <response code="200">Marathon</response>
-    [HttpGet("admin/{marathonId:int}")]
+    [HttpGet("admin/{marathonId:int}", Name = "GetMarathonAsAdmin")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetMarathonAdminOutDto), StatusCodes.Status200OK)]
     public async Task<ActionResult<GetMarathonAdminOutDto>> ByIdAdmin(
@@ -101,7 +102,7 @@ public class MarathonsController : BaseController
     /// Create marathon with distances
     /// </summary>
     /// <response code="200">Id of created marathon</response>
-    [HttpPost("")]
+    [HttpPost("", Name = "CreateMarathon")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> Create(
@@ -129,7 +130,7 @@ public class MarathonsController : BaseController
     /// Update marathon
     /// </summary>
     /// <response code="200">Response stauts code</response>
-    [HttpPut("")]
+    [HttpPut("", Name = "ChangeMarathon")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> Update(

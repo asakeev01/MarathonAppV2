@@ -2,6 +2,8 @@
 using Domain.Entities.Distances;
 using Domain.Entities.Languages;
 using Domain.Entities.Marathons;
+using Domain.Entities.Applications;
+using Domain.Entities.Documents;
 using Domain.Entities.Transactions;
 using Domain.Entities.Users;
 using Infrastructure.Common.Extensions;
@@ -11,33 +13,22 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.Persistence;
 
-public class AppDbContext : IdentityDbContext<User, Role, long,
-    IdentityUserClaim<long>, UserRole, IdentityUserLogin<long>,
-    IdentityRoleClaim<long>, IdentityUserToken<long>>
+public class AppDbContext : IdentityDbContext<User, Role, long>
 {
-    public AppDbContext()
-    {
-            
-    }
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
-
+        //Database.EnsureCreated();
     }
         
     public DbSet<User> Users { get; set; }
-    
+    public DbSet<Document> Documents { get; set; }
+    public DbSet<Application> Applications { get; set; }
     public DbSet<Account> Accounts { get; set; }
-    
     public DbSet<UserRole> UserRoles { get; set; }
-    
     public DbSet<AccountType> AccountTypes { get; set; }
-    
     public DbSet<AccountStatus> AccountStatuses { get; set; }
-    
     public DbSet<Transaction> Transactions { get; set; }
-    
     public DbSet<TransactionStatus> TransactionStatuses { get; set; }
-
     public DbSet<TransactionType> TransactionsTypes { get; set; }
     public DbSet<Language> Languages { get; set; }
     public DbSet<Marathon> Marathons { get; set; }
@@ -45,7 +36,6 @@ public class AppDbContext : IdentityDbContext<User, Role, long,
     public DbSet<Distance> Distances { get; set; }
     public DbSet<DistanceAge> DistanceAges { get; set; }
     public DbSet<DistancePrice> DistancePrices { get; set; }
-
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

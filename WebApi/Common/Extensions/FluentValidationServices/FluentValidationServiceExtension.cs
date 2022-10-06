@@ -1,4 +1,4 @@
-﻿using Domain.Common.Validations;
+using Domain.Common.Validations;
 using FluentValidation;
 using WebApi.Endpoints.Accounts.Dtos.Requests;
 
