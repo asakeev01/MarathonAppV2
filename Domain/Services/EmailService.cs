@@ -64,54 +64,22 @@ namespace Domain.Services
             }
         }
 
-        public async Task SendConfirmEmailAsync(User identityUser)
+        public async Task SendConfirmEmailAsync(string email, string emailToken)
         {
-            if (identityUser.EmailConfirmed)
-                throw new EmailAlreadyConfirmedException();
+            var validToken = WebEncodeToken(emailToken);
 
-            var token = await _userManager.GenerateEmailConfirmationTokenAsync(identityUser);
+            string url = $"{_appOptions.BackUrl}/api/auth/confirmemail?email={email}&token={validToken}";
 
-            var validToken = WebEncodeToken(token);
-
-            string url = $"{_appOptions.BackUrl}/api/auth/confirmemail?email={identityUser.Email}&token={validToken}";
-
-            await SendEmailAsync(identityUser.Email, "Confirm your email", $"<h1>Marathon App</h1>" + $"<p>Please confirm your email by <a href='{url}'>Clicking here</a></p>");
+            await SendEmailAsync(email, "Confirm your email", $"<h1>Marathon App</h1>" + $"<p>Please confirm your email by <a href='{url}'>Clicking here</a></p>");
         }
 
-        public async Task SendResetPasswordEmailAsync(User identityUser, string email)
+        public async Task SendPasswordResetTokenAsync(string email, string passwordToken)
         {
-            var token = await _userManager.GeneratePasswordResetTokenAsync(identityUser);
-
-            var validToken = WebEncodeToken(token);
+            var validToken = WebEncodeToken(passwordToken);
 
             string url = $"{_appOptions.BackUrl}/user/changePassword?email={email}&token={validToken}";
 
             await SendEmailAsync(email, "Reset your password", $"<h1>Marathon App</h1>" + $"<p>To reset your password <a href='{url}'>Clicking here</a></p>");
-        }
-
-        public async Task ForgetPasswordAsync(User user, string email)
-        {
-            await SendResetPasswordEmailAsync(user, email);
-        }
-
-        public async Task ConfirmEmailAsync(User user, string token)
-        {
-            var normalToken = WebDecodeToken(token);
-
-            var result = await _userManager.ConfirmEmailAsync(user, normalToken);
-
-            if (!result.Succeeded)
-                throw new WrongTokenException();
-        }
-
-        public async Task ResetPasswordAsync(User user, string token, string newPassword)
-        {
-            var normalToken = WebDecodeToken(token);
-
-            var result = await _userManager.ResetPasswordAsync(user, normalToken, newPassword);
-
-            if (!result.Succeeded)
-                throw new WrongTokenException();
         }
 
         public string WebEncodeToken(string token)

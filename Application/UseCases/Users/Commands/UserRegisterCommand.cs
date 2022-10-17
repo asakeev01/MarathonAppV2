@@ -1,45 +1,44 @@
+using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Core.Common.Contracts;
 using Domain.Common.Contracts;
+using Domain.Entities.Users.UserEnums;
 using MediatR;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
 
 namespace Core.UseCases.Users.Commands;
 
-public class UserRegisterCommand : IRequest<IdentityResult>
+public class UpdateProfileCommand : IRequest<HttpStatusCode>
 {
-    public string FirstName { get; init; }
-    
-    public string LastName { get; init; }
-    
-    public string UserName { get; init; }
-    
-    public string Password { get; init; }
-    
-    public string Email { get; init; }
-    
-    public string PhoneNumber { get; init; }
+    public string Name { get; set; }
+
+    public string Surname { get; set; }
+
+    [DataType(DataType.Date)]
+    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
+    public DateTime? DateOfBirth { get; set; }
+
+    public GenderEnum? Gender { get; set; }
+
+    public TshirtEnum? Tshirt { get; set; }
+
+    public CountriesEnum? Country { get; set; }
+
+    public string PhoneNumber { get; set; }
+
+    public string? ExtraPhoneNumber { get; set; }
 }
 
-public class UserCommandHandler : IRequestHandler<UserRegisterCommand, IdentityResult>
+public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand, HttpStatusCode>
 {
-    private readonly IIdentityService _identityService;
     private readonly IUnitOfWork _unit;
-    private readonly ILogger<UserCommandHandler> _logger;
 
-    public UserCommandHandler(IIdentityService identityService, 
-        IUnitOfWork unit,
-        ILogger<UserCommandHandler> logger)
+    public UpdateProfileCommandHandler(IUnitOfWork unit)
     {
-        _identityService = identityService;
         _unit = unit;
-        this._logger = logger;
     }
 
-    public async Task<IdentityResult> Handle(UserRegisterCommand cmd, CancellationToken cancellationToken)
+    public async Task<HttpStatusCode> Handle(UpdateProfileCommand cmd, CancellationToken cancellationToken)
     {
-        var result = await _identityService.CreateUserAsync(cmd);
-
-        return result;
+        return HttpStatusCode.OK;
     }
 }

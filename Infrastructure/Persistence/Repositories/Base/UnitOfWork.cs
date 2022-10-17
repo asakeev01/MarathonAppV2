@@ -21,6 +21,7 @@ public class UnitOfWork : IUnitOfWork
     private ISavedFileRepository? _savedFileRepository;
     private IUserRepository? _userRepository;
     private IPartnerRepository? _partnerRepository;
+    private IRefreshTokenRepository? _refreshTokenRepository;
 
     private bool disposed = false;
 
@@ -103,6 +104,16 @@ public class UnitOfWork : IUnitOfWork
             return _partnerRepository;
         }
     }
+
+    public IRefreshTokenRepository RefreshTokenRepository
+    {
+        get
+        {
+            _refreshTokenRepository ??= new RefreshTokenRepository(_context, _localizer);
+            return _refreshTokenRepository;
+        }
+    }
+
     public void Save()
     {
         _context.SaveChanges();

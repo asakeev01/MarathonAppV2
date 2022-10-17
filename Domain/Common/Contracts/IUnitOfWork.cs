@@ -18,6 +18,8 @@ public interface IUnitOfWork : IDisposable
 
     IUserRepository UserRepository { get; }
 
+    IRefreshTokenRepository RefreshTokenRepository { get; }
+
     void Save();
     Task SaveAsync();
     Task BeginTransactionAsync();

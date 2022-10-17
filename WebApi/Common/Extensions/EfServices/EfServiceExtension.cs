@@ -4,9 +4,6 @@ using Infrastructure.Persistence.Seed;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-﻿using Infrastructure.Persistence;
-using Infrastructure.Persistence.Seed;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
 namespace WebApi.Common.Extensions.EfServices;
@@ -50,5 +47,16 @@ public static class EfServiceExtension
 
         await context.SeedData();
     }
-    
+
+    internal static async Task SeedIdentity(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<User>>();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<Role>>();
+
+        await roleManager.SeedRole();
+        await userManager.SeedUser();
+
+    }
+
 }

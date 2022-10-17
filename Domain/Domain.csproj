@@ -13,6 +13,8 @@
       <Folder Include="Entities\Applications\" />
       <Folder Include="Entities\Users\Exceptions\" />
       <Folder Include="Common\Options\" />
+      <Folder Include="Entities\Users\Constants\" />
+      <Folder Include="Services\Models\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -23,6 +25,8 @@
       <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.7" />
       <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.9" />
       <PackageReference Include="MailKit" Version="3.4.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+      <PackageReference Include="Google.Apis.Auth" Version="1.57.0" />
     </ItemGroup>
 
     <ItemGroup>
@@ -72,5 +76,9 @@
       <None Remove="Entities\Users\Exceptions\" />
       <None Remove="Common\Options\" />
       <None Remove="MailKit" />
+      <None Remove="Entities\Users\Constants\" />
+      <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+      <None Remove="Services\Models\" />
+      <None Remove="Google.Apis.Auth" />
     </ItemGroup>
 </Project>

@@ -28,6 +28,15 @@ namespace Infrastructure.Persistence.Repositories
                 throw new UserAlreadyExistsException();
         }
 
+        public async Task<bool> IsUserExistsAsync(string email)
+        {
+            var user = await _userManager.FindByEmailAsync(email);
+
+            if (user != null)
+                return true;
+            return false;
+        }
+
         public async Task CreateUserAsync(User user, string password)
         {
             await _userManager.CreateAsync(user, password);
@@ -38,19 +47,80 @@ namespace Infrastructure.Persistence.Repositories
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
-                throw new UserAlreadyExistsException();
+                throw new UserDoesNotExistException();
             return user;
         }
 
-        public async Task ConfirmEmailAsync(User user, string token)
+        public async Task<User> GetByIdAsync(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+                throw new UserDoesNotExistException();
+            return user;
+        }
+
+        public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
         {
             if (user.EmailConfirmed)
                 throw new EmailAlreadyConfirmedException();
 
-            var result = await _userManager.ConfirmEmailAsync(user, token);
+            var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+            return emailToken;
+        }
+
+        public async Task ConfirmEmailAsync(User user, string emailToken)
+        {
+            if (user.EmailConfirmed)
+                throw new EmailAlreadyConfirmedException();
+
+            var result = await _userManager.ConfirmEmailAsync(user, emailToken);
 
             if (!result.Succeeded)
-                throw new WrongTokenException();
+                throw new InvalidTokenException();
+        }
+
+        public async Task<string> GeneratePasswordResetTokenAsync(User user)
+        {
+            var passwordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            return passwordToken;
+        }
+
+        public async Task ResetPasswordAsync(User user, string passwordToken, string newPassword)
+        {
+            var result = await _userManager.ResetPasswordAsync(user, passwordToken, newPassword);
+
+            if (!result.Succeeded)
+                throw new InvalidTokenException();
+        }
+
+        public async Task AddToRoleAsync(User user, string role)
+        {
+            var result = await _userManager.AddToRoleAsync(user, role);
+
+            if (!result.Succeeded)
+                throw new WrongRoleException();
+        }
+
+        public async Task<IList<string>> GetRolesAsync(User user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+
+            return roles;
+        }
+
+        public async Task CheckPasswordAsync(User user, string password)
+        {
+            var result = await _userManager.CheckPasswordAsync(user, password);
+
+
+            if (!result)
+                throw new WrongPasswordException();
+        }
+
+        public async Task ChangePasswordAsync(User user, string password, string newPassword)
+        {
+            await _userManager.ChangePasswordAsync(user, password, newPassword);
         }
     }
 }

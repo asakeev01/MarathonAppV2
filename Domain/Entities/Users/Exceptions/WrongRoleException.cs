@@ -4,9 +4,9 @@ using Domain.Common.Exceptions;
 
 namespace Domain.Entities.Users.Exceptions
 {
-    public class WrongTokenException : DomainException
+    public class WrongRoleException : DomainException
     {
-        public WrongTokenException() : base("Wrong token", (int)HttpStatusCode.BadRequest)
+        public WrongRoleException() : base("Wrong role", (int)HttpStatusCode.BadRequest)
         {
         }
     }

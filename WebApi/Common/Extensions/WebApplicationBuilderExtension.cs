@@ -79,6 +79,7 @@ public static class WebApplicationBuilderExtension
         ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
         app.AutoMigrateDb();
         await app.Seed();
+        await app.SeedIdentity();
         await app.RunAsync();
     }
 }

@@ -3,16 +3,16 @@ using System.Net;
 using Domain.Common.Contracts;
 using Domain.Entities.Documents;
 using Domain.Entities.Users;
+using Domain.Entities.Users.Constants;
 using Domain.Services.Interfaces;
 using MediatR;
 
-namespace Core.UseCases.Auth.Commands.RegisterUser
+namespace Core.UseCases.Auth.Commands.Register
 {
     public class RegisterUserCommand : IRequest<HttpStatusCode>
     {
         public string Email { get; set; }
         public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
     }
 
     public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, HttpStatusCode>
@@ -36,7 +36,9 @@ namespace Core.UseCases.Auth.Commands.RegisterUser
             };
             identityUser.Document = new Document();
             await _unit.UserRepository.CreateUserAsync(identityUser, cmd.Password);
-            await _emailService.SendConfirmEmailAsync(identityUser);
+            await _unit.UserRepository.AddToRoleAsync(identityUser, Roles.User);
+            var emailToken = await _unit.UserRepository.GenerateEmailConfirmationTokenAsync(identityUser);
+            await _emailService.SendConfirmEmailAsync(identityUser.Email, emailToken);
             return HttpStatusCode.Created;
         }
     }

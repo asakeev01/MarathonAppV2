@@ -21,10 +21,10 @@ public class AppDbContext : IdentityDbContext<User, Role, long>
     }
         
     public DbSet<User> Users { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Document> Documents { get; set; }
     public DbSet<Application> Applications { get; set; }
     public DbSet<Account> Accounts { get; set; }
-    public DbSet<UserRole> UserRoles { get; set; }
     public DbSet<AccountType> AccountTypes { get; set; }
     public DbSet<AccountStatus> AccountStatuses { get; set; }
     public DbSet<Transaction> Transactions { get; set; }

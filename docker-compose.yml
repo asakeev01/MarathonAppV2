@@ -1,0 +1,12 @@
+version: '3.4'
+
+services:
+  marathonapp:
+    image: marathon_back_v2
+    build:
+      context: .
+      dockerfile: MarathonAppV2/Dockerfile
+    environment:
+      DS_SERVER: "ms-sql-server"
+    ports:
+      - "8001:80"

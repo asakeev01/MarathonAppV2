@@ -26,11 +26,6 @@ public static class SwaggerServiceExtension
             x.ExampleFilters(); 
             x.OperationFilter<LanguageHeaderFilter>();
             x.CustomSchemaIds(type => type.ToString());
-            x.MapType<TimeSpan>(() => new OpenApiSchema
-            {
-                Type = "string",
-                Example = new OpenApiString("00:00:00")
-            });
         });
         
         services.ConfigureOptions<ConfigureSwaggerOptions>();

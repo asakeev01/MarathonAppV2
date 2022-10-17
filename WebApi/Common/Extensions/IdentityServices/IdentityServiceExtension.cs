@@ -1,7 +1,6 @@
 using System.Text;
-using Core.Common.Contracts;
+//using Core.Common.Contracts;
 using Domain.Entities.Users;
-using Infrastructure.Identity;
 using Infrastructure.Persistence;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -15,7 +14,10 @@ public static class IdentityServiceExtension
     {
         services.ConfigureOptions<AppUrlOptionsSetup>();
         services.ConfigureOptions<EmailOptionsSetup>();
-        services.AddScoped<IIdentityService, IdentityService>();
+        services.ConfigureOptions<SecurityTokenOptionsSetup>();
+        services.ConfigureOptions<GoogleAuthOptionsSetup>();
+
+        //services.AddScoped<IIdentityService, IdentityService>();
         services.AddIdentity<User, Role>(options =>
         {
             //options.SignIn.RequireConfirmedAccount = true;

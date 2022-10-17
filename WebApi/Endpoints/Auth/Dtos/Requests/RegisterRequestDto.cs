@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using Domain.Entities.Users;
 using FluentValidation;
 
 namespace WebApi.Endpoints.Users.Dtos.Requests
@@ -32,4 +33,3 @@ namespace WebApi.Endpoints.Users.Dtos.Requests
         }
     }
 }
-

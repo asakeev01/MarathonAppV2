@@ -17,6 +17,8 @@
       <Folder Include="Migrations\" />
       <Folder Include="Services\Interfaces\" />
 
+      <Folder Include="Persistence\Seed\SeedIdentity\" />
+      <Folder Include="Persistence\Migrations\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -50,5 +52,7 @@
 
     <ItemGroup>
       <None Remove="Microsoft.EntityFrameworkCore.Design" />
+      <None Remove="Persistence\Seed\SeedIdentity\" />
+      <None Remove="Persistence\Migrations\" />
     </ItemGroup>
 </Project>

@@ -20,8 +20,10 @@
       <Folder Include="UseCases\Auth\" />
       <Folder Include="UseCases\Auth\Commands\" />
       <Folder Include="UseCases\Auth\Queries\" />
-      <Folder Include="UseCases\Auth\Commands\RegisterUser\" />
       <Folder Include="UseCases\Auth\Commands\ConfirmEmail\" />
+      <Folder Include="UseCases\Auth\Commands\ChangePassword\" />
+      <Folder Include="UseCases\Auth\Commands\Login\" />
+      <Folder Include="UseCases\Auth\Commands\Login\Google\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -45,5 +47,8 @@
       <None Remove="UseCases\Auth\Queries\" />
       <None Remove="UseCases\Auth\Commands\RegisterUser\" />
       <None Remove="UseCases\Auth\Commands\ConfirmEmail\" />
+      <None Remove="UseCases\Auth\Commands\ChangePassword\" />
+      <None Remove="UseCases\Auth\Commands\Login\" />
+      <None Remove="UseCases\Auth\Commands\Login\Google\" />
     </ItemGroup>
 </Project>

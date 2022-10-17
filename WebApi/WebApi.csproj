@@ -4,6 +4,8 @@
         <TargetFramework>net6.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
+        <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
+        <UserSecretsId>bbc2c493-0c7c-44a7-9380-441cd6ee9ff5</UserSecretsId>
     </PropertyGroup>
 
     <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
@@ -50,6 +52,9 @@
       <Folder Include="Endpoints\Distances\Dtos\Requests\" />
       <Folder Include="staticfiles\Marathons\" />
       <Folder Include="Common\Extensions\IdentityServices\" />
+      <Folder Include="Endpoints\Auth\" />
+      <Folder Include="Endpoints\Auth\Dtos\" />
+      <Folder Include="Endpoints\Auth\Dtos\Requests\" />
       <Folder Include="Endpoints\Users\" />
       <Folder Include="Endpoints\Users\Dtos\" />
       <Folder Include="Endpoints\Users\Dtos\Requests\" />
