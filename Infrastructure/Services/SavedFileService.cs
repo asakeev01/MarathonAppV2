@@ -21,6 +21,9 @@ public class SavedFileService : ISavedFileService
         string directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "staticfiles", fileType.ToString());
         string fileName = Guid.NewGuid().ToString() + "." + file.FileName;
         string filePath = Path.Combine(directoryPath, fileName);
+        bool folderExists = Directory.Exists(directoryPath);
+        if (!folderExists)
+            Directory.CreateDirectory(directoryPath);
         using (var stream = new FileStream(filePath, FileMode.Create))
         {
             await file.CopyToAsync(stream);
