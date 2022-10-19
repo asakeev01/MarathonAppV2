@@ -50,7 +50,6 @@
       <Folder Include="Common\Helpers" />
       <Folder Include="Endpoints\Accounts\Dtos\Responses" />
       <Folder Include="Endpoints\Distances\Dtos\Requests\" />
-      <Folder Include="staticfiles\Marathons\" />
       <Folder Include="Common\Extensions\IdentityServices\" />
       <Folder Include="Endpoints\Auth\" />
       <Folder Include="Endpoints\Auth\Dtos\" />
