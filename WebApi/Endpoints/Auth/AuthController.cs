@@ -22,12 +22,12 @@ namespace WebApi.Endpoints.Auth
     [Route("api/v{version:apiVersion}/auth")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
-    public class UsersController : BaseController
+    public class AuthController : BaseController
     {
         private readonly IMediator _mediator;
         private readonly IHttpContextAccessor _httpContext;
 
-        public UsersController(IMediator mediator, IHttpContextAccessor httpContext)
+        public AuthController(IMediator mediator, IHttpContextAccessor httpContext)
         {
             _mediator = mediator;
             _httpContext = httpContext;

@@ -42,7 +42,7 @@ namespace Infrastructure.Persistence.Repositories
             await _userManager.CreateAsync(user, password);
         }
 
-        public async Task<User> GetByEmailAsync(string email)
+        public async Task<User> GetByEmailAsync(string? email)
         {
             var user = await _userManager.FindByEmailAsync(email);
 
@@ -121,6 +121,11 @@ namespace Infrastructure.Persistence.Repositories
         public async Task ChangePasswordAsync(User user, string password, string newPassword)
         {
             await _userManager.ChangePasswordAsync(user, password, newPassword);
+        }
+
+        public async Task UpdateAsync(User user)
+        {
+            await _userManager.UpdateAsync(user);
         }
     }
 }

@@ -3,29 +3,14 @@ using System.Net;
 using Core.Common.Contracts;
 using Domain.Common.Contracts;
 using Domain.Entities.Users.UserEnums;
+using Mapster;
 using MediatR;
 
-namespace Core.UseCases.Users.Commands;
+namespace Core.UseCases.Users.Commands.UpdateProfile;
 
 public class UpdateProfileCommand : IRequest<HttpStatusCode>
 {
-    public string Name { get; set; }
-
-    public string Surname { get; set; }
-
-    [DataType(DataType.Date)]
-    [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-    public DateTime? DateOfBirth { get; set; }
-
-    public GenderEnum? Gender { get; set; }
-
-    public TshirtEnum? Tshirt { get; set; }
-
-    public CountriesEnum? Country { get; set; }
-
-    public string PhoneNumber { get; set; }
-
-    public string? ExtraPhoneNumber { get; set; }
+    public UpdateProfileInDto UserDto { get; set; }
 }
 
 public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand, HttpStatusCode>
@@ -39,6 +24,10 @@ public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand,
 
     public async Task<HttpStatusCode> Handle(UpdateProfileCommand cmd, CancellationToken cancellationToken)
     {
+        var identityUser = await _unit.UserRepository.GetByEmailAsync(cmd.UserDto.Email);
+        cmd.UserDto.Adapt(identityUser);
+        await _unit.UserRepository.UpdateAsync(identityUser);
+
         return HttpStatusCode.OK;
     }
 }

@@ -7,7 +7,7 @@ public interface IUserRepository : IBaseRepository<User>
     Task UserExistsAsync(string email);
     Task<bool> IsUserExistsAsync(string email);
     Task CreateUserAsync(User user, string password);
-    Task<User> GetByEmailAsync(string email);
+    Task<User> GetByEmailAsync(string? email);
     Task<User> GetByIdAsync(string userId);
     Task<string> GenerateEmailConfirmationTokenAsync(User user);
     Task ConfirmEmailAsync(User user, string token);
@@ -17,5 +17,5 @@ public interface IUserRepository : IBaseRepository<User>
     Task<IList<string>> GetRolesAsync(User user);
     Task CheckPasswordAsync(User user, string password);
     Task ChangePasswordAsync(User user, string password, string newPassword);
-
+    Task UpdateAsync(User user);
 }

@@ -14,6 +14,7 @@ using WebApi.Common.Extensions.LocalizationServices;
 using WebApi.Common.Extensions.MapsterServices;
 using WebApi.Common.Extensions.MediatrServices;
 using WebApi.Common.Extensions.RepositoryServices;
+using WebApi.Common.Extensions.CorsServices;
 using WebApi.Common.Extensions.SwaggerServices;
 using static WebApi.Common.Extensions.FluentValidationServices.FluentValidationServiceExtension;
 
@@ -30,6 +31,7 @@ public static class WebApplicationBuilderExtension
         services.AddMapster();
         services.AddFluentValidators();
         services.AddApiVersion();
+        services.AddCorsExt();
         services.AddSwagger();
         services.AddGridify(configuration);
         services.AddEndpointsApiExplorer();
@@ -55,6 +57,7 @@ public static class WebApplicationBuilderExtension
         {
             app.UseSwaggerUi();
         }
+        app.UseCorsExt();
         app.UseRouting();
         app.UseLocalization();
         app.UseHttpsRedirection();
