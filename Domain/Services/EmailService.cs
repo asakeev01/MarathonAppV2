@@ -68,7 +68,7 @@ namespace Domain.Services
         {
             var validToken = WebEncodeToken(emailToken);
 
-            string url = $"{_appOptions.BackUrl}/api/auth/confirmemail?email={email}&token={validToken}";
+            string url = $"{_appOptions.FrontUrl}/user/register/confirmEmail?email={email}&token={validToken}";
 
             await SendEmailAsync(email, "Confirm your email", $"<h1>Marathon App</h1>" + $"<p>Please confirm your email by <a href='{url}'>Clicking here</a></p>");
         }
@@ -77,7 +77,7 @@ namespace Domain.Services
         {
             var validToken = WebEncodeToken(passwordToken);
 
-            string url = $"{_appOptions.BackUrl}/user/changePassword?email={email}&token={validToken}";
+            string url = $"{_appOptions.FrontUrl}/user/changePassword?email={email}&token={validToken}";
 
             await SendEmailAsync(email, "Reset your password", $"<h1>Marathon App</h1>" + $"<p>To reset your password <a href='{url}'>Clicking here</a></p>");
         }
