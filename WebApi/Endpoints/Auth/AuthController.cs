@@ -138,7 +138,7 @@ namespace WebApi.Endpoints.Auth
         [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<HttpStatusCode>> RegisterAsync(
-            [FromBody] ConfirmEmailRequestDto dto,
+            [FromQuery] ConfirmEmailRequestDto dto,
             [FromServices] IValidator<ConfirmEmailRequestDto> validator)
         {
             var validation = await validator.ValidateAsync(dto);
@@ -198,7 +198,7 @@ namespace WebApi.Endpoints.Auth
         [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<HttpStatusCode>> ResetPasswordAsync(
-            [FromBody] ResetPasswordRequestDto dto,
+            [FromQuery] ResetPasswordRequestDto dto,
             [FromServices] IValidator<ResetPasswordRequestDto> validator)
         {
             var validation = await validator.ValidateAsync(dto);
