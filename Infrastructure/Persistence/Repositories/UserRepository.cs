@@ -48,6 +48,10 @@ namespace Infrastructure.Persistence.Repositories
 
             if (user == null)
                 throw new UserDoesNotExistException();
+
+            if (!user.EmailConfirmed)
+                throw new EmailWasNotConfirmedException();
+
             return user;
         }
 
