@@ -134,7 +134,7 @@ namespace WebApi.Endpoints.Auth
             return Ok(result);
         }
 
-        [HttpPost("confirmemail", Name = "ConfirmEmail")]
+        [HttpGet("confirmemail", Name = "ConfirmEmail")]
         [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<HttpStatusCode>> RegisterAsync(
