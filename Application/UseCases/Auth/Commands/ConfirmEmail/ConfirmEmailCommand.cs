@@ -27,8 +27,8 @@ namespace Core.UseCases.Auth.Commands.ConfirmEmail
         public async Task<HttpStatusCode> Handle(ConfirmEmailCommand cmd, CancellationToken cancellationToken)
         {
             var identityUser = await _unit.UserRepository.GetByEmailAsync(cmd.Email);
-            var normalToken = _emailService.WebDecodeToken(cmd.Token);
-            await _unit.UserRepository.ConfirmEmailAsync(identityUser, normalToken);
+            //var normalToken = _emailService.WebDecodeToken(cmd.Token);
+            await _unit.UserRepository.ConfirmEmailAsync(identityUser, cmd.Token);
             return HttpStatusCode.OK;
         }
     }
