@@ -3,9 +3,9 @@ using Core.Common.Bases;
 using Domain.Entities.Users;
 using Domain.Entities.Users.UserEnums;
 
-namespace Core.UseCases.Users.Queries.GetProfile
+namespace Core.UseCases.Users.Queries.GetUserProfile
 {
-    public record GetProfileOutDto : BaseDto<User, GetProfileOutDto>
+    public record GetUserProfileOutDto : BaseDto<User, GetUserProfileOutDto>
     {
         public string Email { get; set; }
 
@@ -13,7 +13,7 @@ namespace Core.UseCases.Users.Queries.GetProfile
 
         public string Surname { get; set; }
 
-        public DateTime DateOfBirth { get; set; }
+        public DateTime? DateOfBirth { get; set; }
 
         public GenderEnum Gender { get; set; }
 

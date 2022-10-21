@@ -20,6 +20,8 @@ public interface IUnitOfWork : IDisposable
 
     IRefreshTokenRepository RefreshTokenRepository { get; }
 
+    IDocumentRepository DocumentRepository { get; }
+
     void Save();
     Task SaveAsync();
     Task BeginTransactionAsync();

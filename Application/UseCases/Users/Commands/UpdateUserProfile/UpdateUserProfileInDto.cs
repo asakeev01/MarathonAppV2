@@ -3,9 +3,9 @@ using Core.Common.Bases;
 using Domain.Entities.Users;
 using Domain.Entities.Users.UserEnums;
 
-namespace Core.UseCases.Users.Commands.UpdateProfile
+namespace Core.UseCases.Users.Commands.UpdateUserProfile
 {
-    public record UpdateProfileInDto : BaseDto<UpdateProfileInDto, User>
+    public record UpdateUserProfileInDto : BaseDto<UpdateUserProfileInDto, User>
     {
         public string? Email { get; set; }
 

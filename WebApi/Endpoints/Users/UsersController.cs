@@ -2,8 +2,8 @@
 using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
-using Core.UseCases.Users.Commands.UpdateProfile;
-using Core.UseCases.Users.Queries.GetProfile;
+using Core.UseCases.Users.Commands.UpdateUserProfile;
+using Core.UseCases.Users.Queries.GetUserProfile;
 using FluentValidation;
 using Mapster;
 using MediatR;
@@ -16,7 +16,7 @@ using WebApi.Endpoints.Users.Dtos.Requests;
 namespace WebApi.Endpoints.Users
 {
     [ApiController]
-    [Route("api/v{version:apiVersion}/user")]
+    [Route("api/v{version:apiVersion}/users")]
     [Consumes(MediaTypeNames.Application.Json)]
     [Produces(MediaTypeNames.Application.Json)]
     public class UsersController : BaseController
@@ -30,21 +30,21 @@ namespace WebApi.Endpoints.Users
             _httpContext = httpContext;
         }
 
-        [HttpGet("", Name = "GetProfile")]
+        [HttpGet("", Name = "GetUserProfile")]
         [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-        [ProducesResponseType(typeof(GetProfileOutDto), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(GetUserProfileOutDto), StatusCodes.Status200OK)]
         [Authorize]
-        public async Task<ActionResult<GetProfileOutDto>> GetProfile()
+        public async Task<ActionResult<GetUserProfileOutDto>> GetProfile()
         {
             var email = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value;
-            var request = new GetProfileQuery();
+            var request = new GetUserProfileQuery();
             request.Email = email;
             var result = await _mediator.Send(request);
 
             return Ok(result);
         }
 
-        [HttpPut("", Name = "UpdateProfile")]
+        [HttpPut("", Name = "UpdateUserProfile")]
         [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
         [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
         [Authorize]
@@ -58,9 +58,9 @@ namespace WebApi.Endpoints.Users
             {
                 return validation.ToBadRequest();
             }
-            var updateProfileCommand = new UpdateProfileCommand()
+            var updateProfileCommand = new UpdateUserProfileCommand()
             {
-                UserDto = dto.Adapt<UpdateProfileInDto>(),
+                UserDto = dto.Adapt<UpdateUserProfileInDto>(),
             };
             updateProfileCommand.UserDto.Email = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value;
 

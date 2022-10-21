@@ -6,23 +6,23 @@ using Domain.Entities.Users.UserEnums;
 using Mapster;
 using MediatR;
 
-namespace Core.UseCases.Users.Commands.UpdateProfile;
+namespace Core.UseCases.Users.Commands.UpdateUserProfile;
 
-public class UpdateProfileCommand : IRequest<HttpStatusCode>
+public class UpdateUserProfileCommand : IRequest<HttpStatusCode>
 {
-    public UpdateProfileInDto UserDto { get; set; }
+    public UpdateUserProfileInDto UserDto { get; set; }
 }
 
-public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommand, HttpStatusCode>
+public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfileCommand, HttpStatusCode>
 {
     private readonly IUnitOfWork _unit;
 
-    public UpdateProfileCommandHandler(IUnitOfWork unit)
+    public UpdateUserProfileCommandHandler(IUnitOfWork unit)
     {
         _unit = unit;
     }
 
-    public async Task<HttpStatusCode> Handle(UpdateProfileCommand cmd, CancellationToken cancellationToken)
+    public async Task<HttpStatusCode> Handle(UpdateUserProfileCommand cmd, CancellationToken cancellationToken)
     {
         var identityUser = await _unit.UserRepository.GetByEmailAsync(cmd.UserDto.Email);
         cmd.UserDto.Adapt(identityUser);
