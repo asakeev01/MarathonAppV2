@@ -29,8 +29,8 @@ namespace Core.UseCases.Auth.Commands.ChangePassword
         public async Task<HttpStatusCode> Handle(ResetPasswordCommand cmd, CancellationToken cancellationToken)
         {
             var identityUser = await _unit.UserRepository.GetByEmailAsync(cmd.Email);
-            var normalToken = _emailService.WebDecodeToken(cmd.PasswordToken);
-            await _unit.UserRepository.ResetPasswordAsync(identityUser, normalToken, cmd.NewPassword);
+            //var normalToken = _emailService.WebDecodeToken(cmd.PasswordToken);
+            await _unit.UserRepository.ResetPasswordAsync(identityUser, cmd.PasswordToken, cmd.NewPassword);
             return HttpStatusCode.OK;
         }
     }

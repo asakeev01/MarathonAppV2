@@ -134,7 +134,7 @@ namespace WebApi.Endpoints.Auth
             return Ok(result);
         }
 
-        [HttpGet("confirmemail", Name = "ConfirmEmail")]
+        [HttpPatch("confirmemail", Name = "ConfirmEmail")]
         [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<HttpStatusCode>> RegisterAsync(
@@ -194,7 +194,7 @@ namespace WebApi.Endpoints.Auth
             return result;
         }
 
-        [HttpPost("resetpassword", Name = "ResetPassword")]
+        [HttpPatch("resetpassword", Name = "ResetPassword")]
         [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<HttpStatusCode>> ResetPasswordAsync(
