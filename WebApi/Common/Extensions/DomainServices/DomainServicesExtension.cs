@@ -1,3 +1,4 @@
+using Domain.Common.Contracts;
 using Domain.Services;
 using Domain.Services.Interfaces;
 using Infrastructure.Services;
@@ -15,5 +16,6 @@ public static class DomainServicesExtension
         services.AddScoped<IEmailService, EmailService>();
         services.AddScoped<IRefreshTokenService, RefreshTokenService>();
         services.AddScoped<IGoogleAuthService, GoogleAuthService>();
+        services.AddScoped<ISavedDocumentService, SavedDocumentService>();
     }
 }

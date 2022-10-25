@@ -15,6 +15,7 @@
       <Folder Include="Common\Options\" />
       <Folder Include="Entities\Users\Constants\" />
       <Folder Include="Services\Models\" />
+      <Folder Include="Entities\Documents\DocumentEnums\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -80,5 +81,6 @@
       <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
       <None Remove="Services\Models\" />
       <None Remove="Google.Apis.Auth" />
+      <None Remove="Entities\Documents\DocumentEnums\" />
     </ItemGroup>
 </Project>

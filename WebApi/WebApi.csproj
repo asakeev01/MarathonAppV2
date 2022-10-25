@@ -61,6 +61,8 @@
       <Folder Include="staticfiles\Partners\" />
       <Folder Include="Common\Extensions\CorsServices\" />
       <Folder Include="Endpoints\Documents\" />
+      <Folder Include="Endpoints\Documents\Dtos\" />
+      <Folder Include="Endpoints\Documents\Dtos\Requests\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -75,5 +77,7 @@
       <None Remove="Endpoints\Users\Dtos\Requests\" />
       <None Remove="Common\Extensions\CorsServices\" />
       <None Remove="Endpoints\Documents\" />
+      <None Remove="Endpoints\Documents\Dtos\" />
+      <None Remove="Endpoints\Documents\Dtos\Requests\" />
     </ItemGroup>
 </Project>

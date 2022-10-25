@@ -289,7 +289,6 @@ namespace Infrastructure.Persistence.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     FrontPassportPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    BackPassportPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     InsurancePath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DisabilityPath = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<long>(type: "bigint", nullable: false)

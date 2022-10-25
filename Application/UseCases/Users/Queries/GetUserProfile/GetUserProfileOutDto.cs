@@ -15,11 +15,11 @@ namespace Core.UseCases.Users.Queries.GetUserProfile
 
         public DateTime? DateOfBirth { get; set; }
 
-        public GenderEnum Gender { get; set; }
+        public GenderEnum? Gender { get; set; }
 
-        public TshirtEnum Tshirt { get; set; }
+        public TshirtEnum? Tshirt { get; set; }
 
-        public CountriesEnum Country { get; set; }
+        public CountriesEnum? Country { get; set; }
 
         public string PhoneNumber { get; set; }
 

@@ -30,6 +30,7 @@
       <Folder Include="UseCases\Documents\" />
       <Folder Include="UseCases\Documents\Commands\" />
       <Folder Include="UseCases\Documents\Queries\" />
+      <Folder Include="UseCases\Documents\Commands\UploadUserDocument\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -62,5 +63,6 @@
       <None Remove="UseCases\Documents\" />
       <None Remove="UseCases\Documents\Commands\" />
       <None Remove="UseCases\Documents\Queries\" />
+      <None Remove="UseCases\Documents\Commands\UploadUserDocument\" />
     </ItemGroup>
 </Project>

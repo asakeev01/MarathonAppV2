@@ -229,9 +229,6 @@ namespace Infrastructure.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
 
-                    b.Property<string>("BackPassportPath")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("DisabilityPath")
                         .HasColumnType("nvarchar(max)");
 
