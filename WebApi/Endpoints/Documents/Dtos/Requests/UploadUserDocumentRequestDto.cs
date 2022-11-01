@@ -19,7 +19,6 @@ namespace WebApi.Endpoints.Documents.Dtos.Requests
             RuleFor(x => x.Document.Length).NotNull().LessThanOrEqualTo(20 * 1024 * 1024)
                 .WithMessage("File size is larger than allowed");
         }
-
     }
 }
 

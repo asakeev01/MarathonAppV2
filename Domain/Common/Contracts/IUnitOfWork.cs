@@ -22,6 +22,8 @@ public interface IUnitOfWork : IDisposable
 
     IDocumentRepository DocumentRepository { get; }
 
+    IStatusRepository StatusRepository { get; }
+
     void Save();
     Task SaveAsync();
     Task BeginTransactionAsync();

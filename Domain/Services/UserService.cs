@@ -3,6 +3,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Domain.Common.Options;
+using Domain.Entities.Documents;
 using Domain.Entities.Users;
 using Domain.Entities.Users.Exceptions;
 using Domain.Services.Interfaces;
@@ -79,22 +80,6 @@ namespace Domain.Services
             };
         }
 
-        //public async Task<LoginModel.LoginOut> UseRefreshTokenAsync(LoginModel.RefreshIn model)
-        //{
-        //    IsAccessTokenValid(model.AccessToken);
-
-        //    var token = await _refreshTokenService.ByValueAsync<RefreshTokenModel.Get>(model.RefreshToken);
-
-        //    if (token is null || token.ExpirationDateUtc <= DateTime.UtcNow)
-        //        throw new HttpException("Срок действия refresh токена истёк.", HttpStatusCode.BadRequest);
-
-        //    await _refreshTokenService.DeleteAsync(model.RefreshToken);
-        //    var user = await _userManager.FindByIdAsync(token.UserId);
-        //    var (claims, roleNames) = await ClaimsAndRolesAsync(user);
-
-        //    return await BuildResponse(user, claims, roleNames);
-        //}
-
         public void IsAccessTokenValid(string accessToken)
         {
             var key = _securityTokenOptions.Secret;
@@ -118,55 +103,30 @@ namespace Domain.Services
                 throw new InvalidTokenException();
         }
 
-        //public async Task Logout()
-        //{
-        //    var userId = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier);
+        public User CreateUser(string email) {
+            var user = new User
+            {
+                Email = email,
+                UserName = email
+            };
+            user.Document = new Document();
+            user.Status = new Status();
+            return user;
+        }
 
-        //    var refreshTokens = _context.RefreshTokens.AsNoTracking().Where(t => t.UserId == new Guid(userId.Value));
-        //    _context.RefreshTokens.RemoveRange(refreshTokens);
-        //    await _context.SaveChangesAsync();
-        //}
+        public void IsEmailConfirmed(User user)
+        {
+            if (user.EmailConfirmed == false) {
+                throw new EmailWasNotConfirmedException();
+            }
+        }
 
-        //public async Task SendConfirmEmailAgainAsync(LoginModel.LoginIn model)
-        //{
-        //    var user = await _userManager.FindByEmailAsync(model.Email);
-        //    if (user == null)
-        //        throw new HttpException("There is no such user", HttpStatusCode.BadRequest);
-
-        //    if (!await _userManager.CheckPasswordAsync(user, model.Password))
-        //        throw new HttpException("Неверный пароль.", HttpStatusCode.BadRequest);
-
-        //    if (user.EmailConfirmed)
-        //        throw new HttpException("Email is already confirmed", HttpStatusCode.BadRequest);
-
-        //    try
-        //    {
-        //        await _emailService.SendConfirmEmailAsync(user);
-        //    }
-
-        //    catch (Exception ex)
-        //    {
-        //        throw new HttpException("Something wrong with email", ex.InnerException, HttpStatusCode.BadRequest);
-        //    }
-        //}
-
-        //public async Task ChangePasswordAsync(ChangePasswordModel model)
-        //{
-        //    var user = await _userManager.FindByEmailAsync(model.Email);
-        //    if (user == null)
-        //        throw new HttpException("There is no such user", HttpStatusCode.BadRequest);
-
-        //    if (!await _userManager.CheckPasswordAsync(user, model.Password))
-        //        throw new HttpException("Неверный пароль.", HttpStatusCode.BadRequest);
-
-        //    if (model.NewPassword != model.ConfirmPassword)
-        //        throw new HttpException("Passwords do not match", HttpStatusCode.BadRequest);
-
-        //    var result = await _userManager.ChangePasswordAsync(user, model.Password, model.NewPassword);
-
-        //    if (!result.Succeeded)
-        //        throw new HttpException("Password was not changed", HttpStatusCode.BadRequest);
-        //}
+        public void SetDateOfConfirmation(User user)
+        {
+            if (user.DateOfConfirmation == null) {
+                user.DateOfConfirmation = DateTime.UtcNow;
+            }
+        }
     }
 }
 

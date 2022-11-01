@@ -2,6 +2,8 @@
 using Domain.Common.Contracts;
 using Domain.Entities.Documents;
 using Domain.Entities.Documents.DocumentEnums;
+using Domain.Entities.Users;
+using Domain.Entities.Users.UserEnums;
 using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Services
@@ -16,7 +18,7 @@ namespace Infrastructure.Services
             _unit = unit;
         }
 
-        public async Task<Document> UploadDocumentAsync(Document document, IFormFile file, DocumentsEnum documentType)
+        public async Task UploadDocumentAsync(Status status, Document document, IFormFile file, DocumentsEnum documentType)
         {
             string directoryPath = Path.Combine(Directory.GetCurrentDirectory(), "staticfiles", documentType.ToString());
             string fileName = Guid.NewGuid().ToString() + "." + file.FileName;
@@ -57,8 +59,44 @@ namespace Infrastructure.Services
                 }
                 document.DisabilityPath = databasePath;
             }
+            status.CurrentStatus = StatusesEnum.Processing;
+            status.Comment = CommentsEnum.Processing;
+        }
 
-            return document;
+        public void DeleteDocument(Status status, Document document, DocumentsEnum documentType)
+        {
+            if (documentType == DocumentsEnum.FrontPassport)
+            {
+                if (document.FrontPassportPath != null)
+                {
+                    string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.FrontPassportPath);
+                    if (File.Exists(oldDocument))
+                        File.Delete(oldDocument);
+                }
+                document.FrontPassportPath = null;
+            }
+            else if (documentType == DocumentsEnum.Insurance)
+            {
+                if (document.InsurancePath != null)
+                {
+                    string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.InsurancePath);
+                    if (File.Exists(oldDocument))
+                        File.Delete(oldDocument);
+                }
+                document.InsurancePath = null;
+            }
+            else
+            {
+                if (document.DisabilityPath != null)
+                {
+                    string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.DisabilityPath);
+                    if (File.Exists(oldDocument))
+                        File.Delete(oldDocument);
+                }
+                document.DisabilityPath = null;
+            }
+            status.CurrentStatus = StatusesEnum.Processing;
+            status.Comment = CommentsEnum.Processing;
         }
     }
 }

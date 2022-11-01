@@ -18,23 +18,19 @@ namespace Core.UseCases.Auth.Commands.Register
     public class RegisterAdminCommandHandler : IRequestHandler<RegisterAdminCommand, HttpStatusCode>
     {
         private readonly IUnitOfWork _unit;
+        private readonly IUserService _userService;
         private readonly IEmailService _emailService;
 
-        public RegisterAdminCommandHandler(IUnitOfWork unit, IEmailService emailService)
+        public RegisterAdminCommandHandler(IUnitOfWork unit, IUserService userService, IEmailService emailService)
         {
             _unit = unit;
+            _userService = userService;
             _emailService = emailService;
         }
 
         public async Task<HttpStatusCode> Handle(RegisterAdminCommand cmd, CancellationToken cancellationToken)
         {
-            await _unit.UserRepository.UserExistsAsync(cmd.Email);
-            var identityUser = new User
-            {
-                Email = cmd.Email,
-                UserName = cmd.Email
-            };
-            identityUser.Document = new Document();
+            var identityUser = _userService.CreateUser(cmd.Email);
             await _unit.UserRepository.CreateUserAsync(identityUser, cmd.Password);
             await _unit.UserRepository.AddToRoleAsync(identityUser, Roles.Admin);
             var emailToken = await _unit.UserRepository.GenerateEmailConfirmationTokenAsync(identityUser);

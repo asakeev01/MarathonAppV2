@@ -15,7 +15,7 @@ namespace WebApi.Endpoints.Users.Dtos.Requests
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
         public DateTime? DateOfBirth { get; set; }
 
-        public GenderEnum? Gender { get; set; }
+        public bool? Gender { get; set; }
 
         public TshirtEnum? Tshirt { get; set; }
 

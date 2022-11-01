@@ -20,14 +20,6 @@ namespace Infrastructure.Persistence.Repositories
             _repositoryContext = repositoryContext;
         }
 
-        public async Task UserExistsAsync(string email)
-        {
-            var user = await _userManager.FindByEmailAsync(email);
-
-            if (user != null)
-                throw new UserAlreadyExistsException();
-        }
-
         public async Task<bool> IsUserExistsAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
@@ -39,6 +31,8 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task CreateUserAsync(User user, string password)
         {
+            if(await _userManager.FindByEmailAsync(user.Email) != null)
+                throw new UserAlreadyExistsException();
             await _userManager.CreateAsync(user, password);
         }
 

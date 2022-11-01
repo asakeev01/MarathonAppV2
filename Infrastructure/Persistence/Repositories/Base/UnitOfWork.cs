@@ -23,6 +23,7 @@ public class UnitOfWork : IUnitOfWork
     private IPartnerRepository? _partnerRepository;
     private IRefreshTokenRepository? _refreshTokenRepository;
     private IDocumentRepository? _documentRepository;
+    private IStatusRepository? _statusRepository;
 
     private bool disposed = false;
 
@@ -121,6 +122,15 @@ public class UnitOfWork : IUnitOfWork
         {
             _documentRepository ??= new DocumentRepository(_context, _localizer);
             return _documentRepository;
+        }
+    }
+
+    public IStatusRepository StatusRepository
+    {
+        get
+        {
+            _statusRepository ??= new StatusRepository(_context, _localizer);
+            return _statusRepository;
         }
     }
 

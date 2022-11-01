@@ -13,6 +13,7 @@ public static class SeedUserExtension
         {
             Email = Owner.Email,
             UserName = Owner.Email,
+            EmailConfirmed = true
         };
 
         PasswordHasher<User> ph = new PasswordHasher<User>();

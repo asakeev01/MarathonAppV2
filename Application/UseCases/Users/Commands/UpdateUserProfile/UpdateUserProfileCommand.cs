@@ -3,6 +3,7 @@ using System.Net;
 using Core.Common.Contracts;
 using Domain.Common.Contracts;
 using Domain.Entities.Users.UserEnums;
+using Domain.Services.Interfaces;
 using Mapster;
 using MediatR;
 
@@ -16,16 +17,19 @@ public class UpdateUserProfileCommand : IRequest<HttpStatusCode>
 public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfileCommand, HttpStatusCode>
 {
     private readonly IUnitOfWork _unit;
+    private readonly IUserService _userService;
 
-    public UpdateUserProfileCommandHandler(IUnitOfWork unit)
+    public UpdateUserProfileCommandHandler(IUnitOfWork unit, IUserService userService)
     {
         _unit = unit;
+        _userService = userService;
     }
 
     public async Task<HttpStatusCode> Handle(UpdateUserProfileCommand cmd, CancellationToken cancellationToken)
     {
         var identityUser = await _unit.UserRepository.GetByEmailAsync(cmd.UserDto.Email);
         cmd.UserDto.Adapt(identityUser);
+        _userService.SetDateOfConfirmation(identityUser);
         await _unit.UserRepository.UpdateAsync(identityUser);
 
         return HttpStatusCode.OK;

@@ -29,10 +29,11 @@ namespace Core.UseCases.Auth.Commands.Login
         public async Task<LoginOutDto> Handle(LoginCommand cmd, CancellationToken cancellationToken)
         {
             var identityUser = await _unit.UserRepository.GetByEmailAsync(cmd.Email);
+            _userService.IsEmailConfirmed(identityUser);
             await _unit.UserRepository.CheckPasswordAsync(identityUser, cmd.Password);
             var roles = await _unit.UserRepository.GetRolesAsync(identityUser);
             var refreshToken = _refreshTokenService.GenerateRefreshToken(identityUser.Id);
-            await _unit.RefreshTokenRepository.CreateAsync(refreshToken, save: true) ;
+            await _unit.RefreshTokenRepository.CreateAsync(refreshToken, save: true);
             var loginOut = _userService.LoginAsync(identityUser, refreshToken, roles);
             var loginOutDto = LoginOutDto.MapFrom(loginOut);
             return loginOutDto;

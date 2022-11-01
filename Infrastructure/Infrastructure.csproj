@@ -14,7 +14,6 @@
       <Folder Include="Common\Resources" />
       <Folder Include="Files" />
       <Folder Include="Identity" />
-      <Folder Include="Migrations\" />
       <Folder Include="Services\Interfaces\" />
 
       <Folder Include="Persistence\Seed\SeedIdentity\" />

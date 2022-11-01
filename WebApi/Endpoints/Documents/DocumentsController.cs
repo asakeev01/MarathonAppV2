@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
+using Core.UseCases.Documents.Commands.DeleteUserDocument;
 using Core.UseCases.Documents.Commands.UploadUserDocument;
 using Core.UseCases.Documents.Queries.GetUserDocument;
 using FluentValidation;
@@ -65,7 +66,34 @@ namespace WebApi.Endpoints.Documents
                 UserId = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value,
                 Document = dto.Document,
                 DocumentType = dto.DocumentType
+            };
 
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+
+        }
+
+        [HttpDelete("", Name = "DeleteUserDocument")]
+        [Consumes("multipart/form-data")]
+        [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+        [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+        [Authorize]
+        public async Task<ActionResult<HttpStatusCode>> DeleteDocument(
+            [FromForm] DeleteUserDocumentRequestDto dto,
+            [FromServices] IValidator<DeleteUserDocumentRequestDto> validator)
+        {
+            var validation = await validator.ValidateAsync(dto);
+
+            if (!validation.IsValid)
+            {
+                return validation.ToBadRequest();
+            }
+
+            var command = new DeleteUserDocumentCommand()
+            {
+                UserId = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value,
+                DocumentType = dto.DocumentType
             };
 
             var result = await _mediator.Send(command);

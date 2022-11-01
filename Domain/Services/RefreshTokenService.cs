@@ -44,17 +44,6 @@ namespace Domain.Services
             if (refreshToken.ExpirationDateUtc <= DateTime.UtcNow)
                 throw new InvalidTokenException();
         }
-
-        //public async Task<TModel> ByValueAsync<TModel>(string refreshToken)
-        //    where TModel : class
-        //{
-        //    var entity = await _context.RefreshTokens.FirstOrDefaultAsync(t => t.Name == refreshToken);
-
-        //    if (entity is null)
-        //        return null;
-
-        //    return entity.Adapt<TModel>();
-        //}
     }
 }
 

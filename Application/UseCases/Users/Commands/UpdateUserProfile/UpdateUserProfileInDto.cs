@@ -15,7 +15,7 @@ namespace Core.UseCases.Users.Commands.UpdateUserProfile
 
         public DateTime? DateOfBirth { get; set; }
 
-        public GenderEnum? Gender { get; set; }
+        public bool? Gender { get; set; }
 
         public TshirtEnum? Tshirt { get; set; }
 

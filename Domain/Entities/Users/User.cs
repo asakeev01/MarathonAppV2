@@ -15,19 +15,18 @@ public class User : IdentityUser<long>
     [DataType(DataType.Date)]
     [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
     public DateTime? DateOfBirth { get; set; }
-
     public bool NewUser { get; set; }
-    public GenderEnum? Gender { get; set; }
+    public bool? Gender { get; set; }
     public TshirtEnum? Tshirt { get; set; }
     public CountriesEnum? Country { get; set; }
     public string? ExtraPhoneNumber { get; set; }
+    public DateTime? DateOfConfirmation { get; set; }
+    public bool IsDisable { get; set; }
+    public bool IsDeleted { get; set; }
 
+    public Status Status { get; set; }
     public Document Document { get; set; }
     public virtual ICollection<Application> Applications { get; set; }
-
     public ICollection<UserRole> UserRoles { get; set; }
-
     public ICollection<Account> Accounts { get; set; }
-
-    public bool IsDeleted { get; set; } = false;
 }

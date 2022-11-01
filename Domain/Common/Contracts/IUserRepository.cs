@@ -4,7 +4,6 @@ namespace Domain.Common.Contracts;
 
 public interface IUserRepository : IBaseRepository<User>
 {
-    Task UserExistsAsync(string email);
     Task<bool> IsUserExistsAsync(string email);
     Task CreateUserAsync(User user, string password);
     Task<User> GetByEmailAsync(string? email);

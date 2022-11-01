@@ -84,10 +84,6 @@ namespace Domain.Services
 
         public string WebEncodeToken(string token)
         {
-            //var encodedToken = Encoding.UTF8.GetBytes(token);
-
-            //var validToken = WebEncoders.Base64UrlEncode(encodedToken);
-
             var validToken = WebUtility.UrlEncode(token);
 
             return validToken;
@@ -95,10 +91,6 @@ namespace Domain.Services
 
         public string WebDecodeToken(string token)
         {
-            //var decodedToken = WebEncoders.Base64UrlDecode(token);
-
-            //var normalToken = Encoding.UTF8.GetString(decodedToken);
-
             var normalToken = WebUtility.UrlDecode(token);
 
             return normalToken;
