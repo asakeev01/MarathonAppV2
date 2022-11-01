@@ -878,4 +878,5 @@ FodyWeavers.xsd
 WebApi/staticfiles/Marathons/
 WebApi/staticfiles/Partners/
 WebApi/staticfiles/Documents/
+Infrastructure/Persistence/Migrations
 .DS_Store
