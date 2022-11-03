@@ -20,7 +20,7 @@ public record GetMarathonsOutDto: BaseDto<Marathon, GetMarathonsOutDto>
     public override void AddCustomMappings()
     {
         SetCustomMappings()
-            .Map(x => x.Logo, y => y.Logo.Path)
+            .Map(x => x.Logo, y => y.MarathonTranslations.First().Logo.Path)
             .Map(x => x.Name, y => y.MarathonTranslations.First().Name)
             .Map(x => x.Text, y => y.MarathonTranslations.First().Text)
             .Map(x => x.Place, y => y.MarathonTranslations.First().Place);

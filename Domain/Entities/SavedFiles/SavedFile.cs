@@ -12,5 +12,5 @@ public class SavedFile
     public int? MarathonId { get; set; }
 
     public virtual Marathon? Marathon {get;set;}
-    public virtual Marathon? MarathonLogo {get;set;}
+    public virtual MarathonTranslation? MarathonLogo {get;set;}
 }

@@ -12,6 +12,7 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
+    public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
 
     public class TranslationDto
     {
@@ -28,16 +29,18 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
             .Map(x => x.MarathonTranslations, x => x.Translations);
     }
 
+    public class DistanceForPWDDTO
+    {
+        public string Name { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
+    }
+
     public class DistanceDto
     {
-        public int Id { get; set; }
         public string Name { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan PassingLimit { get; set; }
-        public int AgeFrom { get; set; }
-        public int NumberOfParticipants { get; set; }
-        public int RegistredParticipants { get; set; }
-        public bool MedicalCertificate { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
         public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
         public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
 

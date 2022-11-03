@@ -12,6 +12,7 @@ public class PutMarathonRequestDto
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
+    public ICollection<DistanceForPWDDTO> DistanceForPWD { get; set; }
 
     public class TranslationDto
     {
@@ -22,16 +23,20 @@ public class PutMarathonRequestDto
         public int LanguageId { get; set; }
     }
 
-public class DistanceDto
+    public class DistanceForPWDDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan PassingLimit { get; set; }
-        public int AgeFrom { get; set; }
-        public int NumberOfParticipants { get; set; }
-        public int RegistredParticipants { get; set; }
-        public bool MedicalCertificate { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
+    }
+
+    public class DistanceDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
         public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
         public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
 
@@ -46,6 +51,7 @@ public class DistanceDto
         public class DistanceAgeDto
         {
             public int Id { get; set; }
+            public bool Gender { get; set; }
             public int? AgeFrom { get; set; }
             public int? AgeTo { get; set; }
         }
@@ -68,16 +74,18 @@ public class PutMarathonRequestDtoValidator : AbstractValidator<PutMarathonReque
             translations.RuleFor(x => x.Text).NotEmpty();
             translations.RuleFor(x => x.Place).NotEmpty();
         });
+        RuleForEach(x => x.DistanceForPWD).ChildRules(distances =>
+        {
+            distances.RuleFor(x => x.Name).NotEmpty();
+            distances.RuleFor(x => x.StartNumbersFrom).GreaterThan(-1);
+            distances.RuleFor(x => x.StartNumbersTo).GreaterThan(x => x.StartNumbersFrom);
+        });
 
         RuleForEach(x => x.Distances).ChildRules(distances =>
         {
             distances.RuleFor(x => x.Name).NotEmpty();
-            distances.RuleFor(x => x.StartTime).NotEmpty();
-            distances.RuleFor(x => x.PassingLimit).NotEmpty();
-            distances.RuleFor(x => x.AgeFrom).GreaterThan(-1);
-            distances.RuleFor(x => x.NumberOfParticipants).GreaterThan(0);
-            distances.RuleFor(x => x.RegistredParticipants).GreaterThan(0);
-            distances.RuleFor(x => x.MedicalCertificate).NotEmpty();
+            distances.RuleFor(x => x.StartNumbersFrom).GreaterThan(-1);
+            distances.RuleFor(x => x.StartNumbersTo).GreaterThan(x => x.StartNumbersFrom);
 
             distances.RuleForEach(x => x.DistancePrices).ChildRules(distancePrices =>
             {

@@ -11,6 +11,7 @@ namespace Core.UseCases.Marathons.Commands.AddLogo;
 public class AddLogoCommand : IRequest<HttpStatusCode>
 {
     public int MarathonId { get; set; }
+    public int TranslationId { get; set; }
     public IFormFile Logo { get; set; }
 }
 
@@ -27,12 +28,12 @@ public class AddLogoCommandHandler : IRequestHandler<AddLogoCommand, HttpStatusC
 
     public async Task<HttpStatusCode> Handle(AddLogoCommand cmd, CancellationToken cancellationToken)
     {
-        var marathon = await _unit.MarathonRepository
-            .FirstAsync(x => x.Id == cmd.MarathonId, include: source => source.Include(a => a.Logo));
+        var translation = await _unit.MarathonTranslationRepository.
+            FirstAsync(x => x.Id == cmd.TranslationId && x.MarathonId == cmd.MarathonId, include: source => source.Include(a => a.Logo));
 
-        var oldLogo = marathon.Logo;
+        var oldLogo = translation.Logo;
         var logo = await _savedFileService.UploadFile(cmd.Logo, FileTypeEnum.Marathons);
-        marathon.Logo = logo;
+        translation.Logo = logo;
         await _unit.MarathonTranslationRepository.SaveAsync();
 
         if (oldLogo != null)

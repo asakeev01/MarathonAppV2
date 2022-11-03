@@ -27,10 +27,12 @@ public class GetMarathonHandler : IRequestHandler<GetMarathonQuery, GetMarathonO
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
         var marathon = await _unit.MarathonRepository
             .FirstAsync(x => x.Id == request.MarathonId, include: source => source
-            .Include(a => a.Logo)
+            .Include(a => a.DistancesForPWD)
             .Include(a => a.Documents)
             .Include(a => a.Partners).ThenInclude(a => a.Translations.Where(t => t.Language.Code == request.LanguageCode))
             .Include(a => a.Partners).ThenInclude(a => a.Logos)
+            .Include(a => a.Distances).ThenInclude(a => a.DistancePrices)
+            .Include(a => a.Distances).ThenInclude(a => a.DistanceAges)
             .Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)));
 
         var marathonDto = marathon.Adapt<GetMarathonOutDto>();

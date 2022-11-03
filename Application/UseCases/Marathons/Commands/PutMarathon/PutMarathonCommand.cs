@@ -25,6 +25,7 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
         var marathon = await _unit.MarathonRepository
             .FirstAsync(x => x.Id == cmd.MarathonDto.Id, include: source => source
             .Include(a => a.MarathonTranslations)
+            .Include(a => a.DistancesForPWD)
             .Include(a => a.Distances).ThenInclude(a => a.DistancePrices)
             .Include(a => a.Distances).ThenInclude(a => a.DistanceAges));
                 

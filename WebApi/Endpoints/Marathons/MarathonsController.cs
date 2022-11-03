@@ -103,7 +103,7 @@ public class MarathonsController : BaseController
     /// <response code="200">Id of created marathon</response>
     [HttpPost("", Name = "CreateMarathon")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     public async Task<ActionResult<HttpStatusCode>> Create(
         [FromBody] CreateMarathonRequestDto dto,
         [FromServices] IValidator<CreateMarathonRequestDto> validator
@@ -155,13 +155,14 @@ public class MarathonsController : BaseController
     /// <summary>
     /// Add logo to Marathon
     /// </summary>
-    /// <response code="200">/response>
-    [HttpPost("{marathonId:int}/logo")]
+    /// <response code="200"></response>
+    [HttpPost("{marathonId:int}/logo/{translationId:int}")]
     [Consumes("multipart/form-data")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
     public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddLogo(
         [FromRoute] int marathonId,
+        [FromRoute] int translationId,
         [FromForm] AddLogoToMarathonRequestDto dto,
         [FromServices] IValidator<AddLogoToMarathonRequestDto> validator)
     {
@@ -175,6 +176,7 @@ public class MarathonsController : BaseController
         var addLogoCommand = new AddLogoCommand()
             {
                 MarathonId = marathonId,
+                TranslationId = translationId,
                 Logo = dto.Logo
             };
 
@@ -188,16 +190,18 @@ public class MarathonsController : BaseController
     /// Delete logo from marathon
     /// </summary>
     /// <response code="200"></response>
-    [HttpDelete("{marathonId:int}/logo")]
+    [HttpDelete("{marathonId:int}/logo/{translationId:int}")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
     public async Task<ActionResult<AddLogoToMarathonRequestDto>> DeleteLogo(
-        [FromRoute] int marathonId)
+        [FromRoute] int marathonId,
+        [FromRoute] int translationId)
     {
 
             var deleteLogoCommand = new DeleteLogoCommand()
             {
                 MarathonId = marathonId,
+                TranslationId = translationId
             };
 
             var result = await _mediator.Send(deleteLogoCommand);
@@ -207,13 +211,13 @@ public class MarathonsController : BaseController
     }
 
     /// <summary>
-    /// Add logo to Marathon
+    /// Add Partner to Marathon
     /// </summary>
-    /// <response code="200">/response>
+    /// <response code="200"></response>
     [HttpPost("{marathonId:int}/partners")]
     [Consumes("multipart/form-data", "application/json")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
     public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddPartners(
         [FromRoute] int marathonId,
         [FromForm] AddPartnersRequestDto dto,
@@ -240,12 +244,12 @@ public class MarathonsController : BaseController
     /// <summary>
     /// Add documents to marathon
     /// </summary>
-    /// <response code="200">/response>
+    /// <response code="200"></response>
     [HttpPost("{marathonId:int}/documents")]
     [Consumes("multipart/form-data", "application/json")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(AddDocumentsToMarathonRequestDto), StatusCodes.Status200OK)]
-    public async Task<ActionResult<AddDocumentsToMarathonRequestDto>> AddPartners(
+    public async Task<ActionResult<AddDocumentsToMarathonRequestDto>> AddDocuments(
         [FromRoute] int marathonId,
         [FromForm] AddDocumentsToMarathonRequestDto dto,
         [FromServices] IValidator<AddDocumentsToMarathonRequestDto> validator)

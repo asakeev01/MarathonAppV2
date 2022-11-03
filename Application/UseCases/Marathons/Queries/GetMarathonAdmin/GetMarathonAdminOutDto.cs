@@ -7,13 +7,13 @@ namespace Core.UseCases.Marathons.Queries.GetMarathonAdmin;
 public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
 {
     public int Id { get; set; }
-    public string Logo { get; set; }
     public ICollection<TranslationMarathonDto> Translations { get; set; }
     public DateTime Date { get; set; }
     public DateTime StartDateAcceptingApplications { get; set; }
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
+    public IEnumerable<DistanceForPWDDTO> DistancesForPWD { get; set; }
     public ICollection<PartnerDto> Partners { get; set; }
     public ICollection<DocumentDto> Documents { get; set; }
 
@@ -32,9 +32,18 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
     public override void AddCustomMappings()
     {
         SetCustomMappings()
-            .Map(x => x.Logo, y => y.Logo.Path)
             .Map(x => x.Translations, y => y.MarathonTranslations)
             .Map(x => x.Partners, y => y.Partners);
+    }
+
+    public class DistanceForPWDDTO
+    {
+        public string Name { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
+        public int AmountOfParticipants { get; set; }
+        public int RemainingPlaces { get; set; }
+        public int RegisteredParticipants { get; set; }
     }
 
     public record PartnerDto : BaseDto<Partner, PartnerDto>
@@ -68,26 +77,30 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
         public string Name { get; set; }
         public string LanguageId { get; set; }
     }
-    public class TranslationMarathonDto
+    public record TranslationMarathonDto : BaseDto<MarathonTranslation, TranslationMarathonDto>
     {
         public int Id { get; set; }
+        public string Logo { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
         public string Place { get; set; }
         public int LanguageId { get; set; }
+        public override void AddCustomMappings()
+        {
+            SetCustomMappings()
+                .Map(x => x.Logo, y => y.Logo.Path);
+        }
     }
 
     public class DistanceDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan PassingLimit { get; set; }
-        public int AgeFrom { get; set; }
-        public int NumberOfParticipants { get; set; }
-        public int RegistredParticipants { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
+        public int AmountOfParticipants { get; set; }
         public int RemainingPlaces { get; set; }
-        public bool MedicalCertificate { get; set; }
+        public int RegisteredParticipants { get; set; }
         public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
         public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
 
@@ -102,6 +115,7 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
         public class DistanceAgeDto
         {
             public int Id { get; set; }
+            public bool Gender { get; set; }
             public int? AgeFrom { get; set; }
             public int? AgeTo { get; set; }
         }

@@ -17,6 +17,7 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public IEnumerable<DistanceDto> Distances { get; set; }
+    public IEnumerable<DistanceForPWDDTO> DistancesForPWD { get; set; }
     public ICollection<PartnerDto> Partners { get; set; }
     public ICollection<DocumentDto> Documents { get; set; }
 
@@ -36,8 +37,18 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
         SetCustomMappings()
             .Map(x => x.Name, y => y.MarathonTranslations.First().Name)
             .Map(x => x.Text, y => y.MarathonTranslations.First().Text)
-            .Map(x => x.Logo, y => y.Logo.Path)
+            .Map(x => x.Logo, y => y.MarathonTranslations.First().Logo.Path)
             .Map(x => x.Place, y => y.MarathonTranslations.First().Place);
+    }
+
+    public class DistanceForPWDDTO
+    {
+        public string Name { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
+        public int AmountOfParticipants { get; set; }
+        public int RemainingPlaces { get; set; }
+        public int RegisteredParticipants { get; set; }
     }
     public record PartnerDto : BaseDto<Partner, PartnerDto>
     {
@@ -67,15 +78,11 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan PassingLimit { get; set; }
-        public int AgeFrom { get; set; }
-        public int NumberOfParticipants { get; set; }
-        public int RegistredParticipants { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
+        public int AmountOfParticipants { get; set; }
         public int RemainingPlaces { get; set; }
-        public bool MedicalCertificate { get; set; }
-        public int MarathonId { get; set; }
-        public int DistanceCategoryId { get; set; }
+        public int RegisteredParticipants { get; set; }
         public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
         public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
 
@@ -91,6 +98,7 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
         public record DistanceAgeDto : BaseDto<DistanceAge, DistanceAgeDto>
         {
             public int Id { get; set; }
+            public int Gender { get; set; }
             public int? AgeFrom { get; set; }
             public int? AgeTo { get; set; }
             public int DistanceId { get; set; }
