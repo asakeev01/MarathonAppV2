@@ -44,4 +44,11 @@ public class SavedFileService : ISavedFileService
         await _unit.SavedFileRepository.Delete(file);
         await _unit.SavedFileRepository.SaveAsync();
     }
+
+    public async Task<SavedFile> EmptyFile()
+    {
+        var dbFile = new SavedFile();
+        var db = await _unit.SavedFileRepository.CreateAsync(dbFile, save: true);
+        return db;
+    }
 }
