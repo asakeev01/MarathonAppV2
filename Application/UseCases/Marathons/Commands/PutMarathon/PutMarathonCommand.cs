@@ -1,4 +1,5 @@
 ﻿using Domain.Common.Contracts;
+using Infrastructure.Services.Interfaces;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -14,10 +15,12 @@ public class PutMarathonCommand : IRequest<HttpStatusCode>
 public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, HttpStatusCode>
 {
     private readonly IUnitOfWork _unit;
+    private readonly ISavedFileService _savedFileService;
 
-    public PutMarathonCommandHandler(IUnitOfWork unit)
+    public PutMarathonCommandHandler(IUnitOfWork unit, ISavedFileService savedFileService)
     {
         _unit = unit;
+        _savedFileService = savedFileService;
     }
 
     public async Task<HttpStatusCode> Handle(PutMarathonCommand cmd, CancellationToken cancellationToken)
@@ -29,7 +32,16 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
             .Include(a => a.Distances).ThenInclude(a => a.DistancePrices)
             .Include(a => a.Distances).ThenInclude(a => a.DistanceAges));
                 
-        cmd.MarathonDto.Adapt(marathon);
+        var entity = cmd.MarathonDto.Adapt(marathon);
+        foreach (var translation in entity.MarathonTranslations)
+        {
+            if (translation.Logo == null)
+            {
+                var logo = await _savedFileService.EmptyFile();
+                translation.Logo = logo;
+            }
+
+        }
         await _unit.MarathonRepository.SaveAsync();
 
         return HttpStatusCode.OK;
