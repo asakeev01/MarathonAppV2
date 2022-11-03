@@ -74,6 +74,17 @@ public class PutMarathonRequestDtoValidator : AbstractValidator<PutMarathonReque
             translations.RuleFor(x => x.Text).NotEmpty();
             translations.RuleFor(x => x.Place).NotEmpty();
         });
+
+
+        RuleForEach(x => x.Translations).ChildRules(translations =>
+        {
+            translations.RuleFor(x => x.Id).NotNull();
+            translations.RuleFor(x => x.Id).NotEmpty();
+            translations.RuleFor(x => x.Id).GreaterThan(0);
+            translations.RuleFor(x => x.Name).NotEmpty();
+            translations.RuleFor(x => x.Text).NotEmpty();
+            translations.RuleFor(x => x.Place).NotEmpty();
+        });
         RuleForEach(x => x.DistancesForPWD).ChildRules(distances =>
         {
             distances.RuleFor(x => x.Name).NotEmpty();
