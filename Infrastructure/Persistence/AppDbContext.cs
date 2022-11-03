@@ -37,6 +37,7 @@ public class AppDbContext : IdentityDbContext<User, Role, long>
     public DbSet<Distance> Distances { get; set; }
     public DbSet<DistanceAge> DistanceAges { get; set; }
     public DbSet<DistancePrice> DistancePrices { get; set; }
+    public DbSet<DistanceForPWD> DistanceForPWD { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

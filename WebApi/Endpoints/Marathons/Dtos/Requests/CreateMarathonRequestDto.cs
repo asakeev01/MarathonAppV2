@@ -11,7 +11,7 @@ public class CreateMarathonRequestDto
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
-    public ICollection<DistanceForPWDDTO>  DistanceForPWD { get; set; }
+    public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
 
     public class TranslationDto
     {
@@ -67,7 +67,7 @@ public class CreateMarathonRequestValidator : AbstractValidator<CreateMarathonRe
             translations.RuleFor(x => x.Place).NotEmpty();
         });
 
-        RuleForEach(x => x.DistanceForPWD).ChildRules(distances =>
+        RuleForEach(x => x.DistancesForPWD).ChildRules(distances =>
         {
             distances.RuleFor(x => x.Name).NotEmpty();
             distances.RuleFor(x => x.StartNumbersFrom).GreaterThan(-1);

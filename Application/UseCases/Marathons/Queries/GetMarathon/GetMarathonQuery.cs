@@ -33,12 +33,10 @@ public class GetMarathonHandler : IRequestHandler<GetMarathonQuery, GetMarathonO
             .Include(a => a.Partners).ThenInclude(a => a.Logos)
             .Include(a => a.Distances).ThenInclude(a => a.DistancePrices)
             .Include(a => a.Distances).ThenInclude(a => a.DistanceAges)
-            .Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)));
+            .Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)).ThenInclude(a => a.Logo)
+            );
 
         var marathonDto = marathon.Adapt<GetMarathonOutDto>();
-        var distances =  _unit.DistanceRepository
-            .FindByCondition(x => x.MarathonId == request.MarathonId, include: source => source.Include(a=> a.DistanceAges).Include(a=>a.DistancePrices));
-        marathonDto.Distances = distances.Adapt<IEnumerable<GetMarathonOutDto.DistanceDto>>();
         return marathonDto;
     }
 }

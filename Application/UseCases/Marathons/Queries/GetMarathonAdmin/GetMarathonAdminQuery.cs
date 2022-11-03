@@ -26,7 +26,7 @@ public class GetMarathonAdminHandler : IRequestHandler<GetMarathonAdminQuery, Ge
             .FirstToAsync<GetMarathonAdminOutDto>(x => x.Id == request.MarathonId,
             include: source => source
             .Include(a => a.DistancesForPWD)
-            .Include(a => a.MarathonTranslations)
+            .Include(a => a.MarathonTranslations).ThenInclude(a => a.Logo)
             .Include(a => a.Documents)
             .Include(a => a.Partners).ThenInclude(a => a.Translations)
             .Include(a => a.Partners).ThenInclude(a => a.Logos)
