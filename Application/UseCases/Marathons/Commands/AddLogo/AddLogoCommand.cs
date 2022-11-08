@@ -36,7 +36,7 @@ public class AddLogoCommandHandler : IRequestHandler<AddLogoCommand, HttpStatusC
         translation.Logo = logo;
         await _unit.MarathonTranslationRepository.SaveAsync();
 
-        if (oldLogo != null)
+        if (oldLogo.Path != null)
         {
             await _savedFileService.DeleteFile(oldLogo);
         }
