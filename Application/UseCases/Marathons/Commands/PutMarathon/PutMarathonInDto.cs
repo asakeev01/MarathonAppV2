@@ -31,6 +31,7 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
 
     public class DistanceForPWDDTO
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public int StartNumbersFrom { get; set; }
         public int StartNumbersTo { get; set; }
@@ -38,6 +39,7 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
 
     public class DistanceDto
     {
+        public int Id { get; set; }
         public string Name { get; set; }
         public int StartNumbersFrom { get; set; }
         public int StartNumbersTo { get; set; }
