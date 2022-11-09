@@ -50,6 +50,7 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
     public record PartnerDto : BaseDto<Partner, PartnerDto>
     {
         public int Id { get; set; }
+        public int SerialNumber { get; set; }
         public ICollection<PartnerTranslationDto> Translations { get; set; }
         public ICollection<LogosDto> Logos { get; set; }
 
@@ -102,8 +103,8 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
         public int AmountOfParticipants { get; set; }
         public int RemainingPlaces { get; set; }
         public int RegisteredParticipants { get; set; }
-        public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
-        public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
+        public ICollection<DistancePriceDto> DistancePrices { get; set; }
+        public ICollection<DistanceAgeDto> DistanceAges { get; set; }
 
         public class DistancePriceDto
         {
