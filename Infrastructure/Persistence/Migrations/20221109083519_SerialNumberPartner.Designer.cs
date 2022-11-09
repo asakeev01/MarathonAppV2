@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221109083519_SerialNumberPartner")]
+    partial class SerialNumberPartner
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -66,7 +68,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("CustomerId");
 
-                    b.ToTable("Accounts", (string)null);
+                    b.ToTable("Accounts");
                 });
 
             modelBuilder.Entity("Domain.Entities.Accounts.AccountStatus", b =>
@@ -86,7 +88,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountStatuses", (string)null);
+                    b.ToTable("AccountStatuses");
                 });
 
             modelBuilder.Entity("Domain.Entities.Accounts.AccountType", b =>
@@ -106,7 +108,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountTypes", (string)null);
+                    b.ToTable("AccountTypes");
                 });
 
             modelBuilder.Entity("Domain.Entities.Applications.Application", b =>
@@ -127,7 +129,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Applications", (string)null);
+                    b.ToTable("Applications");
                 });
 
             modelBuilder.Entity("Domain.Entities.Distances.Distance", b =>
@@ -158,7 +160,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("MarathonId");
 
-                    b.ToTable("Distances", (string)null);
+                    b.ToTable("Distances");
                 });
 
             modelBuilder.Entity("Domain.Entities.Distances.DistanceAge", b =>
@@ -185,7 +187,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("DistanceId");
 
-                    b.ToTable("DistanceAges", (string)null);
+                    b.ToTable("DistanceAges");
                 });
 
             modelBuilder.Entity("Domain.Entities.Distances.DistanceForPWD", b =>
@@ -216,7 +218,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("MarathonId");
 
-                    b.ToTable("DistanceForPWD", (string)null);
+                    b.ToTable("DistanceForPWD");
                 });
 
             modelBuilder.Entity("Domain.Entities.Distances.DistancePrice", b =>
@@ -243,7 +245,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("DistanceId");
 
-                    b.ToTable("DistancePrices", (string)null);
+                    b.ToTable("DistancePrices");
                 });
 
             modelBuilder.Entity("Domain.Entities.Documents.Document", b =>
@@ -271,7 +273,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Documents", (string)null);
+                    b.ToTable("Documents");
                 });
 
             modelBuilder.Entity("Domain.Entities.Languages.Language", b =>
@@ -288,7 +290,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Languages", (string)null);
+                    b.ToTable("Languages");
                 });
 
             modelBuilder.Entity("Domain.Entities.Marathons.Marathon", b =>
@@ -313,7 +315,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Marathons", (string)null);
+                    b.ToTable("Marathons");
                 });
 
             modelBuilder.Entity("Domain.Entities.Marathons.MarathonTranslation", b =>
@@ -356,7 +358,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("MarathonId", "LanguageId")
                         .IsUnique();
 
-                    b.ToTable("MarathonTranslations", (string)null);
+                    b.ToTable("MarathonTranslations");
                 });
 
             modelBuilder.Entity("Domain.Entities.Marathons.Partner", b =>
@@ -377,7 +379,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("MarathonId");
 
-                    b.ToTable("Partner", (string)null);
+                    b.ToTable("Partner");
                 });
 
             modelBuilder.Entity("Domain.Entities.Marathons.PartnerTranslation", b =>
@@ -405,7 +407,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("PartnerId", "LanguageId")
                         .IsUnique();
 
-                    b.ToTable("PartnerTranslation", (string)null);
+                    b.ToTable("PartnerTranslation");
                 });
 
             modelBuilder.Entity("Domain.Entities.SavedFiles.SavedFile", b =>
@@ -434,7 +436,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("PartnerId");
 
-                    b.ToTable("SavedFile", (string)null);
+                    b.ToTable("SavedFile");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transactions.Transaction", b =>
@@ -469,7 +471,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("TransactionTypeId");
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transactions.TransactionStatus", b =>
@@ -489,7 +491,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TransactionStatuses", (string)null);
+                    b.ToTable("TransactionStatuses");
                 });
 
             modelBuilder.Entity("Domain.Entities.Transactions.TransactionType", b =>
@@ -509,7 +511,7 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TransactionsTypes", (string)null);
+                    b.ToTable("TransactionsTypes");
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.Role", b =>
@@ -568,7 +570,7 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("UserId")
                         .IsUnique();
 
-                    b.ToTable("Statuses", (string)null);
+                    b.ToTable("Statuses");
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.User", b =>

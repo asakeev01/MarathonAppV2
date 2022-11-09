@@ -54,6 +54,7 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
     public record PartnerDto : BaseDto<Partner, PartnerDto>
     {
         public int Id { get; set; }
+        public int SerialNumber { get; set; }
         public string Name { get; set; }
         public ICollection<LogosDto> Logos { get; set; }
         public override void AddCustomMappings()

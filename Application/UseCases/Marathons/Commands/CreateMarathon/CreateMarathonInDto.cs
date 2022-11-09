@@ -12,6 +12,19 @@ public record CreateMarathonRequestInDto: BaseDto<CreateMarathonRequestInDto, Ma
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
     public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
+    public ICollection<PartnersDto> Partners { get; set; }
+
+    public class PartnersDto
+    {
+        public int SerialNumber { get; set; }
+        public ICollection<PartnerTrasnlationDto> Translations { get; set; }
+    }
+
+    public class PartnerTrasnlationDto
+    {
+        public string Name { get; set; }
+        public int LanguageId { get; set; }
+    }
 
 
     public override void AddCustomMappings()

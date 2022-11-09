@@ -5,6 +5,7 @@ namespace Core.UseCases.Marathons.Commands.AddPartner;
 
 public record AddPartnerCommandInDto : BaseDto<AddPartnerCommandInDto, Partner>
 {
+    public int SerialNumber { get; set; }
     public ICollection<TrasnlationDto> Translations { get; set; }
 
     public class TrasnlationDto

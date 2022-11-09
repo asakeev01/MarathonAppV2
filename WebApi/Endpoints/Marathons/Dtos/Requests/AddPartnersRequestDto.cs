@@ -8,8 +8,8 @@ namespace WebApi.Endpoints.Marathons.Dtos.Requests;
 
 public class AddPartnersRequestDto
 {
+    public int SerialNumber { get; set; }
     public ICollection<TrasnlationDto> Translations { get; set; }
-    [JsonIgnore]
     public ICollection<IFormFile> Logos { get; set; }
 }
 
@@ -24,7 +24,7 @@ public class AddPartnersRequestValidator : AbstractValidator<AddPartnersRequestD
 {
     public AddPartnersRequestValidator()
     {
-
+        RuleFor(x => x.SerialNumber).NotNull();
         RuleFor(x => x.Logos).NotNull();
         RuleForEach(x => x.Logos).ChildRules(logos =>
         {
