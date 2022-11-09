@@ -210,36 +210,36 @@ public class MarathonsController : BaseController
 
     }
 
-    /// <summary>
-    /// Add Partner to Marathon
-    /// </summary>
-    /// <response code="200"></response>
-    [HttpPost("{marathonId:int}/partners")]
-    [Consumes("multipart/form-data", "application/json")]
-    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
-    public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddPartners(
-        [FromRoute] int marathonId,
-        [FromForm] AddPartnersRequestDto dto,
-        [FromServices] IValidator<AddPartnersRequestDto> validator)
-    {
-        var validation = await validator.ValidateAsync(dto);
-        if (!validation.IsValid)
-        {
-            return validation.ToBadRequest();
-        }
+     ///// <summary>
+    ///// Add Partner to Marathon
+    ///// </summary>
+    ///// <response code="200"></response>
+    //[HttpPost("{marathonId:int}/partners")]
+    //[Consumes("multipart/form-data", "application/json")]
+    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    //[ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    //public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddPartners(
+    //    [FromRoute] int marathonId,
+    //    [FromForm] AddPartnersRequestDto dto,
+    //    [FromServices] IValidator<AddPartnersRequestDto> validator)
+    //{
+    //    var validation = await validator.ValidateAsync(dto);
+    //    if (!validation.IsValid)
+    //    {
+    //        return validation.ToBadRequest();
+    //    }
 
-        var addPartnerCommand = new AddPartnerCommand()
-        {
-            MarathonId = marathonId,
-            PartnerDto = dto.Adapt<AddPartnerCommandInDto>(),
-            Logos = dto.Logos,
-        };
+    //    var addPartnerCommand = new AddPartnerCommand()
+    //    {
+    //        MarathonId = marathonId,
+    //        PartnerDto = dto.Adapt<AddPartnerCommandInDto>(),
+    //        Logos = dto.Logos,
+    //    };
 
-        var result = await _mediator.Send(addPartnerCommand);
+    //    var result = await _mediator.Send(addPartnerCommand);
 
-        return Ok(result);
-    }
+    //    return Ok(result);
+    //}
 
     /// <summary>
     /// Add documents to marathon

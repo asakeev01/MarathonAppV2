@@ -75,7 +75,7 @@ public class CreateMarathonRequestValidator : AbstractValidator<CreateMarathonRe
 
         RuleForEach(x => x.Partners).ChildRules(partners =>
         {
-            partners.RuleFor(x => x.SerialNumber).NotEmpty();
+            partners.RuleFor(x => x.SerialNumber).NotNull();
             partners.RuleFor(x => x.Translations).Must(x => x.Select((o) => o.LanguageId).OrderBy(x => x).ToArray().SequenceEqual(AppConstants.SupportedLanguagesIds)).WithMessage($"Wrong LanguageIds in Translations. Ids must be {string.Join(", ", AppConstants.SupportedLanguagesIds)}");
             partners.RuleForEach(x => x.Translations).ChildRules(partnerTranslation =>
             {
