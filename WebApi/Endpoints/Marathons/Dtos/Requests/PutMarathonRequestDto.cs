@@ -13,6 +13,21 @@ public class PutMarathonRequestDto
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
     public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
+    public ICollection<PartnersDto> Partners { get; set; }
+
+    public class PartnersDto
+    {
+        public int Id { get; set; }
+        public int SerialNumber { get; set; }
+        public ICollection<PartnerTrasnlationDto> Translations { get; set; }
+    }
+
+    public class PartnerTrasnlationDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int LanguageId { get; set; }
+    }
 
     public class TranslationDto
     {
@@ -67,6 +82,16 @@ public class PutMarathonRequestDtoValidator : AbstractValidator<PutMarathonReque
         RuleFor(x => x.Translations).Must(x => x.Select((o) => o.LanguageId)
             .OrderBy(x => x).ToArray().SequenceEqual(AppConstants.SupportedLanguagesIds))
             .WithMessage($"Wrong LanguageIds in Translations. Ids must be {string.Join(", ", AppConstants.SupportedLanguagesIds)}");
+
+        RuleForEach(x => x.Partners).ChildRules(partners =>
+        {
+            partners.RuleFor(x => x.SerialNumber).NotEmpty();
+            partners.RuleFor(x => x.Translations).Must(x => x.Select((o) => o.LanguageId).OrderBy(x => x).ToArray().SequenceEqual(AppConstants.SupportedLanguagesIds)).WithMessage($"Wrong LanguageIds in Translations. Ids must be {string.Join(", ", AppConstants.SupportedLanguagesIds)}");
+            partners.RuleForEach(x => x.Translations).ChildRules(partnerTranslation =>
+            {
+                partnerTranslation.RuleFor(x => x.Name).NotEmpty();
+            });
+        });
 
         RuleForEach(x => x.Translations).ChildRules(translations =>
         {

@@ -30,6 +30,7 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
             .FirstAsync(x => x.Id == cmd.MarathonDto.Id, include: source => source
             .Include(a => a.MarathonTranslations).ThenInclude(a => a.Logo)
             .Include(a => a.DistancesForPWD)
+            .Include(a => a.Partners)
             .Include(a => a.Distances).ThenInclude(a => a.DistancePrices)
             .Include(a => a.Distances).ThenInclude(a => a.DistanceAges));
 
