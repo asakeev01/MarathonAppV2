@@ -10,6 +10,7 @@ using Infrastructure.Common.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Domain.Entities.Vouchers;
 
 namespace Infrastructure.Persistence;
 
@@ -38,6 +39,8 @@ public class AppDbContext : IdentityDbContext<User, Role, long>
     public DbSet<DistanceAge> DistanceAges { get; set; }
     public DbSet<DistancePrice> DistancePrices { get; set; }
     public DbSet<DistanceForPWD> DistanceForPWD { get; set; }
+    public DbSet<Voucher> Vouchers { get; set; }
+    public DbSet<Promocode> Promocodes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

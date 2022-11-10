@@ -8,9 +8,9 @@ public class SavedFile
     public string? Name { get; set; }
     public string? Path { get; set; }
     public int? PartnerId { get; set; }
-    public virtual Partner? Partner { get; set; }
+    public Partner? Partner { get; set; }
     public int? MarathonId { get; set; }
 
-    public virtual Marathon? Marathon {get;set;}
-    public virtual MarathonTranslation? MarathonLogo {get;set;}
+    public Marathon? Marathon {get;set;}
+    public MarathonTranslation? MarathonLogo {get;set;}
 }

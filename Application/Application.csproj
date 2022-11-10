@@ -32,6 +32,7 @@
       <Folder Include="UseCases\Documents\Queries\" />
       <Folder Include="UseCases\Documents\Commands\UploadUserDocument\" />
       <Folder Include="UseCases\Documents\Commands\DeleteUserDocument\" />
+      <Folder Include="UseCases\Vouchers\Commands\" />
     </ItemGroup>
 
     <ItemGroup>
