@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using Swashbuckle.AspNetCore.SwaggerUI;
-using WebApi.Endpoints.Accounts.Dtos.SwaggeExamples;
 
 namespace WebApi.Common.Extensions.SwaggerServices;
 
@@ -16,7 +15,7 @@ public static class SwaggerServiceExtension
 {
     internal static void AddSwagger(this IServiceCollection services)
     {
-        services.AddSwaggerExamplesFromAssemblyOf<WithdrawExamples>();
+        services.AddSwaggerExamples();
         services.TryAddTransient<IValidatorFactory, ServiceProviderValidatorFactory>();
         services.AddFluentValidationRulesToSwagger();
         services.AddSwaggerGen(x =>

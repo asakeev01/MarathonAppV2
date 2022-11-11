@@ -12,7 +12,7 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
             .HasOne(x => x.Role)
             .WithMany(x => x.UserRoles)
             .HasForeignKey(x => x.RoleId)
-            .OnDelete(DeleteBehavior.Restrict);
+            .OnDelete(DeleteBehavior.Cascade);
           
         builder
             .HasOne(x => x.User)

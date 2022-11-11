@@ -48,7 +48,6 @@
       <Folder Include="Common\Bases" />
       <Folder Include="Common\Filters" />
       <Folder Include="Common\Helpers" />
-      <Folder Include="Endpoints\Accounts\Dtos\Responses" />
       <Folder Include="Endpoints\Distances\Dtos\Requests\" />
       <Folder Include="Common\Extensions\IdentityServices\" />
       <Folder Include="Endpoints\Auth\" />

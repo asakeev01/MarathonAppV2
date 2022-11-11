@@ -13,14 +13,14 @@ namespace Core.UseCases.Auth.Commands.Login.Google
         public string googleToken { get; set; }
     }
 
-    public class LoginRegisterGoogleCommandHandler : IRequestHandler<LoginRegisterGoogleCommand, LoginOutDto>
+    public class LoginRegisterGoogleHandler : IRequestHandler<LoginRegisterGoogleCommand, LoginOutDto>
     {
         private readonly IUnitOfWork _unit;
         private readonly IUserService _userService;
         private readonly IRefreshTokenService _refreshTokenService;
         private readonly IGoogleAuthService _googleAuthService;
 
-        public LoginRegisterGoogleCommandHandler(IUnitOfWork unit, IUserService userService, IRefreshTokenService refreshTokenService, IGoogleAuthService googleAuthService)
+        public LoginRegisterGoogleHandler(IUnitOfWork unit, IUserService userService, IRefreshTokenService refreshTokenService, IGoogleAuthService googleAuthService)
         {
             _unit = unit;
             _userService = userService;
@@ -35,13 +35,7 @@ namespace Core.UseCases.Auth.Commands.Login.Google
             var isExist = await _unit.UserRepository.IsUserExistsAsync(googleAuthOut.Email);
             if (isExist == false)
             {
-                var user = new User
-                {
-                    Email = googleAuthOut.Email,
-                    UserName = googleAuthOut.Email,
-                    EmailConfirmed = true
-                };
-                user.Document = new Document();
+                var user = _userService.CreateUser(googleAuthOut.Email);
                 await _unit.UserRepository.CreateUserAsync(user, "hello123");
                 await _unit.UserRepository.AddToRoleAsync(user, Roles.User);
             }

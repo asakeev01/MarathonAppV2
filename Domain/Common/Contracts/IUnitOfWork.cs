@@ -2,10 +2,6 @@ namespace Domain.Common.Contracts;
 
 public interface IUnitOfWork : IDisposable
 {
-    IAccountRepository AccountRepository { get; }
-    
-    ITransactionRepository TransactionRepository { get; }
-    
     IMarathonRepository MarathonRepository { get; }
 
     IDistanceRepository DistanceRepository { get; }

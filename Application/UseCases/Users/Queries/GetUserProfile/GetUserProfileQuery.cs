@@ -7,7 +7,7 @@ namespace Core.UseCases.Users.Queries.GetUserProfile
 {
     public class GetUserProfileQuery : IRequest<GetUserProfileOutDto>
     {
-        public string? Email { get; set; }
+        public string? Id { get; set; }
     }
 
     public class GetUserProfileHandler : IRequestHandler<GetUserProfileQuery, GetUserProfileOutDto>
@@ -22,8 +22,8 @@ namespace Core.UseCases.Users.Queries.GetUserProfile
         public async Task<GetUserProfileOutDto> Handle(GetUserProfileQuery request,
             CancellationToken cancellationToken)
         {
-            var identityUser = _unit.UserRepository.GetByEmailAsync(request.Email);
-            var profileDto = identityUser.Result.Adapt<GetUserProfileOutDto>();
+            var identityUser = await _unit.UserRepository.GetByIdAsync(request.Id);
+            var profileDto = identityUser.Adapt<GetUserProfileOutDto>();
             return profileDto;
         }
     }

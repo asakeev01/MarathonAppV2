@@ -11,12 +11,12 @@ namespace Core.UseCases.Auth.Commands.ConfirmEmail
         public string Email { get; set; }
     }
 
-    public class SendConfirmEmailCommandHandler : IRequestHandler<SendConfirmEmailCommand, HttpStatusCode>
+    public class SendConfirmEmailHandler : IRequestHandler<SendConfirmEmailCommand, HttpStatusCode>
     {
         private readonly IUnitOfWork _unit;
         private readonly IEmailService _emailService;
 
-        public SendConfirmEmailCommandHandler(IUnitOfWork unit, IEmailService emailService)
+        public SendConfirmEmailHandler(IUnitOfWork unit, IEmailService emailService)
         {
             _unit = unit;
             _emailService = emailService;

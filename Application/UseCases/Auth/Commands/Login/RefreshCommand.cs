@@ -12,13 +12,13 @@ namespace Core.UseCases.Auth.Commands.Login
         public string RefreshToken { get; set; }
     }
 
-    public class RefreshCommandHandler : IRequestHandler<RefreshCommand, LoginOutDto>
+    public class RefreshHandler : IRequestHandler<RefreshCommand, LoginOutDto>
     {
         private readonly IUnitOfWork _unit;
         private readonly IUserService _userService;
         private readonly IRefreshTokenService _refreshTokenService;
 
-        public RefreshCommandHandler(IUnitOfWork unit, IUserService userService, IRefreshTokenService refreshTokenService)
+        public RefreshHandler(IUnitOfWork unit, IUserService userService, IRefreshTokenService refreshTokenService)
         {
             _unit = unit;
             _userService = userService;

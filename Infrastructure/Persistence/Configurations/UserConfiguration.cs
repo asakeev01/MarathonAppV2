@@ -9,7 +9,11 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
     public void Configure(EntityTypeBuilder<User> builder)
     {
         builder
-            .Property(b => b.IsDeleted)
+            .Property(u => u.IsDeleted)
             .HasDefaultValue(false);
+
+        builder
+            .HasMany(u => u.UserRoles)
+            .WithOne(u => u.User);
     }
 }

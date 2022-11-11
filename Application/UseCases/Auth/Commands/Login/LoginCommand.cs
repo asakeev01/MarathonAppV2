@@ -12,13 +12,13 @@ namespace Core.UseCases.Auth.Commands.Login
         public string Password { get; set; }
     }
 
-    public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginOutDto>
+    public class LoginHandler : IRequestHandler<LoginCommand, LoginOutDto>
     {
         private readonly IUnitOfWork _unit;
         private readonly IUserService _userService;
         private readonly IRefreshTokenService _refreshTokenService;
 
-        public LoginCommandHandler(IUnitOfWork unit, IUserService userService, IRefreshTokenService refreshTokenService)
+        public LoginHandler(IUnitOfWork unit, IUserService userService, IRefreshTokenService refreshTokenService)
         {
             _unit = unit;
             _userService = userService;
