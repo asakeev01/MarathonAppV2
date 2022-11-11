@@ -308,7 +308,7 @@ public class MarathonsController : BaseController
         [FromForm] ICollection<IFormFile> logos)
     {
 
-        var addPartnerLogo = new AddPartnerLogo()
+        var addPartnerLogo = new AddPartnerLogoCommand()
         {
             PartnerId = partnerId,
             Logos = logos,

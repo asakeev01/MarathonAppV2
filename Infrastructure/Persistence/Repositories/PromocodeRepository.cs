@@ -34,9 +34,6 @@ public class PromocodeRepository : BaseRepository<Promocode>, IPromocodeReposito
 
         char[] keys = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890".ToCharArray();
 
-
-
-        Console.WriteLine("Vouchers: ");
         int i = 0;
         while (i < quantity)
         {
@@ -45,6 +42,7 @@ public class PromocodeRepository : BaseRepository<Promocode>, IPromocodeReposito
             .Select(k => keys[random.Next(0, keys.Length - 1)])  // generate a new random char
             .Aggregate("", (e, c) => e + c); // join into a string
             promocode = promocode + "_" + voucher.Name +  "_" + distance.Name;
+            promocode = promocode.Replace(" ", "");
 
             if (!generatedPromocodes.Contains(promocode))
             {

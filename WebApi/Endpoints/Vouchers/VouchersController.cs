@@ -6,7 +6,9 @@ using Core.UseCases.Marathons.Commands.PutMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathonAdmin;
 using Core.UseCases.Marathons.Queries.GetMarathons;
+using Core.UseCases.Vouchers.Commands.AddPromocodesToVoucher;
 using Core.UseCases.Vouchers.Commands.CreateVoucher;
+using Core.UseCases.Vouchers.Queries.GenerateExcelPromocodes;
 using Core.UseCases.Vouchers.Queries.GetVouchers;
 using FluentValidation;
 using Gridify;
@@ -84,7 +86,7 @@ public class VouchersController : BaseController
     [HttpPost("")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetPromocodesByVaucherIdQueryOutDto), StatusCodes.Status200OK)]
-    public async Task<ActionResult<GetPromocodesByVaucherIdQueryOutDto>> CreateVoucher(
+    public async Task<ActionResult<int>> CreateVoucher(
         [FromBody] CreateVoucherRequestDto dto,
         [FromServices] IValidator<CreateVoucherRequestDto> validator
         )
@@ -104,5 +106,57 @@ public class VouchersController : BaseController
         var result = await _mediator.Send(createVoucherCommand);
 
         return Ok(result);
+    }
+
+    /// <summary>
+    /// Add Promocodes to Voucher
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpPost("{voucherId}/promocodes")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType( StatusCodes.Status200OK)]
+    public async Task<ActionResult> AddPromocodesToVoucher(
+        [FromRoute] int voucherId,
+        [FromBody] AddPromocodesToVoucherRequestDto dto,
+        [FromServices] IValidator<AddPromocodesToVoucherRequestDto> validator
+        )
+    {
+        var validation = await validator.ValidateAsync(dto);
+
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+
+        var addPromocodesToVoucherCommand = new AddPromocodesToVoucherCommand()
+        {
+            VoucherId = voucherId,
+            PromocodesDto = dto.Adapt<AddPromocodesToVoucherCommandInDto>(),
+        };
+
+        var result = await _mediator.Send(addPromocodesToVoucherCommand);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Export Vouchers to excel
+    /// </summary>
+    [HttpGet("{voucherId}/excel")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> GenerateExcelPromocodes(
+        [FromRoute] int voucherId
+        )
+    {
+        var generateExcelPromocodes = new GenerateExcelPromocodesQuery()
+        {
+            VoucherId = voucherId,
+        };
+
+        var result = await _mediator.Send(generateExcelPromocodes);
+        HttpContext.Response.Headers.Add("content-disposition", "attachment; filename=Promocodes" + DateTime.Now.ToString() + ".xls");
+        this.Response.ContentType = "application/vnd.ms-excel";
+        return File(result, "application/vnd.ms-excel");
     }
 }
