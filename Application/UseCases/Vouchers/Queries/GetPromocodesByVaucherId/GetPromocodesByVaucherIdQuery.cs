@@ -25,6 +25,7 @@ public class GetVourcherHandler : IRequestHandler<GetPromocodesByVaucherIdQuery,
     public async Task<QueryablePaging<GetPromocodesByVaucherIdQueryOutDto>> Handle(GetPromocodesByVaucherIdQuery request,
         CancellationToken cancellationToken)
     {
+
         var promocodes = _unit.PromocodeRepository
             .FindByCondition(predicate:x => x.VoucherId == request.VoucherId);
 

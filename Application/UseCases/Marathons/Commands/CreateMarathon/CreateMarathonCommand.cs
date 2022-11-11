@@ -10,7 +10,7 @@ namespace Core.UseCases.Marathons.Commands.CraeteMarathon;
 
 public class CreateMarathonCommand : IRequest<int>
 {
-    public CreateMarathonRequestInDto MarathonDto { get; set; }
+    public CreateMarathonInDto MarathonDto { get; set; }
 }
 
 public class CreateMarathonCommandHandler : IRequestHandler<CreateMarathonCommand, int>

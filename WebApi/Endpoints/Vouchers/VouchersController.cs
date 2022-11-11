@@ -6,6 +6,7 @@ using Core.UseCases.Marathons.Commands.PutMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathonAdmin;
 using Core.UseCases.Marathons.Queries.GetMarathons;
+using Core.UseCases.Vouchers.Commands.CreateVoucher;
 using Core.UseCases.Vouchers.Queries.GetVouchers;
 using FluentValidation;
 using Gridify;
@@ -15,6 +16,7 @@ using Microsoft.AspNetCore.Mvc;
 using WebApi.Common.Extensions;
 using WebApi.Common.Extensions.ErrorHandlingServices;
 using WebApi.Endpoints.Marathons.Dtos.Requests;
+using WebApi.Endpoints.Vouchers.Dtos.Requests;
 
 namespace WebApi.Endpoints.Distances;
 
@@ -70,6 +72,36 @@ public class VouchersController : BaseController
         };
 
         var result = await _mediator.Send(getVourcherByIdQuery);
+
+        return Ok(result);
+    }
+
+
+    /// <summary>
+    /// Create Voucher
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpPost("")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(GetPromocodesByVaucherIdQueryOutDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<GetPromocodesByVaucherIdQueryOutDto>> CreateVoucher(
+        [FromBody] CreateVoucherRequestDto dto,
+        [FromServices] IValidator<CreateVoucherRequestDto> validator
+        )
+    {
+        var validation = await validator.ValidateAsync(dto);
+
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+
+        var createVoucherCommand = new CreateVoucherCommand()
+        {
+            VoucherDto = dto.Adapt<CreateVoucherInDto>(),
+        };
+
+        var result = await _mediator.Send(createVoucherCommand);
 
         return Ok(result);
     }

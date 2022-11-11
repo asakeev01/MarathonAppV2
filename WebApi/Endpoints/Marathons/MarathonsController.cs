@@ -117,7 +117,7 @@ public class MarathonsController : BaseController
         }
         var createMarathonCommand = new CreateMarathonCommand()
         {
-            MarathonDto = dto.Adapt<CreateMarathonRequestInDto>()
+            MarathonDto = dto.Adapt<CreateMarathonInDto>()
         };
 
         var result = await _mediator.Send(createMarathonCommand);

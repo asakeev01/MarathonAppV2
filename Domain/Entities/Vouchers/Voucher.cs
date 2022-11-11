@@ -8,5 +8,5 @@ public class Voucher
     public string Name { get; set; }
     public int MarathonId { get; set; }
     public   Marathon Marathon { get; set; }
-    public ICollection<Promocode> Promocodes { get; set; }
+    public virtual ICollection<Promocode> Promocodes { get; set; }
 }
