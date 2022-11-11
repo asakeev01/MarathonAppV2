@@ -12,6 +12,22 @@ public class PutMarathonRequestDto
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
+    public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
+    public ICollection<PartnersDto> Partners { get; set; }
+
+    public class PartnersDto
+    {
+        public int Id { get; set; }
+        public int SerialNumber { get; set; }
+        public ICollection<PartnerTrasnlationDto> Translations { get; set; }
+    }
+
+    public class PartnerTrasnlationDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int LanguageId { get; set; }
+    }
 
     public class TranslationDto
     {
@@ -22,16 +38,20 @@ public class PutMarathonRequestDto
         public int LanguageId { get; set; }
     }
 
-public class DistanceDto
+    public class DistanceForPWDDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan PassingLimit { get; set; }
-        public int AgeFrom { get; set; }
-        public int NumberOfParticipants { get; set; }
-        public int RegistredParticipants { get; set; }
-        public bool MedicalCertificate { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
+    }
+
+    public class DistanceDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
         public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
         public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
 
@@ -46,6 +66,7 @@ public class DistanceDto
         public class DistanceAgeDto
         {
             public int Id { get; set; }
+            public bool Gender { get; set; }
             public int? AgeFrom { get; set; }
             public int? AgeTo { get; set; }
         }
@@ -62,6 +83,16 @@ public class PutMarathonRequestDtoValidator : AbstractValidator<PutMarathonReque
             .OrderBy(x => x).ToArray().SequenceEqual(AppConstants.SupportedLanguagesIds))
             .WithMessage($"Wrong LanguageIds in Translations. Ids must be {string.Join(", ", AppConstants.SupportedLanguagesIds)}");
 
+        RuleForEach(x => x.Partners).ChildRules(partners =>
+        {
+            partners.RuleFor(x => x.SerialNumber).NotNull();
+            partners.RuleFor(x => x.Translations).Must(x => x.Select((o) => o.LanguageId).OrderBy(x => x).ToArray().SequenceEqual(AppConstants.SupportedLanguagesIds)).WithMessage($"Wrong LanguageIds in Translations. Ids must be {string.Join(", ", AppConstants.SupportedLanguagesIds)}");
+            partners.RuleForEach(x => x.Translations).ChildRules(partnerTranslation =>
+            {
+                partnerTranslation.RuleFor(x => x.Name).NotEmpty();
+            });
+        });
+
         RuleForEach(x => x.Translations).ChildRules(translations =>
         {
             translations.RuleFor(x => x.Name).NotEmpty();
@@ -69,15 +100,28 @@ public class PutMarathonRequestDtoValidator : AbstractValidator<PutMarathonReque
             translations.RuleFor(x => x.Place).NotEmpty();
         });
 
+
+        RuleForEach(x => x.Translations).ChildRules(translations =>
+        {
+            translations.RuleFor(x => x.Id).NotNull();
+            translations.RuleFor(x => x.Id).NotEmpty();
+            translations.RuleFor(x => x.Id).GreaterThan(0);
+            translations.RuleFor(x => x.Name).NotEmpty();
+            translations.RuleFor(x => x.Text).NotEmpty();
+            translations.RuleFor(x => x.Place).NotEmpty();
+        });
+        RuleForEach(x => x.DistancesForPWD).ChildRules(distances =>
+        {
+            distances.RuleFor(x => x.Name).NotEmpty();
+            distances.RuleFor(x => x.StartNumbersFrom).GreaterThan(-1);
+            distances.RuleFor(x => x.StartNumbersTo).GreaterThan(x => x.StartNumbersFrom);
+        });
+
         RuleForEach(x => x.Distances).ChildRules(distances =>
         {
             distances.RuleFor(x => x.Name).NotEmpty();
-            distances.RuleFor(x => x.StartTime).NotEmpty();
-            distances.RuleFor(x => x.PassingLimit).NotEmpty();
-            distances.RuleFor(x => x.AgeFrom).GreaterThan(-1);
-            distances.RuleFor(x => x.NumberOfParticipants).GreaterThan(0);
-            distances.RuleFor(x => x.RegistredParticipants).GreaterThan(0);
-            distances.RuleFor(x => x.MedicalCertificate).NotEmpty();
+            distances.RuleFor(x => x.StartNumbersFrom).GreaterThan(-1);
+            distances.RuleFor(x => x.StartNumbersTo).GreaterThan(x => x.StartNumbersFrom);
 
             distances.RuleForEach(x => x.DistancePrices).ChildRules(distancePrices =>
             {

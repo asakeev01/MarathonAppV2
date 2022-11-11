@@ -12,8 +12,7 @@ public class Marathon
     public bool IsActive { get; set; }
     public virtual ICollection<SavedFile>? Documents { get; set; }
     public virtual ICollection<Distance> Distances { get; set; }
-    public virtual SavedFile? Logo { get; set; }
-    public int? LogoId { get; set; }
+    public virtual ICollection<DistanceForPWD> DistancesForPWD { get; set; }
     public ICollection<MarathonTranslation> MarathonTranslations { get; set; }
     public ICollection<Partner>? Partners { get; set; }
 }

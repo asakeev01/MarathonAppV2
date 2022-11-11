@@ -1,9 +1,14 @@
 ﻿using Domain.Entities.Marathons;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace Domain.Entities.Distances;
 
-public class Distance
+public class DistanceForPWD
 {
     public int Id { get; set; }
     public string Name { get; set; }
@@ -28,6 +33,4 @@ public class Distance
     public int RegisteredParticipants { get; set; } = 0;
     public int MarathonId { get; set; }
     public virtual Marathon Marathon { get; set; }
-    public virtual ICollection<DistancePrice> DistancePrices { get; set; }
-    public virtual ICollection<DistanceAge> DistanceAges { get; set; }
 }

@@ -7,5 +7,6 @@ namespace Infrastructure.Services.Interfaces;
 public interface ISavedFileService
 {
     Task<SavedFile> UploadFile(IFormFile file, FileTypeEnum fileType);
+    Task<SavedFile> EmptyFile();
     Task DeleteFile(SavedFile file);
 }

@@ -11,6 +11,21 @@ public record CreateMarathonRequestInDto: BaseDto<CreateMarathonRequestInDto, Ma
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
+    public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
+    public ICollection<PartnersDto> Partners { get; set; }
+
+    public class PartnersDto
+    {
+        public int SerialNumber { get; set; }
+        public ICollection<PartnerTrasnlationDto> Translations { get; set; }
+    }
+
+    public class PartnerTrasnlationDto
+    {
+        public string Name { get; set; }
+        public int LanguageId { get; set; }
+    }
+
 
     public override void AddCustomMappings()
     {
@@ -26,17 +41,18 @@ public record CreateMarathonRequestInDto: BaseDto<CreateMarathonRequestInDto, Ma
         public int LanguageId { get; set; }
     }
 
+    public class DistanceForPWDDTO
+    {
+        public string Name { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
+    }
+
     public class DistanceDto
     {
         public string Name { get; set; }
-        public TimeSpan StartTime { get; set; }
-        public TimeSpan PassingLimit { get; set; }
-        public int AgeFrom { get; set; }
-        public int NumberOfParticipants { get; set; }
-        public int RegistredParticipants { get; set; }
-        public int RemainingPlaces { get; set; }
-        public bool MedicalCertificate { get; set; }
-        public int DistanceCategoryId { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
         public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
         public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
 
@@ -49,6 +65,7 @@ public record CreateMarathonRequestInDto: BaseDto<CreateMarathonRequestInDto, Ma
 
         public class DistanceAgeDto
         {
+            public bool Gender { get; set; }
             public int? AgeFrom { get; set; }
             public int? AgeTo { get; set; }
         }
