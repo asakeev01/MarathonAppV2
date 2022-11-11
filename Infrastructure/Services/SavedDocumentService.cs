@@ -95,8 +95,15 @@ namespace Infrastructure.Services
                 }
                 document.DisabilityPath = null;
             }
-            status.CurrentStatus = StatusesEnum.Processing;
-            status.Comment = CommentsEnum.Processing;
+            if (document.FrontPassportPath != null || document.DisabilityPath != null)
+            {
+                status.CurrentStatus = StatusesEnum.Processing;
+                status.Comment = CommentsEnum.Processing;
+            }
+            else {
+                status.CurrentStatus = StatusesEnum.Empty;
+                status.Comment = CommentsEnum.Empty;
+            }
         }
     }
 }

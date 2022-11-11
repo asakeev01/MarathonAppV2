@@ -14,11 +14,11 @@ namespace Core.UseCases.Auth.Commands.ChangePassword
         public string NewPassword { get; set; }
     }
 
-    public class ChangePasswordCommandHandler : IRequestHandler<ChangePasswordCommand, HttpStatusCode>
+    public class ChangePasswordHandler : IRequestHandler<ChangePasswordCommand, HttpStatusCode>
     {
         private readonly IUnitOfWork _unit;
 
-        public ChangePasswordCommandHandler(IUnitOfWork unit)
+        public ChangePasswordHandler(IUnitOfWork unit)
         {
             _unit = unit;
         }

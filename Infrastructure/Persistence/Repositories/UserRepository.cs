@@ -23,7 +23,7 @@ namespace Infrastructure.Persistence.Repositories
         public async Task<bool> IsUserExistsAsync(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-
+           
             if (user != null)
                 return true;
             return false;

@@ -15,12 +15,12 @@ namespace Core.UseCases.Auth.Commands.ChangePassword
         public string NewPassword { get; set; }
     }
 
-    public class ResetPasswordCommandHandler : IRequestHandler<ResetPasswordCommand, HttpStatusCode>
+    public class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand, HttpStatusCode>
     {
         private readonly IUnitOfWork _unit;
         private readonly IEmailService _emailService;
 
-        public ResetPasswordCommandHandler(IUnitOfWork unit, IEmailService emailService)
+        public ResetPasswordHandler(IUnitOfWork unit, IEmailService emailService)
         {
             _unit = unit;
             _emailService = emailService;

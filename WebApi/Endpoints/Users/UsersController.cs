@@ -2,9 +2,14 @@
 using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
+using Core.UseCases.Users.Commands.SetUserStatusAsAdmin;
+using Core.UseCases.Users.Commands.UpdateUserAsAdmin;
 using Core.UseCases.Users.Commands.UpdateUserProfile;
+using Core.UseCases.Users.Queries.GetUserAsAdmin;
 using Core.UseCases.Users.Queries.GetUserProfile;
+using Core.UseCases.Users.Queries.GetUsersAsAdmin;
 using FluentValidation;
+using Gridify;
 using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -30,21 +35,21 @@ namespace WebApi.Endpoints.Users
             _httpContext = httpContext;
         }
 
-        [HttpGet("", Name = "GetUserProfile")]
+        [HttpGet("me", Name = "GetUserProfile")]
         [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
         [ProducesResponseType(typeof(GetUserProfileOutDto), StatusCodes.Status200OK)]
         [Authorize]
         public async Task<ActionResult<GetUserProfileOutDto>> GetProfile()
         {
-            var email = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value;
-            var request = new GetUserProfileQuery();
-            request.Email = email;
-            var result = await _mediator.Send(request);
+            var id = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var query = new GetUserProfileQuery();
+            query.Id = id;
+            var result = await _mediator.Send(query);
 
             return Ok(result);
         }
 
-        [HttpPut("", Name = "UpdateUserProfile")]
+        [HttpPut("me", Name = "UpdateUserProfile")]
         [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
         [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
         [Authorize]
@@ -58,13 +63,89 @@ namespace WebApi.Endpoints.Users
             {
                 return validation.ToBadRequest();
             }
-            var updateProfileCommand = new UpdateUserProfileCommand()
+            var command = new UpdateUserProfileCommand()
             {
                 UserDto = dto.Adapt<UpdateUserProfileInDto>(),
             };
-            updateProfileCommand.UserDto.Email = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value;
+            command.UserDto.Email = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.Email)?.Value;
+            command.UserDto.Id = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-            var result = await _mediator.Send(updateProfileCommand);
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+        [HttpGet("", Name = "GetUsersAsAdmin")]
+        [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+        [ProducesResponseType(typeof(IEnumerable<GetUsersOutDto>), StatusCodes.Status200OK)]
+        public async Task<ActionResult<IQueryable<GetUsersOutDto>>> GetUsers(
+            [FromQuery] GridifyQuery query)
+        {
+            var request = query.Adapt<GetUsersQuery>();
+            var result = await _mediator.Send(request);
+
+            return Ok(result);
+        }
+
+        [HttpGet("{userId}", Name = "GetUserAsAdmin")]
+        [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+        [ProducesResponseType(typeof(GetUserOutDto), StatusCodes.Status200OK)]
+        public async Task<ActionResult<GetUserProfileOutDto>> GetUser(
+            [FromRoute] long userId)
+        {
+            var query = new GetUserQuery()
+            {
+                Id = userId
+            };
+            var result = await _mediator.Send(query);
+
+            return Ok(result);
+        }
+
+        [HttpPut("{userId}", Name = "UpdateUserAsAdmin")]
+        [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+        [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+        public async Task<ActionResult<HttpStatusCode>> UpdateUser(
+            [FromRoute] long userId,
+            [FromBody] UpdateUserRequestDto dto,
+            [FromServices] IValidator<UpdateUserRequestDto> validator)
+        {
+            var validation = await validator.ValidateAsync(dto);
+
+            if (!validation.IsValid)
+            {
+                return validation.ToBadRequest();
+            }
+            var command = new UpdateUserCommand()
+            {
+                UserDto = dto.Adapt<UpdateUserInDto>(),
+            };
+            command.UserDto.Id = userId.ToString();
+
+            var result = await _mediator.Send(command);
+
+            return Ok(result);
+        }
+
+        [HttpPut("{userId}/status", Name = "SetUserStatusAsAdmin")]
+        [Consumes("multipart/form-data")]
+        [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+        [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+        public async Task<ActionResult<HttpStatusCode>> SetUserStatus(
+            [FromRoute] long userId,
+            [FromForm] SetUserStatusRequestDto dto,
+            [FromServices] IValidator<SetUserStatusRequestDto> validator)
+        {
+            var validation = await validator.ValidateAsync(dto);
+
+            if (!validation.IsValid)
+            {
+                return validation.ToBadRequest();
+            }
+            var command = dto.Adapt<SetUserStatusCommand>();
+            command.UserId = userId;
+
+            var result = await _mediator.Send(command);
 
             return Ok(result);
         }

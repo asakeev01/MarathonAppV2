@@ -9,16 +9,15 @@ namespace Core.UseCases.Auth.Commands.ConfirmEmail
     public class ConfirmEmailCommand : IRequest<HttpStatusCode>
     {
         public string Email { get; set; }
-
         public string Token { get; set; }
     }
 
-    public class ConfirmEmailCommandHandler : IRequestHandler<ConfirmEmailCommand, HttpStatusCode>
+    public class ConfirmEmailHandler : IRequestHandler<ConfirmEmailCommand, HttpStatusCode>
     {
         private readonly IUnitOfWork _unit;
         private readonly IEmailService _emailService;
 
-        public ConfirmEmailCommandHandler(IUnitOfWork unit, IEmailService emailService)
+        public ConfirmEmailHandler(IUnitOfWork unit, IEmailService emailService)
         {
             _unit = unit;
             _emailService = emailService;

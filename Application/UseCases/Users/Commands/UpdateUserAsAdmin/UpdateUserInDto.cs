@@ -3,9 +3,9 @@ using Core.Common.Bases;
 using Domain.Entities.Users;
 using Domain.Entities.Users.UserEnums;
 
-namespace Core.UseCases.Users.Commands.UpdateUserProfile;
+namespace Core.UseCases.Users.Commands.UpdateUserAsAdmin;
 
-public record UpdateUserProfileInDto : BaseDto<UpdateUserProfileInDto, User>
+public record UpdateUserInDto : BaseDto<UpdateUserInDto, User>
 {
     public string? Id { get; set; }
     public string? Email { get; set; }
@@ -14,9 +14,12 @@ public record UpdateUserProfileInDto : BaseDto<UpdateUserProfileInDto, User>
     public bool? Gender { get; set; }
     public string? PhoneNumber { get; set; }
     public string? ExtraPhoneNumber { get; set; }
+    public bool IsDisable { get; set; }
+    public bool IsDeleted { get; set; }
+    public bool EmailConfirmed { get; set; }
     public DateTime? DateOfBirth { get; set; }
+    public DateTime? DateOfConfirmation { get; set; }
     public TshirtEnum? Tshirt { get; set; }
     public CountriesEnum? Country { get; set; }
 }
-
 
