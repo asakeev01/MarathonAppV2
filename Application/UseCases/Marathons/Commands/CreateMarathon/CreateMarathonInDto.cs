@@ -3,7 +3,7 @@ using Domain.Entities.Marathons;
 
 namespace Core.UseCases.Marathons.Commands.CreateMarathon;
 
-public record CreateMarathonRequestInDto: BaseDto<CreateMarathonRequestInDto, Marathon>
+public record CreateMarathonInDto : BaseDto<CreateMarathonInDto, Marathon>
 {
     public ICollection<TranslationDto> Translations { get; set; }
     public DateTime Date { get; set; }

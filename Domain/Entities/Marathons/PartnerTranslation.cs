@@ -9,5 +9,5 @@ public class PartnerTranslation
     public int LanguageId { get; set; }
     public int PartnerId { get; set; }
     public Partner Partner { get; set; }
-    public virtual Language Language { get; set; }
+    public Language Language { get; set; }
 }

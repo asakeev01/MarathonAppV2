@@ -11,8 +11,8 @@ public class MarathonTranslation
     public string Place { get; set; }
     public int LanguageId { get; set; }
     public int MarathonId { get; set; }
-    public virtual SavedFile? Logo { get; set; }
+    public SavedFile? Logo { get; set; }
     public int? LogoId { get; set; }
     public Marathon Marathon { get; set; }
-    public virtual Language Language { get; set; }
+    public Language Language { get; set; }
 }

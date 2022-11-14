@@ -32,5 +32,5 @@ public class DistanceForPWD
     }
     public int RegisteredParticipants { get; set; } = 0;
     public int MarathonId { get; set; }
-    public virtual Marathon Marathon { get; set; }
+    public Marathon Marathon { get; set; }
 }

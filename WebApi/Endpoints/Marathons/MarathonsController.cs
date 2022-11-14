@@ -117,7 +117,7 @@ public class MarathonsController : BaseController
         }
         var createMarathonCommand = new CreateMarathonCommand()
         {
-            MarathonDto = dto.Adapt<CreateMarathonRequestInDto>()
+            MarathonDto = dto.Adapt<CreateMarathonInDto>()
         };
 
         var result = await _mediator.Send(createMarathonCommand);
@@ -308,7 +308,7 @@ public class MarathonsController : BaseController
         [FromForm] ICollection<IFormFile> logos)
     {
 
-        var addPartnerLogo = new AddPartnerLogo()
+        var addPartnerLogo = new AddPartnerLogoCommand()
         {
             PartnerId = partnerId,
             Logos = logos,

@@ -19,6 +19,8 @@ public interface IUnitOfWork : IDisposable
     IDocumentRepository DocumentRepository { get; }
 
     IStatusRepository StatusRepository { get; }
+    IVoucherRepository VoucherRepository { get; }
+    IPromocodeRepository PromocodeRepository { get; }
 
     void Save();
     Task SaveAsync();

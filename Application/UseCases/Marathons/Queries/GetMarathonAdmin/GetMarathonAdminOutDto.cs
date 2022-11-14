@@ -101,6 +101,7 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
         public int StartNumbersFrom { get; set; }
         public int StartNumbersTo { get; set; }
         public int AmountOfParticipants { get; set; }
+        public int ReservedPlaces { get; set; }
         public int RemainingPlaces { get; set; }
         public int RegisteredParticipants { get; set; }
         public ICollection<DistancePriceDto> DistancePrices { get; set; }
