@@ -10,7 +10,6 @@ public static class DomainServicesExtension
 {
     internal static void RegisterDomainServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IAccountService, AccountService>();
         services.AddScoped<ISavedFileService, SavedFileService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IEmailService, EmailService>();

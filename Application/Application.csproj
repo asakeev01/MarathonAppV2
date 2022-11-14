@@ -32,6 +32,8 @@
       <Folder Include="UseCases\Documents\Queries\" />
       <Folder Include="UseCases\Documents\Commands\UploadUserDocument\" />
       <Folder Include="UseCases\Documents\Commands\DeleteUserDocument\" />
+      <Folder Include="UseCases\Users\Queries\GetUserAsAdmin\" />
+      <Folder Include="UseCases\Users\Commands\UpdateUserAsAdmin\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -67,5 +69,8 @@
       <None Remove="UseCases\Documents\Queries\" />
       <None Remove="UseCases\Documents\Commands\UploadUserDocument\" />
       <None Remove="UseCases\Documents\Commands\DeleteUserDocument\" />
+      <None Remove="UseCases\Users\Queries\GetUsers\" />
+      <None Remove="UseCases\Users\Queries\GetUserAsAdmin\" />
+      <None Remove="UseCases\Users\Commands\UpdateUserAsAdmin\" />
     </ItemGroup>
 </Project>

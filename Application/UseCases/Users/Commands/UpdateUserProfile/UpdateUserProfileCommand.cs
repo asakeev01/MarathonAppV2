@@ -14,12 +14,12 @@ public class UpdateUserProfileCommand : IRequest<HttpStatusCode>
     public UpdateUserProfileInDto UserDto { get; set; }
 }
 
-public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfileCommand, HttpStatusCode>
+public class UpdateUserProfileHandler : IRequestHandler<UpdateUserProfileCommand, HttpStatusCode>
 {
     private readonly IUnitOfWork _unit;
     private readonly IUserService _userService;
 
-    public UpdateUserProfileCommandHandler(IUnitOfWork unit, IUserService userService)
+    public UpdateUserProfileHandler(IUnitOfWork unit, IUserService userService)
     {
         _unit = unit;
         _userService = userService;
@@ -27,7 +27,7 @@ public class UpdateUserProfileCommandHandler : IRequestHandler<UpdateUserProfile
 
     public async Task<HttpStatusCode> Handle(UpdateUserProfileCommand cmd, CancellationToken cancellationToken)
     {
-        var identityUser = await _unit.UserRepository.GetByEmailAsync(cmd.UserDto.Email);
+        var identityUser = await _unit.UserRepository.GetByIdAsync(cmd.UserDto.Id);
         cmd.UserDto.Adapt(identityUser);
         _userService.SetDateOfConfirmation(identityUser);
         await _unit.UserRepository.UpdateAsync(identityUser);

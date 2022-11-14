@@ -6,6 +6,7 @@ using Domain.Common.Options;
 using Domain.Entities.Documents;
 using Domain.Entities.Users;
 using Domain.Entities.Users.Exceptions;
+using Domain.Entities.Users.UserEnums;
 using Domain.Services.Interfaces;
 using Domain.Services.Models;
 using Microsoft.Extensions.DependencyInjection;
@@ -125,6 +126,16 @@ namespace Domain.Services
         {
             if (user.DateOfConfirmation == null) {
                 user.DateOfConfirmation = DateTime.UtcNow;
+            }
+        }
+
+        public void SetUserStatus(User user, Document document, Status status, StatusesEnum newStatus, CommentsEnum comment)
+        {
+            status.CurrentStatus = newStatus;
+            status.Comment = comment;
+            if (status.CurrentStatus == StatusesEnum.Confirmed && document.DisabilityPath != null)
+            {
+                user.IsDisable = true;
             }
         }
     }

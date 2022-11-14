@@ -1,10 +1,8 @@
-﻿using Domain.Entities.Accounts;
-using Domain.Entities.Distances;
+﻿using Domain.Entities.Distances;
 using Domain.Entities.Languages;
 using Domain.Entities.Marathons;
 using Domain.Entities.Applications;
 using Domain.Entities.Documents;
-using Domain.Entities.Transactions;
 using Domain.Entities.Users;
 using Infrastructure.Common.Extensions;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +12,9 @@ using Domain.Entities.Vouchers;
 
 namespace Infrastructure.Persistence;
 
-public class AppDbContext : IdentityDbContext<User, Role, long>
+public class AppDbContext : IdentityDbContext<User, Role, long, IdentityUserClaim<long>,
+    UserRole, IdentityUserLogin<long>, IdentityRoleClaim<long>,
+    IdentityUserToken<long>>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
@@ -26,12 +26,6 @@ public class AppDbContext : IdentityDbContext<User, Role, long>
     public DbSet<Document> Documents { get; set; }
     public DbSet<Status> Statuses { get; set; }
     public DbSet<Application> Applications { get; set; }
-    public DbSet<Account> Accounts { get; set; }
-    public DbSet<AccountType> AccountTypes { get; set; }
-    public DbSet<AccountStatus> AccountStatuses { get; set; }
-    public DbSet<Transaction> Transactions { get; set; }
-    public DbSet<TransactionStatus> TransactionStatuses { get; set; }
-    public DbSet<TransactionType> TransactionsTypes { get; set; }
     public DbSet<Language> Languages { get; set; }
     public DbSet<Marathon> Marathons { get; set; }
     public DbSet<MarathonTranslation> MarathonTranslations { get; set; }

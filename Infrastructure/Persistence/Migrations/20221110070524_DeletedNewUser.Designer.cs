@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221110070524_DeletedNewUser")]
+    partial class DeletedNewUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,93 +23,6 @@ namespace Infrastructure.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Domain.Entities.Accounts.Account", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<int>("AccountStatusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
-
-                    b.Property<int>("AccountTypeId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Balance")
-                        .HasPrecision(8, 1)
-                        .HasColumnType("decimal(8,1)");
-
-                    b.Property<long>("CustomerId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(256)
-                        .HasColumnType("nvarchar(256)");
-
-                    b.Property<bool>("IsDeleted")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bit")
-                        .HasDefaultValue(false);
-
-                    b.Property<DateTime>("OpenedDate")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountStatusId");
-
-                    b.HasIndex("AccountTypeId");
-
-                    b.HasIndex("CustomerId");
-
-                    b.ToTable("Accounts");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Accounts.AccountStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountStatuses");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Accounts.AccountType", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountTypes");
-                });
 
             modelBuilder.Entity("Domain.Entities.Applications.Application", b =>
                 {
@@ -138,24 +53,30 @@ namespace Infrastructure.Persistence.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int>("AgeFrom")
+                        .HasColumnType("int");
+
                     b.Property<int>("MarathonId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("MedicalCertificate")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RegisteredParticipants")
+                    b.Property<int>("NumberOfParticipants")
                         .HasColumnType("int");
 
-                    b.Property<int>("ReservedPlaces")
+                    b.Property<TimeSpan>("PassingLimit")
+                        .HasColumnType("time");
+
+                    b.Property<int>("RegistredParticipants")
                         .HasColumnType("int");
 
-                    b.Property<int>("StartNumbersFrom")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StartNumbersTo")
-                        .HasColumnType("int");
+                    b.Property<TimeSpan>("StartTime")
+                        .HasColumnType("time");
 
                     b.HasKey("Id");
 
@@ -181,45 +102,11 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("DistanceId")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Gender")
-                        .HasColumnType("bit");
-
                     b.HasKey("Id");
 
                     b.HasIndex("DistanceId");
 
                     b.ToTable("DistanceAges");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Distances.DistanceForPWD", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("MarathonId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("RegisteredParticipants")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StartNumbersFrom")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StartNumbersTo")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MarathonId");
-
-                    b.ToTable("DistanceForPWD");
                 });
 
             modelBuilder.Entity("Domain.Entities.Distances.DistancePrice", b =>
@@ -311,10 +198,17 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<bool>("IsActive")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("LogoId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("StartDateAcceptingApplications")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LogoId")
+                        .IsUnique()
+                        .HasFilter("[LogoId] IS NOT NULL");
 
                     b.ToTable("Marathons");
                 });
@@ -328,9 +222,6 @@ namespace Infrastructure.Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("LanguageId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("LogoId")
                         .HasColumnType("int");
 
                     b.Property<int>("MarathonId")
@@ -352,10 +243,6 @@ namespace Infrastructure.Persistence.Migrations
 
                     b.HasIndex("LanguageId");
 
-                    b.HasIndex("LogoId")
-                        .IsUnique()
-                        .HasFilter("[LogoId] IS NOT NULL");
-
                     b.HasIndex("MarathonId", "LanguageId")
                         .IsUnique();
 
@@ -371,9 +258,6 @@ namespace Infrastructure.Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("MarathonId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SerialNumber")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -423,12 +307,14 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("PartnerId")
                         .HasColumnType("int");
 
                     b.Property<string>("Path")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -438,81 +324,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasIndex("PartnerId");
 
                     b.ToTable("SavedFile");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Transactions.Transaction", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<long>("AccountId")
-                        .HasColumnType("bigint");
-
-                    b.Property<decimal>("Amount")
-                        .HasPrecision(8, 1)
-                        .HasColumnType("decimal(8,1)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("TransactionStatusId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TransactionTypeId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AccountId");
-
-                    b.HasIndex("TransactionStatusId");
-
-                    b.HasIndex("TransactionTypeId");
-
-                    b.ToTable("Transactions");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Transactions.TransactionStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TransactionStatuses");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Transactions.TransactionType", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TransactionsTypes");
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.Role", b =>
@@ -689,63 +500,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("AspNetUserRoles", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Entities.Vouchers.Promocode", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("DistanceId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsActivated")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("VoucherId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistanceId");
-
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("VoucherId");
-
-                    b.ToTable("Promocodes");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Vouchers.Voucher", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("MarathonId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MarathonId");
-
-                    b.ToTable("Vouchers");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
                 {
                     b.Property<int>("Id")
@@ -866,13 +620,13 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Distances.Distance", b =>
                 {
-                    b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
+                    b.HasOne("Domain.Entities.Marathons.Marathon", "Marathons")
                         .WithMany("Distances")
                         .HasForeignKey("MarathonId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.Navigation("Marathon");
+                    b.Navigation("Marathons");
                 });
 
             modelBuilder.Entity("Domain.Entities.Distances.DistanceAge", b =>
@@ -884,17 +638,6 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Distance");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Distances.DistanceForPWD", b =>
-                {
-                    b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
-                        .WithMany("DistancesForPWD")
-                        .HasForeignKey("MarathonId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Marathon");
                 });
 
             modelBuilder.Entity("Domain.Entities.Distances.DistancePrice", b =>
@@ -919,6 +662,16 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Marathons.Marathon", b =>
+                {
+                    b.HasOne("Domain.Entities.SavedFiles.SavedFile", "Logo")
+                        .WithOne("MarathonLogo")
+                        .HasForeignKey("Domain.Entities.Marathons.Marathon", "LogoId")
+                        .OnDelete(DeleteBehavior.ClientCascade);
+
+                    b.Navigation("Logo");
+                });
+
             modelBuilder.Entity("Domain.Entities.Marathons.MarathonTranslation", b =>
                 {
                     b.HasOne("Domain.Entities.Languages.Language", "Language")
@@ -927,11 +680,6 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Entities.SavedFiles.SavedFile", "Logo")
-                        .WithOne("MarathonLogo")
-                        .HasForeignKey("Domain.Entities.Marathons.MarathonTranslation", "LogoId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
                     b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
                         .WithMany("MarathonTranslations")
                         .HasForeignKey("MarathonId")
@@ -939,8 +687,6 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("Language");
-
-                    b.Navigation("Logo");
 
                     b.Navigation("Marathon");
                 });
@@ -1017,46 +763,9 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Vouchers.Promocode", b =>
-                {
-                    b.HasOne("Domain.Entities.Distances.Distance", "Distance")
-                        .WithMany("Promocodes")
-                        .HasForeignKey("DistanceId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Domain.Entities.Vouchers.Voucher", "Voucher")
-                        .WithMany("Promocodes")
-                        .HasForeignKey("VoucherId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Distance");
-
                     b.Navigation("Role");
 
                     b.Navigation("User");
-
-                    b.Navigation("Voucher");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Vouchers.Voucher", b =>
-                {
-                    b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
-                        .WithMany("Vouchers")
-                        .HasForeignKey("MarathonId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Marathon");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<long>", b =>
@@ -1100,8 +809,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("DistanceAges");
 
                     b.Navigation("DistancePrices");
-
-                    b.Navigation("Promocodes");
                 });
 
             modelBuilder.Entity("Domain.Entities.Languages.Language", b =>
@@ -1113,15 +820,11 @@ namespace Infrastructure.Persistence.Migrations
                 {
                     b.Navigation("Distances");
 
-                    b.Navigation("DistancesForPWD");
-
                     b.Navigation("Documents");
 
                     b.Navigation("MarathonTranslations");
 
                     b.Navigation("Partners");
-
-                    b.Navigation("Vouchers");
                 });
 
             modelBuilder.Entity("Domain.Entities.Marathons.Partner", b =>
@@ -1152,11 +855,6 @@ namespace Infrastructure.Persistence.Migrations
                         .IsRequired();
 
                     b.Navigation("UserRoles");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Vouchers.Voucher", b =>
-                {
-                    b.Navigation("Promocodes");
                 });
 #pragma warning restore 612, 618
         }

@@ -11,12 +11,12 @@ namespace Core.UseCases.Auth.Commands.ChangePassword
         public string Email { get; set; }
     }
 
-    public class SendPasswordResetTokenCommandHandler : IRequestHandler<SendPasswordResetTokenCommand, HttpStatusCode>
+    public class SendPasswordResetTokenHandler : IRequestHandler<SendPasswordResetTokenCommand, HttpStatusCode>
     {
         private readonly IUnitOfWork _unit;
         private readonly IEmailService _emailService;
 
-        public SendPasswordResetTokenCommandHandler(IUnitOfWork unit, IEmailService emailService)
+        public SendPasswordResetTokenHandler(IUnitOfWork unit, IEmailService emailService)
         {
             _unit = unit;
             _emailService = emailService;

@@ -13,8 +13,6 @@ public class UnitOfWork : IUnitOfWork
     private readonly IStringLocalizer<SharedResource> _localizer;
     private readonly UserManager<User> _userManager;
 
-    private IAccountRepository? _accountRepository;
-    private ITransactionRepository? _transactionRepository;
     private IMarathonRepository? _marathonRepository;
     private IDistanceRepository? _distanceRepository;
     private IMarathonTranslationRepository? _marathonTranslationRepository;
@@ -35,24 +33,6 @@ public class UnitOfWork : IUnitOfWork
         _context = context;
         _localizer = localizer;
         _userManager = userManager;
-    }
-        
-    public IAccountRepository AccountRepository
-    {
-        get
-        {
-            _accountRepository ??= new AccountRepository(_context, _localizer);
-            return _accountRepository;
-        }
-    }
-    
-    public ITransactionRepository TransactionRepository
-    {
-        get
-        {
-            _transactionRepository ??= new TransactionRepository(_context, _localizer);
-            return _transactionRepository;
-        }
     }
 
     public IMarathonRepository MarathonRepository
