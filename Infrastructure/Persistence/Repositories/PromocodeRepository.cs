@@ -24,7 +24,6 @@ public class PromocodeRepository : BaseRepository<Promocode>, IPromocodeReposito
         }
 
         Random random = new Random();
-        int vouchersToGenerate = 100000;
         int lengthOfVoucher = 6;
         var generatedPromocodes = new List<string>();
         if (voucher.Promocodes != null)

@@ -4,16 +4,19 @@ using Gridify;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using OfficeOpenXml;
+using OfficeOpenXml.Style;
+using System.Drawing;
 using System.Text;
 
 namespace Core.UseCases.Vouchers.Queries.GenerateExcelPromocodes;
 
-public class GenerateExcelPromocodesQuery : IRequest<byte[]>
+public class GenerateExcelPromocodesQuery : IRequest<(byte[], string)>
 {
     public int VoucherId { get; set; }
 }
 
-public class GenerateExcelPromocodesQueryHandler : IRequestHandler<GenerateExcelPromocodesQuery, byte[]>
+public class GenerateExcelPromocodesQueryHandler : IRequestHandler<GenerateExcelPromocodesQuery, (byte[], string)>
 {
     private readonly IUnitOfWork _unit;
 
@@ -22,31 +25,55 @@ public class GenerateExcelPromocodesQueryHandler : IRequestHandler<GenerateExcel
         _unit = unit;
     }
 
-    public async Task<byte[]> Handle(GenerateExcelPromocodesQuery request,
+    public async Task<(byte[], string)> Handle(GenerateExcelPromocodesQuery request,
         CancellationToken cancellationToken)
     {
 
         var voucher = await _unit.VoucherRepository.FirstAsync(x => x.Id == request.VoucherId);
         var promocodes = _unit.PromocodeRepository
-            .FindByCondition(predicate: x => x.VoucherId == request.VoucherId);
+            .FindByCondition(predicate: x => x.VoucherId == request.VoucherId, include: source => source.Include(x => x.User));
 
-        StringBuilder str = new StringBuilder();
-        str.Append("<b><font face=Arial Narrow size=3>" + "Voucher = " +  voucher.Name + "</font></b>");
-        str.Append("<table border=`" + "1px" + "`b>");
-        str.Append("<tr>");
-        str.Append("<td><b><font face=Arial Narrow size=3>Promocode</font></b></td>");
-        str.Append("<td><b><font face=Arial Narrow size=3>IsActivated</font></b></td>");
-        str.Append("</tr>");
+        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
+        ExcelPackage excel = new ExcelPackage();
+            excel.Workbook.Worksheets.Add(voucher.Name);
+
+        var worksheet = excel.Workbook.Worksheets[voucher.Name];
+
+        worksheet.Cells["A1"].Value = "Ваучер: " + voucher.Name;
+        worksheet.Cells["A2"].Value = "Код";
+        worksheet.Cells["B2"].Value = "Статус";
+        worksheet.Cells["C2"].Value = "Пользователь";
+        worksheet.Cells["D2"].Value = "Телефонный номер";
+        worksheet.Cells["A1:D2"].Style.Font.Bold = true;
+        worksheet.Cells["A1:D2"].Style.Font.Size = 14;
+        int i = 3;
         foreach(var promocode in promocodes)
         {
-            str.Append("<tr>");
-            str.Append("<td><font face=Arial Narrow size=" + "14px" + ">" + promocode.Code + "</font></td>");
-            str.Append("<td><font face=Arial Narrow size=" + "14px" + ">" + promocode.IsActivated.ToString() + "</font></td>");
-            str.Append("</tr>");
+            worksheet.Cells["A" + i.ToString()].Value = promocode.Code;
+            if (promocode.User != null)
+            {
+                var user = promocode.User;
+                worksheet.Cells["C" + i.ToString()].Value = $"{user.Name} {user.Surname}";
+                worksheet.Cells["D" + i.ToString()].Value = user.PhoneNumber;
+
+            }
+            
+            worksheet.Cells[$"A{i}:D{i}"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            if (promocode.IsActivated)
+            {
+                worksheet.Cells["B" + i.ToString()].Value = "Использован";
+                worksheet.Cells[$"A{i}:D{i}"].Style.Fill.BackgroundColor.SetColor(Color.Red);
+            }
+            else
+            {
+                worksheet.Cells["B" + i.ToString()].Value = "Не использован";
+                worksheet.Cells[$"A{i}:D{i}"].Style.Fill.BackgroundColor.SetColor(Color.Green);
+            }
+            i += 1;
         }
-        str.Append("</table>");
-        byte[] temp = System.Text.Encoding.UTF8.GetBytes(str.ToString());
-        return temp;
+        worksheet.Cells.AutoFitColumns();
+        
+        return (excel.GetAsByteArray(), voucher.Name);
     }
 }
