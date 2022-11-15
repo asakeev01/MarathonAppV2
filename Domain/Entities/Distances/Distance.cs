@@ -11,6 +11,7 @@ public class Distance
     public int StartNumbersFrom { get; set; }
     public int StartNumbersTo { get; set; }
     public int ReservedPlaces { get; set; } = 0;
+    public int ActivatedReservedPlaces { get; set; } = 0;
     [NotMapped]
     public int AmountOfParticipants
     {

@@ -24,6 +24,7 @@ public class UnitOfWork : IUnitOfWork
     private IStatusRepository? _statusRepository;
     private IVoucherRepository? _voucherRepository;
     private IPromocodeRepository? _promocodeRepository;
+    private IApplicationRepository? _applicationRepository;
 
     private bool disposed = false;
 
@@ -133,6 +134,14 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
+    public IApplicationRepository ApplicationRepository
+    {
+        get
+        {
+            _applicationRepository ??= new ApplicationRepository(_context, _localizer);
+            return _applicationRepository;
+        }
+    }
     public void Save()
     {
         _context.SaveChanges();
