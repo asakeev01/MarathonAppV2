@@ -25,6 +25,7 @@ public class UnitOfWork : IUnitOfWork
     private IVoucherRepository? _voucherRepository;
     private IPromocodeRepository? _promocodeRepository;
     private IApplicationRepository? _applicationRepository;
+    private IDistanceForPwdRepository? _distanceForPwdRepository;
 
     private bool disposed = false;
 
@@ -142,6 +143,16 @@ public class UnitOfWork : IUnitOfWork
             return _applicationRepository;
         }
     }
+
+    public IDistanceForPwdRepository DistanceForPwdRepository
+    {
+        get
+        {
+            _distanceForPwdRepository ??= new DistanceForPwdRepository(_context, _localizer);
+            return _distanceForPwdRepository;
+        }
+    }
+
     public void Save()
     {
         _context.SaveChanges();

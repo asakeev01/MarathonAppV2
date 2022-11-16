@@ -1,6 +1,7 @@
 ﻿
 
 using Core.UseCases.Applications.Commands.CraeteApplication;
+using Core.UseCases.Applications.Commands.CreateApplicationForPWD;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -25,48 +26,6 @@ public class ApplicationsController : BaseController
         _mediator = mediator;
     }
 
-    ///// <summary>
-    ///// List of marathons
-    ///// </summary>
-    //[HttpGet("", Name = "GetMarathons")]
-    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    //[ProducesResponseType(typeof(IEnumerable<GetMarathonsOutDto>), StatusCodes.Status200OK)]
-    //public async Task<ActionResult<IQueryable<GetMarathonsOutDto>>> List(
-    //    [FromQuery] GridifyQuery query)
-    //{
-    //    var getMarathonsQuery = new GetMarathonsQuery()
-    //    {
-    //        LanguageCode = this.Request.Headers["Accept-Language"],
-    //        Query = query
-    //    };
-
-    //    var result = await _mediator.Send(getMarathonsQuery);
-
-    //    return Ok(result);
-    //}
-
-    ///// <summary>
-    ///// Get Marathon by id
-    ///// </summary>
-    ///// <response code="200">Marathon</response>
-    //[HttpGet("{marathonId:int}", Name = "GetMarathon")]
-    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    //[ProducesResponseType(typeof(GetMarathonOutDto), StatusCodes.Status200OK)]
-    //public async Task<ActionResult<GetMarathonOutDto>> ById(
-    //    [FromRoute] int marathonId)
-    //{
-    //    var getMarathonQuery = new GetMarathonQuery()
-    //    {
-    //        LanguageCode = this.Request.Headers["Accept-Language"],
-    //        MarathonId = marathonId,
-    //    };
-
-    //    var result = await _mediator.Send(getMarathonQuery);
-
-    //    return Ok(result);
-    //}
-
-
     /// <summary>
     /// Create Application
     /// </summary>
@@ -90,7 +49,32 @@ public class ApplicationsController : BaseController
 
         var result = await _mediator.Send(createApplicationCommand);
 
-        return Ok();
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Create Application For PWD
+    /// </summary>
+    /// <response code="200">Id of created application</response>
+    [HttpPost("/pwd", Name = "CreateApplicationForPWD")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [Authorize]
+    public async Task<ActionResult<HttpStatusCode>> CreateForPWD(
+        [FromBody] CreateApplicationForPWDRequestDto dto
+        )
+    {
+        var tmp = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+
+        var createApplicationCommand = new CreateApplicationForPWDCommand()
+        {
+            DistanceForPWDId = dto.DistanceForPWDId,
+            UserId = Convert.ToInt32(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value)
+        };
+
+        var result = await _mediator.Send(createApplicationCommand);
+
+        return Ok(result);
     }
 
     ///// <summary>

@@ -1,5 +1,6 @@
 ﻿using Core.UseCases.Marathons.Commands.CreateMarathon;
 using Domain.Common.Contracts;
+using Domain.Entities.Applications.Exceptions;
 using Domain.Entities.Marathons;
 using Domain.Entities.Users;
 using Domain.Services.Interfaces;
@@ -37,6 +38,15 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
             .Include(a => a.DistanceAges)
             .Include(a => a.DistancePrices)
         );
+
+        var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
+
+        if (old_applications.Count != 0)
+        {
+            throw new AlreadyRegisteredException();
+        }
+
+
         var marathon = distance.Marathon;
         
 
@@ -50,6 +60,6 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
             return application.Id;
         }
 
-        return cmd.DistanceId;
+        return -1;
     }
 }

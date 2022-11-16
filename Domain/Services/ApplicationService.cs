@@ -20,6 +20,42 @@ public class ApplicationService : IApplicationService
         this._localizer = _localizer;
     }
 
+    public async Task<Application> CreateApplicationForPWD(User user, DistanceForPWD distance)
+    {
+        if (user.DateOfConfirmation == null)
+        {
+            throw new UserAgreementLicenseAgreementException();
+        }
+        if (user.IsDisable != true)
+        {
+            throw new NotPWDException();
+        }
+        var marathon = distance.Marathon;
+        var today = DateTime.Now;
+        if (today < marathon.StartDateAcceptingApplications || today > marathon.EndDateAcceptingApplications)
+        {
+            throw new OutsideRegistationDateException();
+        }
+
+        if (distance.RemainingPlaces <= 0)
+            throw new NoPlacesException();
+
+        Application result = new Application()
+        {
+            User = user,
+            UserId = user.Id,
+            Date = DateTime.Now,
+            Marathon = distance.Marathon,
+            DistanceForPWD = distance,
+            Number = distance.StartNumbersFrom + distance.RegisteredParticipants,
+            StarterKit = false,
+            Payment = Entities.Applications.ApplicationEnums.PaymentMethodEnum.PWD,
+        };
+        distance.RegisteredParticipants += 1;
+        return result;
+    }
+
+
     public async Task<Application> CreateApplication(User user, Distance distance, Promocode promocode=null)
     {
         if(user.DateOfConfirmation == null)

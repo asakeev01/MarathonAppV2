@@ -24,6 +24,8 @@ public interface IUnitOfWork : IDisposable
 
     IApplicationRepository ApplicationRepository { get; }
 
+    IDistanceForPwdRepository DistanceForPwdRepository { get; }
+
     void Save();
     Task SaveAsync();
     Task BeginTransactionAsync();

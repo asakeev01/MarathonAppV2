@@ -8,5 +8,6 @@ namespace Domain.Services.Interfaces;
 public interface IApplicationService
 {
     Task<Application> CreateApplication(User user, Distance distance, Promocode promocode);
+    Task<Application> CreateApplicationForPWD(User user, DistanceForPWD distance);
     Task<Application> VoucherApplication(User user, Distance distance, DistanceAge distanceAge, Promocode promocode);
 }
