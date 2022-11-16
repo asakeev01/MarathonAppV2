@@ -1,5 +1,6 @@
 ﻿using Domain.Common.Resources;
 using Domain.Entities.Applications;
+using Domain.Entities.Applications.ApplicationEnums;
 using Domain.Entities.Applications.Exceptions;
 using Domain.Entities.Distances;
 using Domain.Entities.Users;
@@ -48,7 +49,7 @@ public class ApplicationService : IApplicationService
             Marathon = distance.Marathon,
             DistanceForPWD = distance,
             Number = distance.StartNumbersFrom + distance.RegisteredParticipants,
-            StarterKit = false,
+            StarterKit = StartKitEnum.NotIssued,
             Payment = Entities.Applications.ApplicationEnums.PaymentMethodEnum.PWD,
         };
         distance.RegisteredParticipants += 1;
@@ -111,8 +112,8 @@ public class ApplicationService : IApplicationService
             Distance = distance,
             DistanceAge = distanceAge,
             Number = distance.StartNumbersFrom  + distance.ActivatedReservedPlaces + distance.RegisteredParticipants,
-            StarterKit = false,
-            Payment = Entities.Applications.ApplicationEnums.PaymentMethodEnum.Voucher,
+            StarterKit = StartKitEnum.NotIssued,
+            Payment = PaymentMethodEnum.Voucher,
             Promocode = promocode
         };
         promocode.IsActivated = true;

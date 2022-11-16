@@ -2,6 +2,9 @@
 
 using Core.UseCases.Applications.Commands.CraeteApplication;
 using Core.UseCases.Applications.Commands.CreateApplicationForPWD;
+using Core.UseCases.Applications.Queries.ApplicationsByMarathonQuery;
+using Core.UseCases.Applications.Queries.GenerateExcelApplications;
+using Gridify;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -30,7 +33,7 @@ public class ApplicationsController : BaseController
     /// Create Application
     /// </summary>
     /// <response code="200">Id of created application</response>
-    [HttpPost("", Name = "CreateApplication")]
+    [HttpPost("")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [Authorize]
@@ -56,7 +59,7 @@ public class ApplicationsController : BaseController
     /// Create Application For PWD
     /// </summary>
     /// <response code="200">Id of created application</response>
-    [HttpPost("/pwd", Name = "CreateApplicationForPWD")]
+    [HttpPost("pwd")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [Authorize]
@@ -66,95 +69,58 @@ public class ApplicationsController : BaseController
     {
         var tmp = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
 
-        var createApplicationCommand = new CreateApplicationForPWDCommand()
+        var createApplicationForPWDCommand = new CreateApplicationForPWDCommand()
         {
             DistanceForPWDId = dto.DistanceForPWDId,
             UserId = Convert.ToInt32(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value)
         };
 
-        var result = await _mediator.Send(createApplicationCommand);
+        var result = await _mediator.Send(createApplicationForPWDCommand);
 
         return Ok(result);
     }
 
-    ///// <summary>
-    ///// Update marathon
-    ///// </summary>x
-    ///// <response code="200">Response stauts code</response>
-    //[HttpPut("", Name = "UpdateMarathon")]
-    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    //[ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
-    //public async Task<ActionResult<HttpStatusCode>> Update(
-    //    [FromBody] PutMarathonRequestDto dto,
-    //    [FromServices] IValidator<PutMarathonRequestDto> validator)
-    //{
-    //    var validation = await validator.ValidateAsync(dto);
+    /// <summary>
+    /// Get applications by marathon ID
+    /// </summary>
+    [HttpGet("marathon/{marathonId}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(QueryablePaging<ApplicationByMarathonQueryOutDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<HttpStatusCode>> ApplicationsByMarathon(
+        [FromRoute] int marathonId,
+        [FromQuery] GridifyQuery query)
+    {
 
-    //    if (!validation.IsValid)
-    //    {
-    //        return validation.ToBadRequest();
-    //    }
-    //    var createMarathonCommand = new PutMarathonCommand()
-    //    {
-    //        MarathonDto = dto.Adapt<PutMarathonInDto>(),
-    //    };
+        var applicationByMarathonQuery = new ApplicationByMarathonQuery()
+        {
+            MarathonId = marathonId,
+            Query = query
+        };
 
-    //    var result = await _mediator.Send(createMarathonCommand);
+        var result = await _mediator.Send(applicationByMarathonQuery);
 
-    //    return Ok(result);
-    //}
+        return Ok(result);
+    }
 
-    ///// <summary>
-    ///// Add logo to Marathon
-    ///// </summary>
-    ///// <response code="200"></response>
-    //[HttpPost("{marathonId:int}/logo")]
-    //[Consumes("multipart/form-data")]
-    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    //[ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
-    //public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddLogo(
-    //    [FromRoute] int marathonId,
-    //    [FromForm] AddLogoToMarathonRequestDto dto,
-    //    [FromServices] IValidator<AddLogoToMarathonRequestDto> validator)
-    //{
-    //    var validation = await validator.ValidateAsync(dto);
+    /// <summary>
+    /// Export Vouchers to excel
+    /// </summary>
+    [HttpGet("marathon/{marathonId}/excel")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> GenerateExcelPromocodes(
+        [FromRoute] int marathonId
+        )
+    {
+        var generateExcelApplicationsQuery = new GenerateExcelApplicationsQuery()
+        {
+            MarathonId = marathonId,
+        };
 
-    //    if (!validation.IsValid)
-    //    {
-    //        return validation.ToBadRequest();
-    //    }
+        var (result, marathonName) = await _mediator.Send(generateExcelApplicationsQuery);
+        HttpContext.Response.Headers.Add("content-disposition", $"attachment; filename=Applications_{marathonName}_{DateTime.Now.ToString("dd/MM/yyyy")}.xlsx");
+        this.Response.ContentType = "application/vnd.ms-excel";
+        return File(result, "application/vnd.ms-excel");
+    }
 
-    //    var addLogoCommand = new AddLogoCommand()
-    //    {
-    //        MarathonId = marathonId,
-    //        Logo = dto.Logo
-    //    };
-
-    //    var result = await _mediator.Send(addLogoCommand);
-
-    //    return Ok(result);
-
-    //}
-
-    ///// <summary>
-    ///// Delete logo from marathon
-    ///// </summary>
-    ///// <response code="200"></response>
-    //[HttpDelete("{marathonId:int}/logo")]
-    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    //[ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
-    //public async Task<ActionResult<AddLogoToMarathonRequestDto>> DeleteLogo(
-    //    [FromRoute] int marathonId)
-    //{
-
-    //    var deleteLogoCommand = new DeleteLogoCommand()
-    //    {
-    //        MarathonId = marathonId,
-    //    };
-
-    //    var result = await _mediator.Send(deleteLogoCommand);
-
-    //    return Ok(result);
-
-    //}
 }

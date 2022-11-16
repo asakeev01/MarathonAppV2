@@ -9,9 +9,10 @@ namespace Domain.Entities.Applications;
 public class Application
 {
     public int Id { get; set; }
+    public string? Magnet { get; set; }
     public DateTime Date { get; set; }
     public int Number { get; set; }
-    public bool StarterKit { get; set; }
+    public StartKitEnum StarterKit { get; set; }
     public PaymentMethodEnum Payment { get; set; }
     public int? DistanceId { get; set; }
     public long UserId { get; set; }

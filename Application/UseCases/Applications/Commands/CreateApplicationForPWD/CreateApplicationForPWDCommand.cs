@@ -36,12 +36,12 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
             .Include(a => a.Marathon)
         );
 
-        var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
+        //var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
 
-        if (old_applications.Count != 0)
-        {
-            throw new AlreadyRegisteredException();
-        }
+        //if (old_applications.Count != 0)
+        //{
+        //    throw new AlreadyRegisteredException();
+        //}
 
         var marathon = distance.Marathon;
 
