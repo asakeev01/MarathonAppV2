@@ -2,8 +2,10 @@
 
 using Core.UseCases.Applications.Commands.CraeteApplication;
 using Core.UseCases.Applications.Commands.CreateApplicationForPWD;
+using Core.UseCases.Applications.Commands.ImportExcelApplications;
 using Core.UseCases.Applications.Queries.ApplicationsByMarathonQuery;
 using Core.UseCases.Applications.Queries.GenerateExcelApplications;
+using FluentValidation;
 using Gridify;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
@@ -11,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
+using WebApi.Common.Extensions;
 using WebApi.Common.Extensions.ErrorHandlingServices;
 using WebApi.Endpoints.Applications.Dtos.Requests;
 
@@ -121,6 +124,35 @@ public class ApplicationsController : BaseController
         HttpContext.Response.Headers.Add("content-disposition", $"attachment; filename=Applications_{marathonName}_{DateTime.Now.ToString("dd/MM/yyyy")}.xlsx");
         this.Response.ContentType = "application/vnd.ms-excel";
         return File(result, "application/vnd.ms-excel");
+    }
+
+    /// <summary>
+    /// Import Excel
+    /// </summary>
+    [HttpPut("marathon/{marathonId}/excel")]
+    [Consumes("multipart/form-data")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> ImportExcel(
+        [FromRoute] int marathonId,
+        [FromForm] ImportExcelApplicationsRequestDto dto,
+        [FromServices] IValidator<ImportExcelApplicationsRequestDto> validator
+        )
+    {
+        var validation = await validator.ValidateAsync(dto);
+
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+        var importExcelApplicationsCommand = new ImportExcelApplicationsCommand()
+        {
+            MarathonId = marathonId,
+            ExcelFile = dto.ExcelFile
+        };
+
+        var result = await _mediator.Send(importExcelApplicationsCommand);
+        return Ok(result);
     }
 
 }
