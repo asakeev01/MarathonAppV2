@@ -1,11 +1,13 @@
 ﻿using Core.Common.Bases;
 using Domain.Entities.Marathons;
+using Microsoft.AspNetCore.Http;
+using System.Text.Json.Serialization;
 
 namespace Core.UseCases.Marathons.Commands.CreateMarathon;
 
 public record CreateMarathonInDto : BaseDto<CreateMarathonInDto, Marathon>
 {
-    public ICollection<TranslationDto> Translations { get; set; }
+    public ICollection<TranslationInDto> Translations { get; set; }
     public DateTime Date { get; set; }
     public DateTime StartDateAcceptingApplications { get; set; }
     public DateTime EndDateAcceptingApplications { get; set; }
@@ -33,7 +35,7 @@ public record CreateMarathonInDto : BaseDto<CreateMarathonInDto, Marathon>
             .Map(x => x.MarathonTranslations, y => y.Translations);
     }
 
-    public class TranslationDto
+    public class TranslationInDto
     {
         public string Name { get; set; }
         public string Text { get; set; }
@@ -70,4 +72,16 @@ public record CreateMarathonInDto : BaseDto<CreateMarathonInDto, Marathon>
             public int? AgeTo { get; set; }
         }
     }
+}
+
+public class MarathonLogos
+{
+    public int LanguageId {get;set;}
+    public IFormFile Logo { get; set; }
+}
+
+public class PartnersLogos
+{
+    public int SerialNumber { get; set; }
+    public ICollection<IFormFile> Logos { get; set; }
 }
