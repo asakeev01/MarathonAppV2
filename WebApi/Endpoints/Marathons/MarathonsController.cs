@@ -102,10 +102,11 @@ public class MarathonsController : BaseController
     /// </summary>
     /// <response code="200">Id of created marathon</response>
     [HttpPost("", Name = "CreateMarathon")]
+    [Consumes("multipart/form-data")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
     public async Task<ActionResult<HttpStatusCode>> Create(
-        [FromBody] CreateMarathonRequestDto dto,
+        [FromForm] CreateMarathonRequestDto dto,
         [FromServices] IValidator<CreateMarathonRequestDto> validator
         )
     {
@@ -117,7 +118,19 @@ public class MarathonsController : BaseController
         }
         var createMarathonCommand = new CreateMarathonCommand()
         {
-            MarathonDto = dto.Adapt<CreateMarathonInDto>()
+            MarathonDto = dto.Adapt<CreateMarathonInDto>(),
+            Documents = dto.Documents,
+            PartnersLogo = dto.Partners.Select(x => new PartnersLogos {
+                SerialNumber = x.SerialNumber,
+                Logos = x.Logos 
+            }).ToList(),
+            MarathonLogo = dto.Translations.Select(x => new MarathonLogos {
+               LanguageId = x.LanguageId,
+               Logo =  x.Logo }
+            ).ToList(),
+
+
+
         };
 
         var result = await _mediator.Send(createMarathonCommand);
