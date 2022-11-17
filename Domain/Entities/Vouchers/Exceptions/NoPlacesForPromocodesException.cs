@@ -2,9 +2,9 @@
 
 namespace Domain.Entities.Vouchers.Exceptions;
 
-public class NoPlacesException : DomainException
+public class NoPlacesForPromocodesException : DomainException
 {
-    public NoPlacesException(string distance) :
+    public NoPlacesForPromocodesException(string distance) :
         base($"No places for promocodes to {distance} distance.", 4)
     {
     }

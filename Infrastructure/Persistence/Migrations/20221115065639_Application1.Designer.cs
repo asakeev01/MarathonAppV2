@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221115065639_Application1")]
+    partial class Application1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,64 +23,6 @@ namespace Infrastructure.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
-
-            modelBuilder.Entity("Domain.Entities.Applications.Application", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("DistanceAgeId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DistanceForPWDId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DistanceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Magnet")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("MarathonId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Number")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Payment")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("PromocodeId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("StarterKit")
-                        .HasColumnType("int");
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("DistanceAgeId");
-
-                    b.HasIndex("DistanceForPWDId");
-
-                    b.HasIndex("DistanceId");
-
-                    b.HasIndex("MarathonId");
-
-                    b.HasIndex("PromocodeId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Applications");
-                });
 
             modelBuilder.Entity("Domain.Entities.Distances.Distance", b =>
                 {
@@ -732,53 +676,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasColumnType("bigint");
 
                     b.HasDiscriminator().HasValue("RefreshToken");
-                });
-
-            modelBuilder.Entity("Domain.Entities.Applications.Application", b =>
-                {
-                    b.HasOne("Domain.Entities.Distances.DistanceAge", "DistanceAge")
-                        .WithMany()
-                        .HasForeignKey("DistanceAgeId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Domain.Entities.Distances.DistanceForPWD", "DistanceForPWD")
-                        .WithMany()
-                        .HasForeignKey("DistanceForPWDId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Domain.Entities.Distances.Distance", "Distance")
-                        .WithMany()
-                        .HasForeignKey("DistanceId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
-                        .WithMany()
-                        .HasForeignKey("MarathonId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.HasOne("Domain.Entities.Vouchers.Promocode", "Promocode")
-                        .WithMany()
-                        .HasForeignKey("PromocodeId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Domain.Entities.Users.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
-
-                    b.Navigation("Distance");
-
-                    b.Navigation("DistanceAge");
-
-                    b.Navigation("DistanceForPWD");
-
-                    b.Navigation("Marathon");
-
-                    b.Navigation("Promocode");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Domain.Entities.Distances.Distance", b =>

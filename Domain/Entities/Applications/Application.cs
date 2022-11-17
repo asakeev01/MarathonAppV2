@@ -1,13 +1,29 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Domain.Entities.Applications.ApplicationEnums;
+using Domain.Entities.Distances;
+using Domain.Entities.Marathons;
+using Domain.Entities.Users;
+using Domain.Entities.Vouchers;
 
-namespace Domain.Entities.Applications
+namespace Domain.Entities.Applications;
+
+public class Application
 {
-    public class Application
-    {
-        public long Id { get; set; }
-        public int DistanceId { get; set; }
-        //[ForeignKey(nameof(DistanceId))]
-        //public Distance Distance { get; set; }
-    }
+    public int Id { get; set; }
+    public string? Magnet { get; set; }
+    public DateTime Date { get; set; }
+    public int Number { get; set; }
+    public StartKitEnum StarterKit { get; set; }
+    public PaymentMethodEnum Payment { get; set; }
+    public int? DistanceId { get; set; }
+    public long UserId { get; set; }
+    public int MarathonId { get; set; }
+    public int? PromocodeId { get; set; }
+    public int? DistanceForPWDId { get; set; }
+    public DistanceForPWD? DistanceForPWD { get; set; }
+    public Promocode? Promocode { get; set; }
+    public Distance? Distance { get; set; }
+    public DistanceAge? DistanceAge { get; set; } 
+    public User User { get; set; }
+    public Marathon? Marathon { get; set; }
+
 }

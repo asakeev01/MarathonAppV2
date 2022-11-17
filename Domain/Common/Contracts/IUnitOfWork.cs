@@ -22,6 +22,10 @@ public interface IUnitOfWork : IDisposable
     IVoucherRepository VoucherRepository { get; }
     IPromocodeRepository PromocodeRepository { get; }
 
+    IApplicationRepository ApplicationRepository { get; }
+
+    IDistanceForPwdRepository DistanceForPwdRepository { get; }
+
     void Save();
     Task SaveAsync();
     Task BeginTransactionAsync();

@@ -83,9 +83,10 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
         public int StartNumbersFrom { get; set; }
         public int StartNumbersTo { get; set; }
         public int AmountOfParticipants { get; set; }
-        public int ReservedPlaces { get; set; }
-        public int RemainingPlaces { get; set; }
         public int RegisteredParticipants { get; set; }
+        public int ReservedPlaces { get; set; }
+        public int ActivatedReservedPlaces { get; set; }
+        public int RemainingPlaces { get; set; }
         public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
         public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
 

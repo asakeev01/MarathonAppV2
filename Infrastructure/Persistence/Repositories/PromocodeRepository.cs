@@ -20,7 +20,7 @@ public class PromocodeRepository : BaseRepository<Promocode>, IPromocodeReposito
     {
         if (quantity > distance.RemainingPlaces)
         {
-            throw new NoPlacesException(distance.Name);
+            throw new NoPlacesForPromocodesException(distance.Name);
         }
 
         Random random = new Random();

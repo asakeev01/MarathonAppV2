@@ -41,7 +41,7 @@ public class MarathonsController : BaseController
     /// </summary>
     [HttpGet("", Name = "GetMarathons")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(IEnumerable<GetMarathonsOutDto>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(QueryablePaging<GetMarathonsOutDto>), StatusCodes.Status200OK)]
     public async Task<ActionResult<IQueryable<GetMarathonsOutDto>>> List(
         [FromQuery] GridifyQuery query)
     {

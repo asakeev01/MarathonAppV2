@@ -24,6 +24,8 @@ public class UnitOfWork : IUnitOfWork
     private IStatusRepository? _statusRepository;
     private IVoucherRepository? _voucherRepository;
     private IPromocodeRepository? _promocodeRepository;
+    private IApplicationRepository? _applicationRepository;
+    private IDistanceForPwdRepository? _distanceForPwdRepository;
 
     private bool disposed = false;
 
@@ -130,6 +132,24 @@ public class UnitOfWork : IUnitOfWork
         {
             _promocodeRepository ??= new PromocodeRepository(_context, _localizer);
             return _promocodeRepository;
+        }
+    }
+
+    public IApplicationRepository ApplicationRepository
+    {
+        get
+        {
+            _applicationRepository ??= new ApplicationRepository(_context, _localizer);
+            return _applicationRepository;
+        }
+    }
+
+    public IDistanceForPwdRepository DistanceForPwdRepository
+    {
+        get
+        {
+            _distanceForPwdRepository ??= new DistanceForPwdRepository(_context, _localizer);
+            return _distanceForPwdRepository;
         }
     }
 

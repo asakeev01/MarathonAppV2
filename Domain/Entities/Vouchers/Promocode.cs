@@ -13,7 +13,6 @@ public class Promocode
     public Distance Distance { get; set; }
     public int VoucherId { get; set; }
     public Voucher Voucher { get; set; }
-    [ForeignKey("User")]
     public long? UserId { get; set; }
     public User? User { get; set; }
 }

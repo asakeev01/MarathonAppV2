@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20221115065927_Application2")]
+    partial class Application2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,17 +35,11 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("DistanceAgeId")
+                    b.Property<int>("DistanceAgeId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("DistanceForPWDId")
+                    b.Property<int>("DistanceId")
                         .HasColumnType("int");
-
-                    b.Property<int?>("DistanceId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Magnet")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("MarathonId")
                         .HasColumnType("int");
@@ -57,8 +53,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int?>("PromocodeId")
                         .HasColumnType("int");
 
-                    b.Property<int>("StarterKit")
-                        .HasColumnType("int");
+                    b.Property<bool>("StarterKit")
+                        .HasColumnType("bit");
 
                     b.Property<long>("UserId")
                         .HasColumnType("bigint");
@@ -66,8 +62,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DistanceAgeId");
-
-                    b.HasIndex("DistanceForPWDId");
 
                     b.HasIndex("DistanceId");
 
@@ -739,17 +733,14 @@ namespace Infrastructure.Persistence.Migrations
                     b.HasOne("Domain.Entities.Distances.DistanceAge", "DistanceAge")
                         .WithMany()
                         .HasForeignKey("DistanceAgeId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
-
-                    b.HasOne("Domain.Entities.Distances.DistanceForPWD", "DistanceForPWD")
-                        .WithMany()
-                        .HasForeignKey("DistanceForPWDId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Entities.Distances.Distance", "Distance")
                         .WithMany()
                         .HasForeignKey("DistanceId")
-                        .OnDelete(DeleteBehavior.ClientCascade);
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
 
                     b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
                         .WithMany()
@@ -771,8 +762,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Distance");
 
                     b.Navigation("DistanceAge");
-
-                    b.Navigation("DistanceForPWD");
 
                     b.Navigation("Marathon");
 
