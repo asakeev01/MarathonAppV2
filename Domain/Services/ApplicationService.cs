@@ -41,6 +41,15 @@ public class ApplicationService : IApplicationService
         if (distance.RemainingPlaces <= 0)
             throw new NoPlacesException();
 
+        var starterKitCode = "";
+        if (distance.Applications != null)
+        {
+            starterKitCode = await GenerateStarterKitCode(distance.Applications.Select(x => x.StarterKitCode).ToList());
+        }
+        else{
+            starterKitCode = await GenerateStarterKitCode(new List<string>());
+        }
+
         Application result = new Application()
         {
             User = user,
@@ -51,15 +60,19 @@ public class ApplicationService : IApplicationService
             Number = distance.StartNumbersFrom + distance.RegisteredParticipants,
             StarterKit = StartKitEnum.NotIssued,
             Payment = Entities.Applications.ApplicationEnums.PaymentMethodEnum.PWD,
+            StarterKitCode = starterKitCode,
         };
         distance.RegisteredParticipants += 1;
+        //место для отправки сообщения на почту
+
+
         return result;
     }
 
 
-    public async Task<Application> CreateApplication(User user, Distance distance, Promocode promocode=null)
+    public async Task<Application> CreateApplication(User user, Distance distance, Promocode promocode = null)
     {
-        if(user.DateOfConfirmation == null)
+        if (user.DateOfConfirmation == null)
         {
             throw new UserAgreementLicenseAgreementException();
         }
@@ -87,11 +100,29 @@ public class ApplicationService : IApplicationService
         if (distance.RemainingPlaces <= 0)
             throw new NoPlacesException();
 
+        var result = new Application();
+
         if (promocode != null)
         {
-            return await VoucherApplication(user, distance, selecetedDistanceAge, promocode);
+            var voucherApplication = await VoucherApplication(user, distance, selecetedDistanceAge, promocode);
+            result = voucherApplication;
         }
-        return new Application();
+
+        var starterKitCode = "";
+
+        if (distance.Applications != null)
+        {
+            starterKitCode = await GenerateStarterKitCode(distance.Applications.Select(x => x.StarterKitCode).ToList());
+        }
+        else
+        {
+            starterKitCode = await GenerateStarterKitCode(new List<string>());
+        }
+        result.StarterKitCode = starterKitCode;
+
+        //место для отправки сообщения на почту
+
+        return result;
 
     }
 
@@ -111,7 +142,7 @@ public class ApplicationService : IApplicationService
             Marathon = distance.Marathon,
             Distance = distance,
             DistanceAge = distanceAge,
-            Number = distance.StartNumbersFrom  + distance.ActivatedReservedPlaces + distance.RegisteredParticipants,
+            Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants,
             StarterKit = StartKitEnum.NotIssued,
             Payment = PaymentMethodEnum.Voucher,
             Promocode = promocode
@@ -119,6 +150,32 @@ public class ApplicationService : IApplicationService
         promocode.IsActivated = true;
         promocode.User = user;
         distance.ActivatedReservedPlaces += 1;
+        return result;
+    }
+
+    public async Task<string> GenerateStarterKitCode(List<string> generatedPromocodes)
+    {
+
+        Random random = new Random();
+        int lengthOfCode = 6;
+
+        char[] keys = "ABCDEFGHIJKLMNOPQRSTUVWXYZ01234567890".ToCharArray();
+        var result = "";
+        int i = 0;
+        while (i < 1)
+        {
+            var promocode = Enumerable
+            .Range(1, lengthOfCode) // for(i.. )
+            .Select(k => keys[random.Next(0, keys.Length - 1)])  // generate a new random char
+            .Aggregate("", (e, c) => e + c); // join into a string
+            promocode = promocode.Replace(" ", "");
+
+            if (!generatedPromocodes.Contains(promocode))
+            {
+                i += 1;
+                result = promocode;
+            }
+        }
         return result;
     }
 

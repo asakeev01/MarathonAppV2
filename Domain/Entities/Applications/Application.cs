@@ -14,6 +14,8 @@ public class Application
     public int Number { get; set; }
     public StartKitEnum StarterKit { get; set; }
     public PaymentMethodEnum Payment { get; set; }
+    public string StarterKitCode {get;set;}
+    public string? FullNameRecipient { get; set; }
     public int? DistanceId { get; set; }
     public long UserId { get; set; }
     public int MarathonId { get; set; }
