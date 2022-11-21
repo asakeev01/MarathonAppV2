@@ -37,6 +37,7 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
             .Include(a => a.Marathon)
             .Include(a => a.DistanceAges)
             .Include(a => a.DistancePrices)
+            .Include(a => a.Applications)
         );
 
         //var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();

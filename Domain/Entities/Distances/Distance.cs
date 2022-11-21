@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Marathons;
+﻿using Domain.Entities.Applications;
+using Domain.Entities.Marathons;
 using Domain.Entities.Vouchers;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -34,4 +35,5 @@ public class Distance
     public ICollection<DistancePrice> DistancePrices { get; set; }
     public ICollection<DistanceAge> DistanceAges { get; set; }
     public ICollection<Promocode> Promocodes { get; set; }
+    public ICollection<Application> Applications { get; set; }
 }

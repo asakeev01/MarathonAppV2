@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Marathons;
+﻿using Domain.Entities.Applications;
+using Domain.Entities.Marathons;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -33,4 +34,5 @@ public class DistanceForPWD
     public int RegisteredParticipants { get; set; } = 0;
     public int MarathonId { get; set; }
     public Marathon Marathon { get; set; }
+    public ICollection<Application> Applications { get; set; }
 }

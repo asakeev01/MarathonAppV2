@@ -14,6 +14,9 @@ public record ApplicationByMarathonQueryOutDto : BaseDto<Application, Applicatio
     public StartKitEnum StarterKit { get; set; }
     public PaymentMethodEnum Payment { get; set; }
     public string Voucher { get; set; }
+    public string StarterKitCode { get; set; }
+    public string? FullNameRecipient { get; set; }
+    public bool? TookHimself { get; set; }
     public UserDto User { get; set; }
 
 
