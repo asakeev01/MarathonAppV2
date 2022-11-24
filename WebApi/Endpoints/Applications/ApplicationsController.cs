@@ -199,5 +199,4 @@ public class ApplicationsController : BaseController
         var result = await _mediator.Send(issueStarterKitCommand);
         return Ok(result);
     }
-
 }

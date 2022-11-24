@@ -1077,8 +1077,6 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Users.User", b =>
                 {
-                    b.Navigation("Applications");
-
                     b.Navigation("Document")
                         .IsRequired();
 
