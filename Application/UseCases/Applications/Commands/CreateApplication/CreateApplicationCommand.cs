@@ -23,11 +23,13 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
 {
     private readonly IUnitOfWork _unit;
     private readonly IApplicationService _applicationService;
+    private readonly IEmailService _emailService;
 
-    public CreateApplicationCommandHandler(IUnitOfWork unit, IApplicationService applicationService)
+    public CreateApplicationCommandHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
     {
         _unit = unit;
         _applicationService = applicationService;
+        _emailService = emailService;
     }
 
     public async Task<int> Handle(CreateApplicationCommand cmd, CancellationToken cancellationToken)
@@ -58,6 +60,7 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
             await _unit.PromocodeRepository.Update(promocode, save: true);
             await _unit.DistanceRepository.Update(distance, save: true);
+            await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
             return application.Id;
         }
 

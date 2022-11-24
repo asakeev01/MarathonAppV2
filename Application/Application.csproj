@@ -34,6 +34,8 @@
       <Folder Include="UseCases\Documents\Commands\DeleteUserDocument\" />
       <Folder Include="UseCases\Users\Queries\GetUserAsAdmin\" />
       <Folder Include="UseCases\Users\Commands\UpdateUserAsAdmin\" />
+      <Folder Include="UseCases\Applications\Queries\ApplicationByStarterKitCodeQuery\" />
+      <Folder Include="UseCases\Applications\Commands\IssueStarterKit\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -72,5 +74,7 @@
       <None Remove="UseCases\Users\Queries\GetUsers\" />
       <None Remove="UseCases\Users\Queries\GetUserAsAdmin\" />
       <None Remove="UseCases\Users\Commands\UpdateUserAsAdmin\" />
+      <None Remove="UseCases\Applications\Queries\ApplicationByStarterKitCodeQuery\" />
+      <None Remove="UseCases\Applications\Commands\IssueStarterKit\" />
     </ItemGroup>
 </Project>

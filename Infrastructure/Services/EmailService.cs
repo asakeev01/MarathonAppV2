@@ -4,13 +4,13 @@ using System.Text;
 using Domain.Common.Options;
 using Domain.Entities.Users;
 using Domain.Entities.Users.Exceptions;
-using Domain.Services.Interfaces;
+using Domain.Common.Contracts;
 using MailKit.Net.Smtp;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
-namespace Domain.Services
+namespace Infrastructure.Services
 {
     public class EmailService : IEmailService
     {
@@ -80,6 +80,11 @@ namespace Domain.Services
             string url = $"{_appOptions.FrontUrl}/user/changePassword?email={email}&token={validToken}";
 
             await SendEmailAsync(email, "Reset your password", $"<h1>Marathon App</h1>" + $"<p>To reset your password <a href='{url}'>Clicking here</a></p>");
+        }
+
+        public async Task SendStarterKitCodeAsync(string email, string starterKitCode)
+        {
+            await SendEmailAsync(email, "Starter Kit Code", $"<h1>Marathon App</h1>" + $"<p>{starterKitCode}</p>");
         }
 
         public string WebEncodeToken(string token)

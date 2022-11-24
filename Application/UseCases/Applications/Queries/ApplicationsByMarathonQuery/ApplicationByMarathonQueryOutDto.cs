@@ -16,6 +16,7 @@ public record ApplicationByMarathonQueryOutDto : BaseDto<Application, Applicatio
     public string Voucher { get; set; }
     public string StarterKitCode { get; set; }
     public string? FullNameRecipient { get; set; }
+    public DateTime? DateOfIssue { get; set; }
     public bool? TookHimself { get; set; }
     public UserDto User { get; set; }
 

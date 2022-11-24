@@ -3,6 +3,8 @@
 using Core.UseCases.Applications.Commands.CraeteApplication;
 using Core.UseCases.Applications.Commands.CreateApplicationForPWD;
 using Core.UseCases.Applications.Commands.ImportExcelApplications;
+using Core.UseCases.Applications.Commands.IssueStarterKit;
+using Core.UseCases.Applications.Queries.ApplicationByStarterKitCodeQuery;
 using Core.UseCases.Applications.Queries.ApplicationsByMarathonQuery;
 using Core.UseCases.Applications.Queries.GenerateExcelApplications;
 using FluentValidation;
@@ -155,4 +157,46 @@ public class ApplicationsController : BaseController
         return Ok(result);
     }
 
+    [HttpGet("starterkit/{starterKitCode}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(ApplicationByStarterKitCodeQueryOutDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<HttpStatusCode>> ApplicationsByStarterKitCode(
+    [FromRoute] string starterKitCode)
+    {
+        var applicationByStarterKitCodeQuery = new ApplicationByStarterKitCodeQuery()
+        {
+            StarterKitCode = starterKitCode
+        };
+
+        var result = await _mediator.Send(applicationByStarterKitCodeQuery);
+
+        return Ok(result);
+    }
+
+    [HttpPut("starterkit/{applicationId}")]
+    [Consumes("multipart/form-data")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> IssueStarterKit(
+        [FromRoute] int applicationId,
+        [FromForm] IssueStarterKitRequestDto dto,
+        [FromServices] IValidator<IssueStarterKitRequestDto> validator
+        )
+    {
+        var validation = await validator.ValidateAsync(dto);
+
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+        var issueStarterKitCommand = new IssueStarterKitCommand()
+        {
+            StarterKit = dto.StarterKit,
+            ApplicationId = applicationId,
+            FullNameRecipient = dto.FullNameRecipient
+        };
+
+        var result = await _mediator.Send(issueStarterKitCommand);
+        return Ok(result);
+    }
 }

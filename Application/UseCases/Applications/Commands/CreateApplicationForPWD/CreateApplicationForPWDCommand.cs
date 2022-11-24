@@ -22,11 +22,13 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
 {
     private readonly IUnitOfWork _unit;
     private readonly IApplicationService _applicationService;
+    private readonly IEmailService _emailService;
 
-    public CreateApplicationForPWDCommandHandler(IUnitOfWork unit, IApplicationService applicationService)
+    public CreateApplicationForPWDCommandHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
     {
         _unit = unit;
         _applicationService = applicationService;
+        _emailService = emailService;
     }
 
     public async Task<int> Handle(CreateApplicationForPWDCommand cmd, CancellationToken cancellationToken)
@@ -48,6 +50,7 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
         var application = await _applicationService.CreateApplicationForPWD(user, distance);
         await _unit.ApplicationRepository.CreateAsync(application, save: true);
         await _unit.DistanceForPwdRepository.Update(distance, save: true);
+        await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
         return application.Id;
     }
 }

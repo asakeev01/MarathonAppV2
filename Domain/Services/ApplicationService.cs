@@ -83,7 +83,7 @@ public class ApplicationService : IApplicationService
             throw new OutsideRegistationDateException();
         }
 
-        var userAge = today.Year - user.DateOfBirth.Value.Year;
+        var userAge = user.GetAge();
         DistanceAge selecetedDistanceAge = null;
         foreach (var distanceAge in distance.DistanceAges)
         {
@@ -179,4 +179,14 @@ public class ApplicationService : IApplicationService
         return result;
     }
 
+    public Application IssueStarterKit(Application application, string? fullNameRecipient, StartKitEnum starterKit)
+    {
+        if (application.DateOfIssue != null)
+            throw new AlreadyIssuedStarterKitException();
+        if (fullNameRecipient != null)
+            application.FullNameRecipient = fullNameRecipient;
+        application.StarterKit = starterKit;
+        application.DateOfIssue = DateTime.UtcNow;
+        return application;
+    }
 }

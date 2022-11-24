@@ -23,6 +23,16 @@ public class User : IdentityUser<long>
 
     public Status Status { get; set; }
     public Document Document { get; set; }
-    //public ICollection<Application> Applications { get; set; }
+    public ICollection<Application> Applications { get; set; }
     public virtual ICollection<UserRole> UserRoles { get; set; }
+
+    public int GetAge() {
+        var today = DateTime.Today;
+
+        int age = today.Year - DateOfBirth.Value.Year;
+
+        if (DateOfBirth.Value > today.AddYears(-age)) age--;
+
+        return age;
+    }
 }

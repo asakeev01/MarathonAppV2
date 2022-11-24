@@ -16,6 +16,7 @@ public class Application
     public PaymentMethodEnum Payment { get; set; }
     public string StarterKitCode {get;set;}
     public string? FullNameRecipient { get; set; }
+    public DateTime? DateOfIssue { get; set; }
     public int? DistanceId { get; set; }
     public long UserId { get; set; }
     public int MarathonId { get; set; }
