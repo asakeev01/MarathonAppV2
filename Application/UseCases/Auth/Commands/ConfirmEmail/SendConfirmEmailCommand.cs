@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using Domain.Common.Contracts;
-using Domain.Services.Interfaces;
 using MediatR;
 
 namespace Core.UseCases.Auth.Commands.ConfirmEmail

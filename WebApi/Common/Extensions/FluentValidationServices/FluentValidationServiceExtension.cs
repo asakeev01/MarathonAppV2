@@ -1,5 +1,6 @@
 using FluentValidation;
 using WebApi.Endpoints.Marathons.Dtos.Requests;
+using static WebApi.Endpoints.Marathons.Dtos.Requests.CreateMarathonRequestDto;
 
 namespace WebApi.Common.Extensions.FluentValidationServices;
 

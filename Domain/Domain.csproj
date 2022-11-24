@@ -10,7 +10,6 @@
       <Folder Include="Entities\Distances\Exceptions\" />
       <Folder Include="Entities\Users\UserEnums\" />
       <Folder Include="Entities\Documents\" />
-      <Folder Include="Entities\Applications\" />
       <Folder Include="Entities\Users\Exceptions\" />
       <Folder Include="Common\Options\" />
       <Folder Include="Entities\Users\Constants\" />

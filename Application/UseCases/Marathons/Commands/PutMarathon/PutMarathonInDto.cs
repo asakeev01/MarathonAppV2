@@ -72,6 +72,7 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
         public class DistanceAgeDto
         {
             public int Id { get; set; }
+            public bool Gender { get; set; }
             public int? AgeFrom { get; set; }
             public int? AgeTo { get; set; }
         }

@@ -7,7 +7,7 @@ public class Partner
     public int Id { get; set; }
     public int SerialNumber { get; set; }
     public int MarathonId { get; set; }
-    public virtual Marathon Marathon { get; set; }
-    public virtual ICollection<PartnerTranslation> Translations { get; set; }
-    public virtual ICollection<SavedFile>? Logos{get;set;}
+    public Marathon Marathon { get; set; }
+    public ICollection<PartnerTranslation> Translations { get; set; }
+    public ICollection<SavedFile>? Logos{get;set;}
 }

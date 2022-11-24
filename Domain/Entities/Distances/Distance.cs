@@ -1,4 +1,6 @@
-﻿using Domain.Entities.Marathons;
+﻿using Domain.Entities.Applications;
+using Domain.Entities.Marathons;
+using Domain.Entities.Vouchers;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Distances;
@@ -9,6 +11,8 @@ public class Distance
     public string Name { get; set; }
     public int StartNumbersFrom { get; set; }
     public int StartNumbersTo { get; set; }
+    public int ReservedPlaces { get; set; } = 0;
+    public int ActivatedReservedPlaces { get; set; } = 0;
     [NotMapped]
     public int AmountOfParticipants
     {
@@ -22,12 +26,14 @@ public class Distance
     {
         get
         {
-            return AmountOfParticipants - RegisteredParticipants;
+            return AmountOfParticipants - RegisteredParticipants - ReservedPlaces;
         }
     }
     public int RegisteredParticipants { get; set; } = 0;
     public int MarathonId { get; set; }
-    public virtual Marathon Marathon { get; set; }
-    public virtual ICollection<DistancePrice> DistancePrices { get; set; }
-    public virtual ICollection<DistanceAge> DistanceAges { get; set; }
+    public Marathon Marathon { get; set; }
+    public ICollection<DistancePrice> DistancePrices { get; set; }
+    public ICollection<DistanceAge> DistanceAges { get; set; }
+    public ICollection<Promocode> Promocodes { get; set; }
+    public ICollection<Application> Applications { get; set; }
 }

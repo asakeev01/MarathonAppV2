@@ -8,13 +8,13 @@ using System.Net;
 
 namespace Core.UseCases.Marathons.Commands.AddPartnerLogo;
 
-public class AddPartnerLogo : IRequest<HttpStatusCode>
+public class AddPartnerLogoCommand : IRequest<HttpStatusCode>
 {
     public int PartnerId { get; set; }
     public ICollection<IFormFile> Logos { get; set; }
 }
 
-public class AddPartnerLogoHandler : IRequestHandler<AddPartnerLogo, HttpStatusCode>
+public class AddPartnerLogoHandler : IRequestHandler<AddPartnerLogoCommand, HttpStatusCode>
 {
     private readonly IUnitOfWork _unit;
     private readonly ISavedFileService _savedFileService;
@@ -25,7 +25,7 @@ public class AddPartnerLogoHandler : IRequestHandler<AddPartnerLogo, HttpStatusC
         _savedFileService = savedFileService;
     }
 
-    public async Task<HttpStatusCode> Handle(AddPartnerLogo cmd, CancellationToken cancellationToken)
+    public async Task<HttpStatusCode> Handle(AddPartnerLogoCommand cmd, CancellationToken cancellationToken)
     {
         var partner = await _unit.PartnerRepository
             .FirstAsync(x => x.Id == cmd.PartnerId, include: source => source.Include(a => a.Logos));

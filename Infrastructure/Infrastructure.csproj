@@ -14,10 +14,7 @@
       <Folder Include="Common\Resources" />
       <Folder Include="Files" />
       <Folder Include="Identity" />
-      <Folder Include="Services\Interfaces\" />
-
       <Folder Include="Persistence\Seed\SeedIdentity\" />
-      <Folder Include="Persistence\Migrations\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -36,6 +33,7 @@
         <PrivateAssets>all</PrivateAssets>
         <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       </PackageReference>
+      <PackageReference Include="MailKit" Version="3.4.2" />
     </ItemGroup>
 
     <ItemGroup>
@@ -53,5 +51,6 @@
       <None Remove="Microsoft.EntityFrameworkCore.Design" />
       <None Remove="Persistence\Seed\SeedIdentity\" />
       <None Remove="Persistence\Migrations\" />
+      <None Remove="MailKit" />
     </ItemGroup>
 </Project>
