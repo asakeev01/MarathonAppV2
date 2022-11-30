@@ -18,6 +18,7 @@ public class AppDbContext : IdentityDbContext<User, Role, long, IdentityUserClai
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
+        //Database.EnsureDeleted();
         //Database.EnsureCreated();
     }
         

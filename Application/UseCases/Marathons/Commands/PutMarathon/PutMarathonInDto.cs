@@ -1,5 +1,6 @@
 ﻿using Core.Common.Bases;
 using Domain.Entities.Marathons;
+using Microsoft.AspNetCore.Http;
 
 namespace Core.UseCases.Marathons.Commands.PutMarathon;
 
@@ -29,13 +30,21 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
         public int LanguageId { get; set; }
     }
 
-    public class TranslationDto
+    public record TranslationDto : BaseDto<TranslationDto, MarathonTranslation>
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Text { get; set; }
         public string Place { get; set; }
         public int LanguageId { get; set; }
+
+        public override void AddCustomMappings()
+        {
+            SetCustomMappings()
+                .Ignore(x => x.Logo)
+                .Ignore(x => x.LogoId);
+        }
+
     }
 
     public override void AddCustomMappings()
@@ -78,4 +87,16 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
         }
 
     }
+}
+
+public class UpdateMarathonLogos
+{
+    public int LanguageId { get; set; }
+    public IFormFile Logo { get; set; }
+}
+
+public class UpdatePartnersLogos
+{
+    public int SerialNumber { get; set; }
+    public ICollection<IFormFile> Logos { get; set; }
 }

@@ -31,13 +31,14 @@ public class CreateMarathonCommandHandler : IRequestHandler<CreateMarathonComman
     public async Task<int> Handle(CreateMarathonCommand cmd, CancellationToken cancellationToken)
     {
         using var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+
         var entity = cmd.MarathonDto.Adapt<Marathon>();
         var marathon = await _unit.MarathonRepository.CreateAsync(entity, save: true);
+
         foreach (var document in cmd.Documents)
         {
             var fileDocument = await _savedFileService.UploadFile(document, Domain.Common.Constants.FileTypeEnum.Documents);
             fileDocument.Marathon = marathon;
-            await _unit.SavedFileRepository.SaveAsync();
         }
 
         foreach (var partner in cmd.PartnersLogo)
@@ -48,20 +49,21 @@ public class CreateMarathonCommandHandler : IRequestHandler<CreateMarathonComman
             {
                 var fileLogo = await _savedFileService.UploadFile(logo, Domain.Common.Constants.FileTypeEnum.Partners);
                 fileLogo.Partner = entityParner;
-                await _unit.SavedFileRepository.SaveAsync();
             }
         }
 
         foreach(var translation in cmd.MarathonLogo)
         {
-            var tmp = marathon.MarathonTranslations;
-
             var entityTranslation = marathon.MarathonTranslations.Where(x => x.LanguageId == translation.LanguageId).First();
             var fileLogo = await _savedFileService.UploadFile(translation.Logo, Domain.Common.Constants.FileTypeEnum.Marathons);
             entityTranslation.Logo = fileLogo;
         }
+
+        await _unit.SavedFileRepository.SaveAsync();
         await _unit.MarathonRepository.Update(marathon, save: true);
+        
         tran.Complete();
+        
         return marathon.Id;
     }
 }
