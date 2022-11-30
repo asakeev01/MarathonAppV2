@@ -14,11 +14,13 @@ public class PutMarathonRequestDto
     public ICollection<DistanceDto> Distances { get; set; }
     public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
     public ICollection<PartnersDto> Partners { get; set; }
+    public ICollection<IFormFile> Documents { get; set; }
 
     public class PartnersDto
     {
         public int Id { get; set; }
         public int SerialNumber { get; set; }
+        public ICollection<IFormFile> Logos { get; set; }
         public ICollection<PartnerTrasnlationDto> Translations { get; set; }
     }
 
@@ -36,6 +38,7 @@ public class PutMarathonRequestDto
         public string Text { get; set; }
         public string Place { get; set; }
         public int LanguageId { get; set; }
+        public IFormFile Logo { get; set; }
     }
 
     public class DistanceForPWDDTO

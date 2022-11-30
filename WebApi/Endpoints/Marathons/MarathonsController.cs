@@ -129,8 +129,6 @@ public class MarathonsController : BaseController
                Logo =  x.Logo }
             ).ToList(),
 
-
-
         };
 
         var result = await _mediator.Send(createMarathonCommand);
@@ -143,10 +141,11 @@ public class MarathonsController : BaseController
     /// </summary>
     /// <response code="200">Response stauts code</response>
     [HttpPut("", Name = "ChangeMarathon")]
+    [Consumes("multipart/form-data")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> Update(
-        [FromBody] PutMarathonRequestDto dto,
+        [FromForm] PutMarathonRequestDto dto,
         [FromServices] IValidator<PutMarathonRequestDto> validator)
     {
         var validation = await validator.ValidateAsync(dto);
@@ -158,6 +157,18 @@ public class MarathonsController : BaseController
         var createMarathonCommand = new PutMarathonCommand()
         {
             MarathonDto = dto.Adapt<PutMarathonInDto>(),
+            Documents = dto.Documents,
+            PartnersLogo = dto.Partners.Select(x => new UpdatePartnersLogos
+            {
+                SerialNumber = x.SerialNumber,
+                Logos = x.Logos
+            }).ToList(),
+            MarathonLogo = dto.Translations.Select(x => new UpdateMarathonLogos
+            {
+                LanguageId = x.LanguageId,
+                Logo = x.Logo
+            }
+            ).ToList(),
         };
 
         var result = await _mediator.Send(createMarathonCommand);
