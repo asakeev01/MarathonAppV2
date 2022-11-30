@@ -80,7 +80,7 @@ namespace WebApi.Endpoints.Documents
         [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
         [Authorize]
         public async Task<ActionResult<HttpStatusCode>> DeleteDocument(
-            [FromForm] DeleteUserDocumentRequestDto dto,
+            [FromQuery] DeleteUserDocumentRequestDto dto,
             [FromServices] IValidator<DeleteUserDocumentRequestDto> validator)
         {
             var validation = await validator.ValidateAsync(dto);
