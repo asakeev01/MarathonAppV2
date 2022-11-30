@@ -176,76 +176,107 @@ public class MarathonsController : BaseController
         return Ok(result);
     }
 
-    /// <summary>
-    /// Add logo to Marathon
-    /// </summary>
-    /// <response code="200"></response>
-    [HttpPost("{marathonId:int}/logo/{translationId:int}")]
-    [Consumes("multipart/form-data")]
-    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
-    public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddLogo(
-        [FromRoute] int marathonId,
-        [FromRoute] int translationId,
-        [FromForm] AddLogoToMarathonRequestDto dto,
-        [FromServices] IValidator<AddLogoToMarathonRequestDto> validator)
-    {
-        var validation = await validator.ValidateAsync(dto);
-
-        if (!validation.IsValid)
-        {
-            return validation.ToBadRequest();
-        }
-
-        var addLogoCommand = new AddLogoCommand()
-            {
-                MarathonId = marathonId,
-                TranslationId = translationId,
-                Logo = dto.Logo
-            };
-
-            var result = await _mediator.Send(addLogoCommand);
-
-            return Ok(result);
-
-    }
-
-    /// <summary>
-    /// Delete logo from marathon
-    /// </summary>
-    /// <response code="200"></response>
-    [HttpDelete("{marathonId:int}/logo/{translationId:int}")]
-    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
-    public async Task<ActionResult<AddLogoToMarathonRequestDto>> DeleteLogo(
-        [FromRoute] int marathonId,
-        [FromRoute] int translationId)
-    {
-
-            var deleteLogoCommand = new DeleteLogoCommand()
-            {
-                MarathonId = marathonId,
-                TranslationId = translationId
-            };
-
-            var result = await _mediator.Send(deleteLogoCommand);
-
-            return Ok(result);
-
-    }
-
-     ///// <summary>
-    ///// Add Partner to Marathon
+    ///// <summary>
+    ///// Add logo to Marathon
     ///// </summary>
     ///// <response code="200"></response>
-    //[HttpPost("{marathonId:int}/partners")]
-    //[Consumes("multipart/form-data", "application/json")]
+    //[HttpPost("{marathonId:int}/logo/{translationId:int}")]
+    //[Consumes("multipart/form-data")]
     //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     //[ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
-    //public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddPartners(
+    //public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddLogo(
     //    [FromRoute] int marathonId,
-    //    [FromForm] AddPartnersRequestDto dto,
-    //    [FromServices] IValidator<AddPartnersRequestDto> validator)
+    //    [FromRoute] int translationId,
+    //    [FromForm] AddLogoToMarathonRequestDto dto,
+    //    [FromServices] IValidator<AddLogoToMarathonRequestDto> validator)
+    //{
+    //    var validation = await validator.ValidateAsync(dto);
+
+    //    if (!validation.IsValid)
+    //    {
+    //        return validation.ToBadRequest();
+    //    }
+
+    //    var addLogoCommand = new AddLogoCommand()
+    //        {
+    //            MarathonId = marathonId,
+    //            TranslationId = translationId,
+    //            Logo = dto.Logo
+    //        };
+
+    //        var result = await _mediator.Send(addLogoCommand);
+
+    //        return Ok(result);
+
+    //}
+
+    ///// <summary>
+    ///// Delete logo from marathon
+    ///// </summary>
+    ///// <response code="200"></response>
+    //[HttpDelete("{marathonId:int}/logo/{translationId:int}")]
+    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    //[ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    //public async Task<ActionResult<AddLogoToMarathonRequestDto>> DeleteLogo(
+    //    [FromRoute] int marathonId,
+    //    [FromRoute] int translationId)
+    //{
+
+    //        var deleteLogoCommand = new DeleteLogoCommand()
+    //        {
+    //            MarathonId = marathonId,
+    //            TranslationId = translationId
+    //        };
+
+    //        var result = await _mediator.Send(deleteLogoCommand);
+
+    //        return Ok(result);
+
+    //}
+
+    // ///// <summary>
+    /////// Add Partner to Marathon
+    /////// </summary>
+    /////// <response code="200"></response>
+    ////[HttpPost("{marathonId:int}/partners")]
+    ////[Consumes("multipart/form-data", "application/json")]
+    ////[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    ////[ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    ////public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddPartners(
+    ////    [FromRoute] int marathonId,
+    ////    [FromForm] AddPartnersRequestDto dto,
+    ////    [FromServices] IValidator<AddPartnersRequestDto> validator)
+    ////{
+    ////    var validation = await validator.ValidateAsync(dto);
+    ////    if (!validation.IsValid)
+    ////    {
+    ////        return validation.ToBadRequest();
+    ////    }
+
+    ////    var addPartnerCommand = new AddPartnerCommand()
+    ////    {
+    ////        MarathonId = marathonId,
+    ////        PartnerDto = dto.Adapt<AddPartnerCommandInDto>(),
+    ////        Logos = dto.Logos,
+    ////    };
+
+    ////    var result = await _mediator.Send(addPartnerCommand);
+
+    ////    return Ok(result);
+    ////}
+
+    ///// <summary>
+    ///// Add documents to marathon
+    ///// </summary>
+    ///// <response code="200"></response>
+    //[HttpPost("{marathonId:int}/documents")]
+    //[Consumes("multipart/form-data", "application/json")]
+    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    //[ProducesResponseType(typeof(AddDocumentsToMarathonRequestDto), StatusCodes.Status200OK)]
+    //public async Task<ActionResult<AddDocumentsToMarathonRequestDto>> AddDocuments(
+    //    [FromRoute] int marathonId,
+    //    [FromForm] AddDocumentsToMarathonRequestDto dto,
+    //    [FromServices] IValidator<AddDocumentsToMarathonRequestDto> validator)
     //{
     //    var validation = await validator.ValidateAsync(dto);
     //    if (!validation.IsValid)
@@ -253,94 +284,63 @@ public class MarathonsController : BaseController
     //        return validation.ToBadRequest();
     //    }
 
-    //    var addPartnerCommand = new AddPartnerCommand()
+    //    var addDocumentsCommand = new AddDocumentsCommand()
     //    {
+        
     //        MarathonId = marathonId,
-    //        PartnerDto = dto.Adapt<AddPartnerCommandInDto>(),
-    //        Logos = dto.Logos,
+    //        Documents = dto.Documents,
     //    };
 
-    //    var result = await _mediator.Send(addPartnerCommand);
+    //    var result = await _mediator.Send(addDocumentsCommand);
 
     //    return Ok(result);
     //}
 
-    /// <summary>
-    /// Add documents to marathon
-    /// </summary>
-    /// <response code="200"></response>
-    [HttpPost("{marathonId:int}/documents")]
-    [Consumes("multipart/form-data", "application/json")]
-    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(AddDocumentsToMarathonRequestDto), StatusCodes.Status200OK)]
-    public async Task<ActionResult<AddDocumentsToMarathonRequestDto>> AddDocuments(
-        [FromRoute] int marathonId,
-        [FromForm] AddDocumentsToMarathonRequestDto dto,
-        [FromServices] IValidator<AddDocumentsToMarathonRequestDto> validator)
-    {
-        var validation = await validator.ValidateAsync(dto);
-        if (!validation.IsValid)
-        {
-            return validation.ToBadRequest();
-        }
 
-        var addDocumentsCommand = new AddDocumentsCommand()
-        {
-        
-            MarathonId = marathonId,
-            Documents = dto.Documents,
-        };
+    ///// <summary>
+    ///// Delete partner
+    ///// </summary>
+    ///// <response code="200"></response>
+    //[HttpDelete("{partnerId:int}/partner")]
+    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    //[ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    //public async Task<ActionResult<AddLogoToMarathonRequestDto>> DeletePartner(
+    //    [FromRoute] int partnerId)
+    //{
 
-        var result = await _mediator.Send(addDocumentsCommand);
+    //    var deletePartnerCommand = new DeletePartnerCommand()
+    //    {
+    //        PartnerId = partnerId,
+    //    };
 
-        return Ok(result);
-    }
+    //    var result = await _mediator.Send(deletePartnerCommand);
 
+    //    return Ok(result);
 
-    /// <summary>
-    /// Delete partner
-    /// </summary>
-    /// <response code="200"></response>
-    [HttpDelete("{partnerId:int}/partner")]
-    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
-    public async Task<ActionResult<AddLogoToMarathonRequestDto>> DeletePartner(
-        [FromRoute] int partnerId)
-    {
+    //}
 
-        var deletePartnerCommand = new DeletePartnerCommand()
-        {
-            PartnerId = partnerId,
-        };
+    ///// <summary>
+    ///// Add logos to partner
+    ///// </summary>
+    ///// <response code="200"></response>
+    //[HttpPost("partner/logo/{partnerId:int}")]
+    //[Consumes("multipart/form-data", "application/json")]
+    //[ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    //[ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
+    //public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddLogoPartner(
+    //    [FromRoute] int partnerId,
+    //    [FromForm] ICollection<IFormFile> logos)
+    //{
 
-        var result = await _mediator.Send(deletePartnerCommand);
+    //    var addPartnerLogo = new AddPartnerLogoCommand()
+    //    {
+    //        PartnerId = partnerId,
+    //        Logos = logos,
+    //    };
 
-        return Ok(result);
+    //    var result = await _mediator.Send(addPartnerLogo);
 
-    }
+    //    return Ok(result);
 
-    /// <summary>
-    /// Add logos to partner
-    /// </summary>
-    /// <response code="200"></response>
-    [HttpPost("partner/logo/{partnerId:int}")]
-    [Consumes("multipart/form-data", "application/json")]
-    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(AddLogoToMarathonRequestDto), StatusCodes.Status200OK)]
-    public async Task<ActionResult<AddLogoToMarathonRequestDto>> AddLogoPartner(
-        [FromRoute] int partnerId,
-        [FromForm] ICollection<IFormFile> logos)
-    {
-
-        var addPartnerLogo = new AddPartnerLogoCommand()
-        {
-            PartnerId = partnerId,
-            Logos = logos,
-        };
-
-        var result = await _mediator.Send(addPartnerLogo);
-
-        return Ok(result);
-
-    }
+    //}
 }
