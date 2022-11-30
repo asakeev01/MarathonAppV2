@@ -32,6 +32,7 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
 
     public async Task<HttpStatusCode> Handle(PutMarathonCommand cmd, CancellationToken cancellationToken)
     {
+        using var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
         var marathon = await _unit.MarathonRepository
             .FirstAsync(x => x.Id == cmd.MarathonDto.Id, include: source => source
             .Include(a => a.MarathonTranslations).ThenInclude(a => a.Logo)
@@ -45,9 +46,9 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
 
         var oldMarathonLogos = marathon.MarathonTranslations.Select(x => x.Logo).ToList();
 
-        foreach(var partner in marathon.Partners)
+        foreach (var partner in marathon.Partners)
         {
-            foreach(var logo in partner.Logos)
+            foreach (var logo in partner.Logos)
             {
                 await _savedFileService.DeleteFile(logo);
             }
@@ -69,7 +70,7 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
             await _savedFileService.DeleteFile(oldLogo);
         }
 
-        foreach(var document in marathon.Documents)
+        foreach (var document in marathon.Documents)
         {
             await _savedFileService.DeleteFile(document);
         }
@@ -95,7 +96,7 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
 
         await _unit.SavedFileRepository.SaveAsync();
         await _unit.MarathonRepository.Update(marathon, save: true);
-
+        tran.Complete();
         return HttpStatusCode.OK;
     }
 }
