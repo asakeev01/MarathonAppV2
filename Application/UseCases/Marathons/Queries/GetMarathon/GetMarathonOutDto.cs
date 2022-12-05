@@ -32,25 +32,7 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
                 .Map(x => x.Document, y => y.Path);
         }
     }
-    public override void AddCustomMappings()
-    {
-        SetCustomMappings()
-            .Map(x => x.Name, y => y.MarathonTranslations.First().Name)
-            .Map(x => x.Text, y => y.MarathonTranslations.First().Text)
-            .Map(x => x.Logo, y => y.MarathonTranslations.First().Logo.Path)
-            .Map(x => x.Place, y => y.MarathonTranslations.First().Place);
-    }
 
-    public class DistanceForPWDDTO
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int StartNumbersFrom { get; set; }
-        public int StartNumbersTo { get; set; }
-        public int AmountOfParticipants { get; set; }
-        public int RemainingPlaces { get; set; }
-        public int RegisteredParticipants { get; set; }
-    }
     public record PartnerDto : BaseDto<Partner, PartnerDto>
     {
         public int Id { get; set; }
@@ -75,20 +57,17 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
         {
             SetCustomMappings()
                 .Map(x => x.Name, y => y.Translations.First().Name);
-            //.Map(x => x.Logos, y => y.Logos);
         }
     }
-}
-
-    public record LogosDto : BaseDto<SavedFile, LogosDto>
+    public class DistanceForPWDDTO
     {
         public int Id { get; set; }
-        public string Logo { get; set; }
-        public override void AddCustomMappings()
-        {
-            SetCustomMappings()
-                .Map(x => x.Logo, y => y.Path);
-        }
+        public string Name { get; set; }
+        public int StartNumbersFrom { get; set; }
+        public int StartNumbersTo { get; set; }
+        public int AmountOfParticipants { get; set; }
+        public int RemainingPlaces { get; set; }
+        public int RegisteredParticipants { get; set; }
     }
 
     public record DistanceDto : BaseDto<Distance, DistanceDto>
@@ -102,8 +81,8 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
         public int ReservedPlaces { get; set; }
         public int ActivatedReservedPlaces { get; set; }
         public int RemainingPlaces { get; set; }
-        public virtual ICollection<DistancePriceDto> DistancePrices { get; set; }
-        public virtual ICollection<DistanceAgeDto> DistanceAges { get; set; }
+        public ICollection<DistancePriceDto> DistancePrices { get; set; }
+        public ICollection<DistanceAgeDto> DistanceAges { get; set; }
 
         public record DistancePriceDto : BaseDto<DistancePrice, DistancePriceDto>
         {
@@ -124,3 +103,13 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
         }
     }
 
+    public override void AddCustomMappings()
+    {
+        SetCustomMappings()
+            .Map(x => x.Name, y => y.MarathonTranslations.First().Name)
+            .Map(x => x.Text, y => y.MarathonTranslations.First().Text)
+            .Map(x => x.Logo, y => y.MarathonTranslations.First().Logo.Path)
+            .Map(x => x.Place, y => y.MarathonTranslations.First().Place);
+    }
+
+}

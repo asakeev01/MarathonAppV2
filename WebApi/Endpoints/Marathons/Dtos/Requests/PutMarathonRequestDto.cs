@@ -16,29 +16,6 @@ public class PutMarathonRequestDto
     public ICollection<PartnersDto> Partners { get; set; }
     public ICollection<IFormFile> Documents { get; set; }
 
-    public class PartnersDto
-    {
-        public int Id { get; set; }
-        public int SerialNumber { get; set; }
-        public ICollection<PartnerTrasnlationDto> Translations { get; set; }
-
-        public ICollection<CompanyDto> PartnerCompanies { get; set; }
-    }
-
-    public class CompanyDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Url { get; set; }
-        public IFormFile Logo { get; set; }
-    }
-public class PartnerTrasnlationDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int LanguageId { get; set; }
-    }
-
     public class TranslationDto
     {
         public int Id { get; set; }
@@ -47,6 +24,30 @@ public class PartnerTrasnlationDto
         public string Place { get; set; }
         public int LanguageId { get; set; }
         public IFormFile Logo { get; set; }
+    }
+
+    public class PartnersDto
+    {
+        public int Id { get; set; }
+        public int SerialNumber { get; set; }
+        public ICollection<PartnerTrasnlationDto> Translations { get; set; }
+
+        public ICollection<CompanyDto> PartnerCompanies { get; set; }
+
+        public class CompanyDto
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Url { get; set; }
+            public IFormFile Logo { get; set; }
+        }
+
+        public class PartnerTrasnlationDto
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public int LanguageId { get; set; }
+        }
     }
 
     public class DistanceForPWDDTO
@@ -149,8 +150,6 @@ public class PutMarathonRequestDtoValidator : AbstractValidator<PutMarathonReque
             });
 
         });
-
-
 
     }
 }
