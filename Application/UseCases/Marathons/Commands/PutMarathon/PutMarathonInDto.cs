@@ -16,21 +16,7 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
     public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
     public ICollection<PartnersDto> Partners { get; set; }
 
-    public class PartnersDto
-    {
-        public int Id { get; set; }
-        public int SerialNumber { get; set; }
-        public ICollection<PartnerTrasnlationDto> Translations { get; set; }
-    }
-
-    public class PartnerTrasnlationDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int LanguageId { get; set; }
-    }
-
-    public record TranslationDto : BaseDto<TranslationDto, MarathonTranslation>
+    public class TranslationDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -38,19 +24,28 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
         public string Place { get; set; }
         public int LanguageId { get; set; }
 
-        public override void AddCustomMappings()
-        {
-            SetCustomMappings()
-                .Ignore(x => x.Logo)
-                .Ignore(x => x.LogoId);
-        }
-
     }
 
-    public override void AddCustomMappings()
+    public class PartnersDto
     {
-        SetCustomMappings()
-            .Map(x => x.MarathonTranslations, x => x.Translations);
+        public int Id { get; set; }
+        public int SerialNumber { get; set; }
+        public ICollection<PartnerTrasnlationDto> Translations { get; set; }
+        public ICollection<CompanyDto> PartnerCompanies { get; set; }
+
+        public class CompanyDto
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Url { get; set; }
+        }
+
+        public class PartnerTrasnlationDto
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public int LanguageId { get; set; }
+        }
     }
 
     public class DistanceForPWDDTO
@@ -87,6 +82,12 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
         }
 
     }
+
+    public override void AddCustomMappings()
+    {
+        SetCustomMappings()
+            .Map(x => x.MarathonTranslations, x => x.Translations);
+    }
 }
 
 public class UpdateMarathonLogos
@@ -95,8 +96,9 @@ public class UpdateMarathonLogos
     public IFormFile Logo { get; set; }
 }
 
-public class UpdatePartnersLogos
+public class UpdatePartnerCompanyLogo
 {
     public int SerialNumber { get; set; }
-    public ICollection<IFormFile> Logos { get; set; }
+    public string Name { get; set; }
+    public IFormFile Logo { get; set; }
 }

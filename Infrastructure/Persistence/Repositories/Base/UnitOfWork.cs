@@ -26,6 +26,7 @@ public class UnitOfWork : IUnitOfWork
     private IPromocodeRepository? _promocodeRepository;
     private IApplicationRepository? _applicationRepository;
     private IDistanceForPwdRepository? _distanceForPwdRepository;
+    private IPartnerCompanyRepository? _partnerCompanyRepository;
 
     private bool disposed = false;
 
@@ -150,6 +151,15 @@ public class UnitOfWork : IUnitOfWork
         {
             _distanceForPwdRepository ??= new DistanceForPwdRepository(_context, _localizer);
             return _distanceForPwdRepository;
+        }
+    }
+
+    public IPartnerCompanyRepository PartnerCompanyRepository
+    {
+        get
+        {
+            _partnerCompanyRepository ??= new PartnerCompanyRepository(_context, _localizer);
+            return _partnerCompanyRepository;
         }
     }
 
