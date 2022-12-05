@@ -17,6 +17,7 @@ public static class FluentValidationServiceExtension
         {
             AddTranslation("ky-KG", "NotEmptyValidator", "'{PropertyName}' толтурулушу керек.");
             AddTranslation("ky-KG", "GreaterThanValidator", "'{PropertyName}' {ComparisonValue}-ден чоңураак болушу керек.");
+            AddTranslation("ky-KG", "EqualValidator", "'{ComparisonValue}' {PropertyValue}-ден чоңураак болушу керек.");
         }
     }
 }

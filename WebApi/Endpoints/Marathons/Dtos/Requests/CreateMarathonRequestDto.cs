@@ -17,15 +17,20 @@ public class CreateMarathonRequestDto
     public ICollection<DistanceDto> Distances { get; set; }
     public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
     public ICollection<PartnersDto> Partners { get; set; }
-    [JsonIgnore]
     public ICollection<IFormFile> Documents { get; set; }
 
     public class PartnersDto
     {
         public int SerialNumber { get; set; }
         public ICollection<PartnerTrasnlationDto> Translations { get; set; }
-        [JsonIgnore]
-        public ICollection<IFormFile> Logos { get; set; }
+        public ICollection<CompanyDto> PartnerCompanies { get; set; }
+    }
+
+    public class CompanyDto
+    {
+        public string Name { get; set; }
+        public string Url { get; set; }
+        public IFormFile Logo { get;set; }
     }
 
     public class PartnerTrasnlationDto
@@ -40,9 +45,9 @@ public class CreateMarathonRequestDto
         public string Text { get; set; }
         public string Place { get; set; }
         public int LanguageId { get; set; }
-        [JsonIgnore]
         public IFormFile Logo { get; set; }
 
+        
 
         public class DistanceForPWDDTO
         {
@@ -94,18 +99,11 @@ public class CreateMarathonRequestDto
             {
                 partners.RuleFor(x => x.SerialNumber).NotNull();
                 partners.RuleFor(x => x.Translations).Must(x => x.Select((o) => o.LanguageId).OrderBy(x => x).ToArray().SequenceEqual(AppConstants.SupportedLanguagesIds)).WithMessage($"Wrong LanguageIds in Translations. Ids must be {string.Join(", ", AppConstants.SupportedLanguagesIds)}");
+                partners.RuleFor(x => x.PartnerCompanies.Select(y => y.Name).Distinct().ToList().Count).Equal(x => x.PartnerCompanies.Count).WithMessage("Names of companies must be unique."); ;
                 partners.RuleForEach(x => x.Translations).ChildRules(partnerTranslation =>
                 {
                     partnerTranslation.RuleFor(x => x.Name).NotEmpty();
                 });
-                partners.RuleForEach(x => x.Logos).ChildRules(partnerLogo =>
-                {
-                    partnerLogo.RuleFor(x => x.ContentType).Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
-                    .WithMessage("Only images are allowed");
-                    partnerLogo.RuleFor(x => x.Length).NotNull().LessThanOrEqualTo(20 * 1024 * 1024)
-                        .WithMessage("File size is larger than allowed");
-                }
-                );
             });
 
             RuleForEach(x => x.Translations).ChildRules(translations =>
@@ -113,10 +111,10 @@ public class CreateMarathonRequestDto
                 translations.RuleFor(x => x.Name).NotEmpty();
                 translations.RuleFor(x => x.Text).NotEmpty();
                 translations.RuleFor(x => x.Place).NotEmpty();
-                translations.RuleFor(x => x.Logo.ContentType).Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
-                    .WithMessage("Only images are allowed");
-                translations.RuleFor(x => x.Logo.Length).NotNull().LessThanOrEqualTo(20 * 1024 * 1024)
-                    .WithMessage("File size is larger than allowed");
+                //translations.RuleFor(x => x.Logo.ContentType).Must(x => x.Equals("image/jpeg") || x.Equals("image/jpg") || x.Equals("image/png"))
+                //    .WithMessage("Only images are allowed");
+                //translations.RuleFor(x => x.Logo.Length).NotNull().LessThanOrEqualTo(20 * 1024 * 1024)
+                //    .WithMessage("File size is larger than allowed");
             });
 
             RuleForEach(x => x.DistancesForPWD).ChildRules(distances =>

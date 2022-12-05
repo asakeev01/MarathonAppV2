@@ -27,15 +27,15 @@ public class AddPartnerLogoHandler : IRequestHandler<AddPartnerLogoCommand, Http
 
     public async Task<HttpStatusCode> Handle(AddPartnerLogoCommand cmd, CancellationToken cancellationToken)
     {
-        var partner = await _unit.PartnerRepository
-            .FirstAsync(x => x.Id == cmd.PartnerId, include: source => source.Include(a => a.Logos));
-        foreach (var logo in cmd.Logos)
-        {
-            var savedFile = await _savedFileService.UploadFile(logo, FileTypeEnum.Partners);
-            savedFile.Partner = partner;
-            await _unit.SavedFileRepository.SaveAsync();
-        }
-        await _unit.PartnerRepository.SaveAsync();
+        //var partner = await _unit.PartnerRepository
+        //    .FirstAsync(x => x.Id == cmd.PartnerId, include: source => source.Include(a => a.Logos));
+        //foreach (var logo in cmd.Logos)
+        //{
+        //    var savedFile = await _savedFileService.UploadFile(logo, FileTypeEnum.Partners);
+        //    savedFile.Partner = partner;
+        //    await _unit.SavedFileRepository.SaveAsync();
+        //}
+        //await _unit.PartnerRepository.SaveAsync();
         return HttpStatusCode.OK;
 
     }

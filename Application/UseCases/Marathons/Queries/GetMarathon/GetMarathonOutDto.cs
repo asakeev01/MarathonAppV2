@@ -56,14 +56,29 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
         public int Id { get; set; }
         public int SerialNumber { get; set; }
         public string Name { get; set; }
-        public ICollection<LogosDto> Logos { get; set; }
+        public ICollection<CompanyDto> PartnerCompanies { get; set; }
+
+
+        public record CompanyDto : BaseDto<PartnerCompany, CompanyDto>
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Url { get; set; }
+            public string Logo { get; set; }
+            public override void AddCustomMappings()
+            {
+                SetCustomMappings()
+                .Map(x => x.Logo, y => y.Logo.Path);
+            }
+        }
         public override void AddCustomMappings()
         {
             SetCustomMappings()
-                .Map(x => x.Name, y => y.Translations.First().Name)
-                .Map(x => x.Logos, y => y.Logos);
+                .Map(x => x.Name, y => y.Translations.First().Name);
+            //.Map(x => x.Logos, y => y.Logos);
         }
     }
+}
 
     public record LogosDto : BaseDto<SavedFile, LogosDto>
     {
@@ -108,4 +123,4 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
             public int DistanceId { get; set; }
         }
     }
-}
+

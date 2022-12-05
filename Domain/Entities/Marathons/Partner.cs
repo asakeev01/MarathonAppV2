@@ -9,5 +9,5 @@ public class Partner
     public int MarathonId { get; set; }
     public Marathon Marathon { get; set; }
     public ICollection<PartnerTranslation> Translations { get; set; }
-    public ICollection<SavedFile>? Logos{get;set;}
+    public ICollection<PartnerCompany>? PartnerCompanies { get;set;}
 }

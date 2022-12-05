@@ -20,11 +20,19 @@ public class PutMarathonRequestDto
     {
         public int Id { get; set; }
         public int SerialNumber { get; set; }
-        public ICollection<IFormFile> Logos { get; set; }
         public ICollection<PartnerTrasnlationDto> Translations { get; set; }
+
+        public ICollection<CompanyDto> PartnerCompanies { get; set; }
     }
 
-    public class PartnerTrasnlationDto
+    public class CompanyDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Url { get; set; }
+        public IFormFile Logo { get; set; }
+    }
+public class PartnerTrasnlationDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -90,6 +98,7 @@ public class PutMarathonRequestDtoValidator : AbstractValidator<PutMarathonReque
         {
             partners.RuleFor(x => x.SerialNumber).NotNull();
             partners.RuleFor(x => x.Translations).Must(x => x.Select((o) => o.LanguageId).OrderBy(x => x).ToArray().SequenceEqual(AppConstants.SupportedLanguagesIds)).WithMessage($"Wrong LanguageIds in Translations. Ids must be {string.Join(", ", AppConstants.SupportedLanguagesIds)}");
+            partners.RuleFor(x => x.PartnerCompanies.Select(y => y.Name).Distinct().ToList().Count).Equal(x => x.PartnerCompanies.Count).WithMessage("Names of companies must be unique.");
             partners.RuleForEach(x => x.Translations).ChildRules(partnerTranslation =>
             {
                 partnerTranslation.RuleFor(x => x.Name).NotEmpty();

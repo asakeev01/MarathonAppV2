@@ -29,21 +29,22 @@ public class AddPartnerCommandHandler : IRequestHandler<AddPartnerCommand, int>
 
     public async Task<int> Handle(AddPartnerCommand cmd, CancellationToken cancellationToken)
     {
-        var marathon = await _unit.MarathonRepository
-            .FirstAsync(x => x.Id == cmd.MarathonId, include: source => source.Include(a => a.Partners));
+        //var marathon = await _unit.MarathonRepository
+        //    .FirstAsync(x => x.Id == cmd.MarathonId, include: source => source.Include(a => a.Partners));
 
-        var entity = cmd.PartnerDto.Adapt<Partner>();
-        entity.Marathon = marathon;
-        var partner = await _unit.PartnerRepository.CreateAsync(entity, save: true);
+        //var entity = cmd.PartnerDto.Adapt<Partner>();
+        //entity.Marathon = marathon;
+        //var partner = await _unit.PartnerRepository.CreateAsync(entity, save: true);
 
-        foreach (var logo in cmd.Logos)
-        {
-            var savedFile = await _savedFileService.UploadFile(logo, FileTypeEnum.Partners);
-            savedFile.Partner = partner;
-            await _unit.SavedFileRepository.SaveAsync();
-        }
+        //foreach (var logo in cmd.Logos)
+        //{
+        //    var savedFile = await _savedFileService.UploadFile(logo, FileTypeEnum.Partners);
+        //    savedFile.Partner = partner;
+        //    await _unit.SavedFileRepository.SaveAsync();
+        //}
 
-        await _unit.PartnerRepository.SaveAsync();
-        return partner.Id;
+        //await _unit.PartnerRepository.SaveAsync();
+        //return partner.Id;
+        return 0;
     }
 }

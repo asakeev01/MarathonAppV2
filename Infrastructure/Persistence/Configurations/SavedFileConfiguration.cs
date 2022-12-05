@@ -8,10 +8,10 @@ public class SavedFileConfiguration : IEntityTypeConfiguration<SavedFile>
 {
     public void Configure(EntityTypeBuilder<SavedFile> builder)
     {
-        builder.HasOne(x => x.Partner)
-            .WithMany(x => x.Logos)
-            .HasForeignKey(x => x.PartnerId)
-            .OnDelete(DeleteBehavior.Cascade);
+        //builder.HasOne(x => x.Partner)
+        //    .WithMany(x => x.PartnerCompanies)
+        //    .HasForeignKey(x => x.PartnerId)
+        //    .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(x => x.Marathon)
             .WithMany(x => x.Documents)

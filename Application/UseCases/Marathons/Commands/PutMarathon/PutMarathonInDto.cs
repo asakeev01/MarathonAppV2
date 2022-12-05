@@ -21,6 +21,14 @@ public record PutMarathonInDto : BaseDto<PutMarathonInDto, Marathon>
         public int Id { get; set; }
         public int SerialNumber { get; set; }
         public ICollection<PartnerTrasnlationDto> Translations { get; set; }
+        public ICollection<CompanyDto> PartnerCompanies { get; set; }
+    }
+
+    public class CompanyDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Url { get; set; }
     }
 
     public class PartnerTrasnlationDto
@@ -95,8 +103,9 @@ public class UpdateMarathonLogos
     public IFormFile Logo { get; set; }
 }
 
-public class UpdatePartnersLogos
+public class UpdatePartnerCompanyLogo
 {
     public int SerialNumber { get; set; }
-    public ICollection<IFormFile> Logos { get; set; }
+    public string Name { get; set; }
+    public IFormFile Logo { get; set; }
 }

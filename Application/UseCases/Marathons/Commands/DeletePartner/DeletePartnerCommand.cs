@@ -24,13 +24,13 @@ public class DeletePartnerCommandHandler : IRequestHandler<DeletePartnerCommand,
 
     public async Task<HttpStatusCode> Handle(DeletePartnerCommand cmd, CancellationToken cancellationToken)
     {
-        var partner = await _unit.PartnerRepository
-            .FirstAsync(x => x.Id == cmd.PartnerId, include: source => source.Include(a => a.Logos).Include(a => a.Translations));
-        foreach(var logo in partner.Logos)
-        {
-            await _savedFileService.DeleteFile(logo);
-        }
-        await _unit.PartnerRepository.Delete(partner, save:true);
+        //var partner = await _unit.PartnerRepository
+        //    .FirstAsync(x => x.Id == cmd.PartnerId, include: source => source.Include(a => a.Logos).Include(a => a.Translations));
+        //foreach(var logo in partner.Logos)
+        //{
+        //    await _savedFileService.DeleteFile(logo);
+        //}
+        //await _unit.PartnerRepository.Delete(partner, save:true);
         return HttpStatusCode.OK;
 
     }

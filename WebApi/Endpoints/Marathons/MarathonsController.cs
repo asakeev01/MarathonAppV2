@@ -120,13 +120,18 @@ public class MarathonsController : BaseController
         {
             MarathonDto = dto.Adapt<CreateMarathonInDto>(),
             Documents = dto.Documents,
-            PartnersLogo = dto.Partners.Select(x => new PartnersLogos {
+            PartnerCompanyLogos = dto.Partners.SelectMany(x => x.PartnerCompanies.Select(y => new PartnerCompanyLogo
+            {
                 SerialNumber = x.SerialNumber,
-                Logos = x.Logos 
-            }).ToList(),
-            MarathonLogo = dto.Translations.Select(x => new MarathonLogos {
-               LanguageId = x.LanguageId,
-               Logo =  x.Logo }
+                Name = y.Name,
+                Logo = y.Logo
+            })
+            ).ToList(),
+            MarathonLogo = dto.Translations.Select(x => new MarathonLogos
+            {
+                LanguageId = x.LanguageId,
+                Logo = x.Logo
+            }
             ).ToList(),
 
         };
@@ -134,6 +139,7 @@ public class MarathonsController : BaseController
         var result = await _mediator.Send(createMarathonCommand);
 
         return Ok(result);
+        return Ok();
     }
 
     /// <summary>
@@ -158,17 +164,20 @@ public class MarathonsController : BaseController
         {
             MarathonDto = dto.Adapt<PutMarathonInDto>(),
             Documents = dto.Documents,
-            PartnersLogo = dto.Partners.Select(x => new UpdatePartnersLogos
+            PartnerCompanyLogos = dto.Partners.SelectMany(x => x.PartnerCompanies.Select(y => new UpdatePartnerCompanyLogo
             {
                 SerialNumber = x.SerialNumber,
-                Logos = x.Logos
-            }).ToList(),
+                Name = y.Name,
+                Logo = y.Logo
+            })
+            ).ToList(),
             MarathonLogo = dto.Translations.Select(x => new UpdateMarathonLogos
             {
                 LanguageId = x.LanguageId,
                 Logo = x.Logo
             }
             ).ToList(),
+
         };
 
         var result = await _mediator.Send(createMarathonCommand);

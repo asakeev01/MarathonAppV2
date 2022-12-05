@@ -20,6 +20,13 @@ public record CreateMarathonInDto : BaseDto<CreateMarathonInDto, Marathon>
     {
         public int SerialNumber { get; set; }
         public ICollection<PartnerTrasnlationDto> Translations { get; set; }
+        public ICollection<CompanyDto> PartnerCompanies { get; set; }
+    }
+
+    public class CompanyDto
+    {
+        public string Name { get; set; }
+        public string Url { get; set; }
     }
 
     public class PartnerTrasnlationDto
@@ -35,7 +42,7 @@ public record CreateMarathonInDto : BaseDto<CreateMarathonInDto, Marathon>
             .Map(x => x.MarathonTranslations, y => y.Translations);
     }
 
-    public class TranslationInDto
+    public record TranslationInDto : BaseDto<TranslationInDto, MarathonTranslation>
     {
         public string Name { get; set; }
         public string Text { get; set; }
@@ -80,8 +87,9 @@ public class MarathonLogos
     public IFormFile Logo { get; set; }
 }
 
-public class PartnersLogos
+public class PartnerCompanyLogo
 {
     public int SerialNumber { get; set; }
-    public ICollection<IFormFile> Logos { get; set; }
+    public string Name { get; set; }
+    public IFormFile Logo { get; set; }
 }
