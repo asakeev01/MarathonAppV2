@@ -25,8 +25,10 @@ public class GetVourchersHandler : IRequestHandler<GetVourchersQuery, QueryableP
         CancellationToken cancellationToken)
     {
         var vouchers = (await _unit.VoucherRepository
-            .GetAllAsync());
+            .GetAllAsync(include: source => source.Include(x => x.Promocodes).ThenInclude(x => x.Distance)));
+
         var response = vouchers.Adapt<IEnumerable<GetVourchersQueryOutDto>>().AsQueryable().GridifyQueryable(request.Query);
+
         return response;
     }
 }

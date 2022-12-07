@@ -63,7 +63,6 @@ public class ApplicationService : IApplicationService
             StarterKitCode = starterKitCode,
         };
         distance.RegisteredParticipants += 1;
-        //место для отправки сообщения на почту
 
 
         return result;
@@ -104,6 +103,10 @@ public class ApplicationService : IApplicationService
 
         if (promocode != null)
         {
+            if (promocode.Voucher.isActive == false)
+            {
+                throw new DeactivatedVoucherException();
+            }
             var voucherApplication = await VoucherApplication(user, distance, selecetedDistanceAge, promocode);
             result = voucherApplication;
         }
@@ -119,8 +122,6 @@ public class ApplicationService : IApplicationService
             starterKitCode = await GenerateStarterKitCode(new List<string>());
         }
         result.StarterKitCode = starterKitCode;
-
-        //место для отправки сообщения на почту
 
         return result;
 
