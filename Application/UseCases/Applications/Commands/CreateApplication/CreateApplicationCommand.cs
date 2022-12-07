@@ -55,7 +55,7 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
 
         if (cmd.Promocode != null)
         {
-            var promocode = await _unit.PromocodeRepository.FirstAsync(x => x.Code == cmd.Promocode && x.Distance == distance);
+            var promocode = await _unit.PromocodeRepository.FirstAsync(x => x.Code == cmd.Promocode && x.Distance == distance, include: source => source.Include(x => x.Voucher));
             var application = await _applicationService.CreateApplication(user, distance, promocode);
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
             await _unit.PromocodeRepository.Update(promocode, save: true);

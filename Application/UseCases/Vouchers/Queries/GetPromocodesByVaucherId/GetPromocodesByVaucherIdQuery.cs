@@ -27,7 +27,7 @@ public class GetVourcherHandler : IRequestHandler<GetPromocodesByVaucherIdQuery,
     {
 
         var promocodes = _unit.PromocodeRepository
-            .FindByCondition(predicate:x => x.VoucherId == request.VoucherId);
+            .FindByCondition(predicate:x => x.VoucherId == request.VoucherId, include: source => source.Include(x => x.Distance).Include(x => x.User));
 
         var promocodesDto = promocodes.Adapt<IEnumerable<GetPromocodesByVaucherIdQueryOutDto>>().AsQueryable().GridifyQueryable(request.Query);
         return promocodesDto;
