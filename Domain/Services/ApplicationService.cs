@@ -21,7 +21,7 @@ public class ApplicationService : IApplicationService
         this._localizer = _localizer;
     }
 
-    public async Task<Application> CreateApplicationForPWD(User user, DistanceForPWD distance)
+    public async Task<Application> CreateApplicationForPWD(User user, DistanceForPWD distance, List<string> oldStarterKidCodes)
     {
         if (user.DateOfConfirmation == null)
         {
@@ -41,15 +41,8 @@ public class ApplicationService : IApplicationService
         if (distance.RemainingPlaces <= 0)
             throw new NoPlacesException();
 
-        var starterKitCode = "";
-        if (distance.Applications != null)
-        {
-            starterKitCode = await GenerateStarterKitCode(distance.Applications.Select(x => x.StarterKitCode).ToList());
-        }
-        else{
-            starterKitCode = await GenerateStarterKitCode(new List<string>());
-        }
-
+        var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
+        
         Application result = new Application()
         {
             User = user,
@@ -69,7 +62,7 @@ public class ApplicationService : IApplicationService
     }
 
 
-    public async Task<Application> CreateApplication(User user, Distance distance, Promocode promocode = null)
+    public async Task<Application> CreateApplication(User user, Distance distance, List<string> oldStarterKidCodes, Promocode promocode = null)
     {
         if (user.DateOfConfirmation == null)
         {
@@ -111,16 +104,7 @@ public class ApplicationService : IApplicationService
             result = voucherApplication;
         }
 
-        var starterKitCode = "";
-
-        if (distance.Applications != null)
-        {
-            starterKitCode = await GenerateStarterKitCode(distance.Applications.Select(x => x.StarterKitCode).ToList());
-        }
-        else
-        {
-            starterKitCode = await GenerateStarterKitCode(new List<string>());
-        }
+        var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
         result.StarterKitCode = starterKitCode;
 
         return result;

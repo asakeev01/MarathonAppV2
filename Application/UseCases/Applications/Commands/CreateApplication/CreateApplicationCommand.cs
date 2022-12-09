@@ -51,12 +51,13 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
 
 
         var marathon = distance.Marathon;
-        
+
+        var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
 
         if (cmd.Promocode != null)
         {
             var promocode = await _unit.PromocodeRepository.FirstAsync(x => x.Code == cmd.Promocode && x.Distance == distance, include: source => source.Include(x => x.Voucher));
-            var application = await _applicationService.CreateApplication(user, distance, promocode);
+            var application = await _applicationService.CreateApplication(user, distance, oldStarterKitCodes, promocode);
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
             await _unit.PromocodeRepository.Update(promocode, save: true);
             await _unit.DistanceRepository.Update(distance, save: true);
