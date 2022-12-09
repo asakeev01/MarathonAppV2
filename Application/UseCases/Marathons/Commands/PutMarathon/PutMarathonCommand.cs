@@ -78,6 +78,18 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
             await _savedFileService.DeleteFile(file);
         }
 
+        foreach(var distance in marathon.Distances)
+        {
+            distance.RegisteredParticipants = await _unit.ApplicationRepository.FindByCondition(x => x.DistanceId == distance.Id).CountAsync();
+            distance.ReservedPlaces = await _unit.PromocodeRepository.FindByCondition(x => x.DistanceId == distance.Id).CountAsync();
+            distance.ActivatedReservedPlaces = await _unit.PromocodeRepository.FindByCondition(x => x.DistanceId == distance.Id && x.IsActivated == true).CountAsync();
+        }
+
+        foreach (var distance in marathon.DistancesForPWD)
+        {
+            distance.RegisteredParticipants = await _unit.ApplicationRepository.FindByCondition(x => x.DistanceForPWDId == distance.Id).CountAsync();
+        }
+
         await _unit.SavedFileRepository.SaveAsync();
         await _unit.MarathonRepository.Update(marathon, save: true);
         tran.Complete();
