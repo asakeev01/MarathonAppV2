@@ -8,6 +8,7 @@ namespace Core.UseCases.Applications.Queries.ApplicationByStarterKitCodeQuery;
 
 public class ApplicationByStarterKitCodeQuery : IRequest<ApplicationByStarterKitCodeQueryOutDto>
 {
+    public int DistanceId { get; set; }
     public string StarterKitCode { get; set; }
 }
 
@@ -25,6 +26,8 @@ public class ApplicationByStarterKitCodeHandler : IRequestHandler<ApplicationByS
     {
         var application = await _unit.ApplicationRepository.FirstAsync(a => a.StarterKitCode == request.StarterKitCode, include: source => source
             .Include(x => x.User).ThenInclude(x => x.Document)
+            .Include(x => x.Distance)
+            .Include(x => x.DistanceForPWD)
             );
 
         var result = application.Adapt<ApplicationByStarterKitCodeQueryOutDto>();

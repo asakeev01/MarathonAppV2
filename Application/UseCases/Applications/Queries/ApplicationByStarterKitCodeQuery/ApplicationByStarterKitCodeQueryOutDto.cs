@@ -15,8 +15,21 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
     public StartKitEnum StarterKit { get; set; }
     public string? FullNameRecipient { get; set; }
     public DateTime? DateOfIssue { get; set; }
-
     public UserDto User { get; set; }
+    public DistanceDto? Distance { get; set;}
+    public DistanceForPWDDTO? DistanceForPWD { get; set; }
+
+    public class DistanceDto
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+    public class DistanceForPWDDTO
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+    }
+
 
 
     public record UserDto : BaseDto<User, UserDto>
