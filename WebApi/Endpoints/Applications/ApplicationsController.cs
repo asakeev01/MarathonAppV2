@@ -157,15 +157,17 @@ public class ApplicationsController : BaseController
         return Ok(result);
     }
 
-    [HttpGet("starterkit/{starterKitCode}")]
+    [HttpGet("starterkit/{marathonId}/{starterKitCode}")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(ApplicationByStarterKitCodeQueryOutDto), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> ApplicationsByStarterKitCode(
-    [FromRoute] string starterKitCode)
+    [FromRoute] string starterKitCode,
+    [FromRoute] int marathonId)
     {
         var applicationByStarterKitCodeQuery = new ApplicationByStarterKitCodeQuery()
         {
-            StarterKitCode = starterKitCode
+            StarterKitCode = starterKitCode,
+            MarathonId = marathonId
         };
 
         var result = await _mediator.Send(applicationByStarterKitCodeQuery);
