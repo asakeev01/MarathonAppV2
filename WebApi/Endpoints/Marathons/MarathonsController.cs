@@ -3,6 +3,7 @@ using System.Net.Mime;
 using Core.UseCases.Marathons.Commands.CraeteMarathon;
 using Core.UseCases.Marathons.Commands.CreateMarathon;
 using Core.UseCases.Marathons.Commands.PutMarathon;
+using Core.UseCases.Marathons.Commands.PutMarathonStatus;
 using Core.UseCases.Marathons.Queries.GetMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathonAdmin;
 using Core.UseCases.Marathons.Queries.GetMarathons;
@@ -175,6 +176,35 @@ public class MarathonsController : BaseController
         };
 
         var result = await _mediator.Send(createMarathonCommand);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Update marathon`s status
+    /// </summary>
+    /// <response code="200">Response stauts code</response>
+    [HttpPut("status", Name = "ChangeMarathonStatus")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    public async Task<ActionResult<HttpStatusCode>> UpdateMarathonStatus(
+        [FromBody] UpdateMarathonStatusRequestDto dto,
+        [FromServices] IValidator<UpdateMarathonStatusRequestDto> validator)
+    {
+        var validation = await validator.ValidateAsync(dto);
+
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+        var putMarathonStatusCommand = new PutMarathonStatusCommand()
+        {
+            MarathonId = dto.MarathonId,
+            IsActive = dto.IsActive
+
+        };
+
+        var result = await _mediator.Send(putMarathonStatusCommand);
 
         return Ok(result);
     }
