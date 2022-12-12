@@ -31,6 +31,7 @@ public class GetMarathonsHandler : IRequestHandler<GetMarathonsQuery, QueryableP
             .GetAllAsync(include: source => source
             .Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))
             .ThenInclude(x => x.Logo)
+            .Include(x => x.Applications)
             ));
         var response = marathons.Adapt<IEnumerable<GetMarathonsOutDto>>().AsQueryable().GridifyQueryable(request.Query);
         return response;
