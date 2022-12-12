@@ -16,6 +16,7 @@ public record GetMarathonsOutDto: BaseDto<Marathon, GetMarathonsOutDto>
     public DateTime StartDateAcceptingApplications { get; set; }
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
+    public int Participants { get; set; }
 
     public override void AddCustomMappings()
     {
@@ -23,7 +24,8 @@ public record GetMarathonsOutDto: BaseDto<Marathon, GetMarathonsOutDto>
             .Map(x => x.Logo, y => y.MarathonTranslations.First().Logo.Path)
             .Map(x => x.Name, y => y.MarathonTranslations.First().Name)
             .Map(x => x.Text, y => y.MarathonTranslations.First().Text)
-            .Map(x => x.Place, y => y.MarathonTranslations.First().Place);
+            .Map(x => x.Place, y => y.MarathonTranslations.First().Place)
+            .Map(x => x.Participants, y => y.Applications.Count);
     }
 
 }
