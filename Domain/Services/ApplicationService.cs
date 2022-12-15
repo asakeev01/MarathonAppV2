@@ -32,8 +32,8 @@ public class ApplicationService : IApplicationService
             throw new NotPWDException();
         }
         var marathon = distance.Marathon;
-        var today = DateTime.Now;
-        if (today < marathon.StartDateAcceptingApplications || today > marathon.EndDateAcceptingApplications)
+        var today = DateTime.Now.Date;
+        if (today < marathon.StartDateAcceptingApplications.Date || today > marathon.EndDateAcceptingApplications.Date)
         {
             throw new OutsideRegistationDateException();
         }
@@ -69,8 +69,8 @@ public class ApplicationService : IApplicationService
             throw new UserAgreementLicenseAgreementException();
         }
         var marathon = distance.Marathon;
-        var today = DateTime.Now;
-        if (today < marathon.StartDateAcceptingApplications || today > marathon.EndDateAcceptingApplications)
+        var today = DateTime.Now.Date;
+        if (today < marathon.StartDateAcceptingApplications.Date || today > marathon.EndDateAcceptingApplications.Date)
         {
             throw new OutsideRegistationDateException();
         }

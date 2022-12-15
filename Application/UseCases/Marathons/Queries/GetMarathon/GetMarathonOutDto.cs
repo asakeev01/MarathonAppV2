@@ -96,7 +96,7 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
         public record DistanceAgeDto : BaseDto<DistanceAge, DistanceAgeDto>
         {
             public int Id { get; set; }
-            public int Gender { get; set; }
+            public bool Gender { get; set; }
             public int? AgeFrom { get; set; }
             public int? AgeTo { get; set; }
             public int DistanceId { get; set; }
