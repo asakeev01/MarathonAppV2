@@ -17,9 +17,9 @@ public interface IUnitOfWork : IDisposable
     IRefreshTokenRepository RefreshTokenRepository { get; }
 
     IDocumentRepository DocumentRepository { get; }
-
+    
     IVoucherRepository VoucherRepository { get; }
-
+    
     IPromocodeRepository PromocodeRepository { get; }
 
     IApplicationRepository ApplicationRepository { get; }
@@ -31,6 +31,9 @@ public interface IUnitOfWork : IDisposable
     ICommentRepository CommentRepository { get; }
 
     IStatusCommentRepository StatusCommentRepository { get; }
+
+    //IPartnerCompanyRepository PartnerCompanyRepository { get; }
+
 
     void Save();
     Task SaveAsync();

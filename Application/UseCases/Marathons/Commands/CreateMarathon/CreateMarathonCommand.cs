@@ -13,7 +13,7 @@ public class CreateMarathonCommand : IRequest<int>
 {
     public CreateMarathonInDto MarathonDto { get; set; }
     public ICollection<IFormFile> Documents { get; set; }
-    public List<PartnersLogos> PartnersLogo { get; set; }
+    public List<PartnerCompanyLogo> PartnerCompanyLogos { get; set; }
     public List<MarathonLogos> MarathonLogo { get; set; }
 }
 
@@ -41,18 +41,15 @@ public class CreateMarathonCommandHandler : IRequestHandler<CreateMarathonComman
             fileDocument.Marathon = marathon;
         }
 
-        foreach (var partner in cmd.PartnersLogo)
+        foreach (var company in cmd.PartnerCompanyLogos)
         {
-            var entityParner = marathon.Partners.Where(x => x.SerialNumber == partner.SerialNumber).First();
-
-            foreach(var logo in partner.Logos)
-            {
-                var fileLogo = await _savedFileService.UploadFile(logo, Domain.Common.Constants.FileTypeEnum.Partners);
-                fileLogo.Partner = entityParner;
-            }
+            var entityCompany = marathon.Partners.Where(x => x.SerialNumber == company.SerialNumber).First().PartnerCompanies.Where(x => x.Name == company.Name).First();
+            var fileLogo = await _savedFileService.UploadFile(company.Logo, Domain.Common.Constants.FileTypeEnum.Partners);
+            entityCompany.Logo = fileLogo;
+           
         }
 
-        foreach(var translation in cmd.MarathonLogo)
+        foreach (var translation in cmd.MarathonLogo)
         {
             var entityTranslation = marathon.MarathonTranslations.Where(x => x.LanguageId == translation.LanguageId).First();
             var fileLogo = await _savedFileService.UploadFile(translation.Logo, Domain.Common.Constants.FileTypeEnum.Marathons);
@@ -61,9 +58,9 @@ public class CreateMarathonCommandHandler : IRequestHandler<CreateMarathonComman
 
         await _unit.SavedFileRepository.SaveAsync();
         await _unit.MarathonRepository.Update(marathon, save: true);
-        
+
         tran.Complete();
-        
+
         return marathon.Id;
     }
 }

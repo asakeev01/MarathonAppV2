@@ -21,7 +21,7 @@ public class ApplicationService : IApplicationService
         this._localizer = _localizer;
     }
 
-    public async Task<Application> CreateApplicationForPWD(User user, DistanceForPWD distance)
+    public async Task<Application> CreateApplicationForPWD(User user, DistanceForPWD distance, List<string> oldStarterKidCodes)
     {
         if (user.DateOfConfirmation == null)
         {
@@ -32,8 +32,8 @@ public class ApplicationService : IApplicationService
             throw new NotPWDException();
         }
         var marathon = distance.Marathon;
-        var today = DateTime.Now;
-        if (today < marathon.StartDateAcceptingApplications || today > marathon.EndDateAcceptingApplications)
+        var today = DateTime.Now.Date;
+        if (today < marathon.StartDateAcceptingApplications.Date || today > marathon.EndDateAcceptingApplications.Date)
         {
             throw new OutsideRegistationDateException();
         }
@@ -41,15 +41,8 @@ public class ApplicationService : IApplicationService
         if (distance.RemainingPlaces <= 0)
             throw new NoPlacesException();
 
-        var starterKitCode = "";
-        if (distance.Applications != null)
-        {
-            starterKitCode = await GenerateStarterKitCode(distance.Applications.Select(x => x.StarterKitCode).ToList());
-        }
-        else{
-            starterKitCode = await GenerateStarterKitCode(new List<string>());
-        }
-
+        var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
+        
         Application result = new Application()
         {
             User = user,
@@ -63,22 +56,21 @@ public class ApplicationService : IApplicationService
             StarterKitCode = starterKitCode,
         };
         distance.RegisteredParticipants += 1;
-        //место для отправки сообщения на почту
 
 
         return result;
     }
 
 
-    public async Task<Application> CreateApplication(User user, Distance distance, Promocode promocode = null)
+    public async Task<Application> CreateApplication(User user, Distance distance, List<string> oldStarterKidCodes, Promocode promocode = null)
     {
         if (user.DateOfConfirmation == null)
         {
             throw new UserAgreementLicenseAgreementException();
         }
         var marathon = distance.Marathon;
-        var today = DateTime.Now;
-        if (today < marathon.StartDateAcceptingApplications || today > marathon.EndDateAcceptingApplications)
+        var today = DateTime.Now.Date;
+        if (today < marathon.StartDateAcceptingApplications.Date || today > marathon.EndDateAcceptingApplications.Date)
         {
             throw new OutsideRegistationDateException();
         }
@@ -104,23 +96,16 @@ public class ApplicationService : IApplicationService
 
         if (promocode != null)
         {
+            if (promocode.Voucher.isActive == false)
+            {
+                throw new DeactivatedVoucherException();
+            }
             var voucherApplication = await VoucherApplication(user, distance, selecetedDistanceAge, promocode);
             result = voucherApplication;
         }
 
-        var starterKitCode = "";
-
-        if (distance.Applications != null)
-        {
-            starterKitCode = await GenerateStarterKitCode(distance.Applications.Select(x => x.StarterKitCode).ToList());
-        }
-        else
-        {
-            starterKitCode = await GenerateStarterKitCode(new List<string>());
-        }
+        var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
         result.StarterKitCode = starterKitCode;
-
-        //место для отправки сообщения на почту
 
         return result;
 

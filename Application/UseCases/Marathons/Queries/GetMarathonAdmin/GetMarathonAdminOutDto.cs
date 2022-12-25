@@ -17,6 +17,21 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
     public ICollection<PartnerDto> Partners { get; set; }
     public ICollection<DocumentDto> Documents { get; set; }
 
+    public record TranslationMarathonDto : BaseDto<MarathonTranslation, TranslationMarathonDto>
+    {
+        public int Id { get; set; }
+        public string Logo { get; set; }
+        public string Name { get; set; }
+        public string Text { get; set; }
+        public string Place { get; set; }
+        public int LanguageId { get; set; }
+        public override void AddCustomMappings()
+        {
+            SetCustomMappings()
+                .Map(x => x.Logo, y => y.Logo.Path);
+        }
+    }
+
     public record DocumentDto : BaseDto<SavedFile, DocumentDto>
     {
         public int Id { get; set; }
@@ -27,13 +42,6 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
             SetCustomMappings()
                 .Map(x => x.Document, y => y.Path);
         }
-    }
-
-    public override void AddCustomMappings()
-    {
-        SetCustomMappings()
-            .Map(x => x.Translations, y => y.MarathonTranslations)
-            .Map(x => x.Partners, y => y.Partners);
     }
 
     public class DistanceForPWDDTO
@@ -52,45 +60,32 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
         public int Id { get; set; }
         public int SerialNumber { get; set; }
         public ICollection<PartnerTranslationDto> Translations { get; set; }
-        public ICollection<LogosDto> Logos { get; set; }
+        public ICollection<CompanyDto> PartnerCompanies { get; set; }
 
-        public override void AddCustomMappings()
+        public class PartnerTranslationDto
         {
-            SetCustomMappings()
-                .Map(x => x.Translations, y => y.Translations)
-                .Map(x => x.Logos, y => y.Logos);
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string LanguageId { get; set; }
         }
-    }
 
-    public record LogosDto : BaseDto<SavedFile, LogosDto>
-    {
-        public int Id { get; set; }
-        public string Logo { get; set; }
-
-        public override void AddCustomMappings()
+        public record CompanyDto : BaseDto<PartnerCompany, CompanyDto>
         {
-            SetCustomMappings()
-                .Map(x => x.Logo, y => y.Path);
-        }
-    }
-    public class PartnerTranslationDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string LanguageId { get; set; }
-    }
-    public record TranslationMarathonDto : BaseDto<MarathonTranslation, TranslationMarathonDto>
-    {
-        public int Id { get; set; }
-        public string Logo { get; set; }
-        public string Name { get; set; }
-        public string Text { get; set; }
-        public string Place { get; set; }
-        public int LanguageId { get; set; }
-        public override void AddCustomMappings()
-        {
-            SetCustomMappings()
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public string Url { get; set; }
+            public string Logo { get; set; }
+            public override void AddCustomMappings()
+            {
+                SetCustomMappings()
                 .Map(x => x.Logo, y => y.Logo.Path);
+            }
+        }
+
+        public override void AddCustomMappings()
+        {
+            SetCustomMappings()
+                .Map(x => x.Translations, y => y.Translations);
         }
     }
 
@@ -123,5 +118,12 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
             public int? AgeFrom { get; set; }
             public int? AgeTo { get; set; }
         }
+    }
+
+    public override void AddCustomMappings()
+    {
+        SetCustomMappings()
+            .Map(x => x.Translations, y => y.MarathonTranslations)
+            .Map(x => x.Partners, y => y.Partners);
     }
 }

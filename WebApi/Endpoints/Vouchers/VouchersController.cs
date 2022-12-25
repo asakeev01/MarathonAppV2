@@ -8,6 +8,9 @@ using Core.UseCases.Marathons.Queries.GetMarathonAdmin;
 using Core.UseCases.Marathons.Queries.GetMarathons;
 using Core.UseCases.Vouchers.Commands.AddPromocodesToVoucher;
 using Core.UseCases.Vouchers.Commands.CreateVoucher;
+using Core.UseCases.Vouchers.Commands.DeleteNonActivatedPromocodes;
+using Core.UseCases.Vouchers.Commands.DeletePromocodesByIds;
+using Core.UseCases.Vouchers.Commands.UpdateVoucher;
 using Core.UseCases.Vouchers.Queries.GenerateExcelPromocodes;
 using Core.UseCases.Vouchers.Queries.GetVouchers;
 using FluentValidation;
@@ -114,7 +117,7 @@ public class VouchersController : BaseController
     /// <response code="200"></response>
     [HttpPost("{voucherId}/promocodes")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType( StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status200OK)]
     public async Task<ActionResult> AddPromocodesToVoucher(
         [FromRoute] int voucherId,
         [FromBody] AddPromocodesToVoucherRequestDto dto,
@@ -159,4 +162,80 @@ public class VouchersController : BaseController
         this.Response.ContentType = "application/vnd.ms-excel";
         return File(result, "application/vnd.ms-excel");
     }
+
+    /// <summary>
+    /// Update Voucher
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpPut("")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> UpdateVoucher(
+        [FromBody] UpdateVoucherRequestDto dto,
+        [FromServices] IValidator<UpdateVoucherRequestDto> validator
+        )
+    {
+        var validation = await validator.ValidateAsync(dto);
+
+        if (!validation.IsValid)
+        {
+            return validation.ToBadRequest();
+        }
+
+        var updateVoucherCommand = new UpdateVoucherCommand()
+        {
+            VoucherId = dto.Id,
+            Name = dto.Name,
+            IsActive = dto.IsActive,
+        };
+
+        var result = await _mediator.Send(updateVoucherCommand);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Delete non-activated promocodes
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpDelete("{voucherId}/non-activated-promocodes")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> DeleteNonActivatedPromocodes(
+        [FromRoute] int voucherId)
+    {
+        var deleteNonActivatedPromocodesCommand = new DeleteNonActivatedPromocodesCommand()
+        {
+            VoucherId = voucherId
+        };
+
+        var result = await _mediator.Send(deleteNonActivatedPromocodesCommand);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Delete promocodes by Id
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpDelete("{voucherId}/promocodes")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> DeleteNonActivatedPromocodes(
+        [FromRoute] int voucherId,
+        [FromBody] ICollection<int> promocodesIds)
+    {
+
+        var deletePromocodesByIdsCommand = new DeletePromocodesByIdsCommand()
+        {
+            VoucherId = voucherId,
+            PromocodesIds = promocodesIds
+        };
+
+        var result = await _mediator.Send(deletePromocodesByIdsCommand);
+
+        return Ok(result);
+    }
+
 }
+

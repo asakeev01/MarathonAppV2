@@ -52,6 +52,7 @@ public class PromocodeRepository : BaseRepository<Promocode>, IPromocodeReposito
                     Distance = distance,
                     Code = promocode,
                     Voucher = voucher,
+                    CreationDate = DateTime.Now,
                 };
                 await this.CreateAsync(entity, save:true);
             }

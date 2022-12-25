@@ -9,6 +9,7 @@ public class Promocode
     public int Id { get; set; }
     public string Code { get; set; }
     public bool IsActivated { get; set; } = false;
+    public DateTime CreationDate { get; set; }
     public int DistanceId { get; set; }
     public Distance Distance { get; set; }
     public int VoucherId { get; set; }

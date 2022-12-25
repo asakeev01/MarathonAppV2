@@ -30,7 +30,7 @@ public class GetMarathonHandler : IRequestHandler<GetMarathonQuery, GetMarathonO
             .Include(a => a.DistancesForPWD)
             .Include(a => a.Documents)
             .Include(a => a.Partners).ThenInclude(a => a.Translations.Where(t => t.Language.Code == request.LanguageCode))
-            .Include(a => a.Partners).ThenInclude(a => a.Logos)
+            .Include(a => a.Partners).ThenInclude(a => a.PartnerCompanies).ThenInclude(a => a.Logo)
             .Include(a => a.Distances).ThenInclude(a => a.DistancePrices)
             .Include(a => a.Distances).ThenInclude(a => a.DistanceAges)
             .Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)).ThenInclude(a => a.Logo)

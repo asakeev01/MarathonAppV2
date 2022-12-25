@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Distances;
+﻿using Domain.Entities.Applications;
+using Domain.Entities.Distances;
 using Domain.Entities.SavedFiles;
 using Domain.Entities.Vouchers;
 
@@ -17,4 +18,5 @@ public class Marathon
     public ICollection<MarathonTranslation> MarathonTranslations { get; set; }
     public ICollection<Partner>? Partners { get; set; }
     public ICollection<Voucher>? Vouchers { get; set; }
+    public ICollection<Application> Applications { get; set; }
 }
