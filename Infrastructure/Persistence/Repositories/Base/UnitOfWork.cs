@@ -28,7 +28,7 @@ public class UnitOfWork : IUnitOfWork
     private IDistanceForPwdRepository? _distanceForPwdRepository;
     private ICommentRepository? _commentRepository;
     private IStatusCommentRepository? _statusCommentRepository;
-    //private IPartnerCompanyRepository? _partnerCompanyRepository;
+    private IPartnerCompanyRepository? _partnerCompanyRepository;
 
     private bool disposed = false;
 
@@ -171,15 +171,17 @@ public class UnitOfWork : IUnitOfWork
         {
             _statusCommentRepository ??= new StatusCommentRepository(_context, _localizer);
             return _statusCommentRepository;
+        }
+    }
 
-    //public IPartnerCompanyRepository PartnerCompanyRepository
-    //{
-    //    get
-    //    {
-    //        _partnerCompanyRepository ??= new PartnerCompanyRepository(_context, _localizer);
-    //        return _partnerCompanyRepository;
-    //    }
-    //}
+    public IPartnerCompanyRepository PartnerCompanyRepository
+    {
+        get
+        {
+            _partnerCompanyRepository ??= new PartnerCompanyRepository(_context, _localizer);
+            return _partnerCompanyRepository;
+        }
+    }
 
     public void Save()
     {

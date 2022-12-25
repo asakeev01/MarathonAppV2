@@ -32,7 +32,7 @@ public interface IUnitOfWork : IDisposable
 
     IStatusCommentRepository StatusCommentRepository { get; }
 
-    //IPartnerCompanyRepository PartnerCompanyRepository { get; }
+    IPartnerCompanyRepository PartnerCompanyRepository { get; }
 
 
     void Save();
