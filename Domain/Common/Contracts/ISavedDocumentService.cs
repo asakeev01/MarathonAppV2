@@ -1,7 +1,7 @@
 ﻿using System;
 using Domain.Entities.Documents;
 using Domain.Entities.Documents.DocumentEnums;
-using Domain.Entities.Users;
+using Domain.Entities.Statuses;
 using Microsoft.AspNetCore.Http;
 
 namespace Domain.Common.Contracts

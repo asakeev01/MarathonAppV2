@@ -26,6 +26,8 @@ public class UnitOfWork : IUnitOfWork
     private IPromocodeRepository? _promocodeRepository;
     private IApplicationRepository? _applicationRepository;
     private IDistanceForPwdRepository? _distanceForPwdRepository;
+    private ICommentRepository? _commentRepository;
+    private IStatusCommentRepository? _statusCommentRepository;
 
     private bool disposed = false;
 
@@ -150,6 +152,24 @@ public class UnitOfWork : IUnitOfWork
         {
             _distanceForPwdRepository ??= new DistanceForPwdRepository(_context, _localizer);
             return _distanceForPwdRepository;
+        }
+    }
+
+    public ICommentRepository CommentRepository
+    {
+        get
+        {
+            _commentRepository ??= new CommentRepository(_context, _localizer);
+            return _commentRepository;
+        }
+    }
+
+    public IStatusCommentRepository StatusCommentRepository
+    {
+        get
+        {
+            _statusCommentRepository ??= new StatusCommentRepository(_context, _localizer);
+            return _statusCommentRepository;
         }
     }
 

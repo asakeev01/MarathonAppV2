@@ -2,25 +2,25 @@
 using System.ComponentModel.DataAnnotations;
 using FluentValidation;
 
-namespace WebApi.Endpoints.Users.Dtos.Requests
+namespace WebApi.Endpoints.Users.Dtos.Requests;
+
+public class ConfirmEmailRequestDto
 {
-    public class ConfirmEmailRequestDto
-    {
-        [Required]
-        public string Email { get; set; }
+    [Required]
+    public string Email { get; set; }
 
-        [Required]
-        public string Token { get; set; }
-    }
+    [Required]
+    public string Token { get; set; }
+}
 
-    public class ConfirmEmailRequestValidator : AbstractValidator<ConfirmEmailRequestDto>
+public class ConfirmEmailRequestValidator : AbstractValidator<ConfirmEmailRequestDto>
+{
+    public ConfirmEmailRequestValidator()
     {
-        public ConfirmEmailRequestValidator()
-        {
-            RuleFor(x => x.Email)
-            .EmailAddress()
-            .MaximumLength(50);
-        }
+        RuleFor(x => x.Email)
+        .EmailAddress()
+        .MaximumLength(50);
     }
 }
+
 

@@ -1,11 +1,11 @@
 ﻿using System;
 using Domain.Services.Models;
 
-namespace Domain.Services.Interfaces
+namespace Domain.Services.Interfaces;
+
+public interface IGoogleAuthService
 {
-    public interface IGoogleAuthService
-    {
-        Task<GoogleAuthOut> VerifyGoogleTokenAsync(string googleToken);
-    }
+    Task<GoogleAuthOut> VerifyGoogleTokenAsync(string googleToken);
 }
+
 

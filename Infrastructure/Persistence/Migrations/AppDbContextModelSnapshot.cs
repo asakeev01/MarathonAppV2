@@ -403,6 +403,73 @@ namespace Infrastructure.Persistence.Migrations
                     b.ToTable("SavedFile");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Statuses.Comment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("DocumentType")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Comments");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Statuses.Status", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<int>("CurrentStatus")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
+
+                    b.ToTable("Statuses");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Statuses.StatusComment", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
+
+                    b.Property<long>("CommentId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("StatusId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("StatusComments");
+                });
+
             modelBuilder.Entity("Domain.Entities.Users.Role", b =>
                 {
                     b.Property<long>("Id")
@@ -431,35 +498,6 @@ namespace Infrastructure.Persistence.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Entities.Users.Status", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"), 1L, 1);
-
-                    b.Property<int>("Comment")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<int>("CurrentStatus")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.Property<long>("UserId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId")
-                        .IsUnique();
-
-                    b.ToTable("Statuses");
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.User", b =>
@@ -919,15 +957,34 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("Partner");
                 });
 
-            modelBuilder.Entity("Domain.Entities.Users.Status", b =>
+            modelBuilder.Entity("Domain.Entities.Statuses.Status", b =>
                 {
                     b.HasOne("Domain.Entities.Users.User", "User")
                         .WithOne("Status")
-                        .HasForeignKey("Domain.Entities.Users.Status", "UserId")
+                        .HasForeignKey("Domain.Entities.Statuses.Status", "UserId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Statuses.StatusComment", b =>
+                {
+                    b.HasOne("Domain.Entities.Statuses.Comment", "Comment")
+                        .WithMany("StatusComments")
+                        .HasForeignKey("CommentId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Entities.Statuses.Status", "Status")
+                        .WithMany("StatusComments")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Status");
                 });
 
             modelBuilder.Entity("Domain.Entities.Users.UserRole", b =>
@@ -1070,6 +1127,16 @@ namespace Infrastructure.Persistence.Migrations
                     b.Navigation("MarathonLogo");
                 });
 
+            modelBuilder.Entity("Domain.Entities.Statuses.Comment", b =>
+                {
+                    b.Navigation("StatusComments");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Statuses.Status", b =>
+                {
+                    b.Navigation("StatusComments");
+                });
+
             modelBuilder.Entity("Domain.Entities.Users.Role", b =>
                 {
                     b.Navigation("UserRoles");
@@ -1077,6 +1144,8 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Users.User", b =>
                 {
+                    b.Navigation("Applications");
+
                     b.Navigation("Document")
                         .IsRequired();
 

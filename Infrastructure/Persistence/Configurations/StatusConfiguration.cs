@@ -1,26 +1,27 @@
 ﻿using System;
+using Domain.Entities.Statuses;
+using Domain.Entities.Statuses.StatusEnums;
 using Domain.Entities.Users;
 using Domain.Entities.Users.UserEnums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Persistence.Configurations
+namespace Infrastructure.Persistence.Configurations;
+
+public class StatusConfiguration : IEntityTypeConfiguration<Status>
 {
-    public class StatusConfiguration : IEntityTypeConfiguration<Status>
+    public void Configure(EntityTypeBuilder<Status> builder)
     {
-        public void Configure(EntityTypeBuilder<Status> builder)
-        {
-            builder
-                .HasOne(x => x.User)
-                .WithOne(u => u.Status)
-                .HasForeignKey<Status>(x => x.UserId);
-            builder
-                .Property(p => p.CurrentStatus)
-                .HasDefaultValue(StatusesEnum.Empty);
-            builder
-                .Property(p => p.Comment)
-                .HasDefaultValue(CommentsEnum.Empty);
-        }
+        builder
+            .HasMany(s => s.StatusComments)
+            .WithOne(sc => sc.Status)
+            .OnDelete(DeleteBehavior.Cascade);
+  
+
+        builder
+            .Property(p => p.CurrentStatus)
+            .HasDefaultValue(StatusesEnum.Empty);
     }
 }
+
 

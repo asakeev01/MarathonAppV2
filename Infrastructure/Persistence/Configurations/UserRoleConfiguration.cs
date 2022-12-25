@@ -9,15 +9,15 @@ public class UserRoleConfiguration : IEntityTypeConfiguration<UserRole>
     public void Configure(EntityTypeBuilder<UserRole> builder)
     {
         builder
-            .HasOne(x => x.Role)
-            .WithMany(x => x.UserRoles)
-            .HasForeignKey(x => x.RoleId)
+            .HasOne(ur => ur.Role)
+            .WithMany(r => r.UserRoles)
+            .HasForeignKey(ur => ur.RoleId)
             .OnDelete(DeleteBehavior.Cascade);
           
         builder
-            .HasOne(x => x.User)
-            .WithMany(x => x.UserRoles)
-            .HasForeignKey(x => x.UserId)
+            .HasOne(ur => ur.User)
+            .WithMany(u => u.UserRoles)
+            .HasForeignKey(ur => ur.UserId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

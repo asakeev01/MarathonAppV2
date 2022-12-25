@@ -4,140 +4,131 @@ using System.Security.Claims;
 using System.Text;
 using Domain.Common.Options;
 using Domain.Entities.Documents;
+using Domain.Entities.Statuses;
 using Domain.Entities.Users;
 using Domain.Entities.Users.Exceptions;
-using Domain.Entities.Users.UserEnums;
+using Domain.Entities.Statuses.StatusEnums;
 using Domain.Services.Interfaces;
 using Domain.Services.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Domain.Services
+namespace Domain.Services;
+
+public class UserService : IUserService
 {
-    public class UserService : IUserService
+    private SecurityTokenOptions _securityTokenOptions;
+
+    public UserService(IOptionsMonitor<SecurityTokenOptions> securityTokenOptions)
     {
-        private SecurityTokenOptions _securityTokenOptions;
+        _securityTokenOptions = securityTokenOptions.CurrentValue;
+    }
 
-        public UserService(IOptionsMonitor<SecurityTokenOptions> securityTokenOptions)
+    public LoginOut LoginAsync(User user, RefreshToken refreshToken, IList<string> roles)
+    {
+        var claims = GetClaims(user, roles);
+
+        return BuildResponse(user, refreshToken, claims, roles);
+    }
+
+    private IEnumerable<Claim> GetClaims(User user, IList<string> roles)
+    {
+        var claims = new List<Claim>
         {
-            _securityTokenOptions = securityTokenOptions.CurrentValue;
-        }
+            new Claim(ClaimTypes.Email, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
+        };
 
-        public LoginOut LoginAsync(User user, RefreshToken refreshToken, IList<string> roles)
+        claims.AddRange(roles.Select(x => new Claim(ClaimTypes.Role, x)));
+
+        return claims;
+    }
+
+    private (string, DateTime) CreateAccessToken(IEnumerable<Claim> claims)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_securityTokenOptions.Secret));
+        var expirationDateUtc = DateTime.Now.AddMinutes(_securityTokenOptions.ExpiresIn);
+        var issuer = _securityTokenOptions.ValidIssuer;
+        var audience = _securityTokenOptions.ValidAudience;
+
+        var token = new JwtSecurityToken(
+            issuer: issuer,
+            audience: audience,
+            claims: claims,
+            expires: expirationDateUtc,
+            signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
+            );
+
+        string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
+
+        return (tokenAsString, expirationDateUtc);
+    }
+
+    private LoginOut BuildResponse(User user, RefreshToken refreshToken, IEnumerable<Claim> claims, IList<string> roles)
+    {
+        var (accessToken, accessExpireDate) = CreateAccessToken(claims);
+
+        return new LoginOut
         {
-            var claims = GetClaims(user, roles);
+            AccessToken = accessToken,
+            AccessTokenExpireUtc = accessExpireDate,
+            RefreshToken = refreshToken.Name,
+            RefreshTokenExpireUtc = refreshToken.ExpirationDateUtc,
+            UserId = user.Id,
+            Email = user.Email,
+            Role = roles[0],
+            Name = (user.Name == null && user.Surname == null ? null : user.Name + " " + user.Surname)
+        };
+    }
 
-            return BuildResponse(user, refreshToken, claims, roles);
-        }
-
-        private IEnumerable<Claim> GetClaims(User user, IList<string> roles)
+    public void IsAccessTokenValid(string accessToken)
+    {
+        var key = _securityTokenOptions.Secret;
+        var issuer = _securityTokenOptions.ValidIssuer;
+        var audience = _securityTokenOptions.ValidAudience;
+        var tokenValidationParameters = new TokenValidationParameters
         {
-            var claims = new List<Claim>
-            {
-                new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString())
-            };
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = false,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = issuer,
+            ValidAudience = audience,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
+        };
 
-            claims.AddRange(roles.Select(x => new Claim(ClaimTypes.Role, x)));
+        var tokenHandler = new JwtSecurityTokenHandler();
+        tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken securityToken);
+        var jwtSecurityToken = securityToken as JwtSecurityToken;
+        if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
+            throw new InvalidTokenException();
+    }
 
-            return claims;
-        }
-
-        private (string, DateTime) CreateAccessToken(IEnumerable<Claim> claims)
+    public User CreateUser(string email) {
+        var user = new User
         {
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_securityTokenOptions.Secret));
-            var expirationDateUtc = DateTime.Now.AddMinutes(_securityTokenOptions.ExpiresIn);
-            var issuer = _securityTokenOptions.ValidIssuer;
-            var audience = _securityTokenOptions.ValidAudience;
+            Email = email,
+            UserName = email
+        };
+        user.Document = new Document();
+        user.Status = new Status();
+        return user;
+    }
 
-            var token = new JwtSecurityToken(
-                issuer: issuer,
-                audience: audience,
-                claims: claims,
-                expires: expirationDateUtc,
-                signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
-                );
-
-            string tokenAsString = new JwtSecurityTokenHandler().WriteToken(token);
-
-            return (tokenAsString, expirationDateUtc);
+    public void IsEmailConfirmed(User user)
+    {
+        if (user.EmailConfirmed == false) {
+            throw new EmailWasNotConfirmedException();
         }
+    }
 
-        private LoginOut BuildResponse(User user, RefreshToken refreshToken, IEnumerable<Claim> claims, IList<string> roles)
-        {
-            var (accessToken, accessExpireDate) = CreateAccessToken(claims);
-
-            return new LoginOut
-            {
-                AccessToken = accessToken,
-                AccessTokenExpireUtc = accessExpireDate,
-                RefreshToken = refreshToken.Name,
-                RefreshTokenExpireUtc = refreshToken.ExpirationDateUtc,
-                UserId = user.Id,
-                Email = user.Email,
-                Role = roles[0],
-                Name = (user.Name == null && user.Surname == null ? null : user.Name + " " + user.Surname)
-            };
-        }
-
-        public void IsAccessTokenValid(string accessToken)
-        {
-            var key = _securityTokenOptions.Secret;
-            var issuer = _securityTokenOptions.ValidIssuer;
-            var audience = _securityTokenOptions.ValidAudience;
-            var tokenValidationParameters = new TokenValidationParameters
-            {
-                ValidateIssuer = true,
-                ValidateAudience = true,
-                ValidateLifetime = false,
-                ValidateIssuerSigningKey = true,
-                ValidIssuer = issuer,
-                ValidAudience = audience,
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(key))
-            };
-
-            var tokenHandler = new JwtSecurityTokenHandler();
-            tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken securityToken);
-            var jwtSecurityToken = securityToken as JwtSecurityToken;
-            if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-                throw new InvalidTokenException();
-        }
-
-        public User CreateUser(string email) {
-            var user = new User
-            {
-                Email = email,
-                UserName = email
-            };
-            user.Document = new Document();
-            user.Status = new Status();
-            return user;
-        }
-
-        public void IsEmailConfirmed(User user)
-        {
-            if (user.EmailConfirmed == false) {
-                throw new EmailWasNotConfirmedException();
-            }
-        }
-
-        public void SetDateOfConfirmation(User user)
-        {
-            if (user.DateOfConfirmation == null) {
-                user.DateOfConfirmation = DateTime.UtcNow;
-            }
-        }
-
-        public void SetUserStatus(User user, Document document, Status status, StatusesEnum newStatus, CommentsEnum comment)
-        {
-            status.CurrentStatus = newStatus;
-            status.Comment = comment;
-            if (status.CurrentStatus == StatusesEnum.Confirmed && document.DisabilityPath != null)
-            {
-                user.IsDisable = true;
-            }
+    public void SetDateOfConfirmation(User user)
+    {
+        if (user.DateOfConfirmation == null) {
+            user.DateOfConfirmation = DateTime.UtcNow;
         }
     }
 }
+
 

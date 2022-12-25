@@ -18,13 +18,19 @@ public interface IUnitOfWork : IDisposable
 
     IDocumentRepository DocumentRepository { get; }
 
-    IStatusRepository StatusRepository { get; }
     IVoucherRepository VoucherRepository { get; }
+
     IPromocodeRepository PromocodeRepository { get; }
 
     IApplicationRepository ApplicationRepository { get; }
 
     IDistanceForPwdRepository DistanceForPwdRepository { get; }
+
+    IStatusRepository StatusRepository { get; }
+
+    ICommentRepository CommentRepository { get; }
+
+    IStatusCommentRepository StatusCommentRepository { get; }
 
     void Save();
     Task SaveAsync();
