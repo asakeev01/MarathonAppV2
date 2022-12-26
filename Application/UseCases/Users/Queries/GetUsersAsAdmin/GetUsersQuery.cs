@@ -5,31 +5,30 @@ using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.UseCases.Users.Queries.GetUsersAsAdmin
+namespace Core.UseCases.Users.Queries.GetUsersAsAdmin;
+
+public class GetUsersQuery : IRequest<QueryablePaging<GetUsersOutDto>>
 {
-    public class GetUsersQuery : IRequest<QueryablePaging<GetUsersOutDto>>
+    public GridifyQuery Query { get; set; }
+}
+
+public class GetUsersHandler : IRequestHandler<GetUsersQuery, QueryablePaging<GetUsersOutDto>>
+{
+    private readonly IUnitOfWork _unit;
+
+    public GetUsersHandler(IUnitOfWork unit)
     {
-        public GridifyQuery Query { get; set; }
+        _unit = unit;
     }
 
-    public class GetUsersHandler : IRequestHandler<GetUsersQuery, QueryablePaging<GetUsersOutDto>>
+    public async Task<QueryablePaging<GetUsersOutDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
-        private readonly IUnitOfWork _unit;
-
-        public GetUsersHandler(IUnitOfWork unit)
-        {
-            _unit = unit;
-        }
-
-        public async Task<QueryablePaging<GetUsersOutDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
-        {
-            var users = await _unit.UserRepository.GetAllAsync(include: source => source
-            .Include(u=> u.Document)
-            .Include(u => u.Status)
-            .Include(u => u.UserRoles).ThenInclude(r => r.Role));
-            var response = users.Adapt<IEnumerable<GetUsersOutDto>>().AsQueryable().GridifyQueryable(request.Query);
-            return response;
-        }
+        var users = await _unit.UserRepository.GetAllAsync(include: source => source
+        .Include(u=> u.Document)
+        .Include(u => u.Status)
+        .Include(u => u.UserRoles).ThenInclude(r => r.Role));
+        var response = users.Adapt<IEnumerable<GetUsersOutDto>>().AsQueryable().GridifyQueryable(request.Query);
+        return response;
     }
 }
 

@@ -1,6 +1,7 @@
 ﻿using Core.Common.Bases;
 using Domain.Entities.Applications;
 using Domain.Entities.Applications.ApplicationEnums;
+using Domain.Entities.Statuses.StatusEnums;
 using Domain.Entities.Users;
 using Domain.Entities.Users.UserEnums;
 

@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Applications;
 using Domain.Entities.Documents;
+using Domain.Entities.Statuses;
 using Domain.Entities.Users.UserEnums;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;

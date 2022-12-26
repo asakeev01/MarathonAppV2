@@ -6,39 +6,39 @@ using Domain.Services.Models;
 using Google.Apis.Auth;
 using Microsoft.Extensions.Options;
 
-namespace Domain.Services
-{
-    public class GoogleAuthService : IGoogleAuthService
-    {
-        private GoogleAuthOptions _googleAuthOptions;
+namespace Domain.Services;
 
-        public GoogleAuthService(IOptionsMonitor<GoogleAuthOptions> googleAuthOptions)
+public class GoogleAuthService : IGoogleAuthService
+{
+    private GoogleAuthOptions _googleAuthOptions;
+
+    public GoogleAuthService(IOptionsMonitor<GoogleAuthOptions> googleAuthOptions)
+    {
+        _googleAuthOptions = googleAuthOptions.CurrentValue;
+    }
+    public async Task<GoogleAuthOut> VerifyGoogleTokenAsync(string googleToken)
+    {
+        try
         {
-            _googleAuthOptions = googleAuthOptions.CurrentValue;
+            var clientId = _googleAuthOptions.clientId;
+            var settings = new GoogleJsonWebSignature.ValidationSettings()
+            {
+                Audience = new List<string>() { _googleAuthOptions.clientId }
+            };
+            var payload = await GoogleJsonWebSignature.ValidateAsync(googleToken, settings);
+            var googleAuthOut = new GoogleAuthOut
+            {
+                Id = payload.Subject,
+                Email = payload.Email,
+                Name = payload.Name
+            };
+            return googleAuthOut;
         }
-        public async Task<GoogleAuthOut> VerifyGoogleTokenAsync(string googleToken)
+        catch (Exception ex)
         {
-            try
-            {
-                var clientId = _googleAuthOptions.clientId;
-                var settings = new GoogleJsonWebSignature.ValidationSettings()
-                {
-                    Audience = new List<string>() { _googleAuthOptions.clientId }
-                };
-                var payload = await GoogleJsonWebSignature.ValidateAsync(googleToken, settings);
-                var googleAuthOut = new GoogleAuthOut
-                {
-                    Id = payload.Subject,
-                    Email = payload.Email,
-                    Name = payload.Name
-                };
-                return googleAuthOut;
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidTokenException();
-            }
+            throw new InvalidTokenException();
         }
     }
 }
+
 

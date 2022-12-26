@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities.Vouchers;
+using Domain.Entities.Statuses;
 
 namespace Infrastructure.Persistence;
 
@@ -26,6 +27,8 @@ public class AppDbContext : IdentityDbContext<User, Role, long, IdentityUserClai
     public DbSet<RefreshToken> RefreshTokens { get; set; }
     public DbSet<Document> Documents { get; set; }
     public DbSet<Status> Statuses { get; set; }
+    public DbSet<Comment> Comments { get; set; }
+    public DbSet<StatusComment> StatusComments { get; set; }
     public DbSet<Application> Applications { get; set; }
     public DbSet<Language> Languages { get; set; }
     public DbSet<Marathon> Marathons { get; set; }

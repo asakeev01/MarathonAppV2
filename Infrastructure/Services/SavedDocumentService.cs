@@ -2,8 +2,8 @@
 using Domain.Common.Contracts;
 using Domain.Entities.Documents;
 using Domain.Entities.Documents.DocumentEnums;
-using Domain.Entities.Users;
-using Domain.Entities.Users.UserEnums;
+using Domain.Entities.Statuses;
+using Domain.Entities.Statuses.StatusEnums;
 using Microsoft.AspNetCore.Http;
 
 namespace Infrastructure.Services
@@ -60,7 +60,6 @@ namespace Infrastructure.Services
                 document.DisabilityPath = databasePath;
             }
             status.CurrentStatus = StatusesEnum.Processing;
-            status.Comment = CommentsEnum.Processing;
         }
 
         public void DeleteDocument(Status status, Document document, DocumentsEnum documentType)
@@ -98,11 +97,9 @@ namespace Infrastructure.Services
             if (document.FrontPassportPath != null || document.DisabilityPath != null)
             {
                 status.CurrentStatus = StatusesEnum.Processing;
-                status.Comment = CommentsEnum.Processing;
             }
             else {
                 status.CurrentStatus = StatusesEnum.Empty;
-                status.Comment = CommentsEnum.Empty;
             }
         }
     }

@@ -71,6 +71,9 @@
       <Folder Include="staticfiles\Disability\" />
       <Folder Include="staticfiles\Insurance\" />
       <Folder Include="staticfiles\FrontPassport\" />
+      <Folder Include="Endpoints\Statuses\" />
+      <Folder Include="Endpoints\Statuses\Dtos\" />
+      <Folder Include="Endpoints\Statuses\Dtos\Requests\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -90,5 +93,8 @@
       <None Remove="staticfiles\Disability\" />
       <None Remove="staticfiles\Insurance\" />
       <None Remove="staticfiles\FrontPassport\" />
+      <None Remove="Endpoints\Statuses\" />
+      <None Remove="Endpoints\Statuses\Dtos\" />
+      <None Remove="Endpoints\Statuses\Dtos\Requests\" />
     </ItemGroup>
 </Project>
