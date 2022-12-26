@@ -1,3 +1,6 @@
+using Microsoft.EntityFrameworkCore.Storage;
+using System.Data;
+
 namespace Domain.Common.Contracts;
 
 public interface IUnitOfWork : IDisposable
@@ -32,7 +35,7 @@ public interface IUnitOfWork : IDisposable
 
     void Save();
     Task SaveAsync();
-    Task BeginTransactionAsync();
+    Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel? level);
     Task CommitAsync(bool save = false);
     Task RollbackAsync();
 }
