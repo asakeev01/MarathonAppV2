@@ -34,7 +34,6 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
 
     public record DocumentDto : BaseDto<SavedFile, DocumentDto>
     {
-        public int Id { get; set; }
         public string Document { get; set; }
 
         public override void AddCustomMappings()
