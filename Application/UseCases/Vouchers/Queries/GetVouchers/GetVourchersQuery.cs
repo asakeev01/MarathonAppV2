@@ -9,6 +9,7 @@ namespace Core.UseCases.Vouchers.Queries.GetVouchers;
 
 public class GetVourchersQuery : IRequest<QueryablePaging<GetVourchersQueryOutDto>>
 {
+    public string LanguageCode { get; set; }
     public GridifyQuery Query { get; set; }
 }
 
@@ -24,11 +25,14 @@ public class GetVourchersHandler : IRequestHandler<GetVourchersQuery, QueryableP
     public async Task<QueryablePaging<GetVourchersQueryOutDto>> Handle(GetVourchersQuery request,
         CancellationToken cancellationToken)
     {
-        var vouchers = (await _unit.VoucherRepository
-            .GetAllAsync(include: source => source.Include(x => x.Promocodes).ThenInclude(x => x.Distance)));
-
-        var response = vouchers.Adapt<IEnumerable<GetVourchersQueryOutDto>>().AsQueryable().GridifyQueryable(request.Query);
-
+        request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
+        var marathons = (await _unit.MarathonRepository
+            .GetAllAsync(include: source => source
+            .Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))
+            .Include(x => x.Vouchers)
+            .ThenInclude(x => x.Promocodes))
+            );
+        var response = marathons.Adapt<IEnumerable<GetVourchersQueryOutDto>>().AsQueryable().GridifyQueryable(request.Query);
         return response;
     }
 }
