@@ -17,5 +17,6 @@ public static class DomainServicesExtension
         services.AddScoped<IGoogleAuthService, GoogleAuthService>();
         services.AddScoped<ISavedDocumentService, SavedDocumentService>();
         services.AddScoped<IApplicationService, ApplicationService>();
+        services.AddScoped<IStatusService, StatusService>();
     }
 }

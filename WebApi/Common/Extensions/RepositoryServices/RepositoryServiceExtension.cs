@@ -18,5 +18,6 @@ public static class RepositoryServiceExtension
         services.AddScoped(typeof(IVoucherRepository), typeof(VoucherRepository));
         services.AddScoped(typeof(IPromocodeRepository), typeof(PromocodeRepository));
         services.AddScoped(typeof(IApplicationRepository), typeof(ApplicationRepository));
+        services.AddScoped(typeof(ICommentRepository), typeof(CommentRepository));
     }
 }

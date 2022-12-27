@@ -20,8 +20,6 @@ public interface IUnitOfWork : IDisposable
     IRefreshTokenRepository RefreshTokenRepository { get; }
 
     IDocumentRepository DocumentRepository { get; }
-
-    IStatusRepository StatusRepository { get; }
     
     IVoucherRepository VoucherRepository { get; }
     
@@ -31,7 +29,14 @@ public interface IUnitOfWork : IDisposable
 
     IDistanceForPwdRepository DistanceForPwdRepository { get; }
 
+    IStatusRepository StatusRepository { get; }
+
+    ICommentRepository CommentRepository { get; }
+
+    IStatusCommentRepository StatusCommentRepository { get; }
+
     IPartnerCompanyRepository PartnerCompanyRepository { get; }
+
 
     void Save();
     Task SaveAsync();

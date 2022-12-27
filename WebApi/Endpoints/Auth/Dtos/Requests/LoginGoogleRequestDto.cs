@@ -1,19 +1,19 @@
 ﻿using System;
 using FluentValidation;
 
-namespace WebApi.Endpoints.Users.Dtos.Requests
+namespace WebApi.Endpoints.Users.Dtos.Requests;
+
+public class LoginGoogleRequestDto
 {
-    public class LoginGoogleRequestDto
-    {
-        public string googleToken { get; set; }
-    }
+    public string googleToken { get; set; }
+}
 
-    public class LoginGoogleRequestValidator : AbstractValidator<LoginGoogleRequestDto>
+public class LoginGoogleRequestValidator : AbstractValidator<LoginGoogleRequestDto>
+{
+    public LoginGoogleRequestValidator()
     {
-        public LoginGoogleRequestValidator()
-        {
 
-        }
     }
 }
+
 

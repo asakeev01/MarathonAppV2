@@ -11,9 +11,5 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .Property(u => u.IsDeleted)
             .HasDefaultValue(false);
-
-        builder
-            .HasMany(u => u.UserRoles)
-            .WithOne(u => u.User);
     }
 }

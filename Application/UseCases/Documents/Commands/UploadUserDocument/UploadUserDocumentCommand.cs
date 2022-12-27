@@ -4,6 +4,7 @@ using Domain.Common.Contracts;
 using Domain.Entities.Documents.DocumentEnums;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 
 namespace Core.UseCases.Documents.Commands.UploadUserDocument
 {
@@ -27,7 +28,8 @@ namespace Core.UseCases.Documents.Commands.UploadUserDocument
 
         public async Task<HttpStatusCode> Handle(UploadUserDocumentCommand cmd, CancellationToken cancellationToken)
         {
-            var status = await _unit.StatusRepository.FirstAsync(s => s.UserId == long.Parse(cmd.UserId));
+            var status = await _unit.StatusRepository.FirstAsync(s => s.UserId == long.Parse(cmd.UserId), include: source => source
+                .Include(s => s.StatusComments));
             var document = await _unit.DocumentRepository.FirstAsync(d => d.UserId == long.Parse(cmd.UserId));
             await _savedDocumentService.UploadDocumentAsync(status, document, cmd.Document, cmd.DocumentType);
             await _unit.DocumentRepository.SaveAsync();
