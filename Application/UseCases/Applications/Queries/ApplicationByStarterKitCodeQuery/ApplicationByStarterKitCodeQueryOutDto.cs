@@ -11,6 +11,7 @@ namespace Core.UseCases.Applications.Queries.ApplicationByStarterKitCodeQuery;
 public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, ApplicationByStarterKitCodeQueryOutDto>
 {
     public int Id { get; set; }
+    public int Number { get; set; }
     public string Magnet { get; set; }
     public StartKitEnum StarterKit { get; set; }
     public string? FullNameRecipient { get; set; }
