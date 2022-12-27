@@ -31,13 +31,13 @@ public class ApplicationByMarathonQueryHandler : IRequestHandler<ApplicationByMa
         ).ToList();
         var applicationsDto = applications.Adapt<List<ApplicationByMarathonQueryOutDto>>();
 
-        for(int i = 0; i < applications.Count(); i++ )
-        {
-            if (applications[i].Payment == Domain.Entities.Applications.ApplicationEnums.PaymentMethodEnum.Voucher)
-            {
-                applicationsDto[i].Voucher = applications[i].Promocode.Voucher.Name;
-            }
-        }
+        //for(int i = 0; i < applications.Count(); i++ )
+        //{
+        //    if (applications[i].Payment == Domain.Entities.Applications.ApplicationEnums.PaymentMethodEnum.Voucher)
+        //    {
+        //        applicationsDto[i].Voucher = applications[i].Promocode.Voucher.Name;
+        //    }
+        //}
         var result = applicationsDto.AsQueryable().GridifyQueryable(request.Query);
 
         return result;
