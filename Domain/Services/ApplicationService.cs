@@ -89,7 +89,7 @@ public class ApplicationService : IApplicationService
         if (selecetedDistanceAge == null)
             throw new NoDistanceAgeException();
 
-        if (distance.RemainingPlaces <= 0)
+        if (distance.RemainingPlaces <= 0 && promocode == null)
             throw new NoPlacesException();
 
         var result = new Application();

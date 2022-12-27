@@ -1,11 +1,6 @@
 ﻿using Domain.Entities.Applications;
 using Domain.Entities.Marathons;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities.Distances;
 
@@ -20,7 +15,7 @@ public class DistanceForPWD
     {
         get
         {
-            return StartNumbersTo - StartNumbersFrom;
+            return StartNumbersTo - StartNumbersFrom + 1;
         }
     }
     [NotMapped]
