@@ -46,7 +46,6 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
             //    throw new AlreadyRegisteredException();
             //}
 
-
             var marathon = distance.Marathon;
 
             var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
