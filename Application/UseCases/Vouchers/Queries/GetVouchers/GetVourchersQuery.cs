@@ -26,11 +26,11 @@ public class GetVourchersHandler : IRequestHandler<GetVourchersQuery, QueryableP
         CancellationToken cancellationToken)
     {
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
-        var marathons = (await _unit.MarathonRepository
-            .GetAllAsync(include: source => source
+        var marathons =  _unit.MarathonRepository
+            .FindByCondition(predicate: x => x.Vouchers.Count >= 1 ,include: source => source
             .Include(a => a.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))
             .Include(x => x.Vouchers)
-            .ThenInclude(x => x.Promocodes))
+            .ThenInclude(x => x.Promocodes)
             );
         var response = marathons.Adapt<IEnumerable<GetVourchersQueryOutDto>>().AsQueryable().GridifyQueryable(request.Query);
         return response;

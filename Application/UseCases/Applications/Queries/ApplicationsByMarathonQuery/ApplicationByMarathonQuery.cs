@@ -28,17 +28,9 @@ public class ApplicationByMarathonQueryHandler : IRequestHandler<ApplicationByMa
         var applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.MarathonId == request.MarathonId, include: source => source
             .Include(x => x.User).ThenInclude(x => x.Status)
             .Include(x => x.Promocode).ThenInclude(x => x.Voucher)
-        ).ToList();
-        var applicationsDto = applications.Adapt<List<ApplicationByMarathonQueryOutDto>>();
+        );
 
-        for(int i = 0; i < applications.Count(); i++ )
-        {
-            if (applications[i].Payment == Domain.Entities.Applications.ApplicationEnums.PaymentMethodEnum.Voucher)
-            {
-                applicationsDto[i].Voucher = applications[i].Promocode.Voucher.Name;
-            }
-        }
-        var result = applicationsDto.AsQueryable().GridifyQueryable(request.Query);
+        var result = applications.Adapt<IEnumerable<ApplicationByMarathonQueryOutDto>>().AsQueryable().GridifyQueryable(request.Query);
 
         return result;
     }

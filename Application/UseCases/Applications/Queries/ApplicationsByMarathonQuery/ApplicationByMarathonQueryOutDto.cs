@@ -14,10 +14,11 @@ public record ApplicationByMarathonQueryOutDto : BaseDto<Application, Applicatio
     public int Number { get; set; }
     public StartKitEnum StarterKit { get; set; }
     public PaymentMethodEnum Payment { get; set; }
-    public string Voucher { get; set; }
+    public string? Voucher { get; set; }
     public string StarterKitCode { get; set; }
     public string? FullNameRecipient { get; set; }
     public DateTime? DateOfIssue { get; set; }
+    public int? DistanceAgeId { get; set; }
     public int? DistanceId { get; set; }
     public int? DistanceForPWDId { get; set; }
     public UserDto User { get; set; }
@@ -39,5 +40,11 @@ public record ApplicationByMarathonQueryOutDto : BaseDto<Application, Applicatio
             SetCustomMappings()
                 .Map(x => x.CurrentStatus, y => y.Status.CurrentStatus);
         }
+    }
+
+    public override void AddCustomMappings()
+    {
+        SetCustomMappings()
+            .Map(x => x.Voucher, y => y.Promocode.Voucher.Name);
     }
 }
