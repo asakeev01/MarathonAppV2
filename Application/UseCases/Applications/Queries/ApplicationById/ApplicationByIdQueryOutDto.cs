@@ -33,6 +33,7 @@ public record ApplicationByIdQueryOutDto : BaseDto<Application, ApplicationByIdQ
         public string Surname { get; set; }
         public string Email { get; set; }
         public bool Gender { get; set; }
+        public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
         public CountriesEnum Country { get; set; }
         public StatusesEnum CurrentStatus { get; set; }
