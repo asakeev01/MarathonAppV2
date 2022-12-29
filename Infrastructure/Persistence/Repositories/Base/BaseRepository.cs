@@ -30,7 +30,7 @@ public class  BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity :
         
         if (entity is null)
         {
-            throw new NotFoundException(_localizer[ResxKey.NotFoundText, typeof(TE).Name]);
+            throw new NotFoundException(_localizer[SharedResource.NotFoundError, typeof(TE).Name]);
         }
 
         return entity;
@@ -45,7 +45,7 @@ public class  BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity :
         
         if (entity is null)
         {
-            throw new NotFoundException(_localizer[ResxKey.NotFoundText, typeof(TE).Name]);
+            throw new NotFoundException(_localizer[SharedResource.NotFoundError, typeof(TE).Name]);
         }
 
         return entity;
@@ -108,7 +108,7 @@ public class  BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity :
         var entity = await GetFirstOrDefaultAsync<TDest>(predicate, orderBy, include, disableTracking, ignoreQueryFilters);
         if (entity is null)
         {
-            throw new NotFoundException(_localizer[ResxKey.NotFoundText, typeof(TEntity).Name]);
+            throw new NotFoundException(_localizer[SharedResource.NotFoundError, typeof(TEntity).Name]);
         }
         
         return entity;
@@ -131,7 +131,7 @@ public class  BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity :
         var entity = await GetFirstOrDefaultAsync(predicate, orderBy, include, disableTracking, ignoreQueryFilters);
         if (entity is null)
         {
-            throw new NotFoundException(_localizer[ResxKey.NotFoundText, typeof(TEntity).Name]);
+            throw new NotFoundException(_localizer[SharedResource.NotFoundError, typeof(TEntity).Name]);
         }
         
         return entity;
