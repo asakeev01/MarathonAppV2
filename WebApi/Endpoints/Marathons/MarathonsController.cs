@@ -1,5 +1,6 @@
 ﻿using System.Net;
 using System.Net.Mime;
+using System.Security.Claims;
 using Core.UseCases.Marathons.Commands.CraeteMarathon;
 using Core.UseCases.Marathons.Commands.CreateMarathon;
 using Core.UseCases.Marathons.Commands.PutMarathon;
@@ -7,10 +8,12 @@ using Core.UseCases.Marathons.Commands.PutMarathonStatus;
 using Core.UseCases.Marathons.Queries.GetMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathonAdmin;
 using Core.UseCases.Marathons.Queries.GetMarathons;
+using Core.UseCases.Marathons.Queries.IsUserRigistered;
 using FluentValidation;
 using Gridify;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Common.Extensions;
 using WebApi.Common.Extensions.ErrorHandlingServices;
@@ -205,6 +208,30 @@ public class MarathonsController : BaseController
         };
 
         var result = await _mediator.Send(putMarathonStatusCommand);
+
+        return Ok(result);
+    }
+
+
+    /// <summary>
+    /// Is user registered to marathon
+    /// </summary>
+    [HttpPost("{marathonId}/uresRegistered")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(IrUserRigisteredOutDto), StatusCodes.Status200OK)]
+    [Authorize]
+    public async Task<ActionResult<HttpStatusCode>> CreateForPWD(
+        [FromRoute] int marathonId
+        )
+    {
+        var createApplicationForPWDCommand = new IrUserRigisteredQuery()
+        {
+            MarathonId = marathonId,
+            UserId = Convert.ToInt32(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value),
+            LanguageCode = this.Request.Headers["Accept-Language"]
+        };
+
+        var result = await _mediator.Send(createApplicationForPWDCommand);
 
         return Ok(result);
     }

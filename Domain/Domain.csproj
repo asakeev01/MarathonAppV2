@@ -13,6 +13,7 @@
       <Folder Include="Entities\Users\Exceptions\" />
       <Folder Include="Common\Options\" />
       <Folder Include="Entities\Users\Constants\" />
+      <Folder Include="Resources\" />
       <Folder Include="Services\Models\" />
       <Folder Include="Entities\Documents\DocumentEnums\" />
       <Folder Include="Entities\Statuses\" />
@@ -32,6 +33,14 @@
     </ItemGroup>
 
     <ItemGroup>
+      <EmbeddedResource Update="Common\Resources\SharedResource - Copy.en-us.resx">
+        <DependentUpon>SharedResource.resx</DependentUpon>
+        <Generator>PublicResXFileCodeGenerator</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Common\Resources\SharedResource - Copy.ru-ru.resx">
+        <DependentUpon>SharedResource.resx</DependentUpon>
+        <Generator>PublicResXFileCodeGenerator</Generator>
+      </EmbeddedResource>
       <EmbeddedResource Update="Common\Resources\SharedResource.resx">
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>SharedResource.Designer.cs</LastGenOutput>
