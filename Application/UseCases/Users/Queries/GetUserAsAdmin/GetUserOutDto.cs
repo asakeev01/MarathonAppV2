@@ -20,6 +20,7 @@ namespace Core.UseCases.Users.Queries.GetUserAsAdmin
         public TshirtEnum? Tshirt { get; set; }
         public CountriesEnum? Country { get; set; }
         public string? ExtraPhoneNumber { get; set; }
+        public string? PhoneNumber { get; set; }
         public DateTime? DateOfConfirmation { get; set; }
         public bool IsDisable { get; set; }
         public bool IsDeleted { get; set; }
