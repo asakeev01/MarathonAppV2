@@ -17,21 +17,8 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
     public string? FullNameRecipient { get; set; }
     public DateTime? DateOfIssue { get; set; }
     public UserDto User { get; set; }
-    public DistanceDto? Distance { get; set;}
-    public DistanceForPWDDTO? DistanceForPWD { get; set; }
-
-    public class DistanceDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-    public class DistanceForPWDDTO
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
-
+    public string? Distance { get; set; }
+    public string? DistanceForPWD { get; set; }
 
     public record UserDto : BaseDto<User, UserDto>
     {
@@ -50,7 +37,8 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
         public override void AddCustomMappings()
         {
             SetCustomMappings()
-                .Map(x => x.Age, y => y.GetAge());
+                .Map(x => x.Age, y => y.GetAge())
+                ;
         }
 
         public record DocumentDto : BaseDto<Document, DocumentDto>
@@ -60,6 +48,13 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
             public string? InsurancePath { get; set; }
             public string? DisabilityPath { get; set; }
         }
+    }
+
+    public override void AddCustomMappings()
+    {
+        SetCustomMappings()
+        .Map(x => x.Distance, y => y.Distance.Name)
+        .Map(x => x.DistanceForPWD, y => y.DistanceForPWD.Name);
     }
 }
 

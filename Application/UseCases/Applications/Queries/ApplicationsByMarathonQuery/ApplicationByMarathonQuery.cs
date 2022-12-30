@@ -28,6 +28,8 @@ public class ApplicationByMarathonQueryHandler : IRequestHandler<ApplicationByMa
         var applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.MarathonId == request.MarathonId, include: source => source
             .Include(x => x.User).ThenInclude(x => x.Status)
             .Include(x => x.Promocode).ThenInclude(x => x.Voucher)
+            .Include(x => x.Distance)
+            .Include(x => x.DistanceForPWD)
         );
 
         var result = applications.Adapt<IEnumerable<ApplicationByMarathonQueryOutDto>>().AsQueryable().GridifyQueryable(request.Query);
