@@ -36,7 +36,7 @@ public class GenerateExcelApplicationsQueryHandler : IRequestHandler<GenerateExc
             .Include(x => x.Distance)
             );
 
-        var marathonName = marathon.MarathonTranslations.Where(x => x.LanguageId == 2).First().Name;
+        var marathonName = marathon.MarathonTranslations.Where(x => x.LanguageId == 1).First().Name;
         var byte_excel = await _unit.ApplicationRepository.GenerateExcel(applications, marathonName);
 
         return (byte_excel, marathonName);
