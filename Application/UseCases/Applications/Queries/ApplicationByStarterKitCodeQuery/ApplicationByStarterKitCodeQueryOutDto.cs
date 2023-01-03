@@ -3,6 +3,7 @@ using Core.Common.Bases;
 using Domain.Entities.Applications;
 using Domain.Entities.Applications.ApplicationEnums;
 using Domain.Entities.Documents;
+using Domain.Entities.Statuses.StatusEnums;
 using Domain.Entities.Users;
 using Domain.Entities.Users.UserEnums;
 
@@ -30,6 +31,7 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
         public bool Gender { get; set; }
         public TshirtEnum Tshirt { get; set; }
         public CountriesEnum Country { get; set; }
+        public StatusesEnum CurrentStatus { get; set; }
         public string PhoneNumber { get; set; }
 
         public DocumentDto Document { get; set; }
@@ -38,7 +40,7 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
         {
             SetCustomMappings()
                 .Map(x => x.Age, y => y.GetAge())
-                ;
+                .Map(x => x.CurrentStatus, y => y.Status.CurrentStatus);
         }
 
         public record DocumentDto : BaseDto<Document, DocumentDto>
