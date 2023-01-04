@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "Application\Application.csproj", "{8730DBBA-8706-4D6B-A5BA-3E6041C7775A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "Application\Application.csproj", "{8730DBBA-8706-4D6B-A5BA-3E6041C7775A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "Domain\Domain.csproj", "{4DC84277-B528-4C79-91A9-E346F8DC4841}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "Domain\Domain.csproj", "{4DC84277-B528-4C79-91A9-E346F8DC4841}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{CBC92966-4AF4-4680-8601-7663AA7B3482}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastructure\Infrastructure.csproj", "{CBC92966-4AF4-4680-8601-7663AA7B3482}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApi", "WebApi\WebApi.csproj", "{507281F9-8DBE-48A5-B0D3-BA86781F6536}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{507281F9-8DBE-48A5-B0D3-BA86781F6536}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailServiceWorker", "EmailServiceWorker\EmailServiceWorker.csproj", "{04E98454-20C8-4636-8963-1C4983F375B9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{507281F9-8DBE-48A5-B0D3-BA86781F6536}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{507281F9-8DBE-48A5-B0D3-BA86781F6536}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{507281F9-8DBE-48A5-B0D3-BA86781F6536}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04E98454-20C8-4636-8963-1C4983F375B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04E98454-20C8-4636-8963-1C4983F375B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04E98454-20C8-4636-8963-1C4983F375B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04E98454-20C8-4636-8963-1C4983F375B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

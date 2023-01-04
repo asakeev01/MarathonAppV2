@@ -13,7 +13,6 @@ public static class IdentityServiceExtension
     internal static void AddIdentityService(this IServiceCollection services, ConfigurationManager config)
     {
         services.ConfigureOptions<AppUrlOptionsSetup>();
-        services.ConfigureOptions<EmailOptionsSetup>();
         services.ConfigureOptions<SecurityTokenOptionsSetup>();
         services.ConfigureOptions<GoogleAuthOptionsSetup>();
 

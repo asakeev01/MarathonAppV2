@@ -17,6 +17,7 @@ using WebApi.Common.Extensions.RepositoryServices;
 using WebApi.Common.Extensions.CorsServices;
 using WebApi.Common.Extensions.SwaggerServices;
 using static WebApi.Common.Extensions.FluentValidationServices.FluentValidationServiceExtension;
+using EmailServiceWorker;
 
 namespace WebApi.Common.Extensions;
 
@@ -43,6 +44,9 @@ public static class WebApplicationBuilderExtension
         services.AddIdentityService(configuration);
         services.AddRepositories();
         services.RegisterDomainServices(configuration);
+
+        services.AddHostedService<Worker>();
+
         ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
 
     }

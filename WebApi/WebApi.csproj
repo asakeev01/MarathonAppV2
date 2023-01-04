@@ -77,6 +77,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\EmailServiceWorker\EmailServiceWorker.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
     </ItemGroup>
 
