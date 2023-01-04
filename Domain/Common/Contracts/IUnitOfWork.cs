@@ -37,6 +37,8 @@ public interface IUnitOfWork : IDisposable
 
     IPartnerCompanyRepository PartnerCompanyRepository { get; }
 
+    IEmailRepository? EmailRepository { get; }
+
 
     void Save();
     Task SaveAsync();

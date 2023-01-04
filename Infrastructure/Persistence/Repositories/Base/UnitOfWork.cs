@@ -31,6 +31,7 @@ public class UnitOfWork : IUnitOfWork
     private ICommentRepository? _commentRepository;
     private IStatusCommentRepository? _statusCommentRepository;
     private IPartnerCompanyRepository? _partnerCompanyRepository;
+    private IEmailRepository? _emailRepository;
 
     private bool disposed = false;
 
@@ -185,6 +186,14 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
+    public IEmailRepository EmailRepository
+    {
+        get
+        {
+            _emailRepository ??= new EmailRepository(_context, _localizer);
+            return _emailRepository;
+        }
+    }
     public void Save()
     {
         _context.SaveChanges();
