@@ -37,7 +37,7 @@ public class ApplicationRepository : BaseRepository<Application>, IApplicationRe
         foreach (var application in applications)
         {
             worksheet.Cells[$"A{i}"].Value = application.Id;
-            worksheet.Cells[$"B{i}"].Value = "";
+            worksheet.Cells[$"B{i}"].Value = application.Magnet;
             worksheet.Cells[$"C{i}"].Value = application.Number;
             worksheet.Cells[$"D{i}"].Value = application.User.Name;
             worksheet.Cells[$"E{i}"].Value = application.User.Surname;

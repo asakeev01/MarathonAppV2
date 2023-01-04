@@ -67,6 +67,7 @@ namespace EmailServiceWorker
                         }
                         catch (Exception ex)
                         {
+                            _logger.LogInformation(ex.Message);
                             _logger.LogInformation("Cant send message {time} to {email}, attempts - {attempt}", DateTimeOffset.Now, mail.Recipient, mail.Attempts);
                             mail.Attempts += 1;
                             await context.EmailRepository.SaveAsync();
