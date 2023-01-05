@@ -19,6 +19,7 @@ public class Application
     public string StarterKitCode {get;set;}
     public string? FullNameRecipient { get; set; }
     public DateTime? DateOfIssue { get; set; }
+    public DateTime? RemovalTime { get; set; }
     public int? DistanceAgeId { get; set; }
     public int? DistanceId { get; set; }
     public long UserId { get; set; }

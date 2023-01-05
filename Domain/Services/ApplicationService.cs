@@ -94,15 +94,12 @@ public class ApplicationService : IApplicationService
 
         var result = new Application();
 
-        if (promocode != null)
+        if (promocode.Voucher.isActive == false)
         {
-            if (promocode.Voucher.isActive == false)
-            {
-                throw new DeactivatedVoucherException();
-            }
-            var voucherApplication = await VoucherApplication(user, distance, selecetedDistanceAge, promocode);
-            result = voucherApplication;
+            throw new DeactivatedVoucherException();
         }
+        var voucherApplication = await VoucherApplication(user, distance, selecetedDistanceAge, promocode);
+        result = voucherApplication;
 
         var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
         result.StarterKitCode = starterKitCode;
