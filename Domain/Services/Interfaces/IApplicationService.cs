@@ -8,8 +8,7 @@ namespace Domain.Services.Interfaces;
 
 public interface IApplicationService
 {
-    Task<Application> CreateApplication(User user, Distance distance, List<string> oldStarterKidCodes, Promocode promocode);
+    Task<Application> CreateApplicationViaPromocode(User user, Distance distance, List<string> oldStarterKidCodes, Promocode promocode);
     Task<Application> CreateApplicationForPWD(User user, DistanceForPWD distance, List<string> oldStarterKidCodes);
-    Task<Application> VoucherApplication(User user, Distance distance, DistanceAge distanceAge, Promocode promocode);
     Application IssueStarterKit(Application application, string? fullNameRecipient, StartKitEnum starterKit);
 }

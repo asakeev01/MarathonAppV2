@@ -3,16 +3,16 @@ using Domain.Services.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace Core.UseCases.Applications.Commands.CraeteApplication;
+namespace Core.UseCases.Applications.Commands.CreateApplicationViaPromocode;
 
-public class CreateApplicationCommand : IRequest<int>
+public class CreateApplicationViaPromocodeCommand : IRequest<int>
 {
     public int UserId { get; set; }
     public int DistanceId { get; set; }
     public string? Promocode { get; set; }
 }
 
-public class CreateApplicationCommandHandler : IRequestHandler<CreateApplicationCommand, int>
+public class CreateApplicationCommandHandler : IRequestHandler<CreateApplicationViaPromocodeCommand, int>
 {
     private readonly IUnitOfWork _unit;
     private readonly IApplicationService _applicationService;
@@ -26,7 +26,7 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
         _emailService = emailService;
     }
 
-    public async Task<int> Handle(CreateApplicationCommand cmd, CancellationToken cancellationToken)
+    public async Task<int> Handle(CreateApplicationViaPromocodeCommand cmd, CancellationToken cancellationToken)
     {
         await semaphore.WaitAsync();
         try
@@ -50,18 +50,14 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
 
             var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
 
-            if (cmd.Promocode != null)
-            {
-                var promocode = await _unit.PromocodeRepository.FirstAsync(x => x.Code == cmd.Promocode && x.Distance == distance, include: source => source.Include(x => x.Voucher));
-                var application = await _applicationService.CreateApplication(user, distance, oldStarterKitCodes, promocode);
-                await _unit.ApplicationRepository.CreateAsync(application, save: true);
-                await _unit.PromocodeRepository.Update(promocode, save: true);
-                await _unit.DistanceRepository.Update(distance, save: true);
-                await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
-                return application.Id;
-                }
+            var promocode = await _unit.PromocodeRepository.FirstAsync(x => x.Code == cmd.Promocode && x.Distance == distance, include: source => source.Include(x => x.Voucher));
 
-            return -1;
+            var application = await _applicationService.CreateApplicationViaPromocode(user, distance, oldStarterKitCodes, promocode);
+            await _unit.ApplicationRepository.CreateAsync(application, save: true);
+            await _unit.PromocodeRepository.Update(promocode, save: true);
+            await _unit.DistanceRepository.Update(distance, save: true);
+            await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
+            return application.Id;
         }
         finally
         {
