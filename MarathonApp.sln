@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "Infrastru
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csproj", "{507281F9-8DBE-48A5-B0D3-BA86781F6536}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EmailServiceWorker", "EmailServiceWorker\EmailServiceWorker.csproj", "{04E98454-20C8-4636-8963-1C4983F375B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailServiceWorker", "EmailServiceWorker\EmailServiceWorker.csproj", "{04E98454-20C8-4636-8963-1C4983F375B9}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoveApplicationServiceWorker", "RemoveApplicationServiceWorker\RemoveApplicationServiceWorker.csproj", "{A5E1D8E9-A8CA-4481-9894-4CB31E275DC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{04E98454-20C8-4636-8963-1C4983F375B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04E98454-20C8-4636-8963-1C4983F375B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04E98454-20C8-4636-8963-1C4983F375B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A5E1D8E9-A8CA-4481-9894-4CB31E275DC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5E1D8E9-A8CA-4481-9894-4CB31E275DC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5E1D8E9-A8CA-4481-9894-4CB31E275DC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5E1D8E9-A8CA-4481-9894-4CB31E275DC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -62,7 +62,7 @@ public class ApplicationService : IApplicationService
     }
 
 
-    public async Task<Application> CreateApplication(User user, Distance distance, List<string> oldStarterKidCodes, Promocode promocode = null)
+    public async Task<Application> CreateApplicationViaPromocode(User user, Distance distance, List<string> oldStarterKidCodes, Promocode promocode)
     {
         if (user.DateOfConfirmation == null)
         {
@@ -89,31 +89,15 @@ public class ApplicationService : IApplicationService
         if (selecetedDistanceAge == null)
             throw new NoDistanceAgeException();
 
-        if (distance.RemainingPlaces <= 0 && promocode == null)
-            throw new NoPlacesException();
 
-        var result = new Application();
+        //if ((distance.RemainingPlaces - distance.Applications.Where(x => x.RemovalTime != null).Count()) <= 0)
+        //    throw new NoPlacesException();
 
-        if (promocode != null)
+
+        if (promocode.Voucher.isActive == false)
         {
-            if (promocode.Voucher.isActive == false)
-            {
-                throw new DeactivatedVoucherException();
-            }
-            var voucherApplication = await VoucherApplication(user, distance, selecetedDistanceAge, promocode);
-            result = voucherApplication;
+            throw new DeactivatedVoucherException();
         }
-
-        var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
-        result.StarterKitCode = starterKitCode;
-
-        return result;
-
-    }
-
-    public async Task<Application> VoucherApplication(User user, Distance distance, DistanceAge distanceAge, Promocode promocode)
-    {
-
         if (promocode.IsActivated == true)
         {
             throw new ActivatedPromocodeException();
@@ -126,7 +110,7 @@ public class ApplicationService : IApplicationService
             Date = DateTime.Now,
             Marathon = distance.Marathon,
             Distance = distance,
-            DistanceAge = distanceAge,
+            DistanceAge = selecetedDistanceAge,
             Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants,
             StarterKit = StartKitEnum.NotIssued,
             Payment = PaymentMethodEnum.Voucher,
@@ -135,7 +119,12 @@ public class ApplicationService : IApplicationService
         promocode.IsActivated = true;
         promocode.User = user;
         distance.ActivatedReservedPlaces += 1;
+
+        var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
+        result.StarterKitCode = starterKitCode;
+
         return result;
+
     }
 
     public async Task<string> GenerateStarterKitCode(List<string> generatedPromocodes)

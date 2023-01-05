@@ -19,6 +19,7 @@ using WebApi.Common.Extensions.SwaggerServices;
 using static WebApi.Common.Extensions.FluentValidationServices.FluentValidationServiceExtension;
 using EmailServiceWorker;
 using EmailServiceWorker.Options;
+using RemoveApplicationServiceWorker;
 
 namespace WebApi.Common.Extensions;
 
@@ -47,7 +48,10 @@ public static class WebApplicationBuilderExtension
         services.RegisterDomainServices(configuration);
 
         services.ConfigureOptions<EmailOptionsSetup>();
-        services.AddHostedService<Worker>();
+        services.AddHostedService<EmailServiceWorker.Worker>();
+
+        services.AddHostedService<RemoveApplicationServiceWorker.Worker>();
+
 
         ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
 

@@ -1,7 +1,5 @@
-﻿
-
-using Core.UseCases.Applications.Commands.CraeteApplication;
-using Core.UseCases.Applications.Commands.CreateApplicationForPWD;
+﻿using Core.UseCases.Applications.Commands.CreateApplicationForPWD;
+using Core.UseCases.Applications.Commands.CreateApplicationViaPromocode;
 using Core.UseCases.Applications.Commands.ImportExcelApplications;
 using Core.UseCases.Applications.Commands.IssueStarterKit;
 using Core.UseCases.Applications.Queries.ApplicationById;
@@ -43,11 +41,11 @@ public class ApplicationsController : BaseController
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [Authorize]
-    public async Task<ActionResult<HttpStatusCode>> Create(
-        [FromBody] CreateApplicationRequestDto dto
+    public async Task<ActionResult<HttpStatusCode>> CreateViaPromocode(
+        [FromBody] CreateApplicationViaPromocodeRequestDto dto
         )
     {
-        var createApplicationCommand = new CreateApplicationCommand()
+        var createApplicationCommand = new CreateApplicationViaPromocodeCommand()
         {
             DistanceId = dto.DistanceId,
             Promocode = dto.Promocode,

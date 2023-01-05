@@ -81,6 +81,7 @@
     <ItemGroup>
       <ProjectReference Include="..\EmailServiceWorker\EmailServiceWorker.csproj" />
       <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\RemoveApplicationServiceWorker\RemoveApplicationServiceWorker.csproj" />
     </ItemGroup>
 
     <ItemGroup>
