@@ -18,7 +18,7 @@ public class Distance
     {
         get
         {
-            return StartNumbersTo - StartNumbersFrom;
+            return StartNumbersTo - StartNumbersFrom + 1;
         }
     }
     [NotMapped]

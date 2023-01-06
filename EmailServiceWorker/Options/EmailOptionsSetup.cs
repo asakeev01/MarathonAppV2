@@ -2,7 +2,7 @@
 using Domain.Common.Options;
 using Microsoft.Extensions.Options;
 
-namespace WebApi.Common.Extensions.IdentityServices;
+namespace EmailServiceWorker.Options;
 
 public class EmailOptionsSetup : IConfigureOptions<EmailOptions>
 {
@@ -22,5 +22,4 @@ public class EmailOptionsSetup : IConfigureOptions<EmailOptions>
             .Bind(options);
     }
 }
-
 

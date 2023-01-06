@@ -57,11 +57,20 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("Number")
                         .HasColumnType("int");
 
+                    b.Property<decimal?>("Paid")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("Payment")
                         .HasColumnType("int");
 
+                    b.Property<decimal?>("Price")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int?>("PromocodeId")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("RemovalTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("StarterKit")
                         .HasColumnType("int");
@@ -238,6 +247,34 @@ namespace Infrastructure.Persistence.Migrations
                         .IsUnique();
 
                     b.ToTable("Documents");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Emails.Email", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("Attempts")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Recipient")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Emails");
                 });
 
             modelBuilder.Entity("Domain.Entities.Languages.Language", b =>
@@ -832,7 +869,7 @@ namespace Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade);
 
                     b.HasOne("Domain.Entities.Marathons.Marathon", "Marathon")
-                        .WithMany()
+                        .WithMany("Applications")
                         .HasForeignKey("MarathonId")
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
@@ -1142,6 +1179,8 @@ namespace Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("Domain.Entities.Marathons.Marathon", b =>
                 {
+                    b.Navigation("Applications");
+
                     b.Navigation("Distances");
 
                     b.Navigation("DistancesForPWD");

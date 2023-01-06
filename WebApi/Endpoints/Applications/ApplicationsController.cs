@@ -1,10 +1,9 @@
-﻿
-
-using Core.UseCases.Applications.Commands.CraeteApplication;
-using Core.UseCases.Applications.Commands.CreateApplicationForPWD;
 using Core.UseCases.Applications.Commands.CreatePayment;
+﻿using Core.UseCases.Applications.Commands.CreateApplicationForPWD;
+using Core.UseCases.Applications.Commands.CreateApplicationViaPromocode;
 using Core.UseCases.Applications.Commands.ImportExcelApplications;
 using Core.UseCases.Applications.Commands.IssueStarterKit;
+using Core.UseCases.Applications.Queries.ApplicationById;
 using Core.UseCases.Applications.Queries.ApplicationByStarterKitCodeQuery;
 using Core.UseCases.Applications.Queries.ApplicationsByMarathonQuery;
 using Core.UseCases.Applications.Queries.GenerateExcelApplications;
@@ -36,20 +35,18 @@ public class ApplicationsController : BaseController
     }
 
     /// <summary>
-    /// Create Application
+    /// Create Application with promocode
     /// </summary>
     /// <response code="200">Id of created application</response>
     [HttpPost("")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     [Authorize]
-    public async Task<ActionResult<HttpStatusCode>> Create(
-        [FromBody] CreateApplicationRequestDto dto
+    public async Task<ActionResult<HttpStatusCode>> CreateViaPromocode(
+        [FromBody] CreateApplicationViaPromocodeRequestDto dto
         )
     {
-        var tmp = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
-        var createApplicationCommand = new CreateApplicationCommand()
+        var createApplicationCommand = new CreateApplicationViaPromocodeCommand()
         {
             DistanceId = dto.DistanceId,
             Promocode = dto.Promocode,
@@ -73,8 +70,6 @@ public class ApplicationsController : BaseController
         [FromBody] CreateApplicationForPWDRequestDto dto
         )
     {
-        var tmp = User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
-
         var createApplicationForPWDCommand = new CreateApplicationForPWDCommand()
         {
             DistanceForPWDId = dto.DistanceForPWDId,
@@ -82,6 +77,26 @@ public class ApplicationsController : BaseController
         };
 
         var result = await _mediator.Send(createApplicationForPWDCommand);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Get Application by Id
+    /// </summary>
+    [HttpGet("{applicationId}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(ApplicationByIdQueryOutDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<HttpStatusCode>> Create(
+        [FromRoute] int applicationId
+        )
+    {
+        var applicationByIdQuery = new ApplicationByIdQuery()
+        {
+            ApplicationId = applicationId
+        };
+
+        var result = await _mediator.Send(applicationByIdQuery);
 
         return Ok(result);
     }
@@ -109,7 +124,7 @@ public class ApplicationsController : BaseController
     }
 
     /// <summary>
-    /// Export Vouchers to excel
+    /// Export Applications to excel
     /// </summary>
     [HttpGet("marathon/{marathonId}/excel")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]

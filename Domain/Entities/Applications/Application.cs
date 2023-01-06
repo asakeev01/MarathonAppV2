@@ -14,9 +14,13 @@ public class Application
     public int Number { get; set; }
     public StartKitEnum StarterKit { get; set; }
     public PaymentMethodEnum Payment { get; set; }
+    public decimal? Price { get; set; }
+    public decimal? Paid { get; set; }
     public string StarterKitCode {get;set;}
     public string? FullNameRecipient { get; set; }
     public DateTime? DateOfIssue { get; set; }
+    public DateTime? RemovalTime { get; set; }
+    public int? DistanceAgeId { get; set; }
     public int? DistanceId { get; set; }
     public long UserId { get; set; }
     public int MarathonId { get; set; }

@@ -1,4 +1,3 @@
-using System.Data;
 using Domain.Common.Contracts;
 using Domain.Common.Resources.SharedResource;
 using Domain.Entities.Users;
@@ -6,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Localization;
+using System.Data;
 
 namespace Infrastructure.Persistence.Repositories.Base;
 
@@ -31,6 +31,7 @@ public class UnitOfWork : IUnitOfWork
     private ICommentRepository? _commentRepository;
     private IStatusCommentRepository? _statusCommentRepository;
     private IPartnerCompanyRepository? _partnerCompanyRepository;
+    private IEmailRepository? _emailRepository;
 
     private bool disposed = false;
 
@@ -185,6 +186,14 @@ public class UnitOfWork : IUnitOfWork
         }
     }
 
+    public IEmailRepository EmailRepository
+    {
+        get
+        {
+            _emailRepository ??= new EmailRepository(_context, _localizer);
+            return _emailRepository;
+        }
+    }
     public void Save()
     {
         _context.SaveChanges();
@@ -215,6 +224,10 @@ public class UnitOfWork : IUnitOfWork
     
     public async Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel? level)  
     {  
+        if (level == null)
+        {
+            return await _context.Database.BeginTransactionAsync();
+        }
         return await _context.Database.BeginTransactionAsync(isolationLevel: level.Value);  
     } 
     

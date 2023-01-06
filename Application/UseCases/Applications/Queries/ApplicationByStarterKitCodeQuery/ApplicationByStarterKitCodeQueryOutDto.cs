@@ -3,6 +3,7 @@ using Core.Common.Bases;
 using Domain.Entities.Applications;
 using Domain.Entities.Applications.ApplicationEnums;
 using Domain.Entities.Documents;
+using Domain.Entities.Statuses.StatusEnums;
 using Domain.Entities.Users;
 using Domain.Entities.Users.UserEnums;
 
@@ -11,26 +12,14 @@ namespace Core.UseCases.Applications.Queries.ApplicationByStarterKitCodeQuery;
 public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, ApplicationByStarterKitCodeQueryOutDto>
 {
     public int Id { get; set; }
+    public int Number { get; set; }
     public string Magnet { get; set; }
     public StartKitEnum StarterKit { get; set; }
     public string? FullNameRecipient { get; set; }
     public DateTime? DateOfIssue { get; set; }
     public UserDto User { get; set; }
-    public DistanceDto? Distance { get; set;}
-    public DistanceForPWDDTO? DistanceForPWD { get; set; }
-
-    public class DistanceDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-    public class DistanceForPWDDTO
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-    }
-
-
+    public string? Distance { get; set; }
+    public string? DistanceForPWD { get; set; }
 
     public record UserDto : BaseDto<User, UserDto>
     {
@@ -42,6 +31,7 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
         public bool Gender { get; set; }
         public TshirtEnum Tshirt { get; set; }
         public CountriesEnum Country { get; set; }
+        public StatusesEnum CurrentStatus { get; set; }
         public string PhoneNumber { get; set; }
 
         public DocumentDto Document { get; set; }
@@ -49,7 +39,8 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
         public override void AddCustomMappings()
         {
             SetCustomMappings()
-                .Map(x => x.Age, y => y.GetAge());
+                .Map(x => x.Age, y => y.GetAge())
+                .Map(x => x.CurrentStatus, y => y.Status.CurrentStatus);
         }
 
         public record DocumentDto : BaseDto<Document, DocumentDto>
@@ -59,6 +50,13 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
             public string? InsurancePath { get; set; }
             public string? DisabilityPath { get; set; }
         }
+    }
+
+    public override void AddCustomMappings()
+    {
+        SetCustomMappings()
+        .Map(x => x.Distance, y => y.Distance.Name)
+        .Map(x => x.DistanceForPWD, y => y.DistanceForPWD.Name);
     }
 }
 

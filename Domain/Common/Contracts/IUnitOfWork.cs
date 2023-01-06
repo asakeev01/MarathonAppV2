@@ -1,5 +1,5 @@
-using System.Data;
 using Microsoft.EntityFrameworkCore.Storage;
+using System.Data;
 
 namespace Domain.Common.Contracts;
 
@@ -36,6 +36,8 @@ public interface IUnitOfWork : IDisposable
     IStatusCommentRepository StatusCommentRepository { get; }
 
     IPartnerCompanyRepository PartnerCompanyRepository { get; }
+
+    IEmailRepository? EmailRepository { get; }
 
 
     void Save();

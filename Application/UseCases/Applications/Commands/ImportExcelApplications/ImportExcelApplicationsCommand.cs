@@ -26,7 +26,7 @@ public class ImportExcelApplicationsCommandHandler : IRequestHandler<ImportExcel
         var marathon = await _unit.MarathonRepository.FirstAsync(x => x.Id == cmd.MarathonId, include: source => source
             .Include(x => x.MarathonTranslations));
 
-        var marathonName = marathon.MarathonTranslations.Where(x => x.LanguageId == 2).First().Name;
+        var marathonName = marathon.MarathonTranslations.Where(x => x.LanguageId == 1).First().Name;
 
         var applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.MarathonId == cmd.MarathonId);
 

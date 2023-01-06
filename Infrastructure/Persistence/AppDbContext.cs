@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Domain.Entities.Vouchers;
 using Domain.Entities.Statuses;
+using Domain.Entities.Emails;
 
 namespace Infrastructure.Persistence;
 
@@ -40,6 +41,7 @@ public class AppDbContext : IdentityDbContext<User, Role, long, IdentityUserClai
     public DbSet<Voucher> Vouchers { get; set; }
     public DbSet<Promocode> Promocodes { get; set; }
     public DbSet<PartnerCompany> PartnerCompanies { get; set; }
+    public DbSet<Email> Emails { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
