@@ -44,6 +44,7 @@
       <Folder Include="UseCases\Statuses\Commands\SetUserStatusAsAdmin\" />
       <Folder Include="UseCases\Statuses\Queries\GetStatusCommentsAsAdmin\" />
       <Folder Include="UseCases\Statuses\Queries\GetUserStatus\" />
+      <Folder Include="UseCases\Applications\Commands\CreatePayment\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -93,5 +94,6 @@
       <None Remove="UseCases\Statuses\Commands\SetUserStatusAsAdmin\" />
       <None Remove="UseCases\Statuses\Queries\GetStatusCommentsAsAdmin\" />
       <None Remove="UseCases\Statuses\Queries\GetUserStatus\" />
+      <None Remove="UseCases\Applications\Commands\CreatePayment\" />
     </ItemGroup>
 </Project>

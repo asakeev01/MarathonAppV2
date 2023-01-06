@@ -80,8 +80,12 @@ public class UsersController : BaseController
     public async Task<ActionResult<IQueryable<GetUsersOutDto>>> GetUsers(
         [FromQuery] GridifyQuery query)
     {
-        var request = query.Adapt<GetUsersQuery>();
-        var result = await _mediator.Send(request);
+        var getUsersQuery = new GetUsersQuery()
+        {
+            Query = query
+        };
+
+        var result = await _mediator.Send(getUsersQuery);
 
         return Ok(result);
     }

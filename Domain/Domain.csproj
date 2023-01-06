@@ -29,6 +29,7 @@
       <PackageReference Include="MailKit" Version="3.4.1" />
       <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
       <PackageReference Include="Google.Apis.Auth" Version="1.57.0" />
+      <PackageReference Include="RestSharp" Version="108.0.3" />
     </ItemGroup>
 
     <ItemGroup>
@@ -85,5 +86,6 @@
       <None Remove="Entities\Documents\DocumentEnums\" />
       <None Remove="Entities\Statuses\" />
       <None Remove="Entities\Statuses\StatusEnums\" />
+      <None Remove="RestSharp" />
     </ItemGroup>
 </Project>

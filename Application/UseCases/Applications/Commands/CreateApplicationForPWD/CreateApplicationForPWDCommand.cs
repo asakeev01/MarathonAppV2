@@ -9,6 +9,8 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
+using System.Data;
+using System.Diagnostics;
 
 namespace Core.UseCases.Applications.Commands.CreateApplicationForPWD;
 
@@ -23,6 +25,7 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
     private readonly IUnitOfWork _unit;
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
+    static SemaphoreSlim sem = new SemaphoreSlim(1, 1);
 
     public CreateApplicationForPWDCommandHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
     {
@@ -33,26 +36,31 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
 
     public async Task<int> Handle(CreateApplicationForPWDCommand cmd, CancellationToken cancellationToken)
     {
-        var user = await _unit.UserRepository.FirstAsync(x => x.Id == cmd.UserId);
-        var distance = await _unit.DistanceForPwdRepository.FirstAsync(x => x.Id == cmd.DistanceForPWDId, include: source => source
-            .Include(a => a.Marathon)
-        );
-
-        //var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
-
-        //if (old_applications.Count != 0)
-        //{
-        //    throw new AlreadyRegisteredException();
-        //}
-
-        var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
-
-        var marathon = distance.Marathon;
-
-        var application = await _applicationService.CreateApplicationForPWD(user, distance, oldStarterKitCodes);
-        await _unit.ApplicationRepository.CreateAsync(application, save: true);
-        await _unit.DistanceForPwdRepository.Update(distance, save: true);
-        await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
-        return application.Id;
+        await sem.WaitAsync();
+        try
+        {
+            await using var tx = await _unit.BeginTransactionAsync(IsolationLevel.Serializable);
+            var user = await _unit.UserRepository.FirstAsync(x => x.Id == cmd.UserId);
+            var distance = await _unit.DistanceForPwdRepository.FirstAsync(x => x.Id == cmd.DistanceForPWDId, include: source => source
+                .Include(a => a.Marathon)
+            );
+            //var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
+            //if (old_applications.Count != 0)
+            //{
+            //    throw new AlreadyRegisteredException();
+            //}
+            var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
+            var marathon = distance.Marathon;
+            var application = await _applicationService.CreateApplicationForPWD(user, distance, oldStarterKitCodes);
+            await _unit.ApplicationRepository.CreateAsync(application, save: true);
+            await _unit.DistanceForPwdRepository.Update(distance, save: true);
+            //await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
+            await tx.CommitAsync();
+            return application.Id;
+        }
+        finally
+        {
+            sem.Release();
+        }
     }
 }

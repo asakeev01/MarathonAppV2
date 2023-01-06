@@ -17,6 +17,7 @@ using WebApi.Common.Extensions.RepositoryServices;
 using WebApi.Common.Extensions.CorsServices;
 using WebApi.Common.Extensions.SwaggerServices;
 using static WebApi.Common.Extensions.FluentValidationServices.FluentValidationServiceExtension;
+using WebApi.Common.Extensions.PaymentServices;
 
 namespace WebApi.Common.Extensions;
 
@@ -41,6 +42,7 @@ public static class WebApplicationBuilderExtension
         services.AddMediatr();
         services.AddAppDbContext(configuration, env);
         services.AddIdentityService(configuration);
+        services.AddPaymentService();
         services.AddRepositories();
         services.RegisterDomainServices(configuration);
         ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();

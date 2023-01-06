@@ -8,7 +8,7 @@ namespace Core.UseCases.Statuses.Queries.GetUserStatus;
 
 public class GetUserStatusQuery : IRequest<GetUserStatusOutDto>
 {
-    public string? Id { get; set; }
+    public string? UserId { get; set; }
 }
 
 public class GetUserStatusHandler : IRequestHandler<GetUserStatusQuery, GetUserStatusOutDto>
@@ -23,7 +23,7 @@ public class GetUserStatusHandler : IRequestHandler<GetUserStatusQuery, GetUserS
     public async Task<GetUserStatusOutDto> Handle(GetUserStatusQuery request,
         CancellationToken cancellationToken)
     {
-        var identityUser = await _unit.UserRepository.GetByIdAsync(request.Id);
+        var identityUser = await _unit.UserRepository.GetByIdAsync(request.UserId);
         var status = _unit.StatusRepository.FirstAsync(s => s.Id == identityUser.Status.Id, include: source => source
             .Include(u => u.StatusComments).ThenInclude(sc => sc.Comment));
         var statusDto = status.Adapt<GetUserStatusOutDto>();

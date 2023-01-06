@@ -22,6 +22,7 @@
       <Content Remove="Endpoints\Distances\**" />
       <EmbeddedResource Remove="Endpoints\Distances\**" />
       <None Remove="Endpoints\Distances\**" />
+      <None Remove="Common\Extensions\PaymentServices\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -74,6 +75,7 @@
       <Folder Include="Endpoints\Statuses\" />
       <Folder Include="Endpoints\Statuses\Dtos\" />
       <Folder Include="Endpoints\Statuses\Dtos\Requests\" />
+      <Folder Include="Common\Extensions\PaymentServices\" />
     </ItemGroup>
 
     <ItemGroup>

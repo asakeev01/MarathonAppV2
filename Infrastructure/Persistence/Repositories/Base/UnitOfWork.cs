@@ -1,8 +1,10 @@
-using System.Transactions;
+using System.Data;
 using Domain.Common.Contracts;
 using Domain.Common.Resources.SharedResource;
 using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Localization;
 
 namespace Infrastructure.Persistence.Repositories.Base;
@@ -211,9 +213,9 @@ public class UnitOfWork : IUnitOfWork
         GC.SuppressFinalize(this);
     }
     
-    public async Task BeginTransactionAsync()  
+    public async Task<IDbContextTransaction> BeginTransactionAsync(IsolationLevel? level)  
     {  
-        await _context.Database.BeginTransactionAsync();  
+        return await _context.Database.BeginTransactionAsync(isolationLevel: level.Value);  
     } 
     
     public async Task CommitAsync(bool save = false)  

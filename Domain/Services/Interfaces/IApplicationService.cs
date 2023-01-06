@@ -12,4 +12,6 @@ public interface IApplicationService
     Task<Application> CreateApplicationForPWD(User user, DistanceForPWD distance, List<string> oldStarterKidCodes);
     Task<Application> VoucherApplication(User user, Distance distance, DistanceAge distanceAge, Promocode promocode);
     Application IssueStarterKit(Application application, string? fullNameRecipient, StartKitEnum starterKit);
+    Task<string> CreatePaymentAsync(Application application);
+    Application CreateApplicationViaMoney(User user, Distance distance, List<string> oldStarterKidCodes);
 }

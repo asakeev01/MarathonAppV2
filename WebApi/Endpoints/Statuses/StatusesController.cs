@@ -44,7 +44,7 @@ public class StatusesController : BaseController
     {
         var id = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         var query = new GetUserStatusQuery();
-        query.Id = id;
+        query.UserId = id;
         var result = await _mediator.Send(query);
 
         return Ok(result);

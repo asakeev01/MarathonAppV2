@@ -10,5 +10,4 @@ public static class MediatrServiceExtension
     {
         services.AddMediatR(Assembly.GetExecutingAssembly(), typeof(GetUserProfileHandler).Assembly);
     }
-
 }

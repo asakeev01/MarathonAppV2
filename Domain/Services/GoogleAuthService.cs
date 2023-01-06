@@ -20,10 +20,10 @@ public class GoogleAuthService : IGoogleAuthService
     {
         try
         {
-            var clientId = _googleAuthOptions.clientId;
+            var clientId = _googleAuthOptions.ClientId;
             var settings = new GoogleJsonWebSignature.ValidationSettings()
             {
-                Audience = new List<string>() { _googleAuthOptions.clientId }
+                Audience = new List<string>() { _googleAuthOptions.ClientId }
             };
             var payload = await GoogleJsonWebSignature.ValidateAsync(googleToken, settings);
             var googleAuthOut = new GoogleAuthOut

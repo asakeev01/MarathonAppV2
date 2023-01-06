@@ -52,5 +52,6 @@
       <None Remove="Persistence\Seed\SeedIdentity\" />
       <None Remove="Persistence\Migrations\" />
       <None Remove="MailKit" />
+      <None Remove="RestSharp" />
     </ItemGroup>
 </Project>
