@@ -54,6 +54,10 @@
         <Generator>PublicResXFileCodeGenerator</Generator>
         <DependentUpon>SharedResource.resx</DependentUpon>
       </EmbeddedResource>
+		<EmbeddedResource Update="Common\Resources\SharedResource.ky-kg.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<DependentUpon>SharedResource.resx</DependentUpon>
+		</EmbeddedResource>
       <EmbeddedResource Update="Common\Resources\AccountResource.resx">
         <Generator>PublicResXFileCodeGenerator</Generator>
         <LastGenOutput>AccountResource.Designer.cs</LastGenOutput>
