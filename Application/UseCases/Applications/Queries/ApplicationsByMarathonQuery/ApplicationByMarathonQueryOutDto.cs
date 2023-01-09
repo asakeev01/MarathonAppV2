@@ -31,6 +31,7 @@ public record ApplicationByMarathonQueryOutDto : BaseDto<Application, Applicatio
         public string Surname { get; set; }
         public string Email { get; set; }
         public bool Gender { get; set; }
+        public bool IsDisable { get; set; }
         public string PhoneNumber { get; set; }
         public DateTime DateOfBirth { get; set; }
         public CountriesEnum Country { get; set; }
