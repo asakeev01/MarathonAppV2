@@ -15,7 +15,6 @@ public record UpdateUserInDto : BaseDto<UpdateUserInDto, User>
     public string? ExtraPhoneNumber { get; set; }
     public bool IsDisable { get; set; }
     public bool IsDeleted { get; set; }
-    public bool EmailConfirmed { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public DateTime? DateOfConfirmation { get; set; }
     public TshirtEnum? Tshirt { get; set; }
