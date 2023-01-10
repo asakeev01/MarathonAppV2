@@ -70,9 +70,6 @@
       <Folder Include="Endpoints\Documents\" />
       <Folder Include="Endpoints\Documents\Dtos\" />
       <Folder Include="Endpoints\Documents\Dtos\Requests\" />
-      <Folder Include="staticfiles\Disability\" />
-      <Folder Include="staticfiles\Insurance\" />
-      <Folder Include="staticfiles\FrontPassport\" />
       <Folder Include="Endpoints\Statuses\" />
       <Folder Include="Endpoints\Statuses\Dtos\" />
       <Folder Include="Endpoints\Statuses\Dtos\Requests\" />

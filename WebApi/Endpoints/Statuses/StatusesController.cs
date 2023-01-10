@@ -44,19 +44,18 @@ public class StatusesController : BaseController
     {
         var id = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         var query = new GetUserStatusQuery();
-        query.Id = id;
+        query.Id = long.Parse(id);
         var result = await _mediator.Send(query);
 
         return Ok(result);
     }
 
     [HttpPut("{userId}", Name = "SetUserStatusAsAdmin")]
-    [Consumes("multipart/form-data")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> SetUserStatus(
     [FromRoute] long userId,
-    [FromForm] SetUserStatusRequestDto dto,
+    [FromBody] SetUserStatusRequestDto dto,
     [FromServices] IValidator<SetUserStatusRequestDto> validator)
     {
         var validation = await validator.ValidateAsync(dto);
@@ -86,11 +85,10 @@ public class StatusesController : BaseController
     }
 
     [HttpPost("comments", Name = "CreateStatusCommentAsAdmin")]
-    [Consumes("multipart/form-data")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> CreateStatusComment(
-        [FromForm] CreateStatusCommentRequestDto dto,
+        [FromBody] CreateStatusCommentRequestDto dto,
         [FromServices] IValidator<CreateStatusCommentRequestDto> validator)
     {
         var validation = await validator.ValidateAsync(dto);
