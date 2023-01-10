@@ -20,6 +20,7 @@ using static WebApi.Common.Extensions.FluentValidationServices.FluentValidationS
 using EmailServiceWorker;
 using EmailServiceWorker.Options;
 using RemoveApplicationServiceWorker;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace WebApi.Common.Extensions;
 
@@ -87,6 +88,10 @@ public static class WebApplicationBuilderExtension
         {
             FileProvider = new PhysicalFileProvider(dir),
             RequestPath = new PathString(requestPath),
+            StaticFileOptions =
+              {
+                OnPrepareResponse = AddCorsHeader
+              },
         });
 
         ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
@@ -94,5 +99,9 @@ public static class WebApplicationBuilderExtension
         await app.Seed();
         await app.SeedIdentity();
         await app.RunAsync();
+    }
+    private static void AddCorsHeader(StaticFileResponseContext obj)
+    {
+        obj.Context.Response.Headers["Access-Control-Allow-Origin"] = "*";
     }
 }
