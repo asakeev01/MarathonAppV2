@@ -68,15 +68,6 @@ public static class WebApplicationBuilderExtension
         {
             app.UseSwaggerUi();
         }
-        app.UseCorsExt();
-        app.UseRouting();
-        app.UseLocalization();
-        app.UseHttpsRedirection();
-        app.UseSerilogRequestLogging();
-
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.MapControllers();
         var dir = Path.Combine(Directory.GetCurrentDirectory(), builder.Configuration.GetSection("FileSettings:PhysicalPath").Value);
         var requestPath = builder.Configuration.GetSection("FileSettings:RequestPath").Value;
         if (!Directory.Exists(dir))
@@ -93,6 +84,17 @@ public static class WebApplicationBuilderExtension
                 OnPrepareResponse = AddCorsHeader
               },
         });
+
+
+        app.UseCorsExt();
+        app.UseRouting();
+        app.UseLocalization();
+        app.UseHttpsRedirection();
+        app.UseSerilogRequestLogging();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.MapControllers();
 
         ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
         app.AutoMigrateDb();
