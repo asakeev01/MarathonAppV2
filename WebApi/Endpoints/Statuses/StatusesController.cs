@@ -38,9 +38,9 @@ public class StatusesController : BaseController
 
     [HttpGet("me", Name = "GetUserStatus")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(GetUserProfileOutDto), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(GetUserStatusOutDto), StatusCodes.Status200OK)]
     [Authorize]
-    public async Task<ActionResult<GetUserProfileOutDto>> GetStatus()
+    public async Task<ActionResult<GetUserStatusOutDto>> GetStatus()
     {
         var id = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
         var query = new GetUserStatusQuery();
