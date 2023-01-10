@@ -10,8 +10,7 @@ namespace WebApi.Common.Extensions.CorsServices
             services.AddCors(x => x.AddDefaultPolicy(b => b
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials()));
+                        .AllowAnyHeader()));
         }
         internal static void UseCorsExt(this IApplicationBuilder app)
         {
