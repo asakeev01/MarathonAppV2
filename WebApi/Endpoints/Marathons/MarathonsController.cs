@@ -216,7 +216,7 @@ public class MarathonsController : BaseController
     /// <summary>
     /// Is user registered to marathon
     /// </summary>
-    [HttpPost("{marathonId}/uresRegistered")]
+    [HttpGet("{marathonId}/uresRegistered")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(IrUserRigisteredOutDto), StatusCodes.Status200OK)]
     [Authorize]
