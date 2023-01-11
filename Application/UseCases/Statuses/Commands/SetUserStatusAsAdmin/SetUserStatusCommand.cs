@@ -28,8 +28,8 @@ public class SetUserStatusHandler : IRequestHandler<SetUserStatusCommand, HttpSt
 
     public async Task<HttpStatusCode> Handle(SetUserStatusCommand cmd, CancellationToken cancellationToken)
     {
-        var identityUser = await _unit.UserRepository.GetByIdAsync(cmd.UserId.ToString());
-        var document = await _unit.DocumentRepository.FirstAsync(d => d.UserId == cmd.UserId);
+        var identityUser = await _unit.UserRepository.FirstAsync(predicate: x => x.Id == cmd.UserId, include: source => source.Include(x => x.Documents));
+        var document = await _unit.DocumentRepository.FirstAsync(d => d.UserId == cmd.UserId & d.IsArchived == false);
         var status = await _unit.StatusRepository.FirstAsync(s => s.UserId == cmd.UserId, include: source => source
             .Include(s => s.StatusComments));
         List<Comment> comments = null;

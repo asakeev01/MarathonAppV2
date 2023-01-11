@@ -25,7 +25,7 @@ public class ApplicationByStarterKitCodeHandler : IRequestHandler<ApplicationByS
         CancellationToken cancellationToken)
     {
         var application = await _unit.ApplicationRepository.FirstAsync(a => a.StarterKitCode == request.StarterKitCode && a.MarathonId == request.MarathonId, include: source => source
-            .Include(x => x.User).ThenInclude(x => x.Document)
+            .Include(x => x.User).ThenInclude(x => x.Documents)
             .Include(x => x.User).ThenInclude(x => x.Status)
             .Include(x => x.Distance)
             .Include(x => x.DistanceForPWD)

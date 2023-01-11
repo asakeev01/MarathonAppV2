@@ -36,6 +36,21 @@ public class StatusService : IStatusService
         {
             user.IsDisable = false;
         }
+        if(status.CurrentStatus == StatusesEnum.Confirmed)
+        {
+            document.IsArchived = true;
+            var doc = new Document()
+            {
+                FrontPassportPath = document.FrontPassportPath,
+                InsurancePath = document.InsurancePath,
+                DisabilityPath = document.DisabilityPath,
+                BackDisabilityPath = document.BackDisabilityPath,
+                BackInsurancePath = document.BackInsurancePath,
+                BackPassportPath = document.BackPassportPath,
+                IsArchived = false
+            };
+            user.Documents.Add(doc);
+        }
         return statusComments;
     }
 }

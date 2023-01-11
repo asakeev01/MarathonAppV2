@@ -23,7 +23,8 @@ public class User : IdentityUser<long>
     public CountriesEnum? Country { get; set; }
 
     public Status Status { get; set; }
-    public Document Document { get; set; }
+    public ICollection<Document> Documents { get; set; }
+
     public ICollection<Application> Applications { get; set; }
     public virtual ICollection<UserRole> UserRoles { get; set; }
 
