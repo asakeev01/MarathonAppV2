@@ -30,7 +30,7 @@ namespace Core.UseCases.Documents.Commands.UploadUserDocument
         {
             var status = await _unit.StatusRepository.FirstAsync(s => s.UserId == long.Parse(cmd.UserId), include: source => source
                 .Include(s => s.StatusComments));
-            var document = await _unit.DocumentRepository.FirstAsync(d => d.UserId == long.Parse(cmd.UserId));
+            var document = await _unit.DocumentRepository.FirstAsync(d => d.UserId == long.Parse(cmd.UserId) && d.IsArchived == false);
             await _savedDocumentService.UploadDocumentAsync(status, document, cmd.Document, cmd.DocumentType);
             await _unit.DocumentRepository.SaveAsync();
             await _unit.StatusRepository.SaveAsync();

@@ -24,7 +24,7 @@ public class GetUsersHandler : IRequestHandler<GetUsersQuery, QueryablePaging<Ge
     public async Task<QueryablePaging<GetUsersOutDto>> Handle(GetUsersQuery request, CancellationToken cancellationToken)
     {
         var users = await _unit.UserRepository.GetAllAsync(include: source => source
-        .Include(u=> u.Document)
+        .Include(u=> u.Documents)
         .Include(u => u.Status)
         .Include(u => u.UserRoles).ThenInclude(r => r.Role));
         var response = users.Adapt<IEnumerable<GetUsersOutDto>>().AsQueryable().GridifyQueryable(request.Query);

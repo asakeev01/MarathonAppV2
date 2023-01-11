@@ -21,7 +21,7 @@ namespace Core.UseCases.Documents.Queries.GetUserDocument
 
         public async Task<GetUserDocumentOutDto> Handle(GetUserDocumentQuery request, CancellationToken cancellationToken)
         {
-            var document = await _unit.DocumentRepository.FirstAsync(x => x.UserId == long.Parse(request.UserId));
+            var document = await _unit.DocumentRepository.FirstAsync(x => x.UserId == long.Parse(request.UserId) && x.IsArchived == false);
             var userDocumentDto = document.Adapt<GetUserDocumentOutDto>();
             return userDocumentDto;
         }

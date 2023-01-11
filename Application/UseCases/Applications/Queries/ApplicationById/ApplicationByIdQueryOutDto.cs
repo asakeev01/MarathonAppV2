@@ -50,12 +50,16 @@ public record ApplicationByIdQueryOutDto : BaseDto<Application, ApplicationByIdQ
             public string? FrontPassportPath { get; set; }
             public string? InsurancePath { get; set; }
             public string? DisabilityPath { get; set; }
+            public string? BackPassportPath { get; set; }
+            public string? BackInsurancePath { get; set; }
+            public string? BackDisabilityPath { get; set; }
         }
 
         public override void AddCustomMappings()
         {
             SetCustomMappings()
-                .Map(x => x.CurrentStatus, y => y.Status.CurrentStatus);
+                .Map(x => x.CurrentStatus, y => y.Status.CurrentStatus)
+                .Map(x => x.Document, y => y.Documents.Where(x => x.IsArchived == false).FirstOrDefault());
         }
     }
 
@@ -64,8 +68,6 @@ public record ApplicationByIdQueryOutDto : BaseDto<Application, ApplicationByIdQ
         SetCustomMappings()
             .Map(x => x.Distance, y => y.Distance.Name)
             .Map(x => x.DistanceForPWD, y => y.DistanceForPWD.Name)
-            .Map(x => x.Voucher, y => y.Promocode.Voucher.Name)
-
-            ;
+            .Map(x => x.Voucher, y => y.Promocode.Voucher.Name);
     }
 }

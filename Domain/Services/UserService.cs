@@ -109,9 +109,12 @@ public class UserService : IUserService
         var user = new User
         {
             Email = email,
-            UserName = email
+            UserName = email,
+            Documents = new List<Document>(),
         };
-        user.Document = new Document();
+        var docs = user.Documents;
+        var doc = new Document();
+        user.Documents.Add(doc);
         user.Status = new Status();
         return user;
     }
