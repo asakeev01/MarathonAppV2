@@ -1,5 +1,6 @@
 ﻿using Domain.Common.Constants;
 using Domain.Common.Contracts;
+using Domain.Common.Helpers;
 using Domain.Common.Resources;
 using Domain.Entities.Applications;
 using Domain.Entities.Applications.Exceptions;
@@ -43,7 +44,7 @@ public class ApplicationRepository : BaseRepository<Application>, IApplicationRe
             worksheet.Cells[$"E{i}"].Value = application.User.Surname;
             worksheet.Cells[$"F{i}"].Value = application.User.Email;
             worksheet.Cells[$"G{i}"].Value = application.User.DateOfBirth.Value.ToString("dd/MM/yyyy");
-            worksheet.Cells[$"H{i}"].Value = application.User.Country.Value;
+            worksheet.Cells[$"H{i}"].Value = ExceptionHelpers.GetEnumDescription(application.User.Country.Value);
             worksheet.Cells[$"I{i}"].Value = application.User.PhoneNumber;
 
 
