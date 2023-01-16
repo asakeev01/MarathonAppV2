@@ -18,9 +18,8 @@ using WebApi.Common.Extensions.CorsServices;
 using WebApi.Common.Extensions.SwaggerServices;
 using static WebApi.Common.Extensions.FluentValidationServices.FluentValidationServiceExtension;
 using WebApi.Common.Extensions.PaymentServices;
-using EmailServiceWorker;
 using EmailServiceWorker.Options;
-using RemoveApplicationServiceWorker;
+using RemoveApplicationServiceWorker.Options;
 
 namespace WebApi.Common.Extensions;
 
@@ -52,6 +51,7 @@ public static class WebApplicationBuilderExtension
         services.ConfigureOptions<EmailOptionsSetup>();
         services.AddHostedService<EmailServiceWorker.Worker>();
 
+        services.ConfigureOptions<DeletePaymentOptionsSetup>();
         services.AddHostedService<RemoveApplicationServiceWorker.Worker>();
 
 

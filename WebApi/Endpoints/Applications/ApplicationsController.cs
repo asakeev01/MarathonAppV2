@@ -1,5 +1,5 @@
-using Core.UseCases.Applications.Commands.CreatePayment;
-﻿using Core.UseCases.Applications.Commands.CreateApplicationForPWD;
+using Core.UseCases.Applications.Commands.CreateApplicationViaMoney;
+using Core.UseCases.Applications.Commands.CreateApplicationForPWD;
 using Core.UseCases.Applications.Commands.CreateApplicationViaPromocode;
 using Core.UseCases.Applications.Commands.ImportExcelApplications;
 using Core.UseCases.Applications.Commands.IssueStarterKit;
@@ -77,6 +77,29 @@ public class ApplicationsController : BaseController
         };
 
         var result = await _mediator.Send(createApplicationForPWDCommand);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Create Application with payment
+    /// </summary>
+    /// <response code="200">Url of payment</response>
+    [HttpPost("money")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
+    [Authorize]
+    public async Task<ActionResult<HttpStatusCode>> CreatePayment(
+        [FromBody] CreateApplicationViaMoneyRequestDto dto
+        )
+    {
+        var createPaymentCommand = new CreateApplicationViaMoneyCommand()
+        {
+            DistanceId = dto.DistanceId,
+            UserId = Convert.ToInt32(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value)
+        };
+
+        var result = await _mediator.Send(createPaymentCommand);
 
         return Ok(result);
     }
@@ -215,25 +238,6 @@ public class ApplicationsController : BaseController
         };
 
         var result = await _mediator.Send(issueStarterKitCommand);
-        return Ok(result);
-    }
-
-    [HttpPost("payment")]
-    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
-    [Authorize]
-    public async Task<ActionResult<HttpStatusCode>> CreatePayment(
-    [FromBody] CreatePaymentRequestDto dto
-    )
-    {
-        var createPaymentCommand = new CreatePaymentCommand()
-        {
-            DistanceId = dto.DistanceId,
-            UserId = Convert.ToInt32(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value)
-        };
-
-        var result = await _mediator.Send(createPaymentCommand);
-
         return Ok(result);
     }
 }
