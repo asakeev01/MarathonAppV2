@@ -13,10 +13,10 @@ namespace Domain.Services;
 
 public class ApplicationService : IApplicationService
 {
-    private readonly IStringLocalizer<AccountResource> _localizer;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
     public ApplicationService(
-        IStringLocalizer<AccountResource> _localizer)
+        IStringLocalizer<SharedResource> _localizer)
     {
         this._localizer = _localizer;
     }
@@ -156,7 +156,7 @@ public class ApplicationService : IApplicationService
     public Application IssueStarterKit(Application application, string? fullNameRecipient, StartKitEnum starterKit)
     {
         if (application.DateOfIssue != null)
-            throw new AlreadyIssuedStarterKitException();
+            throw new AlreadyIssuedStarterKitException(_localizer);
         if (fullNameRecipient != null)
             application.FullNameRecipient = fullNameRecipient;
         application.StarterKit = starterKit;

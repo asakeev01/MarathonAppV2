@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="AlreadyIssuedStarterKitError" xml:space="preserve">
+    <value>Башталдыч пакет берелген.</value>
+  </data>
+  <data name="AlreadyRegisteredError" xml:space="preserve">
+    <value>Сиз бул марафонго катталгансыз.</value>
+  </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} табылган жок</value>
   </data>

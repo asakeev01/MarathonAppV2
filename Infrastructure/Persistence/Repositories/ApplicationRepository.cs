@@ -1,6 +1,6 @@
 ﻿using Domain.Common.Constants;
 using Domain.Common.Contracts;
-using Domain.Common.Resources.SharedResource;
+using Domain.Common.Resources;
 using Domain.Entities.Applications;
 using Domain.Entities.Applications.Exceptions;
 using Domain.Entities.Marathons;

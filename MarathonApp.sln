@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApi", "WebApi\WebApi.csp
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EmailServiceWorker", "EmailServiceWorker\EmailServiceWorker.csproj", "{04E98454-20C8-4636-8963-1C4983F375B9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoveApplicationServiceWorker", "RemoveApplicationServiceWorker\RemoveApplicationServiceWorker.csproj", "{A5E1D8E9-A8CA-4481-9894-4CB31E275DC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RemoveApplicationServiceWorker", "RemoveApplicationServiceWorker\RemoveApplicationServiceWorker.csproj", "{A5E1D8E9-A8CA-4481-9894-4CB31E275DC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

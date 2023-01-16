@@ -1,5 +1,5 @@
 ﻿using Domain.Common.Contracts;
-using Domain.Common.Resources.SharedResource;
+using Domain.Common.Resources;
 using Domain.Entities.Distances;
 using Domain.Entities.Marathons;
 using Domain.Entities.Vouchers;

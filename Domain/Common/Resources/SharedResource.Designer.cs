@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Domain.Common.Resources.SharedResource {
+namespace Domain.Common.Resources {
     using System;
     
     
@@ -19,7 +19,7 @@ namespace Domain.Common.Resources.SharedResource {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "4.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     public class SharedResource {
@@ -57,6 +57,24 @@ namespace Domain.Common.Resources.SharedResource {
             }
             set {
                 resourceCulture = value;
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Starter Kit was already issued..
+        /// </summary>
+        public static string AlreadyIssuedStarterKitError {
+            get {
+                return ResourceManager.GetString("AlreadyIssuedStarterKitError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to You are already registered to this marathon..
+        /// </summary>
+        public static string AlreadyRegisteredError {
+            get {
+                return ResourceManager.GetString("AlreadyRegisteredError", resourceCulture);
             }
         }
         

@@ -1,7 +1,10 @@
 ﻿using Domain.Common.Contracts;
+using Domain.Common.Resources;
+using Domain.Entities.Applications.Exceptions;
 using Domain.Services.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace Core.UseCases.Applications.Commands.CreateApplicationViaPromocode;
 
@@ -17,10 +20,12 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
     private readonly IUnitOfWork _unit;
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
+    private readonly IStringLocalizer<SharedResource> _localizer;
     static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
-    public CreateApplicationCommandHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
+    public CreateApplicationCommandHandler(IStringLocalizer<SharedResource> _localizer, IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
     {
+        this._localizer = _localizer;
         _unit = unit;
         _applicationService = applicationService;
         _emailService = emailService;
@@ -39,12 +44,12 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
                 .Include(a => a.Applications)
             );
 
-            //var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
+            var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
 
-            //if (old_applications.Count != 0)
-            //{
-            //    throw new AlreadyRegisteredException();
-            //}
+            if (old_applications.Count != 0)
+            {
+                throw new AlreadyRegisteredException(_localizer);
+            }
 
             var marathon = distance.Marathon;
 
