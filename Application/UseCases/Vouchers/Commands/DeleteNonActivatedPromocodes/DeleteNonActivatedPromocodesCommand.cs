@@ -25,13 +25,18 @@ public class DeleteNonActivatedPromocodesCommandHandler : IRequestHandler<Delete
     {
         var voucher = await _unit.VoucherRepository.FirstAsync(x => x.Id == cmd.VoucherId, include: source => source.Include(x => x.Promocodes).ThenInclude(x => x.Distance));
 
-        var nonActivatedPromocodes = voucher.Promocodes.Where(x => x.IsActivated == false);
+        var nonActivatedPromocodes = voucher.Promocodes.Where(x => x.IsActivated == false).GroupBy(x => x.Distance);
 
-        foreach(var promocode in nonActivatedPromocodes)
+        foreach(var group in nonActivatedPromocodes)
         {
-            promocode.Distance.ReservedPlaces -= 1;
-            await _unit.PromocodeRepository.Delete(promocode, save: true);
+            var distance = group.FirstOrDefault().Distance;
+
+            distance.ReservedPlaces -= group.Count();
+            var t = group.ToList();
+            await _unit.PromocodeRepository.BulkDeleteAsync(t);
         }
+
+        await _unit.SaveAsync();
         
         return HttpStatusCode.OK;
     }
