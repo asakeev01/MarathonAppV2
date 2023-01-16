@@ -10,6 +10,7 @@ using Core.UseCases.Vouchers.Commands.AddPromocodesToVoucher;
 using Core.UseCases.Vouchers.Commands.CreateVoucher;
 using Core.UseCases.Vouchers.Commands.DeleteNonActivatedPromocodes;
 using Core.UseCases.Vouchers.Commands.DeletePromocodesByIds;
+using Core.UseCases.Vouchers.Commands.DeleteVoucher;
 using Core.UseCases.Vouchers.Commands.UpdateVoucher;
 using Core.UseCases.Vouchers.Queries.GenerateExcelPromocodes;
 using Core.UseCases.Vouchers.Queries.GetVouchers;
@@ -52,6 +53,7 @@ public class VouchersController : BaseController
         var getVourchersQuery = new GetVourchersQuery()
         {
             Query = query,
+            LanguageCode = this.Request.Headers["Accept-Language"],
         };
 
         var result = await _mediator.Send(getVourchersQuery);
@@ -238,5 +240,25 @@ public class VouchersController : BaseController
         return Ok(result);
     }
 
+    /// <summary>
+    /// Delete voucher by Id
+    /// </summary>
+    /// <response code="200"></response>
+    [HttpDelete("{voucherId}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    public async Task<ActionResult> DeleteVoucher(
+        [FromRoute] int voucherId)
+    {
+
+        var deleteVoucherCommand = new DeleteVoucherCommand()
+        {
+            VoucherId = voucherId
+        };
+
+        var result = await _mediator.Send(deleteVoucherCommand);
+
+        return Ok(result);
+    }
 }
 
