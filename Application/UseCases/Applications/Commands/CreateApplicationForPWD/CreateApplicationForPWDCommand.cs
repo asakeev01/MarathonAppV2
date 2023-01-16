@@ -1,4 +1,5 @@
-﻿using Domain.Common.Contracts;
+﻿using Core.Common.Helpers;
+using Domain.Common.Contracts;
 using Domain.Services.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,7 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
     private readonly IUnitOfWork _unit;
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
-    static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+    private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
     public CreateApplicationForPWDCommandHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
     {
@@ -51,6 +52,7 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
             await _unit.DistanceForPwdRepository.Update(distance, save: true);
             await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
+
             return application.Id;
         }
         finally
