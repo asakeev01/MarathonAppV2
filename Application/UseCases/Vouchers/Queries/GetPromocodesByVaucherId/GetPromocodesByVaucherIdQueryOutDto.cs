@@ -8,6 +8,8 @@ public record GetPromocodesByVaucherIdQueryOutDto : BaseDto<Voucher, GetPromocod
 {
     public int Id { get; set; }
     public string VoucherName { get; set; }
+    public int MarathonId { get; set; }
+    public bool IsActive { get; set; }
     public QueryablePaging<PromocodeDto> Promocodes { get; set; }
 
 
