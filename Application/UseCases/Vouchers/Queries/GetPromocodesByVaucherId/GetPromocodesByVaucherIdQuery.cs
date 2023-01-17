@@ -37,6 +37,8 @@ public class GetVourcherHandler : IRequestHandler<GetPromocodesByVaucherIdQuery,
         result.Promocodes = promocodesDto;
         result.VoucherName = voucher.Name;
         result.Id = voucher.Id;
+        result.MarathonId = voucher.MarathonId;
+        result.IsActive = voucher.isActive;
         return result;
     }
 }
