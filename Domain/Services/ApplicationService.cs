@@ -111,15 +111,14 @@ public class ApplicationService : IApplicationService
             Marathon = distance.Marathon,
             Distance = distance,
             DistanceAge = selecetedDistanceAge,
-            Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants,
             StarterKit = StartKitEnum.NotIssued,
+            Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants,
             Payment = PaymentMethodEnum.Voucher,
             Promocode = promocode
         };
         promocode.IsActivated = true;
         promocode.User = user;
         distance.ActivatedReservedPlaces += 1;
-
         var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
         result.StarterKitCode = starterKitCode;
 

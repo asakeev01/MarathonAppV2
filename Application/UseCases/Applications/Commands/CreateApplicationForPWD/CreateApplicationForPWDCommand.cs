@@ -1,4 +1,5 @@
-﻿using Domain.Common.Contracts;
+﻿using Core.Common.Helpers;
+using Domain.Common.Contracts;
 using Domain.Common.Resources;
 using Domain.Entities.Applications.Exceptions;
 using Domain.Services.Interfaces;
@@ -21,7 +22,7 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
     private readonly IStringLocalizer<SharedResource> _localizer;
-    static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
+    private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
     public CreateApplicationForPWDCommandHandler(IStringLocalizer<SharedResource> _localizer, IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
     {
@@ -56,6 +57,7 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
             await _unit.DistanceForPwdRepository.Update(distance, save: true);
             await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
+
             return application.Id;
         }
         finally

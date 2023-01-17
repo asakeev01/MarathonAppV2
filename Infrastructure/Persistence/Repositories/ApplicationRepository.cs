@@ -7,6 +7,7 @@ using Domain.Entities.Applications.Exceptions;
 using Domain.Entities.Marathons;
 using Infrastructure.Persistence.Repositories.Base;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
 using OfficeOpenXml;
 
@@ -117,5 +118,4 @@ public class ApplicationRepository : BaseRepository<Application>, IApplicationRe
             await SaveAsync();
         }
     }
-
 }
