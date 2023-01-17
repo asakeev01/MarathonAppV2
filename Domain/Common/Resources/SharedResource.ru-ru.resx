@@ -117,13 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActivatedPromocodeError" xml:space="preserve">
+    <value>Промокод уже активирован</value>
+  </data>
   <data name="AlreadyIssuedStarterKitError" xml:space="preserve">
     <value>Стартовый пакет уже выдан.</value>
   </data>
   <data name="AlreadyRegisteredError" xml:space="preserve">
     <value>Вы уже зарегистрированы на этот марафон.</value>
   </data>
+  <data name="DeactivatedVoucherError" xml:space="preserve">
+    <value>Ваучер деактивирован.</value>
+  </data>
+  <data name="DeleteActivatedPromocodeError" xml:space="preserve">
+    <value>Невозможно удалить активированный промокод</value>
+  </data>
+  <data name="EmailAlreadyConfirmedError" xml:space="preserve">
+    <value>Электронная почта уже подтверждена</value>
+  </data>
+  <data name="EmailServiceConnectionError" xml:space="preserve">
+    <value>Сервис по отправке почты в данный момент не отвечает</value>
+  </data>
+  <data name="EmailWasNotConfirmedError" xml:space="preserve">
+    <value>Электронная почта не подтверждена</value>
+  </data>
+  <data name="InvalidHeadersInExcelError" xml:space="preserve">
+    <value>Заголовки в эксель файле неверные(возможно вы загржуаете не тот документ который скачали)</value>
+  </data>
+  <data name="InvalidSheetNameException" xml:space="preserve">
+    <value>Неверное название листа в эксель файле.</value>
+  </data>
+  <data name="InvalidTokenError" xml:space="preserve">
+    <value>Неверный токен</value>
+  </data>
+  <data name="NoDistanceAgeError" xml:space="preserve">
+    <value>Нет возрастной категории для вашего возраста и пола.</value>
+  </data>
+  <data name="NoPlacesError" xml:space="preserve">
+    <value>На эту дистанцию не осталось мест</value>
+  </data>
+  <data name="NoPlacesForPromocodesError" xml:space="preserve">
+    <value />
+  </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} не найдено</value>
+  </data>
+  <data name="NotPWDError" xml:space="preserve">
+    <value>Вашу инвалидность еще не подтвердили.</value>
+  </data>
+  <data name="OutsideRegistationDateError" xml:space="preserve">
+    <value>Сегодняшняя дата не входит в диапазон дат регистрации</value>
+  </data>
+  <data name="PasswordsDoNotMatchError" xml:space="preserve">
+    <value>Пароли не совпадают</value>
+  </data>
+  <data name="UserAgreementLicenseAgreementError" xml:space="preserve">
+    <value>Вы не подтвердили пользовательское соглашение и не заполнили профиль</value>
+  </data>
+  <data name="UserAlreadyExistsError" xml:space="preserve">
+    <value>Пользователь уже существует</value>
+  </data>
+  <data name="UserDoesNotExistError" xml:space="preserve">
+    <value>Пользователь не существует</value>
+  </data>
+  <data name="WrongPasswordError" xml:space="preserve">
+    <value>Неверный пароль</value>
+  </data>
+  <data name="WrongRoleError" xml:space="preserve">
+    <value>Неверная роль</value>
   </data>
 </root>

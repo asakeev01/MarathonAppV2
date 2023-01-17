@@ -117,13 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActivatedPromocodeError" xml:space="preserve">
+    <value>Promocode already activated</value>
+  </data>
   <data name="AlreadyIssuedStarterKitError" xml:space="preserve">
     <value>Starter Kit was already issued.</value>
   </data>
   <data name="AlreadyRegisteredError" xml:space="preserve">
     <value>You are already registered to this marathon.</value>
   </data>
+  <data name="DeactivatedVoucherError" xml:space="preserve">
+    <value>Voucher deactivated.</value>
+  </data>
+  <data name="DeleteActivatedPromocodeError" xml:space="preserve">
+    <value>You cant delete activated promocode</value>
+  </data>
+  <data name="EmailAlreadyConfirmedError" xml:space="preserve">
+    <value>Email already confirmed</value>
+  </data>
+  <data name="EmailServiceConnectionError" xml:space="preserve">
+    <value>Unable to connect email service</value>
+  </data>
+  <data name="EmailWasNotConfirmedError" xml:space="preserve">
+    <value>Email was not confirmed.</value>
+  </data>
+  <data name="InvalidHeadersInExcelError" xml:space="preserve">
+    <value>Headers in excel file are invalid.</value>
+  </data>
+  <data name="InvalidSheetNameError" xml:space="preserve">
+    <value>Invalid sheet name for excel file you uploaded.</value>
+  </data>
+  <data name="InvalidTokenError" xml:space="preserve">
+    <value>Invalid token</value>
+  </data>
+  <data name="NoDistanceAgeError" xml:space="preserve">
+    <value>There is no distance age category for your age and gender.</value>
+  </data>
+  <data name="NoPlacesError" xml:space="preserve">
+    <value>There is no places to this distance.</value>
+  </data>
+  <data name="NoPlacesForPromocodesError" xml:space="preserve">
+    <value>Нет мест для промокодов на дистанцию - {0}</value>
+  </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} not found</value>
+  </data>
+  <data name="NotPWDError" xml:space="preserve">
+    <value>Your disability has not been confirmed</value>
+  </data>
+  <data name="OutsideRegistationDateError" xml:space="preserve">
+    <value>Today's date is not in the registration range.</value>
+  </data>
+  <data name="PasswordsDoNotMatchError" xml:space="preserve">
+    <value>Passwords do not match</value>
+  </data>
+  <data name="UserAgreementLicenseAgreementError" xml:space="preserve">
+    <value>You have not confirmed the user agreement and have not filled out the profile</value>
+  </data>
+  <data name="UserAlreadyExistsError" xml:space="preserve">
+    <value>User already exist</value>
+  </data>
+  <data name="UserDoesNotExistError" xml:space="preserve">
+    <value>User does not exist</value>
+  </data>
+  <data name="WrongPasswordError" xml:space="preserve">
+    <value>Wrong password</value>
+  </data>
+  <data name="WrongRoleError" xml:space="preserve">
+    <value>Wrong role</value>
   </data>
 </root>

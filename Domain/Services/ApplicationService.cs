@@ -25,21 +25,21 @@ public class ApplicationService : IApplicationService
     {
         if (user.DateOfConfirmation == null)
         {
-            throw new UserAgreementLicenseAgreementException();
+            throw new UserAgreementLicenseAgreementException(_localizer);
         }
         if (user.IsDisable != true)
         {
-            throw new NotPWDException();
+            throw new NotPWDException(_localizer);
         }
         var marathon = distance.Marathon;
         var today = DateTime.Now.Date;
         if (today < marathon.StartDateAcceptingApplications.Date || today > marathon.EndDateAcceptingApplications.Date)
         {
-            throw new OutsideRegistationDateException();
+            throw new OutsideRegistationDateException(_localizer);
         }
 
         if (distance.RemainingPlaces <= 0)
-            throw new NoPlacesException();
+            throw new NoPlacesException(_localizer);
 
         var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
         
@@ -66,13 +66,13 @@ public class ApplicationService : IApplicationService
     {
         if (user.DateOfConfirmation == null)
         {
-            throw new UserAgreementLicenseAgreementException();
+            throw new UserAgreementLicenseAgreementException(_localizer);
         }
         var marathon = distance.Marathon;
         var today = DateTime.Now.Date;
         if (today < marathon.StartDateAcceptingApplications.Date || today > marathon.EndDateAcceptingApplications.Date)
         {
-            throw new OutsideRegistationDateException();
+            throw new OutsideRegistationDateException(_localizer);
         }
 
         var userAge = user.GetAge();
@@ -87,7 +87,7 @@ public class ApplicationService : IApplicationService
         }
 
         if (selecetedDistanceAge == null)
-            throw new NoDistanceAgeException();
+            throw new NoDistanceAgeException(_localizer);
 
 
         //if ((distance.RemainingPlaces - distance.Applications.Where(x => x.RemovalTime != null).Count()) <= 0)
@@ -96,11 +96,11 @@ public class ApplicationService : IApplicationService
 
         if (promocode.Voucher.isActive == false)
         {
-            throw new DeactivatedVoucherException();
+            throw new DeactivatedVoucherException(_localizer);
         }
         if (promocode.IsActivated == true)
         {
-            throw new ActivatedPromocodeException();
+            throw new ActivatedPromocodeException(_localizer);
         }
 
         Application result = new Application()

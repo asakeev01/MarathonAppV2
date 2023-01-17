@@ -13,16 +13,20 @@ using Domain.Services.Models;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Extensions.Localization;
+using Domain.Common.Resources;
 
 namespace Domain.Services;
 
 public class UserService : IUserService
 {
     private SecurityTokenOptions _securityTokenOptions;
+    private IStringLocalizer<SharedResource> _localizer;
 
-    public UserService(IOptionsMonitor<SecurityTokenOptions> securityTokenOptions)
+    public UserService(IOptionsMonitor<SecurityTokenOptions> securityTokenOptions, IStringLocalizer<SharedResource> localizer)
     {
         _securityTokenOptions = securityTokenOptions.CurrentValue;
+        _localizer = localizer;
     }
 
     public LoginOut LoginAsync(User user, RefreshToken refreshToken, IList<string> roles)
@@ -102,7 +106,7 @@ public class UserService : IUserService
         tokenHandler.ValidateToken(accessToken, tokenValidationParameters, out SecurityToken securityToken);
         var jwtSecurityToken = securityToken as JwtSecurityToken;
         if (jwtSecurityToken == null || !jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256, StringComparison.InvariantCultureIgnoreCase))
-            throw new InvalidTokenException();
+            throw new InvalidTokenException(_localizer);
     }
 
     public User CreateUser(string email) {
@@ -122,7 +126,7 @@ public class UserService : IUserService
     public void IsEmailConfirmed(User user)
     {
         if (user.EmailConfirmed == false) {
-            throw new EmailWasNotConfirmedException();
+            throw new EmailWasNotConfirmedException(_localizer);
         }
     }
 

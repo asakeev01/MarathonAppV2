@@ -1,9 +1,11 @@
 ﻿using System;
 using Domain.Common.Options;
+using Domain.Common.Resources;
 using Domain.Entities.Users.Exceptions;
 using Domain.Services.Interfaces;
 using Domain.Services.Models;
 using Google.Apis.Auth;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 
 namespace Domain.Services;
@@ -11,10 +13,11 @@ namespace Domain.Services;
 public class GoogleAuthService : IGoogleAuthService
 {
     private GoogleAuthOptions _googleAuthOptions;
-
-    public GoogleAuthService(IOptionsMonitor<GoogleAuthOptions> googleAuthOptions)
+    private IStringLocalizer<SharedResource> _localizer;
+    public GoogleAuthService(IOptionsMonitor<GoogleAuthOptions> googleAuthOptions, IStringLocalizer<SharedResource> localizer)
     {
         _googleAuthOptions = googleAuthOptions.CurrentValue;
+        _localizer = localizer;
     }
     public async Task<GoogleAuthOut> VerifyGoogleTokenAsync(string googleToken)
     {
@@ -36,7 +39,7 @@ public class GoogleAuthService : IGoogleAuthService
         }
         catch (Exception ex)
         {
-            throw new InvalidTokenException();
+            throw new InvalidTokenException(_localizer);
         }
     }
 }
