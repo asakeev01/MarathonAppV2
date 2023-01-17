@@ -178,7 +178,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Нет мест для промокодов на дистанцию - {0}.
+        ///   Looks up a localized string similar to No places for promocodes to distance - {0}.
         /// </summary>
         public static string NoPlacesForPromocodesError {
             get {
