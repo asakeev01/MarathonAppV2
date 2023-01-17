@@ -157,7 +157,7 @@
     <value>There is no places to this distance.</value>
   </data>
   <data name="NoPlacesForPromocodesError" xml:space="preserve">
-    <value>Нет мест для промокодов на дистанцию - {0}</value>
+    <value>No places for promocodes to distance - {0}</value>
   </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} not found</value>

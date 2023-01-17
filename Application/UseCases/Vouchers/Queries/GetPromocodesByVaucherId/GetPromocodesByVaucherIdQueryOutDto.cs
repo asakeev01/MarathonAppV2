@@ -6,6 +6,7 @@ namespace Core.UseCases.Vouchers.Queries.GetVouchers;
 
 public record GetPromocodesByVaucherIdQueryOutDto : BaseDto<Voucher, GetPromocodesByVaucherIdQueryOutDto>
 {
+    public int Id { get; set; }
     public string VoucherName { get; set; }
     public QueryablePaging<PromocodeDto> Promocodes { get; set; }
 
