@@ -1,8 +1,11 @@
 ﻿using Core.Common.Helpers;
 using Domain.Common.Contracts;
+using Domain.Common.Resources;
+using Domain.Entities.Applications.Exceptions;
 using Domain.Services.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using System.Data;
 
 namespace Core.UseCases.Applications.Commands.CreateApplicationForPWD;
@@ -18,10 +21,12 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
     private readonly IUnitOfWork _unit;
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
+    private readonly IStringLocalizer<SharedResource> _localizer;
     private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
-    public CreateApplicationForPWDCommandHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
+    public CreateApplicationForPWDCommandHandler(IStringLocalizer<SharedResource> _localizer, IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
     {
+        this._localizer = _localizer;
         _unit = unit;
         _applicationService = applicationService;
         _emailService = emailService;
@@ -37,12 +42,12 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
                 .Include(a => a.Marathon)
             );
 
-            //var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
+            var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
 
-            //if (old_applications.Count != 0)
-            //{
-            //    throw new AlreadyRegisteredException();
-            //}
+            if (old_applications.Count != 0)
+            {
+                throw new AlreadyRegisteredException(_localizer);
+            }
 
             var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
 

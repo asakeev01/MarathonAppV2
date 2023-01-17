@@ -1,12 +1,12 @@
-﻿using System;
-using System.Net;
-using Domain.Common.Exceptions;
+﻿using Domain.Common.Exceptions;
+using Domain.Common.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace Domain.Entities.Users.Exceptions
 {
     public class InvalidTokenException : DomainException
     {
-        public InvalidTokenException() : base("Invalid token", (int)HttpStatusCode.BadRequest)
+        public InvalidTokenException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.InvalidTokenError], 14)
         {
         }
     }

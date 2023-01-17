@@ -1,12 +1,13 @@
 ﻿using Domain.Common.Exceptions;
-using System.Net;
+using Domain.Common.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace Domain.Entities.Applications.Exceptions;
 
 
 public class OutsideRegistationDateException : DomainException
 {
-    public OutsideRegistationDateException() : base("Today's date is not in the registration range.", (int)HttpStatusCode.BadRequest)
+    public OutsideRegistationDateException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.OutsideRegistationDateError], 9)
     {
     }
 }

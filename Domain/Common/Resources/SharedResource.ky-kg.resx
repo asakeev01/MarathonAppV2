@@ -117,7 +117,73 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="ActivatedPromocodeError" xml:space="preserve">
+    <value>Промокод мурунтан эле иштетилген</value>
+  </data>
+  <data name="AlreadyIssuedStarterKitError" xml:space="preserve">
+    <value>Башталдыч пакет берелген.</value>
+  </data>
+  <data name="AlreadyRegisteredError" xml:space="preserve">
+    <value>Сиз бул марафонго катталгансыз.</value>
+  </data>
+  <data name="DeactivatedVoucherError" xml:space="preserve">
+    <value>Ваучер өчүрүлгөн.</value>
+  </data>
+  <data name="DeleteActivatedPromocodeError" xml:space="preserve">
+    <value>Жандырылган промо кодду алып салуу мүмкүн эмес</value>
+  </data>
+  <data name="EmailAlreadyConfirmedError" xml:space="preserve">
+    <value>Электрондук почта мурунтан эле ырасталган</value>
+  </data>
+  <data name="EmailServiceConnectionError" xml:space="preserve">
+    <value>Почта кызматы учурда жооп бербей жатат.</value>
+  </data>
+  <data name="EmailWasNotConfirmedError" xml:space="preserve">
+    <value>Электрондук почта ырасталган жок</value>
+  </data>
+  <data name="InvalidHeadersInExcelError" xml:space="preserve">
+    <value>Excel файлындагы аталыштар туура эмес (мүмкүн, сиз жүктөп алган документти жүктөп жаткан жоксуз)</value>
+  </data>
+  <data name="InvalidSheetNameException" xml:space="preserve">
+    <value>Excel файлында туура эмес барак аты.</value>
+  </data>
+  <data name="InvalidTokenError" xml:space="preserve">
+    <value>Жараксыз токен</value>
+  </data>
+  <data name="NoDistanceAgeError" xml:space="preserve">
+    <value>Сиздин жашыңыз жана жынысыңыз боюнча жаш категориясы жок.</value>
+  </data>
+  <data name="NoPlacesError" xml:space="preserve">
+    <value>Бул курска орун калган жок.</value>
+  </data>
+  <data name="NoPlacesForPromocodesError" xml:space="preserve">
+    <value>Дистанцияга  - {0} үчүн жарнамалык коддор үчүн жерлер жок</value>
+  </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} табылган жок</value>
+  </data>
+  <data name="NotPWDError" xml:space="preserve">
+    <value>Майыптыгыңыз азырынча текшериле элек.</value>
+  </data>
+  <data name="OutsideRegistationDateError" xml:space="preserve">
+    <value>Бүгүнкү күн каттоо датасы диапазонунда эмес</value>
+  </data>
+  <data name="PasswordsDoNotMatchError" xml:space="preserve">
+    <value>Сырсөздөр дал келбейт</value>
+  </data>
+  <data name="UserAgreementLicenseAgreementError" xml:space="preserve">
+    <value>Сиз колдонуучу келишимин ырастаган жоксуз жана профилди толтурган жоксуз</value>
+  </data>
+  <data name="UserAlreadyExistsError" xml:space="preserve">
+    <value>Колдонуучу мурунтан эле бар</value>
+  </data>
+  <data name="UserDoesNotExistError" xml:space="preserve">
+    <value>Мындай колдонуучу жок</value>
+  </data>
+  <data name="WrongPasswordError" xml:space="preserve">
+    <value>Туура эмес сырсөз</value>
+  </data>
+  <data name="WrongRoleError" xml:space="preserve">
+    <value>Туура эмес роль</value>
   </data>
 </root>

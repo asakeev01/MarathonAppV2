@@ -1,11 +1,13 @@
 ﻿using Domain.Common.Exceptions;
-using System.Net;
+using Domain.Common.Resources;
+using Microsoft.Extensions.Localization;
+
 
 namespace Domain.Entities.Applications.Exceptions;
 
 public class InvalidSheetNameException : DomainException
 {
-    public InvalidSheetNameException() : base("Invalid sheet name for excel file you uploaded.", 9)
+    public InvalidSheetNameException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.InvalidSheetNameError], 5)
     {
     }
 }

@@ -1,5 +1,5 @@
 ﻿using Domain.Common.Contracts;
-using Domain.Common.Resources.SharedResource;
+using Domain.Common.Resources;
 using Domain.Entities.Distances;
 using Domain.Entities.Marathons;
 using Domain.Entities.Vouchers;
@@ -11,8 +11,10 @@ namespace Infrastructure.Persistence.Repositories;
 
 public class PromocodeRepository : BaseRepository<Promocode>, IPromocodeRepository
 {
+    private IStringLocalizer<SharedResource> _localizer;
     public PromocodeRepository(AppDbContext repositoryContext, IStringLocalizer<SharedResource> localizer) : base(repositoryContext, localizer)
     {
+        _localizer = localizer;
     }
 
 
@@ -20,7 +22,7 @@ public class PromocodeRepository : BaseRepository<Promocode>, IPromocodeReposito
     {
         if (quantity > distance.RemainingPlaces)
         {
-            throw new NoPlacesForPromocodesException(distance.Name);
+            throw new NoPlacesForPromocodesException(_localizer, distance.Name);
         }
 
         Random random = new Random();

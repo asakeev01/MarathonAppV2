@@ -1,7 +1,9 @@
 ﻿using Domain.Common.Contracts;
+using Domain.Common.Resources;
 using Domain.Entities.Vouchers.Exceptions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using System.Net;
 
 
@@ -17,10 +19,11 @@ public class DeletePromocodesByIdsCommand : IRequest<HttpStatusCode>
 public class DeletePromocodesByIdsCommandHandler : IRequestHandler<DeletePromocodesByIdsCommand, HttpStatusCode>
 {
     private readonly IUnitOfWork _unit;
-
-    public DeletePromocodesByIdsCommandHandler(IUnitOfWork unit)
+    private IStringLocalizer<SharedResource> _localizer;
+    public DeletePromocodesByIdsCommandHandler(IUnitOfWork unit, IStringLocalizer<SharedResource> localizer)
     {
         _unit = unit;
+        _localizer = localizer;
     }
 
     public async Task<HttpStatusCode> Handle(DeletePromocodesByIdsCommand cmd, CancellationToken cancellationToken)
@@ -30,7 +33,7 @@ public class DeletePromocodesByIdsCommandHandler : IRequestHandler<DeletePromoco
         var promocodes = voucher.Promocodes.Where(x => cmd.PromocodesIds.Contains(x.Id));
         if (promocodes.Count(x => x.IsActivated == true) >= 1)
         {
-            throw new DeleteActivatedPromocodeException();
+            throw new DeleteActivatedPromocodeException(_localizer);
         }
 
         foreach (var promocode in promocodes)

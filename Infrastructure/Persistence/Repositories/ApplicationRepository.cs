@@ -1,6 +1,7 @@
 ﻿using Domain.Common.Constants;
 using Domain.Common.Contracts;
-using Domain.Common.Resources.SharedResource;
+using Domain.Common.Helpers;
+using Domain.Common.Resources;
 using Domain.Entities.Applications;
 using Domain.Entities.Applications.Exceptions;
 using Domain.Entities.Marathons;
@@ -14,8 +15,10 @@ namespace Infrastructure.Persistence.Repositories;
 
 public class ApplicationRepository : BaseRepository<Application>, IApplicationRepository
 {
+    private IStringLocalizer<SharedResource> _localizer;
     public ApplicationRepository(AppDbContext repositoryContext, IStringLocalizer<SharedResource> localizer) : base(repositoryContext, localizer)
     {
+        _localizer = localizer;
     }
 
     public async Task<byte[]> GenerateExcel(IQueryable<Application> applications, string marathonName)
@@ -44,7 +47,7 @@ public class ApplicationRepository : BaseRepository<Application>, IApplicationRe
             worksheet.Cells[$"E{i}"].Value = application.User.Surname;
             worksheet.Cells[$"F{i}"].Value = application.User.Email;
             worksheet.Cells[$"G{i}"].Value = application.User.DateOfBirth.Value.ToString("dd/MM/yyyy");
-            worksheet.Cells[$"H{i}"].Value = application.User.Country.Value;
+            worksheet.Cells[$"H{i}"].Value = ExceptionHelpers.GetEnumDescription(application.User.Country.Value);
             worksheet.Cells[$"I{i}"].Value = application.User.PhoneNumber;
 
 
@@ -89,12 +92,12 @@ public class ApplicationRepository : BaseRepository<Application>, IApplicationRe
             using (var package = new ExcelPackage(stream))
             {
                 var worksheet = package.Workbook.Worksheets[marathonName];
-                if (worksheet == null) throw new InvalidSheetNameException();
+                if (worksheet == null) throw new InvalidSheetNameException(_localizer);
 
                 for (int j = 0; j < AppConstants.ApplicationExcelColumns.Count; j++)
                 {
                     if (worksheet.Cells[AppConstants.ApplicationExcelColumns[j].Item1].Value.ToString() != AppConstants.ApplicationExcelColumns[j].Item2)
-                        throw new InvalidHeadersInExcelException();
+                        throw new InvalidHeadersInExcelException(_localizer);
                 }
 
                 int i = 2;

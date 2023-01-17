@@ -1,11 +1,12 @@
 ﻿using Domain.Common.Exceptions;
-using System.Net;
+using Domain.Common.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace Domain.Entities.Applications.Exceptions;
 
 public class InvalidHeadersInExcelException : DomainException
 {
-    public InvalidHeadersInExcelException() : base("Headers in excel file are invalid.", 8)
+    public InvalidHeadersInExcelException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.InvalidHeadersInExcelError], 4)
     {
     }
 }

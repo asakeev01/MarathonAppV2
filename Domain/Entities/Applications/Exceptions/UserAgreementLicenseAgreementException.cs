@@ -1,11 +1,12 @@
 ﻿using Domain.Common.Exceptions;
-using System.Net;
+using Domain.Common.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace Domain.Entities.Applications.Exceptions;
 
 public class UserAgreementLicenseAgreementException : DomainException
 {
-    public UserAgreementLicenseAgreementException() : base("You have not confirmed the user agreement", 7)
+    public UserAgreementLicenseAgreementException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.UserAgreementLicenseAgreementError], 10)
     {
     }
 }

@@ -2,12 +2,12 @@ using System.Linq.Expressions;
 using Domain.Common.Constants;
 using Domain.Common.Contracts;
 using Domain.Common.Exceptions;
-using Domain.Common.Resources.SharedResource;
 using EFCore.BulkExtensions;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Localization;
+using Domain.Common.Resources;
 
 namespace Infrastructure.Persistence.Repositories.Base;
 

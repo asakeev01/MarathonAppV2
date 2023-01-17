@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <Folder Include="Entities\Distances\Exceptions\" />
+      <Folder Include="Entities\Marathons\Exceptions\" />
       <Folder Include="Entities\Users\UserEnums\" />
       <Folder Include="Entities\Documents\" />
       <Folder Include="Entities\Users\Exceptions\" />
@@ -46,10 +47,6 @@
         <LastGenOutput>SharedResource.Designer.cs</LastGenOutput>
         <DependentUpon>SharedResource.properties</DependentUpon>
       </EmbeddedResource>
-      <EmbeddedResource Update="Common\Resources\SharedResource.en-us.resx">
-        <Generator>PublicResXFileCodeGenerator</Generator>
-        <DependentUpon>SharedResource.resx</DependentUpon>
-      </EmbeddedResource>
       <EmbeddedResource Update="Common\Resources\SharedResource.ru-ru.resx">
         <Generator>PublicResXFileCodeGenerator</Generator>
         <DependentUpon>SharedResource.resx</DependentUpon>
@@ -58,10 +55,6 @@
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<DependentUpon>SharedResource.resx</DependentUpon>
 		</EmbeddedResource>
-      <EmbeddedResource Update="Common\Resources\AccountResource.resx">
-        <Generator>PublicResXFileCodeGenerator</Generator>
-        <LastGenOutput>AccountResource.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
     </ItemGroup>
 
     <ItemGroup>
@@ -75,11 +68,6 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>SharedResource.resx</DependentUpon>
-      </Compile>
-      <Compile Update="Common\Resources\AccountResource.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>AccountResource.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 
