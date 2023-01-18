@@ -110,7 +110,6 @@ public class ApplicationsController : BaseController
         [FromRoute] int marathonId,
         [FromQuery] GridifyQuery query)
     {
-
         var applicationByMarathonQuery = new ApplicationByMarathonQuery()
         {
             MarathonId = marathonId,
