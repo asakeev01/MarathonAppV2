@@ -1,11 +1,12 @@
 ﻿using Domain.Common.Exceptions;
-using System.Net;
+using Domain.Common.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace Domain.Entities.Applications.Exceptions;
 
 public class NotPWDException : DomainException
 {
-    public NotPWDException() : base("Your disability has not been confirmed", 7)
+    public NotPWDException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.NotPWDError], 8)
     {
     }
 }

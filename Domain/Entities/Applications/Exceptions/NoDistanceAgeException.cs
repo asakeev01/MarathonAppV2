@@ -1,11 +1,13 @@
 ﻿using Domain.Common.Exceptions;
-using System.Net;
+using Domain.Common.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace Domain.Entities.Applications.Exceptions;
 
 public class NoDistanceAgeException : DomainException
 {
-    public NoDistanceAgeException() : base("There is no distance age category for your age and gender.", (int)HttpStatusCode.BadRequest)
+    public NoDistanceAgeException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.NoDistanceAgeError], 6)
     {
     }
 }
+

@@ -1,11 +1,12 @@
 ﻿using Domain.Common.Exceptions;
-using System.Net;
+using Domain.Common.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace Domain.Entities.Applications.Exceptions;
 
 public class AlreadyRegisteredException : DomainException
 {
-    public AlreadyRegisteredException() : base("You are already registered to this marathon.",8)
+    public AlreadyRegisteredException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.AlreadyRegisteredError], 2)
     {
     }
 }

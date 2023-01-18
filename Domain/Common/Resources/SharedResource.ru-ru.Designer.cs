@@ -19,14 +19,14 @@ namespace Domain.Common.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.Build.Tasks.StronglyTypedResourceBuilder", "15.1.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class SharedResource {
+    public class SharedResource_ru_ru {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal SharedResource() {
+        internal SharedResource_ru_ru() {
         }
         
         /// <summary>
@@ -36,7 +36,7 @@ namespace Domain.Common.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Domain.Common.Resources.SharedResource", typeof(SharedResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Domain.Common.Resources.SharedResource.ru-ru", typeof(SharedResource_ru_ru).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -58,7 +58,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Promocode already activated.
+        ///   Looks up a localized string similar to Промокод уже активирован.
         /// </summary>
         public static string ActivatedPromocodeError {
             get {
@@ -67,7 +67,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Starter Kit was already issued..
+        ///   Looks up a localized string similar to Стартовый пакет уже выдан..
         /// </summary>
         public static string AlreadyIssuedStarterKitError {
             get {
@@ -76,7 +76,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You are already registered to this marathon..
+        ///   Looks up a localized string similar to Вы уже зарегистрированы на этот марафон..
         /// </summary>
         public static string AlreadyRegisteredError {
             get {
@@ -85,7 +85,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Voucher deactivated..
+        ///   Looks up a localized string similar to Ваучер деактивирован..
         /// </summary>
         public static string DeactivatedVoucherError {
             get {
@@ -94,7 +94,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You cant delete activated promocode.
+        ///   Looks up a localized string similar to Невозможно удалить активированный промокод.
         /// </summary>
         public static string DeleteActivatedPromocodeError {
             get {
@@ -103,7 +103,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email already confirmed.
+        ///   Looks up a localized string similar to Электронная почта уже подтверждена.
         /// </summary>
         public static string EmailAlreadyConfirmedError {
             get {
@@ -112,7 +112,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to connect email service.
+        ///   Looks up a localized string similar to Сервис по отправке почты в данный момент не отвечает.
         /// </summary>
         public static string EmailServiceConnectionError {
             get {
@@ -121,7 +121,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Email was not confirmed..
+        ///   Looks up a localized string similar to Электронная почта не подтверждена.
         /// </summary>
         public static string EmailWasNotConfirmedError {
             get {
@@ -130,7 +130,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Headers in excel file are invalid..
+        ///   Looks up a localized string similar to Заголовки в эксель файле неверные(возможно вы загржуаете не тот документ который скачали).
         /// </summary>
         public static string InvalidHeadersInExcelError {
             get {
@@ -139,7 +139,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have entered an invalid promocode.
+        ///   Looks up a localized string similar to Вы ввели неверный промокод.
         /// </summary>
         public static string InvalidPromocodeError {
             get {
@@ -148,16 +148,16 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid sheet name for excel file you uploaded..
+        ///   Looks up a localized string similar to Неверное название листа в эксель файле..
         /// </summary>
-        public static string InvalidSheetNameError {
+        public static string InvalidSheetNameException {
             get {
-                return ResourceManager.GetString("InvalidSheetNameError", resourceCulture);
+                return ResourceManager.GetString("InvalidSheetNameException", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Invalid token.
+        ///   Looks up a localized string similar to Неверный токен.
         /// </summary>
         public static string InvalidTokenError {
             get {
@@ -166,7 +166,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no distance age category for your age and gender..
+        ///   Looks up a localized string similar to Нет возрастной категории для вашего возраста и пола..
         /// </summary>
         public static string NoDistanceAgeError {
             get {
@@ -175,7 +175,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There is no places to this distance..
+        ///   Looks up a localized string similar to На эту дистанцию не осталось мест.
         /// </summary>
         public static string NoPlacesError {
             get {
@@ -184,7 +184,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to No places for promocodes to distance - {0}.
+        ///   Looks up a localized string similar to Нет мест для промокодов на дистанцию - {0}.
         /// </summary>
         public static string NoPlacesForPromocodesError {
             get {
@@ -193,7 +193,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} not found.
+        ///   Looks up a localized string similar to {0} не найдено.
         /// </summary>
         public static string NotFoundError {
             get {
@@ -202,7 +202,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your disability has not been confirmed.
+        ///   Looks up a localized string similar to Вашу инвалидность еще не подтвердили..
         /// </summary>
         public static string NotPWDError {
             get {
@@ -211,7 +211,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Today&apos;s date is not in the registration range..
+        ///   Looks up a localized string similar to Сегодняшняя дата не входит в диапазон дат регистрации.
         /// </summary>
         public static string OutsideRegistationDateError {
             get {
@@ -220,7 +220,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Passwords do not match.
+        ///   Looks up a localized string similar to Пароли не совпадают.
         /// </summary>
         public static string PasswordsDoNotMatchError {
             get {
@@ -229,7 +229,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to You have not confirmed the user agreement and have not filled out the profile.
+        ///   Looks up a localized string similar to Вы не подтвердили пользовательское соглашение и не заполнили профиль.
         /// </summary>
         public static string UserAgreementLicenseAgreementError {
             get {
@@ -238,7 +238,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User already exist.
+        ///   Looks up a localized string similar to Пользователь уже существует.
         /// </summary>
         public static string UserAlreadyExistsError {
             get {
@@ -247,7 +247,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to User does not exist.
+        ///   Looks up a localized string similar to Пользователь не существует.
         /// </summary>
         public static string UserDoesNotExistError {
             get {
@@ -256,7 +256,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wrong password.
+        ///   Looks up a localized string similar to Неверный пароль.
         /// </summary>
         public static string WrongPasswordError {
             get {
@@ -265,7 +265,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Wrong role.
+        ///   Looks up a localized string similar to Неверная роль.
         /// </summary>
         public static string WrongRoleError {
             get {

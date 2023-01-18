@@ -1,5 +1,5 @@
 using Domain.Common.Contracts;
-using Domain.Common.Resources.SharedResource;
+using Domain.Common.Resources;
 using Domain.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

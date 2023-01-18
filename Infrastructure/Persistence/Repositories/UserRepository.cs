@@ -1,6 +1,6 @@
 ﻿using System;
 using Domain.Common.Contracts;
-using Domain.Common.Resources.SharedResource;
+using Domain.Common.Resources;
 using Domain.Entities.Users;
 using Domain.Entities.Users.Exceptions;
 using Infrastructure.Persistence.Repositories.Base;
@@ -13,11 +13,13 @@ namespace Infrastructure.Persistence.Repositories
     {
         private UserManager<User> _userManager;
         private AppDbContext _repositoryContext;
+        private IStringLocalizer<SharedResource> _localizer;
 
         public UserRepository(UserManager<User> userManager, AppDbContext repositoryContext, IStringLocalizer<SharedResource> localizer) : base(repositoryContext, localizer)
         {
             _userManager = userManager;
             _repositoryContext = repositoryContext;
+            _localizer = localizer;
         }
 
         public async Task<bool> IsUserExistsAsync(string email)
@@ -32,7 +34,7 @@ namespace Infrastructure.Persistence.Repositories
         public async Task CreateUserAsync(User user, string password)
         {
             if(await _userManager.FindByEmailAsync(user.Email) != null)
-                throw new UserAlreadyExistsException();
+                throw new UserAlreadyExistsException(_localizer);
             await _userManager.CreateAsync(user, password);
         }
 
@@ -41,7 +43,7 @@ namespace Infrastructure.Persistence.Repositories
             var user = await _userManager.FindByEmailAsync(email);
 
             if (user == null)
-                throw new UserDoesNotExistException();
+                throw new UserDoesNotExistException(_localizer);
 
             return user;
         }
@@ -51,14 +53,14 @@ namespace Infrastructure.Persistence.Repositories
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
-                throw new UserDoesNotExistException();
+                throw new UserDoesNotExistException(_localizer);
             return user;
         }
 
         public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
         {
             if (user.EmailConfirmed)
-                throw new EmailAlreadyConfirmedException();
+                throw new EmailAlreadyConfirmedException(_localizer);
 
             var emailToken = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             return emailToken;
@@ -67,12 +69,12 @@ namespace Infrastructure.Persistence.Repositories
         public async Task ConfirmEmailAsync(User user, string emailToken)
         {
             if (user.EmailConfirmed)
-                throw new EmailAlreadyConfirmedException();
+                throw new EmailAlreadyConfirmedException(_localizer);
 
             var result = await _userManager.ConfirmEmailAsync(user, emailToken);
 
             if (!result.Succeeded)
-                throw new InvalidTokenException();
+                throw new InvalidTokenException(_localizer);
         }
 
         public async Task<string> GeneratePasswordResetTokenAsync(User user)
@@ -86,7 +88,7 @@ namespace Infrastructure.Persistence.Repositories
             var result = await _userManager.ResetPasswordAsync(user, passwordToken, newPassword);
 
             if (!result.Succeeded)
-                throw new InvalidTokenException();
+                throw new InvalidTokenException(_localizer);
         }
 
         public async Task AddToRoleAsync(User user, string role)
@@ -94,7 +96,7 @@ namespace Infrastructure.Persistence.Repositories
             var result = await _userManager.AddToRoleAsync(user, role);
 
             if (!result.Succeeded)
-                throw new WrongRoleException();
+                throw new WrongRoleException(_localizer);
         }
 
         public async Task<IList<string>> GetRolesAsync(User user)
@@ -110,7 +112,7 @@ namespace Infrastructure.Persistence.Repositories
 
 
             if (!result)
-                throw new WrongPasswordException();
+                throw new WrongPasswordException(_localizer);
         }
 
         public async Task ChangePasswordAsync(User user, string password, string newPassword)

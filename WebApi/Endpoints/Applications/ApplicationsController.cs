@@ -134,7 +134,6 @@ public class ApplicationsController : BaseController
         [FromRoute] int marathonId,
         [FromQuery] GridifyQuery query)
     {
-
         var applicationByMarathonQuery = new ApplicationByMarathonQuery()
         {
             MarathonId = marathonId,
@@ -162,7 +161,7 @@ public class ApplicationsController : BaseController
         };
 
         var (result, marathonName) = await _mediator.Send(generateExcelApplicationsQuery);
-        HttpContext.Response.Headers.Add("content-disposition", $"attachment; filename=Applications_{marathonName}_{DateTime.Now.ToString("dd/MM/yyyy")}.xlsx");
+        HttpContext.Response.Headers.Add("content-disposition", $"attachment; filename=Applications_{System.Net.WebUtility.UrlEncode(marathonName)}_{DateTime.Now.ToString("dd/MM/yyyy")}.xlsx");
         HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
         this.Response.ContentType = "application/vnd.ms-excel";
         return File(result, "application/vnd.ms-excel");

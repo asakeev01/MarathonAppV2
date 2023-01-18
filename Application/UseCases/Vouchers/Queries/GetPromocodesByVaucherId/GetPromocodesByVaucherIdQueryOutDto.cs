@@ -1,16 +1,33 @@
 ﻿using Core.Common.Bases;
 using Domain.Entities.Vouchers;
+using Gridify;
 
 namespace Core.UseCases.Vouchers.Queries.GetVouchers;
 
-public record GetPromocodesByVaucherIdQueryOutDto : BaseDto<Promocode, GetPromocodesByVaucherIdQueryOutDto>
+public record GetPromocodesByVaucherIdQueryOutDto : BaseDto<Voucher, GetPromocodesByVaucherIdQueryOutDto>
 {
     public int Id { get; set; }
-    public string Code { get; set; }
-    public bool IsActivated { get; set; }
-    public DateTime CreationDate { get; set; }
-    public DistanceDto Distance { get; set; }
-    public UserDto User { get; set; }
+    public string VoucherName { get; set; }
+    public int MarathonId { get; set; }
+    public bool IsActive { get; set; }
+    public QueryablePaging<PromocodeDto> Promocodes { get; set; }
+
+
+    public record PromocodeDto : BaseDto<Promocode, PromocodeDto>
+    {
+        public int Id { get; set; }
+        public string Code { get; set; }
+        public bool IsActivated { get; set; }
+        public DateTime CreationDate { get; set; }
+        public string Distance { get; set; }
+        public UserDto User { get; set; }
+
+        public override void AddCustomMappings()
+        {
+            SetCustomMappings()
+                .Map(x => x.Distance, y => y.Distance.Name);
+        }
+    }
         
 
     public class UserDto

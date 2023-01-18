@@ -1,6 +1,6 @@
 ﻿using System;
 using Domain.Common.Contracts;
-using Domain.Common.Resources.SharedResource;
+using Domain.Common.Resources;
 using Domain.Entities.Users;
 using Infrastructure.Persistence.Repositories.Base;
 using Microsoft.Extensions.Localization;
