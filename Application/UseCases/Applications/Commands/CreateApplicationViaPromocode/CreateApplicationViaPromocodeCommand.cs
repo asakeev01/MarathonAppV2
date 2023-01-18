@@ -2,6 +2,7 @@
 using Domain.Common.Contracts;
 using Domain.Common.Resources;
 using Domain.Entities.Applications.Exceptions;
+using Domain.Entities.Vouchers.Exceptions;
 using Domain.Services.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -55,7 +56,12 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
 
             var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
 
-            var promocode = await _unit.PromocodeRepository.FirstAsync(x => x.Code == cmd.Promocode && x.Distance == distance, include: source => source.Include(x => x.Voucher));
+            var promocode = _unit.PromocodeRepository.FindByCondition(x => x.Code == cmd.Promocode && x.Distance == distance, include: source => source.Include(x => x.Voucher)).FirstOrDefault();
+            if (promocode == null)
+            {
+                throw new InvalidPromocodeException(_localizer);
+            }
+
 
             var application = await _applicationService.CreateApplicationViaPromocode(user, distance, oldStarterKitCodes, promocode);
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
