@@ -142,6 +142,15 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You have entered an invalid promocode.
+        /// </summary>
+        public static string InvalidPromocodeError {
+            get {
+                return ResourceManager.GetString("InvalidPromocodeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid sheet name for excel file you uploaded..
         /// </summary>
         public static string InvalidSheetNameError {

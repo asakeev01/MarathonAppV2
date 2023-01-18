@@ -144,6 +144,9 @@
   <data name="InvalidHeadersInExcelError" xml:space="preserve">
     <value>Заголовки в эксель файле неверные(возможно вы загржуаете не тот документ который скачали)</value>
   </data>
+  <data name="InvalidPromocodeError" xml:space="preserve">
+    <value>Вы ввели неверный промокод</value>
+  </data>
   <data name="InvalidSheetNameException" xml:space="preserve">
     <value>Неверное название листа в эксель файле.</value>
   </data>

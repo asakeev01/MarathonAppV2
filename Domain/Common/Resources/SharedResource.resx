@@ -144,6 +144,9 @@
   <data name="InvalidHeadersInExcelError" xml:space="preserve">
     <value>Headers in excel file are invalid.</value>
   </data>
+  <data name="InvalidPromocodeError" xml:space="preserve">
+    <value>You have entered an invalid promocode</value>
+  </data>
   <data name="InvalidSheetNameError" xml:space="preserve">
     <value>Invalid sheet name for excel file you uploaded.</value>
   </data>
