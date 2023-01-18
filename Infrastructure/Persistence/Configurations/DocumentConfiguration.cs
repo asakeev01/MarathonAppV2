@@ -10,7 +10,6 @@ public class DocumentConfiguration : IEntityTypeConfiguration<Document>
     {
         builder
             .HasOne(x => x.User)
-            .WithOne(u => u.Document)
-            .HasForeignKey<Document>(x => x.UserId);
+            .WithMany(u => u.Documents);
     }
 }

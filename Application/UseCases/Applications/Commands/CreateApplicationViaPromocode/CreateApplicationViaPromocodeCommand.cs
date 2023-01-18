@@ -1,4 +1,5 @@
-﻿using Domain.Common.Contracts;
+﻿using Core.Common.Helpers;
+using Domain.Common.Contracts;
 using Domain.Services.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -17,7 +18,6 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
     private readonly IUnitOfWork _unit;
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
-    static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
     public CreateApplicationCommandHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
     {
@@ -28,7 +28,7 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
 
     public async Task<int> Handle(CreateApplicationViaPromocodeCommand cmd, CancellationToken cancellationToken)
     {
-        await semaphore.WaitAsync();
+        await ApplicationNumberingSemaphore.semaphore.WaitAsync();
         try
         {
             var user = await _unit.UserRepository.FirstAsync(x => x.Id == cmd.UserId);
@@ -57,11 +57,12 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
             await _unit.PromocodeRepository.Update(promocode, save: true);
             await _unit.DistanceRepository.Update(distance, save: true);
             await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
+            
             return application.Id;
         }
         finally
         {
-            semaphore.Release();
+            ApplicationNumberingSemaphore.semaphore.Release();
         }
     }
 }

@@ -20,6 +20,7 @@ using static WebApi.Common.Extensions.FluentValidationServices.FluentValidationS
 using WebApi.Common.Extensions.PaymentServices;
 using EmailServiceWorker.Options;
 using RemoveApplicationServiceWorker.Options;
+using Microsoft.AspNetCore.StaticFiles;
 
 namespace WebApi.Common.Extensions;
 
@@ -69,15 +70,6 @@ public static class WebApplicationBuilderExtension
         {
             app.UseSwaggerUi();
         }
-        app.UseCorsExt();
-        app.UseRouting();
-        app.UseLocalization();
-        app.UseHttpsRedirection();
-        app.UseSerilogRequestLogging();
-
-        app.UseAuthentication();
-        app.UseAuthorization();
-        app.MapControllers();
         var dir = Path.Combine(Directory.GetCurrentDirectory(), builder.Configuration.GetSection("FileSettings:PhysicalPath").Value);
         var requestPath = builder.Configuration.GetSection("FileSettings:RequestPath").Value;
         if (!Directory.Exists(dir))
@@ -89,12 +81,31 @@ public static class WebApplicationBuilderExtension
         {
             FileProvider = new PhysicalFileProvider(dir),
             RequestPath = new PathString(requestPath),
+            StaticFileOptions =
+              {
+                OnPrepareResponse = AddCorsHeader
+              },
         });
+
+
+        app.UseCorsExt();
+        app.UseRouting();
+        app.UseLocalization();
+        app.UseHttpsRedirection();
+        app.UseSerilogRequestLogging();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+        app.MapControllers();
 
         ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
         app.AutoMigrateDb();
         await app.Seed();
         await app.SeedIdentity();
         await app.RunAsync();
+    }
+    private static void AddCorsHeader(StaticFileResponseContext obj)
+    {
+        obj.Context.Response.Headers["Access-Control-Allow-Origin"] = "*";
     }
 }

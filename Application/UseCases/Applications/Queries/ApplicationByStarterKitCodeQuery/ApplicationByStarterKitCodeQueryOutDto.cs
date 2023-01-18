@@ -40,7 +40,8 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
         {
             SetCustomMappings()
                 .Map(x => x.Age, y => y.GetAge())
-                .Map(x => x.CurrentStatus, y => y.Status.CurrentStatus);
+                .Map(x => x.CurrentStatus, y => y.Status.CurrentStatus)
+                .Map(x => x.Document, y => y.Documents.Where(x => x.IsArchived == false).FirstOrDefault());
         }
 
         public record DocumentDto : BaseDto<Document, DocumentDto>
@@ -49,6 +50,9 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
             public string? FrontPassportPath { get; set; }
             public string? InsurancePath { get; set; }
             public string? DisabilityPath { get; set; }
+            public string? BackPassportPath { get; set; }
+            public string? BackInsurancePath { get; set; }
+            public string? BackDisabilityPath { get; set; }
         }
     }
 
@@ -59,4 +63,3 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
         .Map(x => x.DistanceForPWD, y => y.DistanceForPWD.Name);
     }
 }
-

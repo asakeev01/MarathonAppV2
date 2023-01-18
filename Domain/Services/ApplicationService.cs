@@ -115,8 +115,8 @@ public class ApplicationService : IApplicationService
             Marathon = distance.Marathon,
             Distance = distance,
             DistanceAge = selecetedDistanceAge,
-            Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants,
             StarterKit = StartKitEnum.NotIssued,
+            Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants,
             Payment = PaymentMethodEnum.Voucher,
             Promocode = promocode
         };
@@ -125,6 +125,7 @@ public class ApplicationService : IApplicationService
         distance.ActivatedReservedPlaces += 1;
 
         var starterKitCode = GenerateStarterKitCode(oldStarterKidCodes);
+
         result.StarterKitCode = starterKitCode;
 
         return result;
@@ -185,7 +186,7 @@ public class ApplicationService : IApplicationService
             Price = priceOfDistance,
             StarterKit = StartKitEnum.NotIssued,
             Payment = PaymentMethodEnum.Money,
-            RemovalTime = DateTime.Now.AddMinutes(1),
+            RemovalTime = DateTime.Now.AddMinutes(65),
             StarterKitCode = starterKitCode,
         };
 
@@ -235,6 +236,9 @@ public class ApplicationService : IApplicationService
     {
         var result = application;
         result.Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants;
+        result.RemovalTime = null;
+        distance.InitializedPlaces -= 1;
+        distance.RegisteredParticipants += 1;
         return result;
     }
 }

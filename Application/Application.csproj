@@ -15,7 +15,6 @@
       <Folder Include="Common\Constants" />
       <Folder Include="Common\Exceptions" />
       <Folder Include="Common\Extensions" />
-      <Folder Include="Common\Helpers" />
       <Folder Include="Common\Interfaces" />
       <Folder Include="UseCases\Auth\" />
       <Folder Include="UseCases\Auth\Commands\" />

@@ -38,6 +38,9 @@ namespace Core.UseCases.Users.Queries.GetUserAsAdmin
             public string? FrontPassportPath { get; set; }
             public string? InsurancePath { get; set; }
             public string? DisabilityPath { get; set; }
+            public string? BackPassportPath { get; set; }
+            public string? BackInsurancePath { get; set; }
+            public string? BackDisabilityPath { get; set; }
         }
 
         public record StatusDto : BaseDto<Status, StatusDto>
@@ -78,6 +81,12 @@ namespace Core.UseCases.Users.Queries.GetUserAsAdmin
                 SetCustomMappings()
                     .Map(x => x.Role, y => y.Role.Name);
             }
+        }
+
+        public override void AddCustomMappings()
+        {
+            SetCustomMappings()
+                .Map(x => x.Document, y => y.Documents.Where(x => x.IsArchived == false).FirstOrDefault());
         }
 
     }

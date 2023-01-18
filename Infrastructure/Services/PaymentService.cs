@@ -45,19 +45,19 @@ public class PaymentService : IPaymentService
             string result_url = _appOptions.BackUrl;
             string receive_payment_url = _appOptions.ReceivePaymentUrl;
             string secret_key = _paymentOptions.SecretKey;
-            string text = init + ";" + amount + ";" + description + ";" + lifetime + ";" + merchant_id + ";" + order_id + ";" + salt + ";" + secret_key + ";" +
-                user_phone + ";" + user_contact_email;
+            string text = init + ";" + amount + ";" + description + ";" + lifetime + ";" + merchant_id + ";" + order_id + ";" + salt + ";" + user_contact_email + ";" + secret_key;
+
 
             MD5 md5 = new MD5CryptoServiceProvider();
 
-            md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(text));
+            byte[] resultBytes = Encoding.UTF8.GetBytes(text);
 
-            byte[] resultBytes = md5.Hash;
+            resultBytes = md5.ComputeHash(resultBytes);
 
             StringBuilder sig = new StringBuilder();
-            for (int i = 0; i < resultBytes.Length; i++)
+            foreach (byte ba in resultBytes)
             {
-                sig.Append(resultBytes[i].ToString("x2"));
+                sig.Append(ba.ToString("x2").ToLower());
             }
 
             var client = new RestClient(url);
@@ -74,7 +74,7 @@ public class PaymentService : IPaymentService
                 pg_salt = salt,
                 pg_sig = sig.ToString(),
                 pg_lifetime = lifetime,
-                pg_user_phone = user_phone,
+                //pg_user_phone = user_phone,
                 pg_user_contact_email = user_contact_email
             });
 
@@ -86,36 +86,35 @@ public class PaymentService : IPaymentService
 
             application.PaymentId = data.pg_payment_id;
             application.PaymentUrl = data.pg_redirect_url;
+            await _unit.ApplicationRepository.Update(application, save: true);
         }
         catch (PaymentNotInitializedException ex)
         {
+            var distance = application.Distance;
+            distance.InitializedPlaces -= 1;
+            await _unit.DistanceRepository.Update(distance, save: true);
             await _unit.ApplicationRepository.Delete(application, save: true);
             throw ex;
         }
         catch (Exception ex)
         {
+            var distance = application.Distance;
+            distance.InitializedPlaces -= 1;
+            await _unit.DistanceRepository.Update(distance, save: true);
             await _unit.ApplicationRepository.Delete(application, save: true);
-            throw new PaymentServiceIsNotRespondingException(ex.Message, 7);
+            throw ex;
         }
         return application;
     }
 
-    public HttpStatusCode IsSignatureTrue(ReceivePaymentDto receivePaymentDto)
+    public bool IsSignatureRight(ReceivePaymentDto receivePaymentDto)
     {
+        string text;
         var receive_payment_url = _appOptions.ReceivePaymentUrl;
         var amount = receivePaymentDto.pg_amount;
         var currency = receivePaymentDto.pg_currency;
         var can_reject = receivePaymentDto.pg_can_reject;
-        var captured = receivePaymentDto.pg_captured;
-        var card_id = receivePaymentDto.pg_card_id;
-        var card_token = receivePaymentDto.pg_card_token;
-        var card_pan = receivePaymentDto.pg_card_pan;
-        var card_exp = receivePaymentDto.pg_card_exp;
-        var card_owner = receivePaymentDto.pg_card_owner;
-        var card_brand = receivePaymentDto.pg_card_brand;
         var description = receivePaymentDto.pg_description;
-        var discount_percent = receivePaymentDto.pg_discount_percent;
-        var discount_amount = receivePaymentDto.pg_discount_amount;
         var net_amount = receivePaymentDto.pg_net_amount;
         var order_id = receivePaymentDto.pg_order_id;
         var payment_id = receivePaymentDto.pg_payment_id;
@@ -128,31 +127,66 @@ public class PaymentService : IPaymentService
         var salt = receivePaymentDto.pg_salt;
         var sig = receivePaymentDto.pg_sig;
         var testing_mode = receivePaymentDto.pg_testing_mode;
-        var user_contact_email = receivePaymentDto.pg_user_contact_email;
         var user_phone = receivePaymentDto.pg_user_phone;
+        var user_contact_email = receivePaymentDto.pg_user_contact_email;
         var secret_key = _paymentOptions.SecretKey;
 
+        if (payment_method == "bankcard")
+        {
+            var captured = receivePaymentDto.pg_captured;
+            var card_id = receivePaymentDto.pg_card_id;
+            var card_pan = receivePaymentDto.pg_card_pan;
+            var card_exp = receivePaymentDto.pg_card_exp;
+            var card_owner = receivePaymentDto.pg_card_owner;
+            var card_brand = receivePaymentDto.pg_card_brand;
 
-        string text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" + captured + ";" +
-            card_id + ";" + card_token + ";" + card_pan + ";" + card_exp + ";" + card_owner + ";" + card_brand + ";" +
-            description + ";" + discount_percent + ";" + discount_amount + ";" + net_amount + ";" + order_id + ";" +
-            payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
-            result + ";" + salt + ";" + sig + ";" + testing_mode + ";" + user_contact_email + ";" + user_phone + ";" + secret_key;
+            if (user_phone != null)
+                text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" + captured + ";" +
+                    card_id + ";" + card_pan + ";" + card_exp + ";" + card_owner + ";" + card_brand + ";" +
+                    description + ";" + net_amount + ";" + order_id + ";" +
+                    payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
+                    result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
+            else
+                text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" + captured + ";" +
+                    card_id + ";" + card_pan + ";" + card_exp + ";" + card_owner + ";" + card_brand + ";" +
+                    description + ";" + net_amount + ";" + order_id + ";" +
+                    payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
+                    result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + secret_key;
+        }
+
+        else
+        {
+            if (user_phone != null)
+                text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" +
+                    description + ";" + net_amount + ";" + order_id + ";" +
+                    payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
+                    result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + secret_key;
+            else
+                text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" +
+                    description + ";" + net_amount + ";" + order_id + ";" +
+                    payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
+                    result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
+        }
+
+
 
         MD5 md5 = new MD5CryptoServiceProvider();
 
-        md5.ComputeHash(ASCIIEncoding.ASCII.GetBytes(text));
+        byte[] resultBytes = Encoding.UTF8.GetBytes(text);
 
-        byte[] resultBytes = md5.Hash;
+        resultBytes = md5.ComputeHash(resultBytes);
 
         StringBuilder sigBack = new StringBuilder();
-        for (int i = 0; i < resultBytes.Length; i++)
+        foreach (byte ba in resultBytes)
         {
-            sigBack.Append(resultBytes[i].ToString("x2"));
+            sigBack.Append(ba.ToString("x2").ToLower());
         }
-        if (!sigBack.Equals(sig))
-            throw new SignaturesDoNotMatchException();
-        return HttpStatusCode.OK;
+        if (sigBack.ToString() != sig)
+        {
+            Console.WriteLine("Signature is not right");
+            return false;
+        }  
+        return true;
     }
 }
 

@@ -84,6 +84,37 @@ public class SavedDocumentService : ISavedDocumentService
             }
             document.InsurancePath = null;
         }
+        //---------------
+        else if (documentType == DocumentsEnum.BackPassportPath)
+        {
+            if (document.BackPassportPath != null)
+            {
+                string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.BackPassportPath);
+                if (File.Exists(oldDocument))
+                    File.Delete(oldDocument);
+            }
+            document.BackPassportPath = null;
+        }
+        else if (documentType == DocumentsEnum.BackInsurancePath)
+        {
+            if (document.BackInsurancePath != null)
+            {
+                string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.BackInsurancePath);
+                if (File.Exists(oldDocument))
+                    File.Delete(oldDocument);
+            }
+            document.BackInsurancePath = null;
+        }
+        else if (documentType == DocumentsEnum.BackDisabilityPath)
+        {
+            if (document.BackDisabilityPath != null)
+            {
+                string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.BackDisabilityPath);
+                if (File.Exists(oldDocument))
+                    File.Delete(oldDocument);
+            }
+            document.BackDisabilityPath = null;
+        }
         else
         {
             if (document.DisabilityPath != null)
@@ -94,7 +125,7 @@ public class SavedDocumentService : ISavedDocumentService
             }
             document.DisabilityPath = null;
         }
-        if (document.FrontPassportPath != null || document.DisabilityPath != null)
+        if (document.FrontPassportPath != null || document.DisabilityPath != null || document.InsurancePath != null || document.BackPassportPath != null || document.BackDisabilityPath != null || document.BackInsurancePath != null)
         {
             status.CurrentStatus = StatusesEnum.Processing;
         }

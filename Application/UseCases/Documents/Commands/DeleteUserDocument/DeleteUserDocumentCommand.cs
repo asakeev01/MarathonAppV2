@@ -26,7 +26,7 @@ public class DeleteUserDocumentHandler : IRequestHandler<DeleteUserDocumentComma
     public async Task<HttpStatusCode> Handle(DeleteUserDocumentCommand cmd, CancellationToken cancellationToken)
     {
         var status = await _unit.StatusRepository.FirstAsync(s => s.UserId == long.Parse(cmd.UserId));
-        var document = await _unit.DocumentRepository.FirstAsync(d => d.UserId == long.Parse(cmd.UserId));
+        var document = await _unit.DocumentRepository.FirstAsync(d => d.UserId == long.Parse(cmd.UserId) && d.IsArchived == false);
         _savedDocumentService.DeleteDocument(status, document, cmd.DocumentType);
         await _unit.DocumentRepository.SaveAsync();
         await _unit.StatusRepository.SaveAsync();

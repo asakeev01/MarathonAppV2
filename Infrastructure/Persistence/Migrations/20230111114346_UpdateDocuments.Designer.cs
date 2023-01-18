@@ -4,6 +4,7 @@ using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230111114346_UpdateDocuments")]
+    partial class UpdateDocuments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -63,12 +65,6 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("Payment")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PaymentId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PaymentUrl")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -114,9 +110,6 @@ namespace Infrastructure.Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("ActivatedReservedPlaces")
-                        .HasColumnType("int");
-
-                    b.Property<int>("InitializedPlaces")
                         .HasColumnType("int");
 
                     b.Property<int>("MarathonId")
@@ -220,8 +213,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("DistanceId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("Price")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("Price")
+                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

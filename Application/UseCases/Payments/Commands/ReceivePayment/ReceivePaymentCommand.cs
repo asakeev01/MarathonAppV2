@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using Core.Common.Helpers;
 using Domain.Common.Contracts;
 using Domain.Services.Interfaces;
 using Domain.Services.Models;
@@ -20,7 +21,6 @@ public class ReceivePaymentHandler : IRequestHandler<ReceivePaymentCommand, Http
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
     private readonly IPaymentService _paymentService;
-    static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
     public ReceivePaymentHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService, IPaymentService paymentService)
     {
@@ -32,22 +32,28 @@ public class ReceivePaymentHandler : IRequestHandler<ReceivePaymentCommand, Http
 
     public async Task<HttpStatusCode> Handle(ReceivePaymentCommand cmd, CancellationToken cancellationToken)
     {
-        await semaphore.WaitAsync();
+        await ApplicationNumberingSemaphore.semaphore.WaitAsync();
         try
         {
             var paymentRequest = cmd.PaymentDto.Adapt<ReceivePaymentDto>();
-            _paymentService.IsSignatureTrue(paymentRequest);
+            if (paymentRequest.pg_result == 0)
+                return HttpStatusCode.OK;
+            bool isRight = _paymentService.IsSignatureRight(paymentRequest);
+            if (isRight == false)
+                return HttpStatusCode.OK;
             var application = await _unit.ApplicationRepository.FirstAsync(x => x.Id.ToString() == cmd.PaymentDto.pg_order_id, include: source => source
                 .Include(a => a.Distance));
-            await _unit.ApplicationRepository.CreateAsync(application, save: true);
-            await _unit.DistanceRepository.Update(distance, save: true);
-            application = await _paymentService.SendInitPaymentAsync(application);
+            var distance = application.Distance;
+            var user_email = cmd.PaymentDto.pg_user_contact_email;
+            application = _applicationService.AssignNumber(application, distance);
             await _unit.ApplicationRepository.Update(application, save: true);
+            await _unit.DistanceRepository.Update(distance, save: true);
+            await _emailService.SendStarterKitCodeAsync(user_email, application.StarterKitCode);
             return HttpStatusCode.OK;
         }
         finally
         {
-            semaphore.Release();
+            ApplicationNumberingSemaphore.semaphore.Release();
         }
     }
 }

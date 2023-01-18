@@ -1,4 +1,5 @@
 ﻿using System;
+using Core.Common.Helpers;
 using Domain.Common.Contracts;
 using Domain.Services.Interfaces;
 using MediatR;
@@ -18,7 +19,6 @@ public class CreatePaymentHandler : IRequestHandler<CreateApplicationViaMoneyCom
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
     private readonly IPaymentService _paymentService;
-    static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
     public CreatePaymentHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService, IPaymentService paymentService)
     {
@@ -30,7 +30,7 @@ public class CreatePaymentHandler : IRequestHandler<CreateApplicationViaMoneyCom
 
     public async Task<string> Handle(CreateApplicationViaMoneyCommand cmd, CancellationToken cancellationToken)
     {
-        await semaphore.WaitAsync();
+        await ApplicationNumberingSemaphore.semaphore.WaitAsync();
         try
         {
             var user = await _unit.UserRepository.FirstAsync(x => x.Id == cmd.UserId);
@@ -47,12 +47,11 @@ public class CreatePaymentHandler : IRequestHandler<CreateApplicationViaMoneyCom
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
             await _unit.DistanceRepository.Update(distance, save: true);
             application = await _paymentService.SendInitPaymentAsync(application);
-            await _unit.ApplicationRepository.Update(application, save: true);
             return application.PaymentUrl;
         }
         finally
         {
-            semaphore.Release();
+            ApplicationNumberingSemaphore.semaphore.Release();
         }
     }
 }

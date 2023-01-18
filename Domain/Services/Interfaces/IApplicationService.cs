@@ -12,4 +12,5 @@ public interface IApplicationService
     Task<Application> CreateApplicationForPWD(User user, DistanceForPWD distance, List<string> oldStarterKidCodes);
     Application CreateApplicationViaMoney(User user, Distance distance, List<string> oldStarterKidCodes);
     Application IssueStarterKit(Application application, string? fullNameRecipient, StartKitEnum starterKit);
+    Application AssignNumber(Application application, Distance distance);
 }

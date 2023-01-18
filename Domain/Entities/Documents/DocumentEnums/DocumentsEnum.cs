@@ -5,7 +5,9 @@ namespace Domain.Entities.Documents.DocumentEnums
     {
         FrontPassport,
         Insurance,
-        Disability
+        Disability,
+        BackPassportPath,
+        BackInsurancePath,
+        BackDisabilityPath
     }
 }
-

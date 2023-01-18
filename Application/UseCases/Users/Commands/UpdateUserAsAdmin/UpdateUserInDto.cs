@@ -8,7 +8,6 @@ namespace Core.UseCases.Users.Commands.UpdateUserAsAdmin;
 public record UpdateUserInDto : BaseDto<UpdateUserInDto, User>
 {
     public string? Id { get; set; }
-    public string? Email { get; set; }
     public string? Name { get; set; }
     public string? Surname { get; set; }
     public bool? Gender { get; set; }
