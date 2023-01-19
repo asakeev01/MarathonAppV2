@@ -5,9 +5,11 @@ using System.Text;
 using Core.UseCases.Payments.Commands.ReceivePayment;
 using Domain.Common.Contracts;
 using Domain.Common.Options;
+using Domain.Common.Resources;
 using Domain.Entities.Applications;
 using Domain.Entities.Applications.Exceptions;
 using Domain.Services.Models;
+using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Options;
 using RestSharp;
 using RestSharp.Serializers.Xml;
@@ -19,12 +21,14 @@ public class PaymentService : IPaymentService
     private readonly IUnitOfWork _unit;
     private PaymentOptions _paymentOptions;
     private AppUrlOptions _appOptions;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public PaymentService(IUnitOfWork unit, IOptionsMonitor<PaymentOptions> paymentOptions, IOptionsMonitor<AppUrlOptions> appOptions)
+    public PaymentService(IUnitOfWork unit, IOptionsMonitor<PaymentOptions> paymentOptions, IOptionsMonitor<AppUrlOptions> appOptions, IStringLocalizer<SharedResource> _localizer)
     {
         _unit = unit;
         _paymentOptions = paymentOptions.CurrentValue;
         _appOptions = appOptions.CurrentValue;
+        this._localizer = _localizer;
     }
 
     public async Task<Application> SendInitPaymentAsync(Application application)
@@ -42,8 +46,7 @@ public class PaymentService : IPaymentService
             string description = "Payment";
             string salt = "Random";
             string order_id = application.Id.ToString();
-            string result_url = _appOptions.BackUrl;
-            string receive_payment_url = _appOptions.ReceivePaymentUrl;
+            string result_url = _appOptions.BackUrl + _appOptions.ReceivePaymentUrl;
             string secret_key = _paymentOptions.SecretKey;
             string text = init + ";" + amount + ";" + description + ";" + lifetime + ";" + merchant_id + ";" + order_id + ";" + salt + ";" + user_contact_email + ";" + secret_key;
 
@@ -71,6 +74,7 @@ public class PaymentService : IPaymentService
                 pg_merchant_id = merchant_id,
                 pg_amount = amount,
                 pg_description = description,
+                pg_result_url = 
                 pg_salt = salt,
                 pg_sig = sig.ToString(),
                 pg_lifetime = lifetime,
@@ -82,7 +86,7 @@ public class PaymentService : IPaymentService
             var data = dotNetXmlDeserializer.Deserialize<InitPaymentResponse>(response);
 
             if (data.pg_status != "ok")
-                throw new PaymentNotInitializedException(response.ErrorMessage, response.StatusCode);
+                throw new PaymentNotInitializedException(_localizer);
 
             application.PaymentId = data.pg_payment_id;
             application.PaymentUrl = data.pg_redirect_url;
@@ -160,12 +164,12 @@ public class PaymentService : IPaymentService
                 text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" +
                     description + ";" + net_amount + ";" + order_id + ";" +
                     payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
-                    result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + secret_key;
+                    result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
             else
                 text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" +
                     description + ";" + net_amount + ";" + order_id + ";" +
                     payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
-                    result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
+                    result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + secret_key;
         }
 
 

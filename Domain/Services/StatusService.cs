@@ -28,7 +28,7 @@ public class StatusService : IStatusService
                 statusComments.Add(statusComment);
             }
 
-        if (status.CurrentStatus == StatusesEnum.Confirmed && document.DisabilityPath != null)
+        if (status.CurrentStatus == StatusesEnum.Confirmed && (document.DisabilityPath != null || document.BackDisabilityPath != null))
         {
             user.IsDisable = true;
         }

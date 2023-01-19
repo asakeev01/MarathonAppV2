@@ -34,7 +34,8 @@ public class SavedDocumentService : ISavedDocumentService
 
         if (documentType == DocumentsEnum.FrontPassport)
         {
-            if (document.FrontPassportPath != null) {
+            if (document.FrontPassportPath != null)
+            {
                 string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.FrontPassportPath);
                 if (File.Exists(oldDocument))
                     File.Delete(oldDocument);
@@ -43,16 +44,49 @@ public class SavedDocumentService : ISavedDocumentService
         }
         else if (documentType == DocumentsEnum.Insurance)
         {
-            if (document.InsurancePath != null) {
+            if (document.InsurancePath != null)
+            {
                 string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.InsurancePath);
                 if (File.Exists(oldDocument))
                     File.Delete(oldDocument);
             }
             document.InsurancePath = databasePath;
         }
+        //---------------
+        else if (documentType == DocumentsEnum.BackPassportPath)
+        {
+            if (document.BackPassportPath != null)
+            {
+                string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.BackPassportPath);
+                if (File.Exists(oldDocument))
+                    File.Delete(oldDocument);
+            }
+            document.BackPassportPath = databasePath;
+        }
+        else if (documentType == DocumentsEnum.BackInsurancePath)
+        {
+            if (document.BackInsurancePath != null)
+            {
+                string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.BackInsurancePath);
+                if (File.Exists(oldDocument))
+                    File.Delete(oldDocument);
+            }
+            document.BackInsurancePath = databasePath;
+        }
+        else if (documentType == DocumentsEnum.BackDisabilityPath)
+        {
+            if (document.BackDisabilityPath != null)
+            {
+                string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.BackDisabilityPath);
+                if (File.Exists(oldDocument))
+                    File.Delete(oldDocument);
+            }
+            document.BackDisabilityPath = databasePath;
+        }
         else
         {
-            if (document.DisabilityPath != null) {
+            if (document.DisabilityPath != null)
+            {
                 string oldDocument = Path.Combine(Directory.GetCurrentDirectory(), document.DisabilityPath);
                 if (File.Exists(oldDocument))
                     File.Delete(oldDocument);
@@ -60,6 +94,7 @@ public class SavedDocumentService : ISavedDocumentService
             document.DisabilityPath = databasePath;
         }
         status.CurrentStatus = StatusesEnum.Processing;
+        status.User.IsDisable = false;
     }
 
     public void DeleteDocument(Status status, Document document, DocumentsEnum documentType)
@@ -129,9 +164,11 @@ public class SavedDocumentService : ISavedDocumentService
         {
             status.CurrentStatus = StatusesEnum.Processing;
         }
-        else {
+        else
+        {
             status.CurrentStatus = StatusesEnum.Empty;
         }
+        status.User.IsDisable = false;
     }
 }
 
