@@ -23,7 +23,7 @@ public class ApplicationByIdHandler : IRequestHandler<ApplicationByIdQuery, Appl
     public async Task<ApplicationByIdQueryOutDto> Handle(ApplicationByIdQuery request,
         CancellationToken cancellationToken)
     {
-        var application = await _unit.ApplicationRepository.FirstAsync(a => a.Id == request.ApplicationId, include: source => source
+        var application = await _unit.ApplicationRepository.FirstAsync(a => a.Id == request.ApplicationId && x.RemovalTime == null, include: source => source
             .Include(x => x.User).ThenInclude(x => x.Documents)
             .Include(x => x.User).ThenInclude(x => x.Status)
             .Include(x => x.Distance)

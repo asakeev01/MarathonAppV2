@@ -24,7 +24,7 @@ public class ApplicationByStarterKitCodeHandler : IRequestHandler<ApplicationByS
     public async Task<ApplicationByStarterKitCodeQueryOutDto> Handle(ApplicationByStarterKitCodeQuery request,
         CancellationToken cancellationToken)
     {
-        var application = await _unit.ApplicationRepository.FirstAsync(a => a.StarterKitCode == request.StarterKitCode && a.MarathonId == request.MarathonId, include: source => source
+        var application = await _unit.ApplicationRepository.FirstAsync(a => a.StarterKitCode == request.StarterKitCode && a.MarathonId == request.MarathonId && x.RemovalTime == null, include: source => source
             .Include(x => x.User).ThenInclude(x => x.Documents)
             .Include(x => x.User).ThenInclude(x => x.Status)
             .Include(x => x.Distance)
