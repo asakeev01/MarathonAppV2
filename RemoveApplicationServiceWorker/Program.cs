@@ -1,4 +1,5 @@
-using RemoveApplicationServiceWorker;
+﻿using RemoveApplicationServiceWorker;
+using RemoveApplicationServiceWorker.Options;
 
 IHost host = Host.CreateDefaultBuilder(args)
     .ConfigureServices(services =>
@@ -8,3 +9,4 @@ IHost host = Host.CreateDefaultBuilder(args)
     .Build();
 
 await host.RunAsync();
+

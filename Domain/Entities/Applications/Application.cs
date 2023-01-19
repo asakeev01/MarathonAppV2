@@ -16,7 +16,7 @@ public class Application
     public PaymentMethodEnum Payment { get; set; }
     public decimal? Price { get; set; }
     public decimal? Paid { get; set; }
-    public string StarterKitCode {get;set;}
+    public string StarterKitCode { get; set; }
     public string? FullNameRecipient { get; set; }
     public DateTime? DateOfIssue { get; set; }
     public DateTime? RemovalTime { get; set; }
@@ -26,11 +26,12 @@ public class Application
     public int MarathonId { get; set; }
     public int? PromocodeId { get; set; }
     public int? DistanceForPWDId { get; set; }
+    public int? PaymentId { get; set; }
+    public string? PaymentUrl { get; set; }
     public DistanceForPWD? DistanceForPWD { get; set; }
     public Promocode? Promocode { get; set; }
     public Distance? Distance { get; set; }
-    public DistanceAge? DistanceAge { get; set; } 
+    public DistanceAge? DistanceAge { get; set; }
     public User User { get; set; }
     public Marathon? Marathon { get; set; }
-
 }

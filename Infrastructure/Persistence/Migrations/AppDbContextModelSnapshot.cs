@@ -63,6 +63,12 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("Payment")
                         .HasColumnType("int");
 
+                    b.Property<int?>("PaymentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("PaymentUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<decimal?>("Price")
                         .HasColumnType("decimal(18,2)");
 
@@ -108,6 +114,9 @@ namespace Infrastructure.Persistence.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("ActivatedReservedPlaces")
+                        .HasColumnType("int");
+
+                    b.Property<int>("InitializedPlaces")
                         .HasColumnType("int");
 
                     b.Property<int>("MarathonId")
@@ -211,8 +220,8 @@ namespace Infrastructure.Persistence.Migrations
                     b.Property<int>("DistanceId")
                         .HasColumnType("int");
 
-                    b.Property<double>("Price")
-                        .HasColumnType("float");
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
 

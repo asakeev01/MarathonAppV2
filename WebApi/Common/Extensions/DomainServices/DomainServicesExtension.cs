@@ -13,6 +13,7 @@ public static class DomainServicesExtension
         services.AddScoped<ISavedFileService, SavedFileService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<IEmailService, EmailService>();
+        services.AddScoped<IPaymentService, PaymentService>();
         services.AddScoped<IRefreshTokenService, RefreshTokenService>();
         services.AddScoped<IGoogleAuthService, GoogleAuthService>();
         services.AddScoped<ISavedDocumentService, SavedDocumentService>();

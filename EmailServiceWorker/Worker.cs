@@ -81,8 +81,7 @@ public class Worker : BackgroundService
                 }
             }
             context.Dispose();
-
-            await Task.Delay(1000, stoppingToken);
+            await Task.Delay(60000, stoppingToken);
         }
     }
 }

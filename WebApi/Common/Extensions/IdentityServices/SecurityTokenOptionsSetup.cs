@@ -2,25 +2,25 @@
 using Domain.Common.Options;
 using Microsoft.Extensions.Options;
 
-namespace WebApi.Common.Extensions.IdentityServices
+namespace WebApi.Common.Extensions.IdentityServices;
+
+public class SecurityTokenOptionsSetup : IConfigureOptions<SecurityTokenOptions>
 {
-    public class SecurityTokenOptionsSetup : IConfigureOptions<SecurityTokenOptions>
+    private readonly IConfiguration _configuration;
+
+    public SecurityTokenOptionsSetup(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
+        _configuration = configuration;
+    }
 
-        public SecurityTokenOptionsSetup(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+    private const string ConfigurationSectionName = "Identity:JwtConfig";
 
-        private const string ConfigurationSectionName = "Identity:JwtConfig";
-
-        public void Configure(SecurityTokenOptions options)
-        {
-            _configuration
-                .GetSection(ConfigurationSectionName)
-                .Bind(options);
-        }
+    public void Configure(SecurityTokenOptions options)
+    {
+        _configuration
+            .GetSection(ConfigurationSectionName)
+            .Bind(options);
     }
 }
+
 

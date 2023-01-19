@@ -2,25 +2,25 @@
 using Domain.Common.Options;
 using Microsoft.Extensions.Options;
 
-namespace WebApi.Common.Extensions.IdentityServices
+namespace WebApi.Common.Extensions.IdentityServices;
+
+public class GoogleAuthOptionsSetup : IConfigureOptions<GoogleAuthOptions>
 {
-    public class GoogleAuthOptionsSetup : IConfigureOptions<GoogleAuthOptions>
+    private readonly IConfiguration _configuration;
+
+    public GoogleAuthOptionsSetup(IConfiguration configuration)
     {
-        private readonly IConfiguration _configuration;
+        _configuration = configuration;
+    }
 
-        public GoogleAuthOptionsSetup(IConfiguration configuration)
-        {
-            _configuration = configuration;
-        }
+    private const string ConfigurationSectionName = "GoogleAuthSettings";
 
-        private const string ConfigurationSectionName = "GoogleAuthSettings";
-
-        public void Configure(GoogleAuthOptions options)
-        {
-            _configuration
-                .GetSection(ConfigurationSectionName)
-                .Bind(options);
-        }
+    public void Configure(GoogleAuthOptions options)
+    {
+        _configuration
+            .GetSection(ConfigurationSectionName)
+            .Bind(options);
     }
 }
+
 

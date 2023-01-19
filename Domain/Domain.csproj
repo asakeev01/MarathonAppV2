@@ -86,5 +86,6 @@
       <None Remove="Entities\Documents\DocumentEnums\" />
       <None Remove="Entities\Statuses\" />
       <None Remove="Entities\Statuses\StatusEnums\" />
+      <None Remove="RestSharp" />
     </ItemGroup>
 </Project>

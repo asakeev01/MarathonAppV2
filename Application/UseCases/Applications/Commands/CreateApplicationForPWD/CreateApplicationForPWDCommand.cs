@@ -48,11 +48,8 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
             //{
             //    throw new AlreadyRegisteredException(_localizer);
             //}
-
             var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
-
             var marathon = distance.Marathon;
-
             var application = await _applicationService.CreateApplicationForPWD(user, distance, oldStarterKitCodes);
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
             await _unit.DistanceForPwdRepository.Update(distance, save: true);

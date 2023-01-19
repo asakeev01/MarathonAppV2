@@ -1,4 +1,8 @@
-﻿using Domain.Common.Resources;
+﻿using System.Security.Cryptography;
+using System.Text;
+using System.Text.Json;
+using Domain.Common.Options;
+using Domain.Common.Resources;
 using Domain.Entities.Applications;
 using Domain.Entities.Applications.ApplicationEnums;
 using Domain.Entities.Applications.Exceptions;
@@ -15,8 +19,7 @@ public class ApplicationService : IApplicationService
 {
     private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public ApplicationService(
-        IStringLocalizer<SharedResource> _localizer)
+    public ApplicationService(IStringLocalizer<SharedResource> _localizer)
     {
         this._localizer = _localizer;
     }
@@ -41,7 +44,7 @@ public class ApplicationService : IApplicationService
         if (distance.RemainingPlaces <= 0)
             throw new NoPlacesException(_localizer);
 
-        var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
+        var starterKitCode = GenerateStarterKitCode(oldStarterKidCodes);
         
         Application result = new Application()
         {
@@ -98,6 +101,7 @@ public class ApplicationService : IApplicationService
         {
             throw new DeactivatedVoucherException(_localizer);
         }
+
         if (promocode.IsActivated == true)
         {
             throw new ActivatedPromocodeException(_localizer);
@@ -119,14 +123,79 @@ public class ApplicationService : IApplicationService
         promocode.IsActivated = true;
         promocode.User = user;
         distance.ActivatedReservedPlaces += 1;
-        var starterKitCode = await GenerateStarterKitCode(oldStarterKidCodes);
+
+        var starterKitCode = GenerateStarterKitCode(oldStarterKidCodes);
+
         result.StarterKitCode = starterKitCode;
 
         return result;
 
     }
 
-    public async Task<string> GenerateStarterKitCode(List<string> generatedPromocodes)
+    public Application CreateApplicationViaMoney(User user, Distance distance, List<string> oldStarterKidCodes)
+    {
+        if (user.DateOfConfirmation == null)
+        {
+            throw new UserAgreementLicenseAgreementException(_localizer);
+        }
+        var marathon = distance.Marathon;
+        var today = DateTime.Now.Date;
+        if (today < marathon.StartDateAcceptingApplications.Date || today > marathon.EndDateAcceptingApplications.Date)
+        {
+            throw new OutsideRegistationDateException(_localizer);
+        }
+
+        var userAge = user.GetAge();
+        DistanceAge selecetedDistanceAge = null;
+        foreach (var distanceAge in distance.DistanceAges)
+        {
+            if (userAge >= distanceAge.AgeFrom && userAge <= distanceAge.AgeTo && user.Gender == distanceAge.Gender)
+            {
+                selecetedDistanceAge = distanceAge;
+                break;
+            }
+        }
+
+        if (selecetedDistanceAge == null)
+            throw new NoDistanceAgeException(_localizer);
+
+        if (distance.RemainingPlaces <= 0)
+            throw new NoPlacesException(_localizer);
+
+        decimal priceOfDistance = 0;
+
+        foreach (var price in distance.DistancePrices)
+        {
+            if (price.DateStart <= today && today <= price.DateEnd)
+            {
+                priceOfDistance = price.Price;
+                break;
+            }
+        }
+
+        var starterKitCode = GenerateStarterKitCode(oldStarterKidCodes);
+
+        Application result = new Application()
+        {
+            User = user,
+            UserId = user.Id,
+            Date = DateTime.Now,
+            Marathon = distance.Marathon,
+            Distance = distance,
+            DistanceAge = selecetedDistanceAge,
+            Price = priceOfDistance,
+            StarterKit = StartKitEnum.NotIssued,
+            Payment = PaymentMethodEnum.Money,
+            RemovalTime = DateTime.Now.AddMinutes(65),
+            StarterKitCode = starterKitCode,
+        };
+
+        distance.InitializedPlaces += 1;
+
+        return result;
+    }
+
+    public string GenerateStarterKitCode(List<string> generatedPromocodes)
     {
 
         Random random = new Random();
@@ -161,5 +230,15 @@ public class ApplicationService : IApplicationService
         application.StarterKit = starterKit;
         application.DateOfIssue = DateTime.UtcNow;
         return application;
+    }
+
+    public Application AssignNumber(Application application, Distance distance)
+    {
+        var result = application;
+        result.Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants;
+        result.RemovalTime = null;
+        distance.InitializedPlaces -= 1;
+        distance.RegisteredParticipants += 1;
+        return result;
     }
 }

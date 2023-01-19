@@ -17,9 +17,9 @@ using WebApi.Common.Extensions.RepositoryServices;
 using WebApi.Common.Extensions.CorsServices;
 using WebApi.Common.Extensions.SwaggerServices;
 using static WebApi.Common.Extensions.FluentValidationServices.FluentValidationServiceExtension;
-using EmailServiceWorker;
+using WebApi.Common.Extensions.PaymentServices;
 using EmailServiceWorker.Options;
-using RemoveApplicationServiceWorker;
+using RemoveApplicationServiceWorker.Options;
 using Microsoft.AspNetCore.StaticFiles;
 
 namespace WebApi.Common.Extensions;
@@ -45,12 +45,14 @@ public static class WebApplicationBuilderExtension
         services.AddMediatr();
         services.AddAppDbContext(configuration, env);
         services.AddIdentityService(configuration);
+        services.AddPaymentService();
         services.AddRepositories();
         services.RegisterDomainServices(configuration);
 
         services.ConfigureOptions<EmailOptionsSetup>();
         services.AddHostedService<EmailServiceWorker.Worker>();
 
+        services.ConfigureOptions<DeletePaymentOptionsSetup>();
         services.AddHostedService<RemoveApplicationServiceWorker.Worker>();
 
 

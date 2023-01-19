@@ -1,9 +1,9 @@
 ﻿using System;
-namespace Domain.Common.Options
+namespace Domain.Common.Options;
+
+public class GoogleAuthOptions
 {
-    public class GoogleAuthOptions
-    {
-        public string clientId { get; set; }
-    }
+    public string ClientId { get; set; }
 }
+
 
