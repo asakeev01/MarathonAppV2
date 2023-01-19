@@ -8,7 +8,7 @@ namespace Domain.Entities.Applications.Exceptions;
 
 public class SignaturesDoNotMatchException : DomainException
 {
-    public SignaturesDoNotMatchException() : base(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.OutsideRegistationDateError], 9)
+    public SignaturesDoNotMatchException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.OutsideRegistationDateError], 9)
     {
     }
 }

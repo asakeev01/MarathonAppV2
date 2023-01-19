@@ -7,6 +7,7 @@ using Core.UseCases.Applications.Queries.ApplicationById;
 using Core.UseCases.Applications.Queries.ApplicationByStarterKitCodeQuery;
 using Core.UseCases.Applications.Queries.ApplicationsByMarathonQuery;
 using Core.UseCases.Applications.Queries.GenerateExcelApplications;
+using Core.UseCases.Applications.Queries.MyApplications;
 using FluentValidation;
 using Gridify;
 using MediatR;
@@ -235,6 +236,27 @@ public class ApplicationsController : BaseController
             StarterKit = dto.StarterKit,
             ApplicationId = applicationId,
             FullNameRecipient = dto.FullNameRecipient
+        };
+
+        var result = await _mediator.Send(issueStarterKitCommand);
+        return Ok(result);
+    }
+
+    [HttpGet("myApplications")]
+    [Consumes("multipart/form-data")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(MyApplicationsQueryOutDto), StatusCodes.Status200OK)]
+    [Authorize]
+    public async Task<ActionResult> MyApplications(
+        [FromQuery] GridifyQuery query
+        )
+    {
+
+        var issueStarterKitCommand = new MyApplicationsQuery()
+        {
+            UserId = Convert.ToInt32(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value),
+            LanguageCode = this.Request.Headers["Accept-Language"],
+            Query = query,
         };
 
         var result = await _mediator.Send(issueStarterKitCommand);

@@ -48,7 +48,8 @@ public class PaymentService : IPaymentService
             string order_id = application.Id.ToString();
             string result_url = _appOptions.BackUrl + _appOptions.ReceivePaymentUrl;
             string secret_key = _paymentOptions.SecretKey;
-            string text = init + ";" + amount + ";" + description + ";" + lifetime + ";" + merchant_id + ";" + order_id + ";" + salt + ";" + user_contact_email + ";" + secret_key;
+            string text = init + ";" + amount + ";" + description + ";" + lifetime + ";" + merchant_id + ";" + order_id + ";" + result_url + ";" +
+                salt + ";" + user_contact_email + ";" + secret_key;
 
 
             MD5 md5 = new MD5CryptoServiceProvider();
@@ -74,7 +75,7 @@ public class PaymentService : IPaymentService
                 pg_merchant_id = merchant_id,
                 pg_amount = amount,
                 pg_description = description,
-                pg_result_url = 
+                pg_result_url = result_url,
                 pg_salt = salt,
                 pg_sig = sig.ToString(),
                 pg_lifetime = lifetime,
