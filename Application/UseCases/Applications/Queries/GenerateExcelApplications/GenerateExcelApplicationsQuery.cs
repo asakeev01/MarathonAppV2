@@ -29,7 +29,7 @@ public class GenerateExcelApplicationsQueryHandler : IRequestHandler<GenerateExc
             );
 
         var applications = _unit.ApplicationRepository
-            .FindByCondition(predicate: x => x.MarathonId == request.MarathonId, include: source => source
+            .FindByCondition(predicate: x => x.MarathonId == request.MarathonId && x.RemovalTime == null, include: source => source
             .Include(x => x.User).ThenInclude(x => x.Status)
             .Include(x => x.Promocode).ThenInclude(x => x.Voucher)
             .Include(x => x.DistanceForPWD)
