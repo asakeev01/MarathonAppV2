@@ -1,3 +1,5 @@
+using Domain.Entities.Documents;
+using Domain.Entities.Statuses;
 using Domain.Entities.Users;
 using Domain.Entities.Users.Constants;
 using Microsoft.AspNetCore.Identity;
@@ -13,8 +15,11 @@ public static class SeedUserExtension
         {
             Email = Owner.Email,
             UserName = Owner.Email,
-            EmailConfirmed = true
+            EmailConfirmed = true,
+            Documents = new List<Document>(),
         };
+        owner.Documents.Add(new Document());
+        owner.Status = new Status();
 
         PasswordHasher<User> ph = new PasswordHasher<User>();
         owner.PasswordHash = ph.HashPassword(owner, "Aidar");

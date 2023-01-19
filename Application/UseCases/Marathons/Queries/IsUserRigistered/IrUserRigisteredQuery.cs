@@ -29,7 +29,7 @@ public class GetMarathonsHandler : IRequestHandler<IrUserRigisteredQuery, IrUser
 
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
 
-        var application = await _unit.ApplicationRepository.FirstToAsync<IrUserRigisteredOutDto>(x => x.UserId == request.UserId && x.MarathonId == request.MarathonId,
+        var application = await _unit.ApplicationRepository.FirstToAsync<IrUserRigisteredOutDto>(x => x.UserId == request.UserId && x.MarathonId == request.MarathonId && x.RemovalTime == null,
             include: source => source
             .Include(x => x.Marathon).ThenInclude(x => x.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))
             .Include(x => x.Distance)
