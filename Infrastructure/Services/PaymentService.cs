@@ -145,32 +145,19 @@ public class PaymentService : IPaymentService
             var card_owner = receivePaymentDto.pg_card_owner;
             var card_brand = receivePaymentDto.pg_card_brand;
 
-            if (user_phone != null)
-                text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" + captured + ";" +
-                    card_id + ";" + card_pan + ";" + card_exp + ";" + card_owner + ";" + card_brand + ";" +
-                    description + ";" + net_amount + ";" + order_id + ";" +
-                    payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
-                    result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
-            else
-                text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" + captured + ";" +
-                    card_id + ";" + card_pan + ";" + card_exp + ";" + card_owner + ";" + card_brand + ";" +
-                    description + ";" + net_amount + ";" + order_id + ";" +
-                    payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
-                    result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + secret_key;
+            text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" + captured + ";" +
+                card_id + ";" + card_pan + ";" + card_exp + ";" + card_owner + ";" + card_brand + ";" +
+                description + ";" + net_amount + ";" + order_id + ";" +
+                payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
+                result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
         }
 
         else
         {
-            if (user_phone != null)
-                text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" +
-                    description + ";" + net_amount + ";" + order_id + ";" +
-                    payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
-                    result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
-            else
-                text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" +
-                    description + ";" + net_amount + ";" + order_id + ";" +
-                    payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
-                    result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + secret_key;
+            text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" +
+                description + ";" + net_amount + ";" + order_id + ";" +
+                payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
+                result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
         }
 
 
