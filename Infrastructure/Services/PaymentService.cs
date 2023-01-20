@@ -10,6 +10,7 @@ using Domain.Entities.Applications;
 using Domain.Entities.Applications.Exceptions;
 using Domain.Services.Models;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using RestSharp;
 using RestSharp.Serializers.Xml;
@@ -22,13 +23,16 @@ public class PaymentService : IPaymentService
     private PaymentOptions _paymentOptions;
     private AppUrlOptions _appOptions;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly ILogger<PaymentService> _logger;
 
-    public PaymentService(IUnitOfWork unit, IOptionsMonitor<PaymentOptions> paymentOptions, IOptionsMonitor<AppUrlOptions> appOptions, IStringLocalizer<SharedResource> _localizer)
+    public PaymentService(ILogger<PaymentService> logger, IUnitOfWork unit, IOptionsMonitor<PaymentOptions> paymentOptions, IOptionsMonitor<AppUrlOptions> appOptions, IStringLocalizer<SharedResource> _localizer)
     {
         _unit = unit;
         _paymentOptions = paymentOptions.CurrentValue;
         _appOptions = appOptions.CurrentValue;
+        _logger = logger;
         this._localizer = _localizer;
+
     }
 
     public async Task<Application> SendInitPaymentAsync(Application application)
@@ -160,7 +164,7 @@ public class PaymentService : IPaymentService
                 result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
         }
 
-
+        
 
         MD5 md5 = new MD5CryptoServiceProvider();
 
@@ -175,6 +179,10 @@ public class PaymentService : IPaymentService
         }
         if (sigBack.ToString() != sig)
         {
+            _logger.LogInformation(text);
+            _logger.LogInformation(sig);
+            Console.WriteLine(text);
+            Console.WriteLine(sig);
             Console.WriteLine("Signature is not right");
             return false;
         }  
