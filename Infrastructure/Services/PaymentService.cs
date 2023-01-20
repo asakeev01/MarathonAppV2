@@ -143,25 +143,24 @@ public class PaymentService : IPaymentService
         if (payment_method == "bankcard")
         {
             var captured = receivePaymentDto.pg_captured;
-            var card_id = receivePaymentDto.pg_card_id;
             var card_pan = receivePaymentDto.pg_card_pan;
             var card_exp = receivePaymentDto.pg_card_exp;
             var card_owner = receivePaymentDto.pg_card_owner;
             var card_brand = receivePaymentDto.pg_card_brand;
 
-            text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" + captured + ";" +
-                card_id + ";" + card_pan + ";" + card_exp + ";" + card_owner + ";" + card_brand + ";" +
+            text = receive_payment_url + ";" + amount + ";" + can_reject + ";" + captured + ";" +
+                card_brand + ";" + card_exp + ";" + card_owner + ";" + card_pan + ";" + currency  + ";" +
                 description + ";" + net_amount + ";" + order_id + ";" +
-                payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
-                result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
+                payment_date + ";" + payment_id + ";" + payment_method + ";" + ps_amount + ";" + ps_currency + ";" + ps_full_amount + ";" +
+                result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + user_phone + ";" + secret_key;
         }
 
         else
         {
-            text = receive_payment_url + ";" + amount + ";" + currency + ";" + can_reject + ";" +
+            text = receive_payment_url + ";" + amount + ";" + can_reject + ";" + currency + ";" +
                 description + ";" + net_amount + ";" + order_id + ";" +
-                payment_id + ";" + ps_amount + ";" + ps_full_amount + ";" + ps_currency + ";" + payment_date + ";" + payment_method + ";" +
-                result + ";" + salt + ";" + testing_mode + ";" + user_phone + ";" + user_contact_email + ";" + secret_key;
+                payment_date + ";" + payment_id + ";" + payment_method + ";" + ps_amount + ";" + ps_currency + ";" + ps_full_amount + ";" +
+                result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + user_phone + ";" + secret_key;
         }
 
         
