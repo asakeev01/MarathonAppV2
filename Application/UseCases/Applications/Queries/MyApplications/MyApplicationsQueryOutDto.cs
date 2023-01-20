@@ -27,7 +27,7 @@ namespace Core.UseCases.Applications.Queries.MyApplications
                 .Map(x => x.Date, y => y.Marathon.Date)
                 .Map(x => x.Distance, y => y.Distance.Name)
                 .Map(x => x.Place, y => y.Marathon.MarathonTranslations.First().Place)
-                .Map(x => x.AgeFrom, y => y.DistanceAge.AgeTo)
+                .Map(x => x.AgeFrom, y => y.DistanceAge.AgeFrom)
                 .Map(x => x.AgeTo, y => y.DistanceAge.AgeTo)
                 .Map(x => x.DistanceForPwd, y => y.DistanceForPWD.Name);
         }
