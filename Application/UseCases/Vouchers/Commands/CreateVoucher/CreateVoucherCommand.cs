@@ -23,7 +23,7 @@ public class CreateVoucherCommandHandler : IRequestHandler<CreateVoucherCommand,
 
     public async Task<int> Handle(CreateVoucherCommand cmd, CancellationToken cancellationToken)
     {
-        using var tran = await _unit.BeginTransactionAsync(System.Data.IsolationLevel.ReadCommitted);
+        using var tran = await _unit.BeginTransactionAsync(System.Data.IsolationLevel.ReadUncommitted);
 
         var entity = cmd.VoucherDto.Adapt<Voucher>();
         var voucher = await _unit.VoucherRepository.CreateAsync(entity, save: true);
@@ -32,6 +32,7 @@ public class CreateVoucherCommandHandler : IRequestHandler<CreateVoucherCommand,
             var distance = await _unit.DistanceRepository.FirstAsync(x => x.Id == slot.DistanceId);
             await _unit.PromocodeRepository.GeneratePromocodes(voucher, voucher.Marathon, distance, slot.Quantity);
             await _unit.DistanceRepository.Update(distance, save: true);
+            await _unit.PromocodeRepository.SaveAsync();
         }
         tran.Commit();
         return voucher.Id;
