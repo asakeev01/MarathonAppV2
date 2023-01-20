@@ -26,7 +26,7 @@ public class AddPromocodesToVoucherCommandHandler : IRequestHandler<AddPromocode
 
     public async Task<HttpStatusCode> Handle(AddPromocodesToVoucherCommand cmd, CancellationToken cancellationToken)
     {
-        using var tran = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled);
+        using var tran = await _unit.BeginTransactionAsync(System.Data.IsolationLevel.ReadUncommitted);
 
         var voucher = await _unit.VoucherRepository.FirstAsync(x => x.Id == cmd.VoucherId, include: source => source.Include(x => x.Promocodes));
         foreach (var slot in cmd.PromocodesDto.Promocodes)
@@ -34,8 +34,9 @@ public class AddPromocodesToVoucherCommandHandler : IRequestHandler<AddPromocode
             var distance = await _unit.DistanceRepository.FirstAsync(x => x.Id == slot.DistanceId);
             await _unit.PromocodeRepository.GeneratePromocodes(voucher, voucher.Marathon, distance, slot.Quantity);
             await _unit.DistanceRepository.Update(distance, save: true);
+            await _unit.PromocodeRepository.SaveAsync();
         }
-        tran.Complete();
+        tran.Commit();
         return HttpStatusCode.OK;
     }
 }

@@ -56,7 +56,7 @@ public class PromocodeRepository : BaseRepository<Promocode>, IPromocodeReposito
                     Voucher = voucher,
                     CreationDate = DateTime.Now,
                 };
-                await this.CreateAsync(entity, save:true);
+                await this.CreateAsync(entity);
             }
         }
         distance.ReservedPlaces += quantity;
