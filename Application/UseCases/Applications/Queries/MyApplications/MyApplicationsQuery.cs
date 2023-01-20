@@ -27,7 +27,7 @@ public class MyApplicationsQueryyHandler : IRequestHandler<MyApplicationsQuery, 
         CancellationToken cancellationToken)
     {
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
-        var applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.UserId == request.UserId && x.RemovalTime == null, include: source => source
+        var applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.UserId == request.UserId && x.RemovalTime == null && x.Date.Date >= DateTime.Now.Date, include: source => source
             .Include(x => x.Distance)
             .Include(x => x.DistanceAge)
             .Include(x => x.DistanceForPWD)
