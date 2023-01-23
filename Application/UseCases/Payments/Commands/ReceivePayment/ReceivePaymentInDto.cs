@@ -10,6 +10,8 @@ public record ReceivePaymentInDto : BaseDto<ReceivePaymentInDto, ReceivePaymentD
     public int pg_payment_id { get; set; }
     public string pg_amount { get; set; }
     public string? pg_currency { get; set; }
+    public string? pg_need_email_notification { get; set; }
+    public string? pg_need_phone_notification { get; set; }
     public string? pg_net_amount { get; set; }
     public string? pg_ps_amount { get; set; }
     public string? pg_ps_full_amount { get; set; }
