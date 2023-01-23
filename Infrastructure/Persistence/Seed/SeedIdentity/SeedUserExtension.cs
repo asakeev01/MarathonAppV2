@@ -22,7 +22,7 @@ public static class SeedUserExtension
         owner.Status = new Status();
 
         PasswordHasher<User> ph = new PasswordHasher<User>();
-        owner.PasswordHash = ph.HashPassword(owner, "Aidar");
+        owner.PasswordHash = ph.HashPassword(owner, "Aidar123");
 
         var entity = await userManager.FindByEmailAsync(owner.Email);
         if (entity is null)
