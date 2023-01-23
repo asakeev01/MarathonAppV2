@@ -124,6 +124,8 @@ public class PaymentService : IPaymentService
         var currency = receivePaymentDto.pg_currency;
         var can_reject = receivePaymentDto.pg_can_reject;
         var description = receivePaymentDto.pg_description;
+        var need_email_notification = receivePaymentDto.pg_need_email_notification;
+        var need_phone_notification = receivePaymentDto.pg_need_phone_notification;
         var net_amount = receivePaymentDto.pg_net_amount;
         var order_id = receivePaymentDto.pg_order_id;
         var payment_id = receivePaymentDto.pg_payment_id;
@@ -150,7 +152,7 @@ public class PaymentService : IPaymentService
 
             text = receive_payment_url + ";" + amount + ";" + can_reject + ";" + captured + ";" +
                 card_brand + ";" + card_exp + ";" + card_owner + ";" + card_pan + ";" + currency  + ";" +
-                description + ";" + net_amount + ";" + order_id + ";" +
+                description + ";" + need_email_notification + ";" + need_phone_notification + ";" + net_amount + ";" + order_id + ";" +
                 payment_date + ";" + payment_id + ";" + payment_method + ";" + ps_amount + ";" + ps_currency + ";" + ps_full_amount + ";" +
                 result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + user_phone + ";" + secret_key;
         }
@@ -158,7 +160,7 @@ public class PaymentService : IPaymentService
         else
         {
             text = receive_payment_url + ";" + amount + ";" + can_reject + ";" + currency + ";" +
-                description + ";" + net_amount + ";" + order_id + ";" +
+                description + ";" + need_email_notification + ";" + need_phone_notification + ";" + net_amount + ";" + order_id + ";" +
                 payment_date + ";" + payment_id + ";" + payment_method + ";" + ps_amount + ";" + ps_currency + ";" + ps_full_amount + ";" +
                 result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + user_phone + ";" + secret_key;
         }
