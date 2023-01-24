@@ -24,7 +24,7 @@ public class ApplicationService : IApplicationService
         this._localizer = _localizer;
     }
 
-    public async Task<Application> CreateApplicationForPWD(User user, DistanceForPWD distance, List<string> oldStarterKidCodes)
+    public async Task<Application> CreateApplicationForPWD(User user, Distance distance, List<string> oldStarterKidCodes)
     {
         if (user.DateOfConfirmation == null)
         {
@@ -45,18 +45,30 @@ public class ApplicationService : IApplicationService
             throw new NoPlacesException(_localizer);
 
         var starterKitCode = GenerateStarterKitCode(oldStarterKidCodes);
-        
+        decimal priceOfDistance = 0;
+        foreach (var price in distance.DistancePrices)
+        {
+            if (price.DateStart <= today && today <= price.DateEnd)
+            {
+                priceOfDistance = price.Price;
+                break;
+            }
+        }
+
         Application result = new Application()
         {
             User = user,
             UserId = user.Id,
             Date = DateTime.Now,
             Marathon = distance.Marathon,
-            DistanceForPWD = distance,
-            Number = distance.StartNumbersFrom + distance.RegisteredParticipants,
+            Distance = distance,
+            Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants,
             StarterKit = StartKitEnum.NotIssued,
             Payment = Entities.Applications.ApplicationEnums.PaymentMethodEnum.PWD,
             StarterKitCode = starterKitCode,
+            IsPWD = true,
+            Price = priceOfDistance,
+            Paid = 0,
         };
         distance.RegisteredParticipants += 1;
 
@@ -78,7 +90,7 @@ public class ApplicationService : IApplicationService
             throw new OutsideRegistationDateException(_localizer);
         }
 
-        var userAge = user.GetAge();
+        var userAge = user.GetAge(distance.Marathon.Date);
         DistanceAge selecetedDistanceAge = null;
         foreach (var distanceAge in distance.DistanceAges)
         {
@@ -106,6 +118,16 @@ public class ApplicationService : IApplicationService
         {
             throw new ActivatedPromocodeException(_localizer);
         }
+        decimal priceOfDistance = 0;
+
+        foreach (var price in distance.DistancePrices)
+        {
+            if (price.DateStart <= today && today <= price.DateEnd)
+            {
+                priceOfDistance = price.Price;
+                break;
+            }
+        }
 
         Application result = new Application()
         {
@@ -118,7 +140,9 @@ public class ApplicationService : IApplicationService
             StarterKit = StartKitEnum.NotIssued,
             Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants,
             Payment = PaymentMethodEnum.Voucher,
-            Promocode = promocode
+            Promocode = promocode,
+            Price = priceOfDistance,
+            Paid = 0
         };
         promocode.IsActivated = true;
         promocode.User = user;
@@ -145,7 +169,7 @@ public class ApplicationService : IApplicationService
             throw new OutsideRegistationDateException(_localizer);
         }
 
-        var userAge = user.GetAge();
+        var userAge = user.GetAge(distance.Marathon.Date);
         DistanceAge selecetedDistanceAge = null;
         foreach (var distanceAge in distance.DistanceAges)
         {
@@ -184,6 +208,7 @@ public class ApplicationService : IApplicationService
             Distance = distance,
             DistanceAge = selecetedDistanceAge,
             Price = priceOfDistance,
+            Paid = priceOfDistance,
             StarterKit = StartKitEnum.NotIssued,
             Payment = PaymentMethodEnum.Money,
             RemovalTime = DateTime.Now.AddMinutes(65),

@@ -13,7 +13,6 @@ public record CreateMarathonInDto : BaseDto<CreateMarathonInDto, Marathon>
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
-    public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
     public ICollection<PartnersDto> Partners { get; set; }
 
     public class TranslationInDto
@@ -41,13 +40,6 @@ public record CreateMarathonInDto : BaseDto<CreateMarathonInDto, Marathon>
             public string Name { get; set; }
             public string Url { get; set; }
         }
-    }
-
-    public class DistanceForPWDDTO
-    {
-        public string Name { get; set; }
-        public int StartNumbersFrom { get; set; }
-        public int StartNumbersTo { get; set; }
     }
 
     public class DistanceDto

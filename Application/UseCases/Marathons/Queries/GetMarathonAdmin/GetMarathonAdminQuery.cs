@@ -25,7 +25,6 @@ public class GetMarathonAdminHandler : IRequestHandler<GetMarathonAdminQuery, Ge
         var marathon = await _unit.MarathonRepository
             .FirstToAsync<GetMarathonAdminOutDto>(x => x.Id == request.MarathonId,
             include: source => source
-            .Include(a => a.DistancesForPWD)
             .Include(a => a.MarathonTranslations).ThenInclude(a => a.Logo)
             .Include(a => a.Documents)
             .Include(a => a.Partners).ThenInclude(a => a.Translations)

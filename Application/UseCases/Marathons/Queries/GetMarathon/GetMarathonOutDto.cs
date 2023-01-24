@@ -17,7 +17,6 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public IEnumerable<DistanceDto> Distances { get; set; }
-    public IEnumerable<DistanceForPWDDTO> DistancesForPWD { get; set; }
     public ICollection<PartnerDto> Partners { get; set; }
     public ICollection<DocumentDto> Documents { get; set; }
 
@@ -58,16 +57,6 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
             SetCustomMappings()
                 .Map(x => x.Name, y => y.Translations.First().Name);
         }
-    }
-    public class DistanceForPWDDTO
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int StartNumbersFrom { get; set; }
-        public int StartNumbersTo { get; set; }
-        public int AmountOfParticipants { get; set; }
-        public int RemainingPlaces { get; set; }
-        public int RegisteredParticipants { get; set; }
     }
 
     public record DistanceDto : BaseDto<Distance, DistanceDto>

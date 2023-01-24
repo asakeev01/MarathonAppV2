@@ -28,7 +28,8 @@ public class ApplicationByStarterKitCodeHandler : IRequestHandler<ApplicationByS
             .Include(x => x.User).ThenInclude(x => x.Documents)
             .Include(x => x.User).ThenInclude(x => x.Status)
             .Include(x => x.Distance)
-            .Include(x => x.DistanceForPWD)
+            .Include(x => x.DistanceAge)
+            .Include(x => x.Marathon)
             );
 
         var result = application.Adapt<ApplicationByStarterKitCodeQueryOutDto>();

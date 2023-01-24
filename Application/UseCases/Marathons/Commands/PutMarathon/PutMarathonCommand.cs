@@ -36,7 +36,6 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
         var marathon = await _unit.MarathonRepository
             .FirstAsync(x => x.Id == cmd.MarathonDto.Id, include: source => source
             .Include(a => a.MarathonTranslations).ThenInclude(a => a.Logo)
-            .Include(a => a.DistancesForPWD)
             .Include(a => a.Partners).ThenInclude(a => a.PartnerCompanies).ThenInclude(a => a.Logo)
             .Include(a => a.Partners).ThenInclude(a => a.Translations)
             .Include(a => a.Distances).ThenInclude(a => a.DistancePrices)
@@ -83,11 +82,6 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
             distance.RegisteredParticipants = await _unit.ApplicationRepository.FindByCondition(x => x.DistanceId == distance.Id).CountAsync();
             distance.ReservedPlaces = await _unit.PromocodeRepository.FindByCondition(x => x.DistanceId == distance.Id).CountAsync();
             distance.ActivatedReservedPlaces = await _unit.PromocodeRepository.FindByCondition(x => x.DistanceId == distance.Id && x.IsActivated == true).CountAsync();
-        }
-
-        foreach (var distance in marathon.DistancesForPWD)
-        {
-            distance.RegisteredParticipants = await _unit.ApplicationRepository.FindByCondition(x => x.DistanceForPWDId == distance.Id).CountAsync();
         }
 
         await _unit.SavedFileRepository.SaveAsync();

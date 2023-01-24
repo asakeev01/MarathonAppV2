@@ -28,12 +28,13 @@ public class User : IdentityUser<long>
     public ICollection<Application> Applications { get; set; }
     public virtual ICollection<UserRole> UserRoles { get; set; }
 
-    public int GetAge() {
-        var today = DateTime.Today;
+    public int GetAge(DateTime? marathonTime=null) {
 
-        int age = today.Year - DateOfBirth.Value.Year;
+        var date = marathonTime ?? DateTime.Today;
 
-        if (DateOfBirth.Value > today.AddYears(-age)) age--;
+        int age = date.Year - DateOfBirth.Value.Year;
+
+        if (DateOfBirth.Value > date.AddYears(-age)) age--;
 
         return age;
     }

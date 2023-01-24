@@ -32,8 +32,9 @@ public class GenerateExcelApplicationsQueryHandler : IRequestHandler<GenerateExc
             .FindByCondition(predicate: x => x.MarathonId == request.MarathonId && x.RemovalTime == null, include: source => source
             .Include(x => x.User).ThenInclude(x => x.Status)
             .Include(x => x.Promocode).ThenInclude(x => x.Voucher)
-            .Include(x => x.DistanceForPWD)
             .Include(x => x.Distance)
+            .Include(x => x.DistanceAge)
+            .Include(x => x.Marathon)
             );
 
         var marathonName = marathon.MarathonTranslations.Where(x => x.LanguageId == 1).First().Name;

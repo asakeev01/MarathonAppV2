@@ -13,7 +13,7 @@ namespace Core.UseCases.Applications.Commands.CreateApplicationForPWD;
 public class CreateApplicationForPWDCommand : IRequest<int>
 {
     public int UserId { get; set; }
-    public int DistanceForPWDId { get; set; }
+    public int DistanceId { get; set; }
 }
 
 public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateApplicationForPWDCommand, int>
@@ -22,7 +22,6 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
     private readonly IStringLocalizer<SharedResource> _localizer;
-    private static SemaphoreSlim semaphore = new SemaphoreSlim(1, 1);
 
     public CreateApplicationForPWDCommandHandler(IStringLocalizer<SharedResource> _localizer, IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService)
     {
@@ -34,11 +33,11 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
 
     public async Task<int> Handle(CreateApplicationForPWDCommand cmd, CancellationToken cancellationToken)
     {
-        await semaphore.WaitAsync();
+        await ApplicationNumberingSemaphore.semaphore.WaitAsync();
         try
         {
             var user = await _unit.UserRepository.FirstAsync(x => x.Id == cmd.UserId);
-            var distance = await _unit.DistanceForPwdRepository.FirstAsync(x => x.Id == cmd.DistanceForPWDId, include: source => source
+            var distance = await _unit.DistanceRepository.FirstAsync(x => x.Id == cmd.DistanceId, include: source => source
                 .Include(a => a.Marathon)
             );
 
@@ -52,14 +51,14 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
             var marathon = distance.Marathon;
             var application = await _applicationService.CreateApplicationForPWD(user, distance, oldStarterKitCodes);
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
-            await _unit.DistanceForPwdRepository.Update(distance, save: true);
+            await _unit.DistanceRepository.Update(distance, save: true);
             await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
 
             return application.Id;
         }
         finally
         {
-            semaphore.Release();
+            ApplicationNumberingSemaphore.semaphore.Release();
         }
     }
 }

@@ -27,8 +27,6 @@ public interface IUnitOfWork : IDisposable
 
     IApplicationRepository ApplicationRepository { get; }
 
-    IDistanceForPwdRepository DistanceForPwdRepository { get; }
-
     IStatusRepository StatusRepository { get; }
 
     ICommentRepository CommentRepository { get; }
