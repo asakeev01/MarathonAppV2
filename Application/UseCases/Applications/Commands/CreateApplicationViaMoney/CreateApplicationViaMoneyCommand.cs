@@ -40,10 +40,14 @@ public class CreatePaymentHandler : IRequestHandler<CreateApplicationViaMoneyCom
                 .Include(a => a.DistancePrices)
                 .Include(a => a.Applications)
             );
-
-            var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
             var marathon = distance.Marathon;
-            var application = _applicationService.CreateApplicationViaMoney(user, distance, oldStarterKitCodes);
+            var application = await _unit.ApplicationRepository.GetFirstOrDefaultAsync(predicate: a => a.Marathon == marathon && a.User == user);
+            if (application != null)
+            {
+                return application.PaymentUrl;
+            }
+            var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
+            application = _applicationService.CreateApplicationViaMoney(user, distance, oldStarterKitCodes);
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
             await _unit.DistanceRepository.Update(distance, save: true);
             application = await _paymentService.SendInitPaymentAsync(application);
