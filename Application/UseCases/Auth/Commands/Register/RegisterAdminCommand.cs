@@ -4,6 +4,7 @@ using Domain.Common.Contracts;
 using Domain.Entities.Documents;
 using Domain.Entities.Users;
 using Domain.Entities.Users.Constants;
+using Domain.Entities.Users.UserEnums;
 using Domain.Services.Interfaces;
 using MediatR;
 
@@ -13,6 +14,7 @@ public class RegisterAdminCommand : IRequest<HttpStatusCode>
 {
     public string Email { get; set; }
     public string Password { get; set; }
+    public RolesEnum Role { get; set; }
 }
 
 public class RegisterAdminHandler : IRequestHandler<RegisterAdminCommand, HttpStatusCode>
@@ -32,7 +34,7 @@ public class RegisterAdminHandler : IRequestHandler<RegisterAdminCommand, HttpSt
     {
         var identityUser = _userService.CreateUser(cmd.Email);
         await _unit.UserRepository.CreateUserAsync(identityUser, cmd.Password);
-        await _unit.UserRepository.AddToRoleAsync(identityUser, Roles.Admin);
+        await _unit.UserRepository.AddToRoleAsync(identityUser, cmd.Role.ToString());
         var emailToken = await _unit.UserRepository.GenerateEmailConfirmationTokenAsync(identityUser);
         await _emailService.SendConfirmEmailAsync(identityUser.Email, emailToken);
         return HttpStatusCode.Created;

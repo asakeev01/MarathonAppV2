@@ -7,6 +7,7 @@ namespace Domain.Entities.Users.UserEnums
 {
     public enum CountriesEnum
     {
+        [Description("Kyrgyzstan")] KG,
         [Description("Afghanistan")] AF,
         [Description("Aland Islands")] AX,
         [Description("Albania")] AL,
@@ -128,7 +129,6 @@ namespace Domain.Entities.Users.UserEnums
         [Description("Korea, Republic of")] KR,
         [Description("Kosovo")] XK,
         [Description("Kuwait")] KW,
-        [Description("Kyrgyzstan")] KG,
         [Description("Lao People's Democratic Republic")] LA,
         [Description("Latvia")] LV,
         [Description("Lebanon")] LB,

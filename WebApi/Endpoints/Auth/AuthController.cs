@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Common.Extensions;
 using WebApi.Common.Extensions.ErrorHandlingServices;
+using WebApi.Endpoints.Auth.Dtos.Requests;
 using WebApi.Endpoints.Users.Dtos.Requests;
 
 namespace WebApi.Endpoints.Auth;
@@ -57,8 +58,8 @@ public class AuthController : BaseController
     [ProducesResponseType(StatusCodes.Status201Created)]
     [Authorize(Roles = Roles.Owner)]
     public async Task<ActionResult<HttpStatusCode>> RegisterAdminAsync(
-        [FromBody] RegisterRequestDto dto,
-        [FromServices] IValidator<RegisterRequestDto> validator)
+        [FromBody] RegisterAdminRequestDto dto,
+        [FromServices] IValidator<RegisterAdminRequestDto> validator)
     {
         var validation = await validator.ValidateAsync(dto);
         if (!validation.IsValid)
