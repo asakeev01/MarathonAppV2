@@ -13,6 +13,8 @@ public record GetUsersOutDto : BaseDto<User, GetUsersOutDto>
     public string? Email { get; set; }
     public string? Name { get; set; }
     public string? Surname { get; set; }
+    public string? FullName { get; set; }
+    public string? FullNameR { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public bool? Gender { get; set; }
     public CountriesEnum? Country { get; set; }
@@ -58,7 +60,9 @@ public record GetUsersOutDto : BaseDto<User, GetUsersOutDto>
     public override void AddCustomMappings()
     {
         SetCustomMappings()
-        .Map(x => x.Document, y => y.Documents.Where(x => x.IsArchived == false).FirstOrDefault());
+        .Map(x => x.Document, y => y.Documents.Where(x => x.IsArchived == false).FirstOrDefault())
+                        .Map(x => x.FullName, y => $"{y.Surname} {y.Name}")
+                .Map(x => x.FullNameR, y => $"{y.Name} {y.Surname}");
     }
 }
 

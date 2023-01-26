@@ -11,7 +11,6 @@ public class CreateMarathonRequestDto
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
-    public ICollection<DistanceForPWDDTO> DistancesForPWD { get; set; }
     public ICollection<PartnersDto> Partners { get; set; }
     public ICollection<IFormFile> Documents { get; set; }
 
@@ -42,13 +41,6 @@ public class CreateMarathonRequestDto
             public int LanguageId { get; set; }
         }
 
-    }
-
-    public class DistanceForPWDDTO
-    {
-        public string Name { get; set; }
-        public int StartNumbersFrom { get; set; }
-        public int StartNumbersTo { get; set; }
     }
 
     public class DistanceDto
@@ -111,13 +103,6 @@ public class CreateMarathonRequestValidator : AbstractValidator<CreateMarathonRe
             //    .WithMessage("Only images are allowed");
             //translations.RuleFor(x => x.Logo.Length).NotNull().LessThanOrEqualTo(20 * 1024 * 1024)
             //    .WithMessage("File size is larger than allowed");
-        });
-
-        RuleForEach(x => x.DistancesForPWD).ChildRules(distances =>
-        {
-            distances.RuleFor(x => x.Name).NotEmpty();
-            distances.RuleFor(x => x.StartNumbersFrom).GreaterThan(-1);
-            distances.RuleFor(x => x.StartNumbersTo).GreaterThan(x => x.StartNumbersFrom);
         });
 
         RuleForEach(x => x.Distances).ChildRules(distances =>

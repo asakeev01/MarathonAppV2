@@ -57,19 +57,19 @@ public class ApplicationRepository : BaseRepository<Application>, IApplicationRe
             if (application.Payment == Domain.Entities.Applications.ApplicationEnums.PaymentMethodEnum.PWD)
             {
                 worksheet.Cells[$"L{i}"].Value = "ЛОВЗ";
-                worksheet.Cells[$"M{i}"].Value = "Да";
-                worksheet.Cells[$"K{i}"].Value = application.DistanceForPWD.Name;
+                worksheet.Cells[$"M{i}"].Value = "ЛОВЗ";
+                worksheet.Cells[$"K{i}"].Value = application.Distance.Name;
             }
             else if (application.Payment == Domain.Entities.Applications.ApplicationEnums.PaymentMethodEnum.Voucher)
             {
                 worksheet.Cells[$"L{i}"].Value = $"Ваучер - {application.Promocode.Voucher.Name}";
-                worksheet.Cells[$"M{i}"].Value = "Нет";
+                worksheet.Cells[$"M{i}"].Value = $"от {application.DistanceAge.AgeFrom} до {application.DistanceAge.AgeTo}";
                 worksheet.Cells[$"K{i}"].Value = application.Distance.Name;
             }
             else if (application.Payment == Domain.Entities.Applications.ApplicationEnums.PaymentMethodEnum.Money)
             {
                 worksheet.Cells[$"L{i}"].Value = "Деньги";
-                worksheet.Cells[$"M{i}"].Value = "Нет";
+                worksheet.Cells[$"M{i}"].Value = $"от {application.DistanceAge.AgeFrom} до {application.DistanceAge.AgeTo}";
                 worksheet.Cells[$"K{i}"].Value = application.Distance.Name;
             };
 

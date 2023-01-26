@@ -27,7 +27,8 @@ public class ApplicationByIdHandler : IRequestHandler<ApplicationByIdQuery, Appl
             .Include(x => x.User).ThenInclude(x => x.Documents)
             .Include(x => x.User).ThenInclude(x => x.Status)
             .Include(x => x.Distance)
-            .Include(x => x.DistanceForPWD)
+            .Include(x => x.DistanceAge)
+            .Include(x => x.Marathon)
             .Include(x => x.Promocode).ThenInclude(x => x.Voucher)
             );
 

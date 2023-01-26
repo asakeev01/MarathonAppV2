@@ -14,10 +14,10 @@ namespace Core.UseCases.Applications.Queries.MyApplications
         public int MarathonId { get; set; }
         public DateTime Date { get; set; }
         public string Distance { get; set; }
-        public string DistanceForPwd { get; set; }
         public string Place { get; set; }
         public int? AgeFrom { get; set; }
         public int? AgeTo { get; set; }
+        public bool IsPWD { get; set; }
 
         public override void AddCustomMappings()
         {
@@ -28,8 +28,7 @@ namespace Core.UseCases.Applications.Queries.MyApplications
                 .Map(x => x.Distance, y => y.Distance.Name)
                 .Map(x => x.Place, y => y.Marathon.MarathonTranslations.First().Place)
                 .Map(x => x.AgeFrom, y => y.DistanceAge.AgeFrom)
-                .Map(x => x.AgeTo, y => y.DistanceAge.AgeTo)
-                .Map(x => x.DistanceForPwd, y => y.DistanceForPWD.Name);
+                .Map(x => x.AgeTo, y => y.DistanceAge.AgeTo);
         }
 
     }

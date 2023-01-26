@@ -29,7 +29,8 @@ public class ApplicationByMarathonQueryHandler : IRequestHandler<ApplicationByMa
             .Include(x => x.User).ThenInclude(x => x.Status)
             .Include(x => x.Promocode).ThenInclude(x => x.Voucher)
             .Include(x => x.Distance)
-            .Include(x => x.DistanceForPWD)
+            .Include(x => x.DistanceAge)
+            .Include(x => x.Marathon)
         );
 
         var result = applications.Adapt<IEnumerable<ApplicationByMarathonQueryOutDto>>().AsQueryable().GridifyQueryable(request.Query);

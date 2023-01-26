@@ -22,8 +22,10 @@ public record ApplicationByIdQueryOutDto : BaseDto<Application, ApplicationByIdQ
     public string? FullNameRecipient { get; set; }
     public DateTime? DateOfIssue { get; set; }
     public string? Distance { get; set; }
-    public string? DistanceForPWD { get; set; }
     public string? Voucher { get; set; }
+    public int? AgeFrom { get; set; }
+    public int? AgeTo { get; set; }
+    public bool IsPWD { get; set; }
     public UserDto User { get; set; }
 
     public record UserDto : BaseDto<User, UserDto>
@@ -37,6 +39,7 @@ public record ApplicationByIdQueryOutDto : BaseDto<Application, ApplicationByIdQ
         public string ExtraPhoneNumber { get; set; }
         public bool IsDisable { get; set; }
         public bool IsDeleted { get; set; }
+        public int Age { get; set; }
         public DateTime? DateOfConfirmation { get; set; }
         public TshirtEnum? Tshirt { get; set; }
         public CountriesEnum? Country { get; set; }
@@ -67,7 +70,11 @@ public record ApplicationByIdQueryOutDto : BaseDto<Application, ApplicationByIdQ
     {
         SetCustomMappings()
             .Map(x => x.Distance, y => y.Distance.Name)
-            .Map(x => x.DistanceForPWD, y => y.DistanceForPWD.Name)
-            .Map(x => x.Voucher, y => y.Promocode.Voucher.Name);
+            .Map(x => x.Voucher, y => y.Promocode.Voucher.Name)
+            .Map(x => x.User.Age, y => y.User.GetAge(y.Marathon.Date))
+                    .Map(x => x.AgeFrom, y => y.DistanceAge.AgeFrom)
+        .Map(x => x.AgeTo, y => y.DistanceAge.AgeTo)
+        .Map(x => x.IsPWD, y => y.IsPWD)
+            ;
     }
 }

@@ -13,7 +13,6 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
     public DateTime EndDateAcceptingApplications { get; set; }
     public bool IsActive { get; set; }
     public ICollection<DistanceDto> Distances { get; set; }
-    public IEnumerable<DistanceForPWDDTO> DistancesForPWD { get; set; }
     public ICollection<PartnerDto> Partners { get; set; }
     public ICollection<DocumentDto> Documents { get; set; }
 
@@ -42,18 +41,6 @@ public record GetMarathonAdminOutDto : BaseDto<Marathon, GetMarathonAdminOutDto>
                 .Map(x => x.Document, y => y.Path);
         }
     }
-
-    public class DistanceForPWDDTO
-    {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public int StartNumbersFrom { get; set; }
-        public int StartNumbersTo { get; set; }
-        public int AmountOfParticipants { get; set; }
-        public int RemainingPlaces { get; set; }
-        public int RegisteredParticipants { get; set; }
-    }
-
     public record PartnerDto : BaseDto<Partner, PartnerDto>
     {
         public int Id { get; set; }

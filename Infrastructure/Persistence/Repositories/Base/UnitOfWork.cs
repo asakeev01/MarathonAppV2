@@ -27,7 +27,6 @@ public class UnitOfWork : IUnitOfWork
     private IVoucherRepository? _voucherRepository;
     private IPromocodeRepository? _promocodeRepository;
     private IApplicationRepository? _applicationRepository;
-    private IDistanceForPwdRepository? _distanceForPwdRepository;
     private ICommentRepository? _commentRepository;
     private IStatusCommentRepository? _statusCommentRepository;
     private IPartnerCompanyRepository? _partnerCompanyRepository;
@@ -147,15 +146,6 @@ public class UnitOfWork : IUnitOfWork
         {
             _applicationRepository ??= new ApplicationRepository(_context, _localizer);
             return _applicationRepository;
-        }
-    }
-
-    public IDistanceForPwdRepository DistanceForPwdRepository
-    {
-        get
-        {
-            _distanceForPwdRepository ??= new DistanceForPwdRepository(_context, _localizer);
-            return _distanceForPwdRepository;
         }
     }
 

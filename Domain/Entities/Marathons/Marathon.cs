@@ -14,7 +14,6 @@ public class Marathon
     public bool IsActive { get; set; }
     public ICollection<SavedFile>? Documents { get; set; }
     public ICollection<Distance> Distances { get; set; }
-    public ICollection<DistanceForPWD> DistancesForPWD { get; set; }
     public ICollection<MarathonTranslation> MarathonTranslations { get; set; }
     public ICollection<Partner>? Partners { get; set; }
     public ICollection<Voucher>? Vouchers { get; set; }

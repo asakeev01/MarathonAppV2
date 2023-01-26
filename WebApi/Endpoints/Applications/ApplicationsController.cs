@@ -73,7 +73,7 @@ public class ApplicationsController : BaseController
     {
         var createApplicationForPWDCommand = new CreateApplicationForPWDCommand()
         {
-            DistanceForPWDId = dto.DistanceForPWDId,
+            DistanceId = dto.DistanceId,
             UserId = Convert.ToInt32(User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier).Value)
         };
 
