@@ -82,7 +82,8 @@ public class UsersController : BaseController
     {
         var getUsersQuery = new GetUsersQuery()
         {
-            Query = query
+            Query = query,
+            LanguageCode = this.Request.Headers["Accept-Language"],
         };
 
         var result = await _mediator.Send(getUsersQuery);
