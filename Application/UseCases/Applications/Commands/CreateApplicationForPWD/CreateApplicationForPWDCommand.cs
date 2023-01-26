@@ -39,6 +39,7 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
             var user = await _unit.UserRepository.FirstAsync(x => x.Id == cmd.UserId);
             var distance = await _unit.DistanceRepository.FirstAsync(x => x.Id == cmd.DistanceId, include: source => source
                 .Include(a => a.Marathon)
+                .Include(a => a.DistancePrices)
             );
 
             var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
