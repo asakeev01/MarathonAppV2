@@ -26,7 +26,6 @@ public class Application
     public long UserId { get; set; }
     public int MarathonId { get; set; }
     public int? PromocodeId { get; set; }
-    public int? DistanceForPWDId { get; set; }
     public int? PaymentId { get; set; }
     public string? PaymentUrl { get; set; }
     public Promocode? Promocode { get; set; }
