@@ -27,7 +27,6 @@ public class GetMarathonHandler : IRequestHandler<GetMarathonQuery, GetMarathonO
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
         var marathon = await _unit.MarathonRepository
             .FirstAsync(x => x.Id == request.MarathonId, include: source => source
-            .Include(a => a.DistancesForPWD)
             .Include(a => a.Documents)
             .Include(a => a.Partners).ThenInclude(a => a.Translations.Where(t => t.Language.Code == request.LanguageCode))
             .Include(a => a.Partners).ThenInclude(a => a.PartnerCompanies).ThenInclude(a => a.Logo)

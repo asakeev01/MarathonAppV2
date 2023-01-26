@@ -19,7 +19,9 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
     public DateTime? DateOfIssue { get; set; }
     public UserDto User { get; set; }
     public string? Distance { get; set; }
-    public string? DistanceForPWD { get; set; }
+    public int AgeFrom { get; set; }
+    public int AgeTo { get; set; }
+    public bool IsPWD { get; set; }
 
     public record UserDto : BaseDto<User, UserDto>
     {
@@ -27,8 +29,8 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
         public string Email { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
-        public int Age { get; set; }
         public bool Gender { get; set; }
+        public int Age { get; set; }
         public TshirtEnum Tshirt { get; set; }
         public CountriesEnum Country { get; set; }
         public StatusesEnum CurrentStatus { get; set; }
@@ -39,7 +41,6 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
         public override void AddCustomMappings()
         {
             SetCustomMappings()
-                .Map(x => x.Age, y => y.GetAge())
                 .Map(x => x.CurrentStatus, y => y.Status.CurrentStatus)
                 .Map(x => x.Document, y => y.Documents.Where(x => x.IsArchived == false).FirstOrDefault());
         }
@@ -60,6 +61,9 @@ public record ApplicationByStarterKitCodeQueryOutDto : BaseDto<Application, Appl
     {
         SetCustomMappings()
         .Map(x => x.Distance, y => y.Distance.Name)
-        .Map(x => x.DistanceForPWD, y => y.DistanceForPWD.Name);
+        .Map(x => x.AgeFrom, y => y.DistanceAge.AgeFrom)
+        .Map(x => x.AgeTo, y => y.DistanceAge.AgeTo)
+        .Map(x => x.IsPWD, y => y.IsPWD)
+        .Map(x => x.User.Age, y => y.User.GetAge(y.Marathon.Date));
     }
 }

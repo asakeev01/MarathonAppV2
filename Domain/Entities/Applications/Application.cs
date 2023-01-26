@@ -20,15 +20,14 @@ public class Application
     public string? FullNameRecipient { get; set; }
     public DateTime? DateOfIssue { get; set; }
     public DateTime? RemovalTime { get; set; }
+    public bool IsPWD { get; set; }
     public int? DistanceAgeId { get; set; }
     public int? DistanceId { get; set; }
     public long UserId { get; set; }
     public int MarathonId { get; set; }
     public int? PromocodeId { get; set; }
-    public int? DistanceForPWDId { get; set; }
     public int? PaymentId { get; set; }
     public string? PaymentUrl { get; set; }
-    public DistanceForPWD? DistanceForPWD { get; set; }
     public Promocode? Promocode { get; set; }
     public Distance? Distance { get; set; }
     public DistanceAge? DistanceAge { get; set; }

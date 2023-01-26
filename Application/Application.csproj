@@ -8,10 +8,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <Compile Remove="UseCases\Distances\**" />
+      <EmbeddedResource Remove="UseCases\Distances\**" />
+      <None Remove="UseCases\Distances\**" />
+    </ItemGroup>
+
+    <ItemGroup>
       <Folder Include="Common\Attributes" />
       <Folder Include="Common\Behaviours" />
-      <Folder Include="UseCases\Distances\Commands\" />
-      <Folder Include="UseCases\Distances\Queries\" />
       <Folder Include="Common\Constants" />
       <Folder Include="Common\Exceptions" />
       <Folder Include="Common\Extensions" />

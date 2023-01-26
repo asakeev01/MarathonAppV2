@@ -33,7 +33,6 @@ public class GetMarathonsHandler : IRequestHandler<IrUserRigisteredQuery, IrUser
             include: source => source
             .Include(x => x.Marathon).ThenInclude(x => x.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode))
             .Include(x => x.Distance)
-            .Include(x => x.DistanceForPWD)
             .Include(x => x.Promocode).ThenInclude(x => x.Voucher)
             );
 

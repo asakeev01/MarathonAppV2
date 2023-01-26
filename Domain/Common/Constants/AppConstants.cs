@@ -20,7 +20,7 @@ public static class AppConstants
         Tuple.Create("J1", "Пол"),
         Tuple.Create("K1", "Дистанция"),
         Tuple.Create("L1", "Способ оплаты"),
-        Tuple.Create("M1", "Ловз")
+        Tuple.Create("M1", "Категория")
     };
 
     public static readonly string DefaultLanguage = "en";

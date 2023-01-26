@@ -37,7 +37,6 @@ public class AppDbContext : IdentityDbContext<User, Role, long, IdentityUserClai
     public DbSet<Distance> Distances { get; set; }
     public DbSet<DistanceAge> DistanceAges { get; set; }
     public DbSet<DistancePrice> DistancePrices { get; set; }
-    public DbSet<DistanceForPWD> DistanceForPWD { get; set; }
     public DbSet<Voucher> Vouchers { get; set; }
     public DbSet<Promocode> Promocodes { get; set; }
     public DbSet<PartnerCompany> PartnerCompanies { get; set; }
