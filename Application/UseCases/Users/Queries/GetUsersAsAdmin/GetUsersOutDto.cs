@@ -35,12 +35,15 @@ public record GetUsersOutDto : BaseDto<User, GetUsersOutDto>
     {
         public int MarathonId { get; set; }
         public DateTime MarathonTime { get; set; }
+        public string MarathonName { get; set; }
+
 
         public override void AddCustomMappings()
         {
             SetCustomMappings()
             .Map(x => x.MarathonId, y => y.Marathon.Id)
             .Map(x => x.MarathonTime, y => y.Marathon.Date)
+            .Map(x => x.MarathonName, y => y.Marathon.MarathonTranslations.First().Name)
             ;
         }
 

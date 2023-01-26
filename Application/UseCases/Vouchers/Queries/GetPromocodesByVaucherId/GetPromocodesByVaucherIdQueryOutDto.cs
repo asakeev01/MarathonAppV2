@@ -1,4 +1,5 @@
 ﻿using Core.Common.Bases;
+using Domain.Entities.Users;
 using Domain.Entities.Vouchers;
 using Gridify;
 
@@ -30,12 +31,21 @@ public record GetPromocodesByVaucherIdQueryOutDto : BaseDto<Voucher, GetPromocod
     }
         
 
-    public class UserDto
+    public record UserDto : BaseDto<User, UserDto>
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string PhoneNumber { get; set; }
+        public string FullName { get; set; }
+        public string FullNameR { get; set; }
+
+        public override void AddCustomMappings()
+        {
+            SetCustomMappings()
+                .Map(x => x.FullName, y => $"{y.Surname} {y.Name}")
+                .Map(x => x.FullNameR, y => $"{y.Name} {y.Surname}");
+        }
     }
     public class DistanceDto
     {
