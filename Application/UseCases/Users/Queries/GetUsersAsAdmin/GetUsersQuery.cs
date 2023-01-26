@@ -26,7 +26,9 @@ public class GetUsersHandler : IRequestHandler<GetUsersQuery, QueryablePaging<Ge
         var users = await _unit.UserRepository.GetAllAsync(include: source => source
         .Include(u=> u.Documents)
         .Include(u => u.Status)
-        .Include(u => u.UserRoles).ThenInclude(r => r.Role));
+        .Include(u => u.UserRoles).ThenInclude(r => r.Role)
+        .Include(u => u.Applications.Where(x => x.Marathon.Date >= DateTime.Now)).ThenInclude(x => x.Marathon)
+            );
         var response = users.Adapt<IEnumerable<GetUsersOutDto>>().AsQueryable().GridifyQueryable(request.Query);
         return response;
     }

@@ -15,6 +15,7 @@ public record GetUsersOutDto : BaseDto<User, GetUsersOutDto>
     public string? Surname { get; set; }
     public string? FullName { get; set; }
     public string? FullNameR { get; set; }
+    public DateTime? MarathonTime { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public bool? Gender { get; set; }
     public CountriesEnum? Country { get; set; }
@@ -61,8 +62,9 @@ public record GetUsersOutDto : BaseDto<User, GetUsersOutDto>
     {
         SetCustomMappings()
         .Map(x => x.Document, y => y.Documents.Where(x => x.IsArchived == false).FirstOrDefault())
-                        .Map(x => x.FullName, y => $"{y.Surname} {y.Name}")
-                .Map(x => x.FullNameR, y => $"{y.Name} {y.Surname}");
+        .Map(x => x.FullName, y => $"{y.Surname} {y.Name}")
+        .Map(x => x.FullNameR, y => $"{y.Name} {y.Surname}")
+        .Map(x => x.MarathonTime, y => y.Applications.FirstOrDefault().Marathon.Date);
     }
 }
 
