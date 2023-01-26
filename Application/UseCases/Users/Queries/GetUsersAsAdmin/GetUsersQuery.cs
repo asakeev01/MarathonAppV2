@@ -27,7 +27,7 @@ public class GetUsersHandler : IRequestHandler<GetUsersQuery, QueryablePaging<Ge
         .Include(u=> u.Documents)
         .Include(u => u.Status)
         .Include(u => u.UserRoles).ThenInclude(r => r.Role)
-        .Include(u => u.Applications.Where(x => x.Marathon.Date >= DateTime.Now)).ThenInclude(x => x.Marathon)
+        .Include(u => u.Applications.Where(x => x.Marathon.Date >= DateTime.Now).OrderBy(x => x.Marathon.Date))?.ThenInclude(x => x.Marathon)
             );
         var response = users.Adapt<IEnumerable<GetUsersOutDto>>().AsQueryable().GridifyQueryable(request.Query);
         return response;

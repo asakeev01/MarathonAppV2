@@ -4,6 +4,7 @@ using Domain.Entities.Documents;
 using Domain.Entities.Statuses;
 using Domain.Entities.Users;
 using Domain.Entities.Users.UserEnums;
+using Domain.Entities.Applications;
 
 namespace Core.UseCases.Users.Queries.GetUsersAsAdmin;
 
@@ -15,7 +16,6 @@ public record GetUsersOutDto : BaseDto<User, GetUsersOutDto>
     public string? Surname { get; set; }
     public string? FullName { get; set; }
     public string? FullNameR { get; set; }
-    public DateTime? MarathonTime { get; set; }
     public DateTime? DateOfBirth { get; set; }
     public bool? Gender { get; set; }
     public CountriesEnum? Country { get; set; }
@@ -28,6 +28,23 @@ public record GetUsersOutDto : BaseDto<User, GetUsersOutDto>
     public StatusDto Status { get; set; }
 
     public ICollection<UserRoleDto> UserRoles { get; set; }
+
+    public MarathonDto Marathon {get;set;}
+
+    public record MarathonDto : BaseDto<Application, MarathonDto>
+    {
+        public int MarathonId { get; set; }
+        public DateTime MarathonTime { get; set; }
+
+        public override void AddCustomMappings()
+        {
+            SetCustomMappings()
+            .Map(x => x.MarathonId, y => y.Marathon.Id)
+            .Map(x => x.MarathonTime, y => y.Marathon.Date)
+            ;
+        }
+
+    }
 
     public record DocumentDto : BaseDto<Document, DocumentDto>
     {
@@ -64,7 +81,8 @@ public record GetUsersOutDto : BaseDto<User, GetUsersOutDto>
         .Map(x => x.Document, y => y.Documents.Where(x => x.IsArchived == false).FirstOrDefault())
         .Map(x => x.FullName, y => $"{y.Surname} {y.Name}")
         .Map(x => x.FullNameR, y => $"{y.Name} {y.Surname}")
-        .Map(x => x.MarathonTime, y => y.Applications.FirstOrDefault().Marathon.Date);
+        .Map(x => x.Marathon, y => y.Applications.FirstOrDefault())
+        ;
     }
 }
 
