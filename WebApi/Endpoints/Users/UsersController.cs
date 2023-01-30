@@ -4,9 +4,11 @@ using System.Net.Mime;
 using System.Security.Claims;
 using Core.UseCases.Users.Commands.UpdateUserAsAdmin;
 using Core.UseCases.Users.Commands.UpdateUserProfile;
+using Core.UseCases.Users.Queries.GetAdminsAsOwner;
 using Core.UseCases.Users.Queries.GetUserAsAdmin;
 using Core.UseCases.Users.Queries.GetUserProfile;
 using Core.UseCases.Users.Queries.GetUsersAsAdmin;
+using Domain.Entities.Users.Constants;
 using FluentValidation;
 using Gridify;
 using Mapster;
@@ -127,6 +129,23 @@ public class UsersController : BaseController
         command.UserDto.Id = userId.ToString();
 
         var result = await _mediator.Send(command);
+
+        return Ok(result);
+    }
+
+    [HttpGet("admins", Name = "GetAdminsAsOwner")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(IEnumerable<GetUsersOutDto>), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner)]
+    public async Task<ActionResult<IQueryable<GetUsersOutDto>>> GetAdmins(
+    [FromQuery] GridifyQuery query)
+    {
+        var getAdminsQuery = new GetAdminsQuery()
+        {
+            Query = query,
+        };
+
+        var result = await _mediator.Send(getAdminsQuery);
 
         return Ok(result);
     }

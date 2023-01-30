@@ -11,6 +11,7 @@
       <Compile Remove="UseCases\Distances\**" />
       <EmbeddedResource Remove="UseCases\Distances\**" />
       <None Remove="UseCases\Distances\**" />
+      <None Remove="UseCases\Users\Queries\GetAdminsAsOwner\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -50,6 +51,7 @@
       <Folder Include="UseCases\Payments\" />
       <Folder Include="UseCases\Payments\Commands\" />
       <Folder Include="UseCases\Payments\Commands\ReceivePayment\" />
+      <Folder Include="UseCases\Users\Queries\GetAdminsAsOwner\" />
     </ItemGroup>
 
     <ItemGroup>
