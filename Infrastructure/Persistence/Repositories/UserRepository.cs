@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Linq.Expressions;
 using Domain.Common.Contracts;
 using Domain.Common.Resources;
 using Domain.Entities.Users;
+using Domain.Entities.Users.Constants;
 using Domain.Entities.Users.Exceptions;
 using Infrastructure.Persistence.Repositories.Base;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Query;
 using Microsoft.Extensions.Localization;
 
 namespace Infrastructure.Persistence.Repositories
@@ -123,6 +126,14 @@ namespace Infrastructure.Persistence.Repositories
         public async Task UpdateAsync(User user)
         {
             await _userManager.UpdateAsync(user);
+        }
+
+        public async Task<IEnumerable<User>> GetAllAdminsAndVolunteersAsync()
+        {
+            var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Admin);
+            var volunteerUsers = await _userManager.GetUsersInRoleAsync(Roles.Volunteer);
+            var users = adminUsers.Union(volunteerUsers);
+            return users;
         }
     }
 }

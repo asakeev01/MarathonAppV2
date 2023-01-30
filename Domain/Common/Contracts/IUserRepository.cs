@@ -1,4 +1,6 @@
-﻿using Domain.Entities.Users;
+﻿using System.Linq.Expressions;
+using Domain.Entities.Users;
+using Microsoft.EntityFrameworkCore.Query;
 
 namespace Domain.Common.Contracts;
 
@@ -17,4 +19,5 @@ public interface IUserRepository : IBaseRepository<User>
     Task CheckPasswordAsync(User user, string password);
     Task ChangePasswordAsync(User user, string password, string newPassword);
     Task UpdateAsync(User user);
+    Task<IEnumerable<User>> GetAllAdminsAndVolunteersAsync();
 }

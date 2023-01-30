@@ -83,7 +83,6 @@ public class PaymentService : IPaymentService
                 pg_salt = salt,
                 pg_sig = sig.ToString(),
                 pg_lifetime = lifetime,
-                //pg_user_phone = user_phone,
                 pg_user_contact_email = user_contact_email
             });
 
@@ -114,6 +113,61 @@ public class PaymentService : IPaymentService
             throw ex;
         }
         return application;
+    }
+
+    public async Task<HttpStatusCode> SendDeletePaymentAsync(Application application)
+    {
+        try
+        {
+            string url = _paymentOptions.Url;
+            string delete = _paymentOptions.DeletePaymentUrl;
+            string merchant_id = _paymentOptions.MerchantId.ToString();
+            int? payment_id = application.PaymentId;
+            string salt = "Random";
+            string secret_key = _paymentOptions.SecretKey;
+            string text = delete + ";" + merchant_id + ";" + payment_id + ";" + salt + ";" + merchant_id + ";" + secret_key;
+
+
+            MD5 md5 = new MD5CryptoServiceProvider();
+
+            byte[] resultBytes = Encoding.UTF8.GetBytes(text);
+
+            resultBytes = md5.ComputeHash(resultBytes);
+
+            StringBuilder sig = new StringBuilder();
+            foreach (byte ba in resultBytes)
+            {
+                sig.Append(ba.ToString("x2").ToLower());
+            }
+
+            var client = new RestClient(url);
+            var request = new RestRequest(delete);
+            var dotNetXmlDeserializer = new DotNetXmlDeserializer();
+            request.AddHeader("Content-type", "application/json");
+
+            request.AddJsonBody(new DeletePaymentRequest
+            {
+                pg_merchant_id = merchant_id,
+                pg_payment_id = payment_id,
+                pg_salt = salt,
+                pg_sig = sig.ToString()
+            });
+
+            var response = await client.PostAsync(request);
+            var data = dotNetXmlDeserializer.Deserialize<DeletePaymentResponse>(response);
+
+            if (data.pg_status != "ok")
+                throw new PaymentNotDeletedException(_localizer);
+        }
+        catch (PaymentNotDeletedException ex)
+        {
+            throw ex;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+        return HttpStatusCode.OK;
     }
 
     public bool IsSignatureRight(ReceivePaymentDto receivePaymentDto)

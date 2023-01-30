@@ -11,7 +11,6 @@ public class InitPaymentRequest
     public string pg_salt { get; set; }
     public string pg_sig { get; set; }
     public int pg_lifetime { get; set; }
-    //public string pg_user_phone { get; set; }
     public string pg_user_contact_email { get; set; }
 }
 
