@@ -127,6 +127,11 @@ namespace Infrastructure.Persistence.Repositories
         {
             await _userManager.UpdateAsync(user);
         }
+
+        public async Task DeleteAsync(User user)
+        {
+            await _userManager.DeleteAsync(user);
+        }
     }
 }
 

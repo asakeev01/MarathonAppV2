@@ -19,4 +19,5 @@ public interface IUserRepository : IBaseRepository<User>
     Task CheckPasswordAsync(User user, string password);
     Task ChangePasswordAsync(User user, string password, string newPassword);
     Task UpdateAsync(User user);
+    Task DeleteAsync(User user);
 }

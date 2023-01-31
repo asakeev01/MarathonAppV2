@@ -12,6 +12,7 @@
       <EmbeddedResource Remove="UseCases\Distances\**" />
       <None Remove="UseCases\Distances\**" />
       <None Remove="UseCases\Users\Queries\GetAdminsAsOwner\" />
+      <None Remove="UseCases\Users\Commands\DeleteAdminAsOwner\" />
     </ItemGroup>
 
     <ItemGroup>
@@ -52,6 +53,7 @@
       <Folder Include="UseCases\Payments\Commands\" />
       <Folder Include="UseCases\Payments\Commands\ReceivePayment\" />
       <Folder Include="UseCases\Users\Queries\GetAdminsAsOwner\" />
+      <Folder Include="UseCases\Users\Commands\DeleteAdminAsOwner\" />
     </ItemGroup>
 
     <ItemGroup>

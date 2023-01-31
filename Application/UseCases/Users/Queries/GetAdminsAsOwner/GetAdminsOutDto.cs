@@ -13,7 +13,6 @@ public record GetAdminsOutDto : BaseDto<User, GetAdminsOutDto>
 
     public record UserRoleDto : BaseDto<UserRole, UserRoleDto>
     {
-        public long Id { get; set; }
         public string Role { get; set; }
 
         public override void AddCustomMappings()

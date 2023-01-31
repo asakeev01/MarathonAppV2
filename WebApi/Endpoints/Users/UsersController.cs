@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
+using Core.UseCases.Users.Commands.DeleteAdminAsOwner;
 using Core.UseCases.Users.Commands.UpdateUserAsAdmin;
 using Core.UseCases.Users.Commands.UpdateUserProfile;
 using Core.UseCases.Users.Queries.GetAdminsAsOwner;
@@ -146,6 +147,21 @@ public class UsersController : BaseController
         };
 
         var result = await _mediator.Send(getAdminsQuery);
+
+        return Ok(result);
+    }
+
+    [HttpDelete("{userId}", Name = "DeleteAdminAsOwner")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(GetUserOutDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult<GetUserProfileOutDto>> DeleteAdmin(
+    [FromRoute] long userId)
+    {
+        var command = new DeleteAdminCommand()
+        {
+            UserId = userId,
+        };
+        var result = await _mediator.Send(command);
 
         return Ok(result);
     }
