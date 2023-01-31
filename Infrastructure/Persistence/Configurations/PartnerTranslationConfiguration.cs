@@ -11,9 +11,13 @@ public class PartnerTranslationConfiguration : IEntityTypeConfiguration<PartnerT
         builder
             .HasIndex(p => new { p.PartnerId, p.LanguageId })
             .IsUnique();
-        builder.HasOne(x => x.Partner)
-            .WithMany(x => x.Translations)
-            .HasForeignKey(x => x.PartnerId)
-            .OnDelete(DeleteBehavior.Cascade);
+
+
+        builder
+        .HasOne(x => x.Language)
+        .WithMany(x => x.PartnerTranlations)
+        .HasForeignKey(x => x.LanguageId)
+        .OnDelete(DeleteBehavior.Restrict);
+
     }
 }

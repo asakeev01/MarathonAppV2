@@ -11,10 +11,16 @@ public class MarathonTranslationConfiguration : IEntityTypeConfiguration<Maratho
         builder
             .HasIndex(p => new { p.MarathonId, p.LanguageId })
             .IsUnique();
+
+        builder
+            .HasOne(x => x.Language)
+            .WithMany(x => x.MarathonTranslations)
+            .HasForeignKey(x => x.LanguageId)
+            .OnDelete(DeleteBehavior.Restrict);
+
         builder
             .HasOne(x => x.Logo)
             .WithOne(x => x.MarathonLogo)
-            .HasForeignKey<MarathonTranslation>(x => x.LogoId)
-            .OnDelete(DeleteBehavior.SetNull);
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

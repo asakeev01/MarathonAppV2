@@ -47,8 +47,8 @@ public class AppDbContext : IdentityDbContext<User, Role, long, IdentityUserClai
         base.OnModelCreating(builder);
         builder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
         
-        foreach (var x in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
-            x.DeleteBehavior = DeleteBehavior.ClientCascade;
+        //foreach (var x in builder.Model.GetEntityTypes().SelectMany(e => e.GetForeignKeys()))
+        //    x.DeleteBehavior = DeleteBehavior.ClientCascade;
         
         builder.AddIsDeletedQuery();
     }
