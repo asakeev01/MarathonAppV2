@@ -25,9 +25,8 @@ public class GetAdminsHandler : IRequestHandler<GetAdminsQuery, QueryablePaging<
 
     public async Task<QueryablePaging<GetAdminsOutDto>> Handle(GetAdminsQuery request, CancellationToken cancellationToken)
     {
-        //var users = await _unit.UserRepository.GetAllAdminsAndVolunteersAsync(include: source => source
-        //.Include(u => u.UserRoles).ThenInclude(r => r.Role));
-        var users = await _unit.UserRepository.GetAllAdminsAndVolunteersAsync();
+        var users = await _unit.UserRepository.FindByCondition(predicate: u => u.UserRoles.Any(r => Roles.GetAdminAndVolunteerRoles().Contains(r.Role.Name)), include: source => source
+        .Include(u => u.UserRoles).ThenInclude(r => r.Role)).ToListAsync();
         var response = users.Adapt<IEnumerable<GetAdminsOutDto>>().AsQueryable().GridifyQueryable(request.Query);
         return response;
     }

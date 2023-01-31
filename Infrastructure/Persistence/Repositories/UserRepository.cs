@@ -127,14 +127,6 @@ namespace Infrastructure.Persistence.Repositories
         {
             await _userManager.UpdateAsync(user);
         }
-
-        public async Task<IEnumerable<User>> GetAllAdminsAndVolunteersAsync()
-        {
-            var adminUsers = await _userManager.GetUsersInRoleAsync(Roles.Admin);
-            var volunteerUsers = await _userManager.GetUsersInRoleAsync(Roles.Volunteer);
-            var users = adminUsers.Union(volunteerUsers);
-            return users;
-        }
     }
 }
 
