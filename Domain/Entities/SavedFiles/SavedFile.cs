@@ -11,4 +11,5 @@ public class SavedFile
     public int? MarathonId { get; set; }
     public Marathon? Marathon {get;set;}
     public MarathonTranslation? MarathonLogo {get;set;}
+    public PartnerCompany? PartnerCompany { get; set; }  
 }
