@@ -11,12 +11,12 @@ public class DistanceConfiguration : IEntityTypeConfiguration<Distance>
         builder
         .HasMany(s => s.DistanceAges)
         .WithOne(sc => sc.Distance)
-        .OnDelete(DeleteBehavior.NoAction);
+        .OnDelete(DeleteBehavior.ClientCascade);
 
         builder
         .HasMany(s => s.DistancePrices)
         .WithOne(sc => sc.Distance)
-        .OnDelete(DeleteBehavior.NoAction);
+        .OnDelete(DeleteBehavior.ClientCascade);
 
         builder
         .HasMany(s => s.Promocodes)
