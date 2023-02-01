@@ -8,5 +8,9 @@ public class PartnerConfiguration : IEntityTypeConfiguration<Partner>
 {
     public void Configure(EntityTypeBuilder<Partner> builder)
     {
+        builder
+        .HasMany(s => s.PartnerCompanies)
+        .WithOne(sc => sc.Partner)
+        .OnDelete(DeleteBehavior.ClientCascade);
     }
 }

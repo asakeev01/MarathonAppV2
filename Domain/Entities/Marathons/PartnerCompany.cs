@@ -8,5 +8,6 @@ public class PartnerCompany
     public string Name { get; set; }
     public string Url { get; set; }
     public int? LogoId { get; set; }
-    public SavedFile? Logo { get; set; }    
+    public SavedFile? Logo { get; set; }   
+    public Partner Partner { get; set; }
 }

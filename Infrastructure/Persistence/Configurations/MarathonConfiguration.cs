@@ -16,17 +16,17 @@ public class MarathonConfiguration : IEntityTypeConfiguration<Marathon>
         builder
         .HasMany(s => s.Distances)
         .WithOne(sc => sc.Marathon)
-        .OnDelete(DeleteBehavior.Restrict);
+        .OnDelete(DeleteBehavior.ClientCascade);
 
         builder
         .HasMany(s => s.MarathonTranslations)
         .WithOne(sc => sc.Marathon)
-        .OnDelete(DeleteBehavior.Restrict);
+        .OnDelete(DeleteBehavior.ClientCascade);
 
         builder
         .HasMany(s => s.Partners)
         .WithOne(sc => sc.Marathon)
-        .OnDelete(DeleteBehavior.Restrict);
+        .OnDelete(DeleteBehavior.ClientCascade);
 
         builder
         .HasMany(s => s.Vouchers)
@@ -38,6 +38,6 @@ public class MarathonConfiguration : IEntityTypeConfiguration<Marathon>
         builder
         .HasMany(s => s.Documents)
         .WithOne(sc => sc.Marathon)
-        .OnDelete(DeleteBehavior.Restrict);
+        .OnDelete(DeleteBehavior.ClientCascade);
     }
 }
