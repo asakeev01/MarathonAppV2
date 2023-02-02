@@ -88,6 +88,15 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to You cant delete marathon.
+        /// </summary>
+        public static string CantDeleteMarathonError {
+            get {
+                return ResourceManager.GetString("CantDeleteMarathonError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Voucher deactivated..
         /// </summary>
         public static string DeactivatedVoucherError {

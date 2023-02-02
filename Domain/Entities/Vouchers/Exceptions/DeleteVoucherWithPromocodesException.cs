@@ -1,11 +1,12 @@
 ﻿using Domain.Common.Exceptions;
+using Domain.Common.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace Domain.Entities.Vouchers.Exceptions;
 
 public class DeleteVoucherWithPromocodesException : DomainException
 {
-    public DeleteVoucherWithPromocodesException() :
-        base("You cant delete voucher with promocodes.", 24)
+    public DeleteVoucherWithPromocodesException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.DeleteVoucherWithPromocodesError], 24)
     {
     }
 }
