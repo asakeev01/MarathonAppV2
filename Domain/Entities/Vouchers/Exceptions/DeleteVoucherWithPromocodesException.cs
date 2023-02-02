@@ -5,7 +5,7 @@ namespace Domain.Entities.Vouchers.Exceptions;
 public class DeleteVoucherWithPromocodesException : DomainException
 {
     public DeleteVoucherWithPromocodesException() :
-        base("You cant delete voucher with promocodes.", 10)
+        base("You cant delete voucher with promocodes.", 24)
     {
     }
 }

@@ -8,7 +8,7 @@ namespace Domain.Entities.Applications.Exceptions;
 
 public class PaymentDidNotSucceedException : DomainException
 {
-    public PaymentDidNotSucceedException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.OutsideRegistationDateError], 9)
+    public PaymentDidNotSucceedException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.PaymentDidNotSucceedError], 25)
     {
     }
 }

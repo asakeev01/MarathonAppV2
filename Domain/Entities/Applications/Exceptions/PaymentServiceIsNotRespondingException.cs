@@ -8,7 +8,7 @@ namespace Domain.Entities.Applications.Exceptions;
 
 public class PaymentServiceIsNotRespondingException : DomainException
 {
-    public PaymentServiceIsNotRespondingException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.OutsideRegistationDateError], 9)
+    public PaymentServiceIsNotRespondingException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.PaymentServiceIsNotRespondingError], 28)
     {
     }
 }
