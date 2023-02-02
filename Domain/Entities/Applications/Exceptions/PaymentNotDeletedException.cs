@@ -7,7 +7,7 @@ namespace Domain.Entities.Applications.Exceptions;
 
 public class PaymentNotDeletedException : DomainException
 {
-    public PaymentNotDeletedException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.OutsideRegistationDateError], 9)
+    public PaymentNotDeletedException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.PaymentNotDeletedError], 26)
     {
     }
 }

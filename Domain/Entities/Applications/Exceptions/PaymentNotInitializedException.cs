@@ -8,7 +8,7 @@ namespace Domain.Entities.Applications.Exceptions;
 
 public class PaymentNotInitializedException : DomainException
 {
-    public PaymentNotInitializedException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.OutsideRegistationDateError], 9)
+    public PaymentNotInitializedException(IStringLocalizer<SharedResource> _localizer) : base(_localizer[SharedResource.PaymentNotInitializedError], 27)
     {
     }
 }

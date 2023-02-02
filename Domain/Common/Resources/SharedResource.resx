@@ -132,6 +132,9 @@
   <data name="DeleteActivatedPromocodeError" xml:space="preserve">
     <value>You cant delete activated promocode</value>
   </data>
+  <data name="DeleteVoucherWithPromocodesError" xml:space="preserve">
+    <value>You cant delete voucher with promocodes.</value>
+  </data>
   <data name="EmailAlreadyConfirmedError" xml:space="preserve">
     <value>Email already confirmed</value>
   </data>
@@ -173,6 +176,21 @@
   </data>
   <data name="PasswordsDoNotMatchError" xml:space="preserve">
     <value>Passwords do not match</value>
+  </data>
+  <data name="PaymentDidNotSucceedError" xml:space="preserve">
+    <value>Payment failed</value>
+  </data>
+  <data name="PaymentNotDeletedError" xml:space="preserve">
+    <value>The payment was not deleted</value>
+  </data>
+  <data name="PaymentNotInitializedError" xml:space="preserve">
+    <value>Payment was not created</value>
+  </data>
+  <data name="PaymentServiceIsNotRespondingError" xml:space="preserve">
+    <value>Payment service does not respond</value>
+  </data>
+  <data name="SignaturesDoNotMatchError" xml:space="preserve">
+    <value>The signatures do not match</value>
   </data>
   <data name="UserAgreementLicenseAgreementError" xml:space="preserve">
     <value>You have not confirmed the user agreement and have not filled out the profile</value>

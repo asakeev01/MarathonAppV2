@@ -132,6 +132,9 @@
   <data name="DeleteActivatedPromocodeError" xml:space="preserve">
     <value>Активдештирилген промокодду өчүрүп салуу мүмкүн эмес</value>
   </data>
+  <data name="DeleteVoucherWithPromocodesError" xml:space="preserve">
+    <value>Промо коддору бар ваучерди жок кыла албайсыз.</value>
+  </data>
   <data name="EmailAlreadyConfirmedError" xml:space="preserve">
     <value>Электрондук почта ырасталды</value>
   </data>
@@ -173,6 +176,21 @@
   </data>
   <data name="PasswordsDoNotMatchError" xml:space="preserve">
     <value>Сыр сөздөр дал келбейт</value>
+  </data>
+  <data name="PaymentDidNotSucceedError" xml:space="preserve">
+    <value>Төлөм ишке ашкан жок</value>
+  </data>
+  <data name="PaymentNotDeletedError" xml:space="preserve">
+    <value>Төлөм өчүрүлгөн жок</value>
+  </data>
+  <data name="PaymentNotInitializedError" xml:space="preserve">
+    <value>Төлөм түзүлгөн жок</value>
+  </data>
+  <data name="PaymentServiceIsNotRespondingError" xml:space="preserve">
+    <value>Төлөм кызматы жооп бербей жатат</value>
+  </data>
+  <data name="SignaturesDoNotMatchError" xml:space="preserve">
+    <value>Колдор дал келбейт</value>
   </data>
   <data name="UserAgreementLicenseAgreementError" xml:space="preserve">
     <value>Сиз колдонуучу келишимин ырастаган жоксуз жана профильди толтурган жоксуз</value>
