@@ -126,6 +126,9 @@
   <data name="AlreadyRegisteredError" xml:space="preserve">
     <value>You are already registered to this marathon.</value>
   </data>
+  <data name="CantDeleteMarathonError" xml:space="preserve">
+    <value>You cant delete marathon</value>
+  </data>
   <data name="DeactivatedVoucherError" xml:space="preserve">
     <value>Voucher deactivated.</value>
   </data>

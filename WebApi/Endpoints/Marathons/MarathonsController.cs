@@ -3,6 +3,7 @@ using System.Net.Mime;
 using System.Security.Claims;
 using Core.UseCases.Marathons.Commands.CraeteMarathon;
 using Core.UseCases.Marathons.Commands.CreateMarathon;
+using Core.UseCases.Marathons.Commands.DeleteMarathon;
 using Core.UseCases.Marathons.Commands.PutMarathon;
 using Core.UseCases.Marathons.Commands.PutMarathonStatus;
 using Core.UseCases.Marathons.Queries.GetMarathon;
@@ -232,6 +233,24 @@ public class MarathonsController : BaseController
         };
 
         var result = await _mediator.Send(createApplicationForPWDCommand);
+
+        return Ok(result);
+    }
+    /// Delete Marathon by id
+    /// </summary>
+    /// <response code="200">Marathon</response>
+    [HttpDelete("{marathonId:int}", Name = "DeleteMarathon")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(GetMarathonOutDto), StatusCodes.Status200OK)]
+    public async Task<ActionResult> DeleteMarathon(
+        [FromRoute] int marathonId)
+    {
+        var deleteMarathonCommand = new DeleteMarathonCommand()
+        {
+            MarathonId = marathonId
+        };
+
+        var result = await _mediator.Send(deleteMarathonCommand);
 
         return Ok(result);
     }

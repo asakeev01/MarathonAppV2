@@ -27,5 +27,5 @@ public static class AppConstants
     /// <summary>
     /// Update this value when you throw new Exceptions
     /// </summary>
-    public const int CurrentMaxErrorCode = 29;
+    public const int CurrentMaxErrorCode = 30;
 }
