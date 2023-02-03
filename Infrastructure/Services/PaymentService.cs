@@ -50,9 +50,10 @@ public class PaymentService : IPaymentService
             string description = "Payment";
             string salt = "Random";
             string order_id = application.Id.ToString();
-            string result_url = _appOptions.BackUrl + _appOptions.ReceivePaymentUrl;
+            string result_url = _appOptions.BackUrl + _appOptions.PaymentUrl + _appOptions.ReceivePaymentUrl;
+            string check_url = _appOptions.BackUrl + _appOptions.PaymentUrl + _appOptions.CheckPaymentUrl;
             string secret_key = _paymentOptions.SecretKey;
-            string text = init + ";" + amount + ";" + description + ";" + lifetime + ";" + merchant_id + ";" + order_id + ";" + result_url + ";" +
+            string text = init + ";" + amount + ";" + check_url + ";" + description + ";" + lifetime + ";" + merchant_id + ";" + order_id + ";" + result_url + ";" +
                 salt + ";" + user_contact_email + ";" + secret_key;
 
 
@@ -80,6 +81,7 @@ public class PaymentService : IPaymentService
                 pg_amount = amount,
                 pg_description = description,
                 pg_result_url = result_url,
+                pg_check_url = check_url,
                 pg_salt = salt,
                 pg_sig = sig.ToString(),
                 pg_lifetime = lifetime,
@@ -125,7 +127,7 @@ public class PaymentService : IPaymentService
             int? payment_id = application.PaymentId;
             string salt = "Random";
             string secret_key = _paymentOptions.SecretKey;
-            string text = delete + ";" + merchant_id + ";" + payment_id + ";" + salt + ";" + merchant_id + ";" + secret_key;
+            string text = delete + ";" + merchant_id + ";" + payment_id + ";" + salt + ";" + secret_key;
 
 
             MD5 md5 = new MD5CryptoServiceProvider();
@@ -242,6 +244,31 @@ public class PaymentService : IPaymentService
             return false;
         }  
         return true;
+    }
+
+    public PaymentResponse CreateResponseSignature(PaymentResponse paymentResponse)
+    {
+        var check_payment_url = _appOptions.CheckPaymentUrl;
+        string status = paymentResponse.pg_status;
+        string description = paymentResponse.pg_description;
+        string salt = paymentResponse.pg_salt;
+        string secret_key = _paymentOptions.SecretKey;
+        string text = check_payment_url + ";" + description + ";" + salt + ";" + status + ";" + secret_key;
+
+
+        MD5 md5 = new MD5CryptoServiceProvider();
+
+        byte[] resultBytes = Encoding.UTF8.GetBytes(text);
+
+        resultBytes = md5.ComputeHash(resultBytes);
+
+        StringBuilder sig = new StringBuilder();
+        foreach (byte ba in resultBytes)
+        {
+            sig.Append(ba.ToString("x2").ToLower());
+        }
+        paymentResponse.pg_sig = sig.ToString();
+        return paymentResponse;
     }
 }
 

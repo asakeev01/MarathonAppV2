@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mime;
+using Core.UseCases.Payments.Commands.CheckPayment;
 using Core.UseCases.Payments.Commands.ReceivePayment;
 using Mapster;
 using MediatR;
@@ -27,7 +28,7 @@ public class PaymentsController : BaseController
     /// Create Application with promocode
     /// </summary>
     /// <response code="200">Ok</response>
-    [HttpPost("")]
+    [HttpPost("receive")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> ReceivePayment(
@@ -40,6 +41,23 @@ public class PaymentsController : BaseController
         };
 
         var result = await _mediator.Send(receivePaymentCommand);
+
+        return Ok(result);
+    }
+
+    [HttpPost("check")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
+    public async Task<ActionResult<HttpStatusCode>> CheckPayment(
+    [FromForm] ReceivePaymentRequestDto dto
+    )
+    {
+        var checkPaymentCommand = new CheckPaymentCommand()
+        {
+            PaymentDto = dto.Adapt<CheckPaymentInDto>(),
+        };
+
+        var result = await _mediator.Send(checkPaymentCommand);
 
         return Ok(result);
     }

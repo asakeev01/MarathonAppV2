@@ -49,8 +49,8 @@ public class CreatePaymentHandler : IRequestHandler<CreateApplicationViaMoneyCom
                     return application.PaymentUrl;
                 else
                 {
-                    _paymentService.SendDeletePaymentAsync(application);
-                    _unit.ApplicationRepository.Delete(application, save: true);
+                    //await _paymentService.SendDeletePaymentAsync(application);
+                    await _unit.ApplicationRepository.Delete(application, save: true);
                 }
             }
             var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();

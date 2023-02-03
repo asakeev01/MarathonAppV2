@@ -85,6 +85,15 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Марафонду өчүрө албайсыз.
+        /// </summary>
+        public static string CantDeleteMarathonError {
+            get {
+                return ResourceManager.GetString("CantDeleteMarathonError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Ваучер өчүрүлгөн..
         /// </summary>
         public static string DeactivatedVoucherError {
@@ -99,6 +108,15 @@ namespace Domain.Common.Resources {
         public static string DeleteActivatedPromocodeError {
             get {
                 return ResourceManager.GetString("DeleteActivatedPromocodeError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Промо коддору бар ваучерди жок кыла албайсыз..
+        /// </summary>
+        public static string DeleteVoucherWithPromocodesError {
+            get {
+                return ResourceManager.GetString("DeleteVoucherWithPromocodesError", resourceCulture);
             }
         }
         
@@ -225,6 +243,51 @@ namespace Domain.Common.Resources {
         public static string PasswordsDoNotMatchError {
             get {
                 return ResourceManager.GetString("PasswordsDoNotMatchError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Төлөм ишке ашкан жок.
+        /// </summary>
+        public static string PaymentDidNotSucceedError {
+            get {
+                return ResourceManager.GetString("PaymentDidNotSucceedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Төлөм өчүрүлгөн жок.
+        /// </summary>
+        public static string PaymentNotDeletedError {
+            get {
+                return ResourceManager.GetString("PaymentNotDeletedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Төлөм түзүлгөн жок.
+        /// </summary>
+        public static string PaymentNotInitializedError {
+            get {
+                return ResourceManager.GetString("PaymentNotInitializedError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Төлөм кызматы жооп бербей жатат.
+        /// </summary>
+        public static string PaymentServiceIsNotRespondingError {
+            get {
+                return ResourceManager.GetString("PaymentServiceIsNotRespondingError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Колдор дал келбейт.
+        /// </summary>
+        public static string SignaturesDoNotMatchError {
+            get {
+                return ResourceManager.GetString("SignaturesDoNotMatchError", resourceCulture);
             }
         }
         

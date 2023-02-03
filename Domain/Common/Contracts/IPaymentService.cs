@@ -10,5 +10,6 @@ public interface IPaymentService
     Task<Application> SendInitPaymentAsync(Application application);
     Task<HttpStatusCode> SendDeletePaymentAsync(Application application);
     bool IsSignatureRight(ReceivePaymentDto receivePaymentDto);
+    PaymentResponse CreateResponseSignature(PaymentResponse paymentResponse);
 }
 
