@@ -32,7 +32,7 @@ public class PaymentsController : BaseController
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(int), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> ReceivePayment(
-        [FromBody] ReceivePaymentRequestDto dto
+        [FromForm] ReceivePaymentRequestDto dto
         )
     {
         var receivePaymentCommand = new ReceivePaymentCommand()
@@ -49,7 +49,7 @@ public class PaymentsController : BaseController
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> CheckPayment(
-    [FromBody] ReceivePaymentRequestDto dto
+    [FromForm] ReceivePaymentRequestDto dto
     )
     {
         var checkPaymentCommand = new CheckPaymentCommand()
