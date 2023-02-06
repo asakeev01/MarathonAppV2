@@ -1,10 +1,7 @@
 ﻿using System;
-using Core.Common.Bases;
-using Domain.Services.Models;
+namespace WebApi.Endpoints.Payments.Dtos.Requests;
 
-namespace Core.UseCases.Payments.Commands.CheckPayment;
-
-public record CheckPaymentInDto : BaseDto<CheckPaymentInDto, CheckPaymentDto>
+public class CheckPaymentRequestDto
 {
     public string pg_order_id { get; set; }
     public int pg_payment_id { get; set; }

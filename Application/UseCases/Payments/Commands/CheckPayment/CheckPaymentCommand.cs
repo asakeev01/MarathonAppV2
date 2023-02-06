@@ -40,6 +40,7 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
             response.pg_description = "Payment may continue";
             response.pg_salt = "Random";
             response.pg_status = "ok";
+            Console.WriteLine("Permited");
         }
 
         else
@@ -47,6 +48,7 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
             response.pg_description = "Payment may not continue";
             response.pg_salt = "Random";
             response.pg_status = "rejected";
+            Console.WriteLine("Stopped");
         }
         response = _paymentService.CreateResponseSignature(response);
         using (var stringwriter = new System.IO.StringWriter())
