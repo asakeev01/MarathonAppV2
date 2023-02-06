@@ -37,16 +37,16 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
         var response = new PaymentResponse();
         if (application != null)
         {
-            response.pg_description = "Payment may not continue";
+            response.pg_description = "Payment may continue";
             response.pg_salt = "Random";
-            response.pg_status = "rejected";
+            response.pg_status = "ok";
         }
 
         else
         {
-            response.pg_description = "Payment may continue";
+            response.pg_description = "Payment may not continue";
             response.pg_salt = "Random";
-            response.pg_status = "ok";
+            response.pg_status = "rejected";
         }
         response = _paymentService.CreateResponseSignature(response);
         using (var stringwriter = new System.IO.StringWriter())
