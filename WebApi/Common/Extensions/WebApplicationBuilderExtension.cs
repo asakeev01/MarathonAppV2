@@ -21,6 +21,7 @@ using WebApi.Common.Extensions.PaymentServices;
 using EmailServiceWorker.Options;
 using RemoveApplicationServiceWorker.Options;
 using Microsoft.AspNetCore.StaticFiles;
+using WebApi.Common.Extensions.SerialogServices;
 
 namespace WebApi.Common.Extensions;
 
@@ -92,13 +93,14 @@ public static class WebApplicationBuilderExtension
         app.UseRouting();
         app.UseLocalization();
         app.UseHttpsRedirection();
-        app.UseSerilogRequestLogging();
+
 
         app.UseAuthentication();
         app.UseAuthorization();
+        app.UseMiddleware<UserIdEnricher>();
         app.MapControllers();
-
         ValidatorOptions.Global.LanguageManager = new CustomLanguageManager();
+        app.UseSerilogRequestLogging();
         app.AutoMigrateDb();
         await app.Seed();
         await app.SeedIdentity();

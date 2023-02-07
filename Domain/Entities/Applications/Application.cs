@@ -3,6 +3,7 @@ using Domain.Entities.Distances;
 using Domain.Entities.Marathons;
 using Domain.Entities.Users;
 using Domain.Entities.Vouchers;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain.Entities.Applications;
 
@@ -14,7 +15,9 @@ public class Application
     public int Number { get; set; }
     public StartKitEnum StarterKit { get; set; }
     public PaymentMethodEnum Payment { get; set; }
+    [Column(TypeName = "decimal(18,4)")]
     public decimal? Price { get; set; }
+    [Column(TypeName = "decimal(18,4)")]
     public decimal? Paid { get; set; }
     public string StarterKitCode { get; set; }
     public string? FullNameRecipient { get; set; }
