@@ -15,16 +15,25 @@ public class UserConfiguration : IEntityTypeConfiguration<User>
         builder
             .HasMany(u => u.UserRoles)
             .WithOne(ur => ur.User)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired(false);
 
         builder
             .HasMany(u => u.Documents)
             .WithOne(d => d.User)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired(false);
 
         builder
             .HasOne(u => u.Status)
             .WithOne(s => s.User)
-            .OnDelete(DeleteBehavior.Cascade);
+            .OnDelete(DeleteBehavior.Cascade)
+            .IsRequired(false);
+
+        builder
+            .HasMany(s => s.Applications)
+            .WithOne(sc => sc.User)
+            .OnDelete(DeleteBehavior.Restrict)
+            .IsRequired(false);
     }
 }
