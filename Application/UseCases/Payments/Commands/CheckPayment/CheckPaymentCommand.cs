@@ -6,6 +6,7 @@ using Domain.Services.Interfaces;
 using Domain.Services.Models;
 using Mapster;
 using MediatR;
+using Microsoft.Extensions.Logging;
 
 namespace Core.UseCases.Payments.Commands.CheckPayment;
 
@@ -20,13 +21,15 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
     private readonly IPaymentService _paymentService;
+    private readonly ILogger<CheckPaymentHandler> _logger;
 
-    public CheckPaymentHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService, IPaymentService paymentService)
+    public CheckPaymentHandler(ILogger<CheckPaymentHandler> logger, IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService, IPaymentService paymentService)
     {
         _unit = unit;
         _applicationService = applicationService;
         _emailService = emailService;
         _paymentService = paymentService;
+        _logger = logger;
     }
 
     public async Task<string> Handle(CheckPaymentCommand cmd, CancellationToken cancellationToken)
@@ -41,6 +44,7 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
             response.pg_salt = "Random";
             response.pg_status = "ok";
             Console.WriteLine("Permited");
+            _logger.LogInformation("Permitted");
         }
 
         else
@@ -49,6 +53,7 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
             response.pg_salt = "Random";
             response.pg_status = "rejected";
             Console.WriteLine("Stopped");
+            _logger.LogInformation("Stopped");
         }
         response = _paymentService.CreateResponseSignature(response);
         using (var stringwriter = new System.IO.StringWriter())
