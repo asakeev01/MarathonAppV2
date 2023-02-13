@@ -32,7 +32,7 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
     public async Task<string> Handle(CheckPaymentCommand cmd, CancellationToken cancellationToken)
     {
         var paymentRequest = cmd.PaymentDto.Adapt<CheckPaymentDto>();
-        var application = await _unit.ApplicationRepository.FirstAsync(x => x.Id.ToString() == cmd.PaymentDto.pg_order_id);
+        var application = await _unit.ApplicationRepository.GetFirstOrDefaultAsync(x => x.Id.ToString() == cmd.PaymentDto.pg_order_id);
         var xml = "";
         var response = new PaymentResponse();
         if (application != null)

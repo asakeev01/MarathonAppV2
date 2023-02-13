@@ -49,9 +49,10 @@ public class PaymentsController : BaseController
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> CheckPayment(
-    [FromForm] CheckPaymentRequestDto dto
-    )
+        [FromForm] CheckPaymentRequestDto dto
+        )
     {
+
         var checkPaymentCommand = new CheckPaymentCommand()
         {
             PaymentDto = dto.Adapt<CheckPaymentInDto>(),
