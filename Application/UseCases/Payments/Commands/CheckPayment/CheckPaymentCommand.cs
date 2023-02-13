@@ -34,10 +34,12 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
 
     public async Task<string> Handle(CheckPaymentCommand cmd, CancellationToken cancellationToken)
     {
+        Console.WriteLine("Entered");
         var paymentRequest = cmd.PaymentDto.Adapt<CheckPaymentDto>();
         var application = await _unit.ApplicationRepository.GetFirstOrDefaultAsync(x => x.Id.ToString() == cmd.PaymentDto.pg_order_id);
         var xml = "";
         var response = new PaymentResponse();
+        Console.WriteLine(application.Id);
         if (application != null)
         {
             response.pg_description = "Payment may continue";
