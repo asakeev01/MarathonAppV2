@@ -48,7 +48,7 @@ public class PaymentsController : BaseController
     [HttpPost("check")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<ActionResult<HttpStatusCode>> CheckPayment(
+    public async Task<ActionResult<string>> CheckPayment(
         [FromForm] CheckPaymentRequestDto dto
         )
     {
@@ -60,7 +60,7 @@ public class PaymentsController : BaseController
 
         var result = await _mediator.Send(checkPaymentCommand);
 
-        return Ok(result);
+        return result;
     }
 }
 
