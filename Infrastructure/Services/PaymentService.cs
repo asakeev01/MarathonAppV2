@@ -222,6 +222,7 @@ public class PaymentService : IPaymentService
         }
 
         Console.WriteLine(text);
+        _logger.LogInformation(text);
 
         MD5 md5 = new MD5CryptoServiceProvider();
 

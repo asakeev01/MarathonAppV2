@@ -37,9 +37,11 @@ public class ReceivePaymentHandler : IRequestHandler<ReceivePaymentCommand, Http
         {
             var paymentRequest = cmd.PaymentDto.Adapt<ReceivePaymentDto>();
             if (paymentRequest.pg_result == 0)
+                Console.WriteLine(paymentRequest.pg_result);
                 return HttpStatusCode.OK;
             bool isRight = _paymentService.IsSignatureRight(paymentRequest);
             if (isRight == false)
+                Console.WriteLine(isRight);
                 return HttpStatusCode.OK;
             var application = await _unit.ApplicationRepository.FirstAsync(x => x.Id.ToString() == cmd.PaymentDto.pg_order_id, include: source => source
                 .Include(a => a.Distance));
