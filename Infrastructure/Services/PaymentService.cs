@@ -221,7 +221,7 @@ public class PaymentService : IPaymentService
                 result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + user_phone + ";" + secret_key;
         }
 
-        
+        Console.WriteLine(text);
 
         MD5 md5 = new MD5CryptoServiceProvider();
 
