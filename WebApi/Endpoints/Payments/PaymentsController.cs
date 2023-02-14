@@ -49,7 +49,7 @@ public class PaymentsController : BaseController
     [HttpPost("check")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<ActionResult<XmlDocument>> CheckPayment(
+    public async Task<ActionResult<string>> CheckPayment(
         [FromForm] CheckPaymentRequestDto dto
         )
     {

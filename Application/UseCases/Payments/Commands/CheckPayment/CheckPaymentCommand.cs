@@ -3,6 +3,7 @@ using System.Net;
 using System.Xml;
 using System.Xml.Serialization;
 using Domain.Common.Contracts;
+using Domain.Common.Helpers;
 using Domain.Services.Interfaces;
 using Domain.Services.Models;
 using Mapster;
@@ -11,12 +12,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Core.UseCases.Payments.Commands.CheckPayment;
 
-public class CheckPaymentCommand : IRequest<XmlDocument>
+public class CheckPaymentCommand : IRequest<string>
 {
     public CheckPaymentInDto PaymentDto { get; set; }
 }
 
-public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, XmlDocument>
+public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
 {
     private readonly IUnitOfWork _unit;
     private readonly IApplicationService _applicationService;
@@ -33,12 +34,12 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, XmlDocum
         _logger = logger;
     }
 
-    public async Task<XmlDocument> Handle(CheckPaymentCommand cmd, CancellationToken cancellationToken)
+    public async Task<string> Handle(CheckPaymentCommand cmd, CancellationToken cancellationToken)
     {
         Console.WriteLine("Entered");
         var paymentRequest = cmd.PaymentDto.Adapt<CheckPaymentDto>();
         var application = await _unit.ApplicationRepository.GetFirstOrDefaultAsync(x => x.Id.ToString() == cmd.PaymentDto.pg_order_id);
-        XmlDocument xml = new XmlDocument();
+        var xml = "";
         var response = new PaymentResponse();
         Console.WriteLine(application.Id);
         if (application != null)
@@ -59,12 +60,19 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, XmlDocum
             _logger.LogInformation("Stopped");
         }
         response = _paymentService.CreateResponseSignature(response);
-        using (var stringwriter = new System.IO.StringWriter())
+        using (var stringwriter = new Utf8StringWriter())
         {
             var serializer = new XmlSerializer(response.GetType());
             serializer.Serialize(stringwriter, response);
-            xml.LoadXml(stringwriter.ToString());
+            xml = stringwriter.ToString();
         }
+        //using (var memStm = new MemoryStream())
+        //using (var xw = XmlWriter.Create(memStm))
+        //{
+        //    var serializer = new XmlSerializer(typeof(PaymentResponse));
+        //    serializer.Serialize(xw, response);
+        //    xml = memStm.ToString();
+        //}
         Console.WriteLine(xml);
         return xml;       
     }
