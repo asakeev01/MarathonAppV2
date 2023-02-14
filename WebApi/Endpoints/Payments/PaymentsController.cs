@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net;
 using System.Net.Mime;
+using System.Xml;
 using Core.UseCases.Payments.Commands.CheckPayment;
 using Core.UseCases.Payments.Commands.ReceivePayment;
 using Mapster;
@@ -48,7 +49,7 @@ public class PaymentsController : BaseController
     [HttpPost("check")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(string), StatusCodes.Status200OK)]
-    public async Task<ActionResult<string>> CheckPayment(
+    public async Task<ActionResult<XmlDocument>> CheckPayment(
         [FromForm] CheckPaymentRequestDto dto
         )
     {

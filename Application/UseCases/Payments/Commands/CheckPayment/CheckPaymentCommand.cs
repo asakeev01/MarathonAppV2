@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net;
+using System.Xml;
 using System.Xml.Serialization;
 using Domain.Common.Contracts;
 using Domain.Services.Interfaces;
@@ -10,12 +11,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Core.UseCases.Payments.Commands.CheckPayment;
 
-public class CheckPaymentCommand : IRequest<string>
+public class CheckPaymentCommand : IRequest<XmlDocument>
 {
     public CheckPaymentInDto PaymentDto { get; set; }
 }
 
-public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
+public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, XmlDocument>
 {
     private readonly IUnitOfWork _unit;
     private readonly IApplicationService _applicationService;
@@ -32,12 +33,12 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
         _logger = logger;
     }
 
-    public async Task<string> Handle(CheckPaymentCommand cmd, CancellationToken cancellationToken)
+    public async Task<XmlDocument> Handle(CheckPaymentCommand cmd, CancellationToken cancellationToken)
     {
         Console.WriteLine("Entered");
         var paymentRequest = cmd.PaymentDto.Adapt<CheckPaymentDto>();
         var application = await _unit.ApplicationRepository.GetFirstOrDefaultAsync(x => x.Id.ToString() == cmd.PaymentDto.pg_order_id);
-        var xml = "";
+        XmlDocument xml = new XmlDocument();
         var response = new PaymentResponse();
         Console.WriteLine(application.Id);
         if (application != null)
@@ -62,8 +63,9 @@ public class CheckPaymentHandler : IRequestHandler<CheckPaymentCommand, string>
         {
             var serializer = new XmlSerializer(response.GetType());
             serializer.Serialize(stringwriter, response);
-            xml = stringwriter.ToString();
+            xml.LoadXml(stringwriter.ToString());
         }
+        Console.WriteLine(xml);
         return xml;       
     }
 }
