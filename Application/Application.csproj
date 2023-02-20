@@ -1,0 +1,112 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>Core</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="UseCases\Distances\**" />
+      <EmbeddedResource Remove="UseCases\Distances\**" />
+      <None Remove="UseCases\Distances\**" />
+      <None Remove="UseCases\Users\Queries\GetAdminsAsOwner\" />
+      <None Remove="UseCases\Users\Commands\DeleteAdminAsOwner\" />
+      <None Remove="UseCases\Payments\Commands\CheckPayment\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Common\Attributes" />
+      <Folder Include="Common\Behaviours" />
+      <Folder Include="Common\Constants" />
+      <Folder Include="Common\Exceptions" />
+      <Folder Include="Common\Extensions" />
+      <Folder Include="Common\Interfaces" />
+      <Folder Include="UseCases\Auth\" />
+      <Folder Include="UseCases\Auth\Commands\" />
+      <Folder Include="UseCases\Auth\Queries\" />
+      <Folder Include="UseCases\Auth\Commands\ConfirmEmail\" />
+      <Folder Include="UseCases\Auth\Commands\ChangePassword\" />
+      <Folder Include="UseCases\Auth\Commands\Login\" />
+      <Folder Include="UseCases\Auth\Commands\Login\Google\" />
+      <Folder Include="UseCases\Users\Commands\UpdateUserProfile\" />
+      <Folder Include="UseCases\Users\Queries\" />
+      <Folder Include="UseCases\Users\Queries\GetUserProfile\" />
+      <Folder Include="UseCases\Documents\" />
+      <Folder Include="UseCases\Documents\Commands\" />
+      <Folder Include="UseCases\Documents\Queries\" />
+      <Folder Include="UseCases\Documents\Commands\UploadUserDocument\" />
+      <Folder Include="UseCases\Documents\Commands\DeleteUserDocument\" />
+      <Folder Include="UseCases\Users\Queries\GetUserAsAdmin\" />
+      <Folder Include="UseCases\Users\Commands\UpdateUserAsAdmin\" />
+      <Folder Include="UseCases\Applications\Queries\ApplicationByStarterKitCodeQuery\" />
+      <Folder Include="UseCases\Applications\Commands\IssueStarterKit\" />
+      <Folder Include="UseCases\Statuses\" />
+      <Folder Include="UseCases\Statuses\Commands\" />
+      <Folder Include="UseCases\Statuses\Queries\" />
+      <Folder Include="UseCases\Statuses\Commands\CreateStatusCommentAsAdmin\" />
+      <Folder Include="UseCases\Statuses\Commands\DeleteStatusCommentAsAdmin\" />
+      <Folder Include="UseCases\Statuses\Commands\SetUserStatusAsAdmin\" />
+      <Folder Include="UseCases\Statuses\Queries\GetStatusCommentsAsAdmin\" />
+      <Folder Include="UseCases\Statuses\Queries\GetUserStatus\" />
+      <Folder Include="UseCases\Payments\" />
+      <Folder Include="UseCases\Payments\Commands\" />
+      <Folder Include="UseCases\Payments\Commands\ReceivePayment\" />
+      <Folder Include="UseCases\Users\Queries\GetAdminsAsOwner\" />
+      <Folder Include="UseCases\Users\Commands\DeleteAdminAsOwner\" />
+      <Folder Include="UseCases\Payments\Commands\CheckPayment\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="EPPlus" Version="6.1.0" />
+      <PackageReference Include="Gridify" Version="2.8.0" />
+      <PackageReference Include="Mapster" Version="7.3.0" />
+      <PackageReference Include="MediatR" Version="10.0.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+      <PackageReference Include="Microsoft.Data.SqlClient" Version="2.1.4" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+      <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.7" />
+      <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.9" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Domain\Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="UseCases\Auth\" />
+      <None Remove="UseCases\Auth\Commands\" />
+      <None Remove="UseCases\Auth\Queries\" />
+      <None Remove="UseCases\Auth\Commands\RegisterUser\" />
+      <None Remove="UseCases\Auth\Commands\ConfirmEmail\" />
+      <None Remove="UseCases\Auth\Commands\ChangePassword\" />
+      <None Remove="UseCases\Auth\Commands\Login\" />
+      <None Remove="UseCases\Auth\Commands\Login\Google\" />
+      <None Remove="UseCases\Users\Commands\UpdateProfile\" />
+      <None Remove="UseCases\Users\Queries\" />
+      <None Remove="UseCases\Users\Queries\GetProfile\" />
+      <None Remove="UseCases\Documents\" />
+      <None Remove="UseCases\Documents\Commands\" />
+      <None Remove="UseCases\Documents\Queries\" />
+      <None Remove="UseCases\Documents\Commands\UploadUserDocument\" />
+      <None Remove="UseCases\Documents\Commands\DeleteUserDocument\" />
+      <None Remove="UseCases\Users\Queries\GetUsers\" />
+      <None Remove="UseCases\Users\Queries\GetUserAsAdmin\" />
+      <None Remove="UseCases\Users\Commands\UpdateUserAsAdmin\" />
+      <None Remove="UseCases\Applications\Queries\ApplicationByStarterKitCodeQuery\" />
+      <None Remove="UseCases\Applications\Commands\IssueStarterKit\" />
+      <None Remove="UseCases\Users\Queries\GetCommentsAsAdmin\" />
+      <None Remove="UseCases\Statuses\" />
+      <None Remove="UseCases\Statuses\Commands\" />
+      <None Remove="UseCases\Statuses\Queries\" />
+      <None Remove="UseCases\Statuses\Commands\CreateStatusCommentAsAdmin\" />
+      <None Remove="UseCases\Statuses\Commands\DeleteStatusCommentAsAdmin\" />
+      <None Remove="UseCases\Statuses\Commands\SetUserStatusAsAdmin\" />
+      <None Remove="UseCases\Statuses\Queries\GetStatusCommentsAsAdmin\" />
+      <None Remove="UseCases\Statuses\Queries\GetUserStatus\" />
+      <None Remove="UseCases\Payments\" />
+      <None Remove="UseCases\Payments\Commands\" />
+      <None Remove="UseCases\Payments\Commands\ReceivePayment\" />
+    </ItemGroup>
+</Project>

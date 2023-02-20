@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="ActivatedPromocodeError" xml:space="preserve">
+    <value>Промокод уже активирован</value>
+  </data>
+  <data name="AlreadyIssuedStarterKitError" xml:space="preserve">
+    <value>Стартовый пакет уже выдан.</value>
+  </data>
+  <data name="AlreadyRegisteredError" xml:space="preserve">
+    <value>Вы уже зарегистрированы на этот марафон.</value>
+  </data>
+  <data name="CantDeleteMarathonError" xml:space="preserve">
+    <value>Вы не можете удалить марафон</value>
+  </data>
+  <data name="DeactivatedVoucherError" xml:space="preserve">
+    <value>Ваучер деактивирован.</value>
+  </data>
+  <data name="DeleteActivatedPromocodeError" xml:space="preserve">
+    <value>Невозможно удалить активированный промокод</value>
+  </data>
+  <data name="DeleteVoucherWithPromocodesError" xml:space="preserve">
+    <value>Вы не можете удалить ваучер с промокодами</value>
+  </data>
+  <data name="EmailAlreadyConfirmedError" xml:space="preserve">
+    <value>Электронная почта уже подтверждена</value>
+  </data>
+  <data name="EmailServiceConnectionError" xml:space="preserve">
+    <value>Сервис по отправке почты в данный момент не отвечает</value>
+  </data>
+  <data name="EmailWasNotConfirmedError" xml:space="preserve">
+    <value>Электронная почта не подтверждена</value>
+  </data>
+  <data name="InvalidHeadersInExcelError" xml:space="preserve">
+    <value>Заголовки в эксель файле неверные(возможно вы загржуаете не тот документ который скачали)</value>
+  </data>
+  <data name="InvalidPromocodeError" xml:space="preserve">
+    <value>Вы ввели неверный промокод</value>
+  </data>
+  <data name="InvalidSheetNameException" xml:space="preserve">
+    <value>Неверное название листа в эксель файле.</value>
+  </data>
+  <data name="InvalidTokenError" xml:space="preserve">
+    <value>Неверный токен</value>
+  </data>
+  <data name="NoDistanceAgeError" xml:space="preserve">
+    <value>Нет возрастной категории для вашего возраста и пола.</value>
+  </data>
+  <data name="NoPlacesError" xml:space="preserve">
+    <value>На эту дистанцию не осталось мест</value>
+  </data>
+  <data name="NoPlacesForPromocodesError" xml:space="preserve">
+    <value>Нет мест для промокодов на дистанцию - {0}</value>
+  </data>
+  <data name="NotFoundError" xml:space="preserve">
+    <value>{0} не найдено</value>
+  </data>
+  <data name="NotPWDError" xml:space="preserve">
+    <value>Вашу инвалидность еще не подтвердили.</value>
+  </data>
+  <data name="OutsideRegistationDateError" xml:space="preserve">
+    <value>Сегодняшняя дата не входит в диапазон дат регистрации</value>
+  </data>
+  <data name="PasswordsDoNotMatchError" xml:space="preserve">
+    <value>Пароли не совпадают</value>
+  </data>
+  <data name="PaymentDidNotSucceedError" xml:space="preserve">
+    <value>Платеж не прошел</value>
+  </data>
+  <data name="PaymentNotDeletedError" xml:space="preserve">
+    <value>Платеж не был удален</value>
+  </data>
+  <data name="PaymentNotInitializedError" xml:space="preserve">
+    <value>Платеж не был создан</value>
+  </data>
+  <data name="PaymentServiceIsNotRespondingError" xml:space="preserve">
+    <value>Сервис по оплате не отвечает</value>
+  </data>
+  <data name="SignaturesDoNotMatchError" xml:space="preserve">
+    <value>Подписи не совпадают</value>
+  </data>
+  <data name="UserAgreementLicenseAgreementError" xml:space="preserve">
+    <value>Вы не подтвердили пользовательское соглашение и не заполнили профиль</value>
+  </data>
+  <data name="UserAlreadyExistsError" xml:space="preserve">
+    <value>Пользователь уже существует</value>
+  </data>
+  <data name="UserDoesNotExistError" xml:space="preserve">
+    <value>Пользователь не существует</value>
+  </data>
+  <data name="WrongPasswordError" xml:space="preserve">
+    <value>Неверный пароль</value>
+  </data>
+  <data name="WrongRoleError" xml:space="preserve">
+    <value>Неверная роль</value>
+  </data>
+</root>

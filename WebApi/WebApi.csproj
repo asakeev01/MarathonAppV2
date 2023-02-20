@@ -1,0 +1,104 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	
+    <PropertyGroup>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+        <TargetFramework>net6.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <DockerComposeProjectPath>../docker-compose.dcproj</DockerComposeProjectPath>
+        <UserSecretsId>bbc2c493-0c7c-44a7-9380-441cd6ee9ff5</UserSecretsId>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+      <DocumentationFile>bin\Debug\WebApi.xml</DocumentationFile>
+      <NoWarn>1701;1702;1591</NoWarn>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+      <DocumentationFile>bin\Release\WebApi.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Compile Remove="Endpoints\Distances\**" />
+      <Content Remove="Endpoints\Distances\**" />
+      <EmbeddedResource Remove="Endpoints\Distances\**" />
+      <None Remove="Endpoints\Distances\**" />
+      <None Remove="Common\Extensions\PaymentServices\" />
+      <None Remove="Endpoints\Payments\" />
+      <None Remove="Endpoints\Payments\Dtos\" />
+      <None Remove="Endpoints\Payments\Dtos\Requests\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.1.3" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.1.1" />
+        <PackageReference Include="Gridify" Version="2.8.0" />
+        <PackageReference Include="Hellang.Middleware.ProblemDetails" Version="6.5.1" />
+        <PackageReference Include="MediatR" Version="10.0.1" />
+        <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
+        <PackageReference Include="MicroElements.Swashbuckle.FluentValidation" Version="5.7.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning" Version="5.0.0" />
+        <PackageReference Include="Microsoft.AspNetCore.Mvc.Versioning.ApiExplorer" Version="5.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="6.0.9">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.9" />
+        <PackageReference Include="Serilog.AspNetCore" Version="6.0.1" />
+        <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+        <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+        <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+        <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.4" />
+        <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.2.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Common\Attributes" />
+      <Folder Include="Common\Bases" />
+      <Folder Include="Common\Filters" />
+      <Folder Include="Common\Helpers" />
+      <Folder Include="Common\Extensions\IdentityServices\" />
+      <Folder Include="Endpoints\Auth\" />
+      <Folder Include="Endpoints\Auth\Dtos\" />
+      <Folder Include="Endpoints\Auth\Dtos\Requests\" />
+      <Folder Include="Endpoints\Users\" />
+      <Folder Include="Endpoints\Users\Dtos\" />
+      <Folder Include="Endpoints\Users\Dtos\Requests\" />
+      <Folder Include="Common\Extensions\CorsServices\" />
+      <Folder Include="Endpoints\Documents\" />
+      <Folder Include="Endpoints\Documents\Dtos\" />
+      <Folder Include="Endpoints\Documents\Dtos\Requests\" />
+      <Folder Include="Endpoints\Statuses\" />
+      <Folder Include="Endpoints\Statuses\Dtos\" />
+      <Folder Include="Endpoints\Statuses\Dtos\Requests\" />
+      <Folder Include="Common\Extensions\PaymentServices\" />
+      <Folder Include="Endpoints\Payments\" />
+      <Folder Include="Endpoints\Payments\Dtos\" />
+      <Folder Include="Endpoints\Payments\Dtos\Requests\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\EmailServiceWorker\EmailServiceWorker.csproj" />
+      <ProjectReference Include="..\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\RemoveApplicationServiceWorker\RemoveApplicationServiceWorker.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Common\Extensions\IdentityServices\" />
+      <None Remove="Microsoft.AspNetCore.Identity" />
+      <None Remove="Endpoints\Users\" />
+      <None Remove="Endpoints\Users\Dtos\" />
+      <None Remove="Endpoints\Users\Dtos\Requests\" />
+      <None Remove="Common\Extensions\CorsServices\" />
+      <None Remove="Endpoints\Documents\" />
+      <None Remove="Endpoints\Documents\Dtos\" />
+      <None Remove="Endpoints\Documents\Dtos\Requests\" />
+      <None Remove="Endpoints\Statuses\" />
+      <None Remove="Endpoints\Statuses\Dtos\" />
+      <None Remove="Endpoints\Statuses\Dtos\Requests\" />
+    </ItemGroup>
+</Project>

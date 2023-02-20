@@ -1,0 +1,90 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Entities\Distances\Exceptions\" />
+      <Folder Include="Entities\Users\UserEnums\" />
+      <Folder Include="Entities\Documents\" />
+      <Folder Include="Entities\Users\Exceptions\" />
+      <Folder Include="Common\Options\" />
+      <Folder Include="Entities\Users\Constants\" />
+      <Folder Include="Resources\" />
+      <Folder Include="Services\Models\" />
+      <Folder Include="Entities\Documents\DocumentEnums\" />
+      <Folder Include="Entities\Statuses\" />
+      <Folder Include="Entities\Statuses\StatusEnums\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="FluentValidation" Version="11.2.0" />
+      <PackageReference Include="Microsoft.AspNetCore.Http.Features" Version="2.2.0" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
+      <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="6.0.9" />
+      <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.7" />
+      <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.9" />
+      <PackageReference Include="MailKit" Version="3.4.1" />
+      <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.9" />
+      <PackageReference Include="Google.Apis.Auth" Version="1.57.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="Common\Resources\SharedResource - Copy.en-us.resx">
+        <DependentUpon>SharedResource.resx</DependentUpon>
+        <Generator>PublicResXFileCodeGenerator</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Common\Resources\SharedResource - Copy.ru-ru.resx">
+        <DependentUpon>SharedResource.resx</DependentUpon>
+        <Generator>PublicResXFileCodeGenerator</Generator>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Common\Resources\SharedResource.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <LastGenOutput>SharedResource.Designer.cs</LastGenOutput>
+        <DependentUpon>SharedResource.properties</DependentUpon>
+      </EmbeddedResource>
+      <EmbeddedResource Update="Common\Resources\SharedResource.ru-ru.resx">
+        <Generator>PublicResXFileCodeGenerator</Generator>
+        <DependentUpon>SharedResource.resx</DependentUpon>
+      </EmbeddedResource>
+		<EmbeddedResource Update="Common\Resources\SharedResource.ky-kg.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<DependentUpon>SharedResource.resx</DependentUpon>
+		</EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="Microsoft.Extensions.Localization.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60">
+        <HintPath>C:\Program Files\dotnet\shared\Microsoft.AspNetCore.App\6.0.3\Microsoft.Extensions.Localization.Abstractions.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="Common\Resources\SharedResource.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>SharedResource.resx</DependentUpon>
+      </Compile>
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Microsoft.Extensions.Localization" />
+      <None Remove="Entities\Users\UserEnums\" />
+      <None Remove="Entities\Documents\" />
+      <None Remove="Entities\Applications\" />
+      <None Remove="Entities\Users\Exceptions\" />
+      <None Remove="Common\Options\" />
+      <None Remove="MailKit" />
+      <None Remove="Entities\Users\Constants\" />
+      <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
+      <None Remove="Services\Models\" />
+      <None Remove="Google.Apis.Auth" />
+      <None Remove="Entities\Documents\DocumentEnums\" />
+      <None Remove="Entities\Statuses\" />
+      <None Remove="Entities\Statuses\StatusEnums\" />
+      <None Remove="RestSharp" />
+    </ItemGroup>
+</Project>

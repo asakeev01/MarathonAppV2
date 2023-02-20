@@ -3,15 +3,16 @@
   <PropertyGroup Label="Globals">
     <ProjectVersion>2.1</ProjectVersion>
     <DockerTargetOS>Linux</DockerTargetOS>
-    <ProjectGuid>{B57EAC3E-8037-4321-865B-6B28330FFCF2}</ProjectGuid>
+    <ProjectGuid>{D8C70291-3C5C-405E-A7E9-A22F80D43FC0}</ProjectGuid>
     <DockerLaunchBrowser>True</DockerLaunchBrowser>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}/swagger</DockerServiceUrl>
-    <DockerServiceName>marathonapp</DockerServiceName>
+    <DockerServiceName>webapi</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
       <DependentUpon>docker-compose.yml</DependentUpon>
     </None>
     <None Include="docker-compose.yml" />
+    <None Include=".dockerignore" />
   </ItemGroup>
 </Project>
