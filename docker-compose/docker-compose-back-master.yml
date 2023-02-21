@@ -1,0 +1,13 @@
+version: "3.7"
+services:
+  marathonapp:
+    container_name: marathon-aws-back
+    image: hub.timelysoft.org/marathonapp/marathon-aws-back
+    restart: always
+    environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+            - DOTNET_ENVIRONMENT=Development
+    volumes:
+            - /docker/marathonV2/staticfiles:/app/staticfiles
+    ports:
+      - "5001:80"
