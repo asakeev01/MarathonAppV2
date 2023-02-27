@@ -43,7 +43,7 @@ public class Worker : BackgroundService
                 {
                     MimeMessage message = new MimeMessage();
 
-                    message.From.Add(new MailboxAddress("Admin", "chasefy_office@timelysoft.net"));
+                    message.From.Add(new MailboxAddress("Run the Silk Road", "chasefy_office@timelysoft.net"));
 
                     message.To.Add(MailboxAddress.Parse(mail.Recipient));
 

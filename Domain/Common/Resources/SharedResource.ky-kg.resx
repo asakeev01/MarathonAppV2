@@ -153,7 +153,7 @@
   <data name="InvalidPromocodeError" xml:space="preserve">
     <value>Сиз туура эмес промо код киргиздиңиз</value>
   </data>
-  <data name="InvalidSheetNameException" xml:space="preserve">
+  <data name="InvalidSheetNameError" xml:space="preserve">
     <value>Excel файлындагы аталыш туура эмес</value>
   </data>
   <data name="InvalidTokenError" xml:space="preserve">
