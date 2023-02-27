@@ -193,7 +193,6 @@ public class PaymentService : IPaymentService
         var result = receivePaymentDto.pg_result;
         var salt = receivePaymentDto.pg_salt;
         var sig = receivePaymentDto.pg_sig;
-        var testing_mode = receivePaymentDto.pg_testing_mode;
         var user_phone = receivePaymentDto.pg_user_phone;
         var user_contact_email = receivePaymentDto.pg_user_contact_email;
         var secret_key = _paymentOptions.SecretKey;
@@ -210,7 +209,7 @@ public class PaymentService : IPaymentService
                 card_brand + ";" + card_exp + ";" + card_owner + ";" + card_pan + ";" + currency  + ";" +
                 description + ";" + need_email_notification + ";" + need_phone_notification + ";" + net_amount + ";" + order_id + ";" +
                 payment_date + ";" + payment_id + ";" + payment_method + ";" + ps_amount + ";" + ps_currency + ";" + ps_full_amount + ";" +
-                result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + user_phone + ";" + secret_key;
+                result + ";" + salt + ";" + user_contact_email + ";" + user_phone + ";" + secret_key;
         }
 
         else
@@ -218,10 +217,9 @@ public class PaymentService : IPaymentService
             text = receive_payment_url + ";" + amount + ";" + can_reject + ";" + currency + ";" +
                 description + ";" + need_email_notification + ";" + need_phone_notification + ";" + net_amount + ";" + order_id + ";" +
                 payment_date + ";" + payment_id + ";" + payment_method + ";" + ps_amount + ";" + ps_currency + ";" + ps_full_amount + ";" +
-                result + ";" + salt + ";" + testing_mode + ";" + user_contact_email + ";" + user_phone + ";" + secret_key;
+                result + ";" + salt + ";" + user_contact_email + ";" + user_phone + ";" + secret_key;
         }
 
-        Console.WriteLine(text);
         _logger.LogInformation(text);
 
         MD5 md5 = new MD5CryptoServiceProvider();
@@ -239,9 +237,7 @@ public class PaymentService : IPaymentService
         {
             _logger.LogInformation(text);
             _logger.LogInformation(sig);
-            Console.WriteLine(text);
-            Console.WriteLine(sig);
-            Console.WriteLine("Signature is not right");
+            _logger.LogInformation("Signature is not right");
             return false;
         }  
         return true;
