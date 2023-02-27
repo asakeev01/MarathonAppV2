@@ -118,7 +118,7 @@
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
   <data name="ActivatedPromocodeError" xml:space="preserve">
-    <value>Promocode already activated</value>
+    <value>Promo code is already activated</value>
   </data>
   <data name="AlreadyIssuedStarterKitError" xml:space="preserve">
     <value>Starter Kit was already issued.</value>
@@ -127,16 +127,16 @@
     <value>You are already registered to this marathon.</value>
   </data>
   <data name="CantDeleteMarathonError" xml:space="preserve">
-    <value>You cant delete marathon</value>
+    <value>You can't delete marathon</value>
   </data>
   <data name="DeactivatedVoucherError" xml:space="preserve">
     <value>Voucher deactivated.</value>
   </data>
   <data name="DeleteActivatedPromocodeError" xml:space="preserve">
-    <value>You cant delete activated promocode</value>
+    <value>You can't delete activated promo code</value>
   </data>
   <data name="DeleteVoucherWithPromocodesError" xml:space="preserve">
-    <value>You cant delete voucher with promocodes.</value>
+    <value>You can't delete voucher with promo codes.</value>
   </data>
   <data name="EmailAlreadyConfirmedError" xml:space="preserve">
     <value>Email already confirmed</value>
@@ -145,28 +145,28 @@
     <value>Unable to connect email service</value>
   </data>
   <data name="EmailWasNotConfirmedError" xml:space="preserve">
-    <value>Email was not confirmed.</value>
+    <value>Email is not confirmed.</value>
   </data>
   <data name="InvalidHeadersInExcelError" xml:space="preserve">
     <value>Headers in excel file are invalid.</value>
   </data>
   <data name="InvalidPromocodeError" xml:space="preserve">
-    <value>You have entered an invalid promocode</value>
+    <value>Promo code is invalid</value>
   </data>
   <data name="InvalidSheetNameError" xml:space="preserve">
-    <value>Invalid sheet name for excel file you uploaded.</value>
+    <value>Invalid sheet name for excel file you have uploaded.</value>
   </data>
   <data name="InvalidTokenError" xml:space="preserve">
     <value>Invalid token</value>
   </data>
   <data name="NoDistanceAgeError" xml:space="preserve">
-    <value>There is no distance age category for your age and gender.</value>
+    <value>There is no age category for your age and gender.</value>
   </data>
   <data name="NoPlacesError" xml:space="preserve">
-    <value>There is no places to this distance.</value>
+    <value>No slots left on this distance.</value>
   </data>
   <data name="NoPlacesForPromocodesError" xml:space="preserve">
-    <value>No places for promocodes to distance - {0}</value>
+    <value>No slots for promo codes on this distance - {0}</value>
   </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} not found</value>
@@ -184,7 +184,7 @@
     <value>Payment failed</value>
   </data>
   <data name="PaymentNotDeletedError" xml:space="preserve">
-    <value>The payment was not deleted</value>
+    <value>Payment was not deleted</value>
   </data>
   <data name="PaymentNotInitializedError" xml:space="preserve">
     <value>Payment was not created</value>
