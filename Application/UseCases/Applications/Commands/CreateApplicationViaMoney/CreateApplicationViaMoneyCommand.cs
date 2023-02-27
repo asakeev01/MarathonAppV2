@@ -1,9 +1,12 @@
 ﻿using System;
 using Core.Common.Helpers;
 using Domain.Common.Contracts;
+using Domain.Common.Resources;
+using Domain.Entities.Applications.Exceptions;
 using Domain.Services.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 
 namespace Core.UseCases.Applications.Commands.CreateApplicationViaMoney;
 
@@ -19,9 +22,11 @@ public class CreatePaymentHandler : IRequestHandler<CreateApplicationViaMoneyCom
     private readonly IApplicationService _applicationService;
     private readonly IEmailService _emailService;
     private readonly IPaymentService _paymentService;
+    private readonly IStringLocalizer<SharedResource> _localizer;
 
-    public CreatePaymentHandler(IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService, IPaymentService paymentService)
+    public CreatePaymentHandler(IStringLocalizer<SharedResource> _localizer, IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService, IPaymentService paymentService)
     {
+        this._localizer = _localizer;
         _unit = unit;
         _applicationService = applicationService;
         _emailService = emailService;
@@ -50,6 +55,8 @@ public class CreatePaymentHandler : IRequestHandler<CreateApplicationViaMoneyCom
                 else
                 {
                     //await _paymentService.SendDeletePaymentAsync(application);
+                    if (application.RemovalTime == null)
+                        throw new AlreadyRegisteredException(_localizer);
                     await _unit.ApplicationRepository.Delete(application, save: true);
                 }
             }

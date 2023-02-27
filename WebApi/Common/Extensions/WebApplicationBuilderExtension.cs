@@ -67,10 +67,7 @@ public static class WebApplicationBuilderExtension
         var configuration = builder.Configuration;
 
         app.UseErrorHandling();
-        if (builder.Environment.IsDevelopment())
-        {
-            app.UseSwaggerUi();
-        }
+        app.UseSwaggerUi();
         var dir = Path.Combine(Directory.GetCurrentDirectory(), builder.Configuration.GetSection("FileSettings:PhysicalPath").Value);
         var requestPath = builder.Configuration.GetSection("FileSettings:RequestPath").Value;
         if (!Directory.Exists(dir))
