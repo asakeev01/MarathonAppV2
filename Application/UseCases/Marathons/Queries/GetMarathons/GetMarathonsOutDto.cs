@@ -25,7 +25,7 @@ public record GetMarathonsOutDto: BaseDto<Marathon, GetMarathonsOutDto>
             .Map(x => x.Name, y => y.MarathonTranslations.First().Name)
             .Map(x => x.Text, y => y.MarathonTranslations.First().Text)
             .Map(x => x.Place, y => y.MarathonTranslations.First().Place)
-            .Map(x => x.Participants, y => y.Applications.Count);
+            .Map(x => x.Participants, y => y.Applications.Where(x => x.RemovalTime == null).ToList().Count);
     }
 
 }
