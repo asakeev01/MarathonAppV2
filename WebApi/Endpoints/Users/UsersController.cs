@@ -80,6 +80,7 @@ public class UsersController : BaseController
     [HttpGet("", Name = "GetUsersAsAdmin")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(IEnumerable<GetUsersOutDto>), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<IQueryable<GetUsersOutDto>>> GetUsers(
         [FromQuery] GridifyQuery query)
     {
@@ -97,6 +98,7 @@ public class UsersController : BaseController
     [HttpGet("{userId}", Name = "GetUserAsAdmin")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetUserOutDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<GetUserProfileOutDto>> GetUser(
         [FromRoute] long userId)
     {
@@ -112,6 +114,7 @@ public class UsersController : BaseController
     [HttpPut("{userId}", Name = "UpdateUserAsAdmin")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<HttpStatusCode>> UpdateUser(
         [FromRoute] long userId,
         [FromBody] UpdateUserRequestDto dto,
@@ -154,6 +157,7 @@ public class UsersController : BaseController
     [HttpDelete("{userId}", Name = "DeleteAdminAsOwner")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetUserOutDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner)]
     public async Task<ActionResult<GetUserProfileOutDto>> DeleteAdmin(
     [FromRoute] long userId)
     {

@@ -76,7 +76,7 @@ public class AuthController : BaseController
 
     [HttpPost("login", Name = "Login")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
-    [ProducesResponseType(typeof(LoginOutDto),StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(LoginOutDto), StatusCodes.Status200OK)]
     public async Task<ActionResult<HttpStatusCode>> LoginAsync(
         [FromBody] LoginRequestDto dto,
         [FromServices] IValidator<LoginRequestDto> validator)
@@ -218,6 +218,7 @@ public class AuthController : BaseController
     [HttpPost("changepassword", Name = "ChangePassword")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize]
     public async Task<ActionResult<HttpStatusCode>> ChangePasswordAsync(
         [FromBody] ChangePasswordRequestDto dto,
         [FromServices] IValidator<ChangePasswordRequestDto> validator)

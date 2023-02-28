@@ -10,6 +10,7 @@ using Core.UseCases.Marathons.Queries.GetMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathonAdmin;
 using Core.UseCases.Marathons.Queries.GetMarathons;
 using Core.UseCases.Marathons.Queries.IsUserRigistered;
+using Domain.Entities.Users.Constants;
 using FluentValidation;
 using Gridify;
 using Mapster;
@@ -41,6 +42,7 @@ public class MarathonsController : BaseController
     [HttpGet("", Name = "GetMarathons")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(QueryablePaging<GetMarathonsOutDto>), StatusCodes.Status200OK)]
+    [Authorize]
     public async Task<ActionResult<IQueryable<GetMarathonsOutDto>>> List(
         [FromQuery] GridifyQuery query)
     {
@@ -62,6 +64,7 @@ public class MarathonsController : BaseController
     [HttpGet("{marathonId:int}", Name = "GetMarathon")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetMarathonOutDto), StatusCodes.Status200OK)]
+    [Authorize]
     public async Task<ActionResult<GetMarathonOutDto>> ById(
         [FromRoute] int marathonId)
     {
@@ -83,6 +86,7 @@ public class MarathonsController : BaseController
     [HttpGet("admin/{marathonId:int}", Name = "GetMarathonAsAdmin")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetMarathonAdminOutDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin + "," + Roles.Volunteer)]
     public async Task<ActionResult<GetMarathonAdminOutDto>> ByIdAdmin(
         [FromRoute] int marathonId)
     {
@@ -104,6 +108,7 @@ public class MarathonsController : BaseController
     [Consumes("multipart/form-data")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(int), StatusCodes.Status201Created)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<HttpStatusCode>> Create(
         [FromForm] CreateMarathonRequestDto dto,
         [FromServices] IValidator<CreateMarathonRequestDto> validator
@@ -149,6 +154,7 @@ public class MarathonsController : BaseController
     [Consumes("multipart/form-data")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<HttpStatusCode>> Update(
         [FromForm] PutMarathonRequestDto dto,
         [FromServices] IValidator<PutMarathonRequestDto> validator)
@@ -191,6 +197,7 @@ public class MarathonsController : BaseController
     [HttpPut("status", Name = "ChangeMarathonStatus")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<HttpStatusCode>> UpdateMarathonStatus(
         [FromBody] UpdateMarathonStatusRequestDto dto,
         [FromServices] IValidator<UpdateMarathonStatusRequestDto> validator)
@@ -242,6 +249,7 @@ public class MarathonsController : BaseController
     [HttpDelete("{marathonId:int}", Name = "DeleteMarathon")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetMarathonOutDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult> DeleteMarathon(
         [FromRoute] int marathonId)
     {

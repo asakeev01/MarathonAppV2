@@ -148,7 +148,7 @@ namespace Domain.Common.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Заголовки в эксель файле неверные(возможно вы загржуаете не тот документ который скачали).
+        ///   Looks up a localized string similar to Заголовки в эксель файле неверные(возможно вы загружаете не тот документ который скачали).
         /// </summary>
         public static string InvalidHeadersInExcelError {
             get {
@@ -168,9 +168,9 @@ namespace Domain.Common.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Неверное название листа в эксель файле..
         /// </summary>
-        public static string InvalidSheetNameException {
+        public static string InvalidSheetNameError {
             get {
-                return ResourceManager.GetString("InvalidSheetNameException", resourceCulture);
+                return ResourceManager.GetString("InvalidSheetNameError", resourceCulture);
             }
         }
         

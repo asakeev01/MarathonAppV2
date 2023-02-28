@@ -14,10 +14,12 @@ using Core.UseCases.Vouchers.Commands.DeleteVoucher;
 using Core.UseCases.Vouchers.Commands.UpdateVoucher;
 using Core.UseCases.Vouchers.Queries.GenerateExcelPromocodes;
 using Core.UseCases.Vouchers.Queries.GetVouchers;
+using Domain.Entities.Users.Constants;
 using FluentValidation;
 using Gridify;
 using Mapster;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.Common.Extensions;
 using WebApi.Common.Extensions.ErrorHandlingServices;
@@ -46,6 +48,7 @@ public class VouchersController : BaseController
     [HttpGet("")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetPromocodesByVaucherIdQueryOutDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<GetPromocodesByVaucherIdQueryOutDto>> GetVouchers(
         [FromQuery] GridifyQuery query
         )
@@ -68,6 +71,7 @@ public class VouchersController : BaseController
     [HttpGet("{voucherId:int}/promocodes")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetPromocodesByVaucherIdQueryOutDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<GetPromocodesByVaucherIdQueryOutDto>> GetVoucherPromocodes(
         [FromRoute] int voucherId,
         [FromQuery] GridifyQuery query)
@@ -91,6 +95,7 @@ public class VouchersController : BaseController
     [HttpPost("")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(GetPromocodesByVaucherIdQueryOutDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<int>> CreateVoucher(
         [FromBody] CreateVoucherRequestDto dto,
         [FromServices] IValidator<CreateVoucherRequestDto> validator
@@ -120,6 +125,7 @@ public class VouchersController : BaseController
     [HttpPost("{voucherId}/promocodes")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult> AddPromocodesToVoucher(
         [FromRoute] int voucherId,
         [FromBody] AddPromocodesToVoucherRequestDto dto,
@@ -150,6 +156,7 @@ public class VouchersController : BaseController
     [HttpGet("{voucherId}/excel")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult> GenerateExcelPromocodes(
         [FromRoute] int voucherId
         )
@@ -173,6 +180,7 @@ public class VouchersController : BaseController
     [HttpPut("")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult> UpdateVoucher(
         [FromBody] UpdateVoucherRequestDto dto,
         [FromServices] IValidator<UpdateVoucherRequestDto> validator
@@ -204,6 +212,7 @@ public class VouchersController : BaseController
     [HttpDelete("{voucherId}/non-activated-promocodes")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult> DeleteNonActivatedPromocodes(
         [FromRoute] int voucherId)
     {
@@ -224,6 +233,7 @@ public class VouchersController : BaseController
     [HttpDelete("{voucherId}/promocodes")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult> DeleteNonActivatedPromocodes(
         [FromRoute] int voucherId,
         [FromBody] ICollection<int> promocodesIds)
@@ -247,6 +257,7 @@ public class VouchersController : BaseController
     [HttpDelete("{voucherId}")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult> DeleteVoucher(
         [FromRoute] int voucherId)
     {

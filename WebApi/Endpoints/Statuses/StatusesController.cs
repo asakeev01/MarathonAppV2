@@ -9,6 +9,7 @@ using Core.UseCases.Statuses.Queries.GetStatusCommentsAsAdmin;
 using Core.UseCases.Statuses.Queries.GetUserStatus;
 using Core.UseCases.Users.Commands.UpdateUserAsAdmin;
 using Core.UseCases.Users.Queries.GetUserProfile;
+using Domain.Entities.Users.Constants;
 using FluentValidation;
 using Gridify;
 using Mapster;
@@ -53,6 +54,7 @@ public class StatusesController : BaseController
     [HttpPut("{userId}", Name = "SetUserStatusAsAdmin")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<HttpStatusCode>> SetUserStatus(
     [FromRoute] long userId,
     [FromBody] SetUserStatusRequestDto dto,
@@ -75,6 +77,7 @@ public class StatusesController : BaseController
     [HttpGet("comments", Name = "GetStatusCommentsAsAdmin")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(IEnumerable<GetStatusCommentsOutDto>), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<IQueryable<GetStatusCommentsOutDto>>> GetStatusComments(
         [FromQuery] GridifyQuery query)
     {
@@ -87,6 +90,7 @@ public class StatusesController : BaseController
     [HttpPost("comments", Name = "CreateStatusCommentAsAdmin")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<HttpStatusCode>> CreateStatusComment(
         [FromBody] CreateStatusCommentRequestDto dto,
         [FromServices] IValidator<CreateStatusCommentRequestDto> validator)
@@ -110,6 +114,7 @@ public class StatusesController : BaseController
     [HttpDelete("{commentId}", Name = "DeleteCommentAsAdmin")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(HttpStatusCode), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult<HttpStatusCode>> DeleteComment(
     [FromRoute] long commentId)
     {

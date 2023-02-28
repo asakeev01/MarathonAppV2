@@ -168,9 +168,9 @@ namespace Domain.Common.Resources {
         /// <summary>
         ///   Looks up a localized string similar to Excel файлындагы аталыш туура эмес.
         /// </summary>
-        public static string InvalidSheetNameException {
+        public static string InvalidSheetNameError {
             get {
-                return ResourceManager.GetString("InvalidSheetNameException", resourceCulture);
+                return ResourceManager.GetString("InvalidSheetNameError", resourceCulture);
             }
         }
         

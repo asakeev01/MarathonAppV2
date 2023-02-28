@@ -19,6 +19,7 @@ using System.Security.Claims;
 using WebApi.Common.Extensions;
 using WebApi.Common.Extensions.ErrorHandlingServices;
 using WebApi.Endpoints.Applications.Dtos.Requests;
+using Domain.Entities.Users.Constants;
 
 namespace WebApi.Endpoints.Applications;
 
@@ -111,6 +112,7 @@ public class ApplicationsController : BaseController
     [HttpGet("{applicationId}")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(ApplicationByIdQueryOutDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin + "," + Roles.Volunteer)]
     public async Task<ActionResult<HttpStatusCode>> Create(
         [FromRoute] int applicationId
         )
@@ -131,6 +133,7 @@ public class ApplicationsController : BaseController
     [HttpGet("marathon/{marathonId}")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(QueryablePaging<ApplicationByMarathonQueryOutDto>), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin + "," + Roles.Volunteer)]
     public async Task<ActionResult<HttpStatusCode>> ApplicationsByMarathon(
         [FromRoute] int marathonId,
         [FromQuery] GridifyQuery query)
@@ -152,6 +155,7 @@ public class ApplicationsController : BaseController
     [HttpGet("marathon/{marathonId}/excel")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult> GenerateExcelPromocodes(
         [FromRoute] int marathonId
         )
@@ -175,6 +179,7 @@ public class ApplicationsController : BaseController
     [Consumes("multipart/form-data")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
     public async Task<ActionResult> ImportExcel(
         [FromRoute] int marathonId,
         [FromForm] ImportExcelApplicationsRequestDto dto,
@@ -200,6 +205,7 @@ public class ApplicationsController : BaseController
     [HttpGet("starterkit/{marathonId}/{starterKitCode}")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(ApplicationByStarterKitCodeQueryOutDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin + "," + Roles.Volunteer)]
     public async Task<ActionResult<HttpStatusCode>> ApplicationsByStarterKitCode(
     [FromRoute] string starterKitCode,
     [FromRoute] int marathonId)
@@ -219,6 +225,7 @@ public class ApplicationsController : BaseController
     [Consumes("multipart/form-data")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin + "," + Roles.Volunteer)]
     public async Task<ActionResult> IssueStarterKit(
         [FromRoute] int applicationId,
         [FromForm] IssueStarterKitRequestDto dto,

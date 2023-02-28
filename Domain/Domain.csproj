@@ -49,10 +49,12 @@
       <EmbeddedResource Update="Common\Resources\SharedResource.ru-ru.resx">
         <Generator>PublicResXFileCodeGenerator</Generator>
         <DependentUpon>SharedResource.resx</DependentUpon>
+        <LastGenOutput>SharedResource.ru-ru.Designer.cs</LastGenOutput>
       </EmbeddedResource>
 		<EmbeddedResource Update="Common\Resources\SharedResource.ky-kg.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<DependentUpon>SharedResource.resx</DependentUpon>
+			<LastGenOutput>SharedResource.ky-kg.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
     </ItemGroup>
 
@@ -67,6 +69,12 @@
         <DesignTime>True</DesignTime>
         <AutoGen>True</AutoGen>
         <DependentUpon>SharedResource.resx</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Common\Resources\SharedResource.ky-kg.Designer.cs">
+        <DependentUpon>SharedResource.ky-kg.resx</DependentUpon>
+      </Compile>
+      <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="Common\Resources\SharedResource.ru-ru.Designer.cs">
+        <DependentUpon>SharedResource.ru-ru.resx</DependentUpon>
       </Compile>
     </ItemGroup>
 
