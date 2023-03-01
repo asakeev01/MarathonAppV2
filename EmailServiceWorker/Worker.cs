@@ -43,7 +43,7 @@ public class Worker : BackgroundService
                 {
                     MimeMessage message = new MimeMessage();
 
-                    message.From.Add(new MailboxAddress("Run the Silk Road", "chasefy_office@timelysoft.net"));
+                    message.From.Add(new MailboxAddress("Run the Silk Road", "postmaster@runthesilkroad.com"));
 
                     message.To.Add(MailboxAddress.Parse(mail.Recipient));
 
@@ -58,7 +58,7 @@ public class Worker : BackgroundService
 
                     try
                     {
-                        await client.ConnectAsync("smtp.office365.com", 587, false);
+                        await client.ConnectAsync(_emailOptions.Smtp, _emailOptions.Port, false);
                         await client.AuthenticateAsync(_emailOptions.Mail, _emailOptions.Password);
                         await client.SendAsync(message);
                         _logger.LogInformation("Email sended to {recipient}, date - {date}, attempt = {attempt}", mail.Recipient, DateTimeOffset.Now, mail.Attempts);
