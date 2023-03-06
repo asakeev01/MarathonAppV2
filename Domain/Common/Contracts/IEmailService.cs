@@ -9,6 +9,7 @@ public interface IEmailService
     Task SendConfirmEmailAsync(string email, string emailToken);
     Task SendPasswordResetTokenAsync(string email, string emailToken);
     Task SendStarterKitCodeAsync(string email, string starterKitCode);
+    Task SendConfirmEmailAdminAsync(string email, string emailToken, string login, string password);
     string WebEncodeToken(string token);
     string WebDecodeToken(string token);
 }

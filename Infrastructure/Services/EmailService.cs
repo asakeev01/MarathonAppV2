@@ -50,6 +50,17 @@ public class EmailService : IEmailService
             );
     }
 
+    public async Task SendConfirmEmailAdminAsync(string email, string emailToken, string login, string password)
+    {
+        var validToken = WebEncodeToken(emailToken);
+
+        string url = $"{_appOptions.FrontUrl}user/register/confirmEmail?email={email}&token={validToken}";
+
+        await SendEmailAsync(email, "Confirm your email on Run the Silk Road", $"<h1>Run the Silk Road</h1>"
+            +  $"<p>На сайте my.runthesilkroad.com Вам назначена роль Менеджер/Волонтер.<br>Для подтверждения электронной почты<br>пройдите по <a href='{url}'> ссылке </a>.<br>Ваш логин: {login}<br>Ваш пароль: {password}<br>Вы можете сменить Ваш пароль через процедуру восстановления пароля<br>Данный доступ дает Вам возможность входа в административную часть сайта.<br>Пожалуйста будьте предельно аккуратны, система работает в боевом режиме, все внесенные Вами изменения отразятся в сохраненных данных<br>Если Вам нужна консультация по использованию системы обратитесь к администратору по адресу maxim.sim@gmail.com.<br></p>"
+            );
+    }
+
     public async Task SendPasswordResetTokenAsync(string email, string passwordToken)
     {
         var validToken = WebEncodeToken(passwordToken);

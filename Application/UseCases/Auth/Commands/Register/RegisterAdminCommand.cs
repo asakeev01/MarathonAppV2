@@ -36,7 +36,7 @@ public class RegisterAdminHandler : IRequestHandler<RegisterAdminCommand, HttpSt
         await _unit.UserRepository.CreateUserAsync(identityUser, cmd.Password);
         await _unit.UserRepository.AddToRoleAsync(identityUser, cmd.Role.ToString());
         var emailToken = await _unit.UserRepository.GenerateEmailConfirmationTokenAsync(identityUser);
-        await _emailService.SendConfirmEmailAsync(identityUser.Email, emailToken);
+        await _emailService.SendConfirmEmailAdminAsync(identityUser.Email, emailToken, cmd.Email, cmd.Password);
         return HttpStatusCode.Created;
     }
 }
