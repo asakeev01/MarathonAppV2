@@ -47,10 +47,10 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
 
             var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
 
-            //if (old_applications.Count != 0)
-            //{
-            //    throw new AlreadyRegisteredException(_localizer);
-            //}
+            if (old_applications.Count != 0)
+            {
+                throw new AlreadyRegisteredException(_localizer);
+            }
 
             var marathon = distance.Marathon;
 

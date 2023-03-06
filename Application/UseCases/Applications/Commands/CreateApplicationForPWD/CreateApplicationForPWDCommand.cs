@@ -44,10 +44,10 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
 
             var old_applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.User == user && x.Marathon == distance.Marathon).ToList();
 
-            //if (old_applications.Count != 0)
-            //{
-            //    throw new AlreadyRegisteredException(_localizer);
-            //}
+            if (old_applications.Count != 0)
+            {
+                throw new AlreadyRegisteredException(_localizer);
+            }
             var oldStarterKitCodes = _unit.ApplicationRepository.FindByCondition(x => x.MarathonId == distance.MarathonId).Select(x => x.StarterKitCode).ToList();
             var marathon = distance.Marathon;
             var application = await _applicationService.CreateApplicationForPWD(user, distance, oldStarterKitCodes);
