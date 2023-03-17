@@ -38,7 +38,7 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
         {
             var user = await _unit.UserRepository.FirstAsync(x => x.Id == cmd.UserId);
             var distance = await _unit.DistanceRepository.FirstAsync(x => x.Id == cmd.DistanceId, include: source => source
-                .Include(a => a.Marathon)
+                .Include(a => a.Marathon).ThenInclude(x => x.MarathonTranslations)
                 .Include(a => a.DistancePrices)
             );
 
@@ -53,7 +53,7 @@ public class CreateApplicationForPWDCommandHandler : IRequestHandler<CreateAppli
             var application = await _applicationService.CreateApplicationForPWD(user, distance, oldStarterKitCodes);
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
             await _unit.DistanceRepository.Update(distance, save: true);
-            await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
+            await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode, user.Name, user.Surname, distance.Name, marathon.Date.ToString("dd/MM/yyyy"), $"ЛОВЗ(PWD)", marathon.MarathonTranslations.Where(x => x.LanguageId == 1).First().Name, marathon.MarathonTranslations.Where(x => x.LanguageId == 2).First().Name, marathon.MarathonTranslations.Where(x => x.LanguageId == 3).First().Name, application.Number.ToString());
 
             return application.Id;
         }

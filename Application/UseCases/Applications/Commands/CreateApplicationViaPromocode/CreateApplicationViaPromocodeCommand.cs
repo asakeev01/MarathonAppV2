@@ -39,7 +39,7 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
         {
             var user = await _unit.UserRepository.FirstAsync(x => x.Id == cmd.UserId);
             var distance = await _unit.DistanceRepository.FirstAsync(x => x.Id == cmd.DistanceId, include: source => source
-                .Include(a => a.Marathon)
+                .Include(a => a.Marathon).ThenInclude(x => x.MarathonTranslations)
                 .Include(a => a.DistanceAges)
                 .Include(a => a.DistancePrices)
                 .Include(a => a.Applications)
@@ -67,8 +67,8 @@ public class CreateApplicationCommandHandler : IRequestHandler<CreateApplication
             await _unit.ApplicationRepository.CreateAsync(application, save: true);
             await _unit.PromocodeRepository.Update(promocode, save: true);
             await _unit.DistanceRepository.Update(distance, save: true);
-            await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode);
-            
+            await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode, user.Name, user.Surname, distance.Name, marathon.Date.ToString("dd/MM/yyyy"), $"{application.DistanceAge.AgeFrom}-{application.DistanceAge.AgeTo}", marathon.MarathonTranslations.Where(x => x.LanguageId == 1).First().Name, marathon.MarathonTranslations.Where(x => x.LanguageId == 2).First().Name, marathon.MarathonTranslations.Where(x => x.LanguageId == 3).First().Name, application.Number.ToString());
+
             return application.Id;
         }
         finally

@@ -6,6 +6,7 @@ using Core.UseCases.Marathons.Commands.CreateMarathon;
 using Core.UseCases.Marathons.Commands.DeleteMarathon;
 using Core.UseCases.Marathons.Commands.PutMarathon;
 using Core.UseCases.Marathons.Commands.PutMarathonStatus;
+using Core.UseCases.Marathons.Queries.GetActiveMarathons;
 using Core.UseCases.Marathons.Queries.GetMarathon;
 using Core.UseCases.Marathons.Queries.GetMarathonAdmin;
 using Core.UseCases.Marathons.Queries.GetMarathons;
@@ -259,6 +260,26 @@ public class MarathonsController : BaseController
         };
 
         var result = await _mediator.Send(deleteMarathonCommand);
+
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// List of active marathons
+    /// </summary>
+    [HttpGet("active", Name = "GetActiveMarathons")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(QueryablePaging<GetActiveMarathonsOutDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<IQueryable<GetMarathonsOutDto>>> ListActive(
+        [FromQuery] GridifyQuery query)
+    {
+        var getMarathonsQuery = new GetActiveMarathonsQuery()
+        {
+            LanguageCode = this.Request.Headers["Accept-Language"],
+            Query = query
+        };
+
+        var result = await _mediator.Send(getMarathonsQuery);
 
         return Ok(result);
     }

@@ -20,6 +20,7 @@ using WebApi.Common.Extensions;
 using WebApi.Common.Extensions.ErrorHandlingServices;
 using WebApi.Endpoints.Applications.Dtos.Requests;
 using Domain.Entities.Users.Constants;
+using Core.UseCases.Applications.Queries.ApplicationByMarathonPublic;
 
 namespace WebApi.Endpoints.Applications;
 
@@ -267,6 +268,27 @@ public class ApplicationsController : BaseController
         };
 
         var result = await _mediator.Send(issueStarterKitCommand);
+        return Ok(result);
+    }
+
+    /// <summary>
+    /// Get applications by marathon ID public
+    /// </summary>
+    [HttpGet("marathon-public/{marathonId}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(QueryablePaging<GetApplicationByMarathonPublicOutDto>), StatusCodes.Status200OK)]
+    public async Task<ActionResult<HttpStatusCode>> ApplicationsByMarathonPublic(
+        [FromRoute] int marathonId,
+        [FromQuery] GridifyQuery query)
+    {
+        var applicationByMarathonQuery = new GetApplicationByMarathonPublicQuery()
+        {
+            MarathonId = marathonId,
+            Query = query
+        };
+
+        var result = await _mediator.Send(applicationByMarathonQuery);
+
         return Ok(result);
     }
 }

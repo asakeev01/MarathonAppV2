@@ -2,6 +2,8 @@
 using System.Net;
 using Core.Common.Helpers;
 using Domain.Common.Contracts;
+using Domain.Entities.Marathons;
+using Domain.Entities.Users;
 using Domain.Services.Interfaces;
 using Domain.Services.Models;
 using Mapster;
@@ -47,13 +49,19 @@ public class ReceivePaymentHandler : IRequestHandler<ReceivePaymentCommand, Http
                 return HttpStatusCode.OK;
             }
             var application = await _unit.ApplicationRepository.FirstAsync(x => x.Id.ToString() == cmd.PaymentDto.pg_order_id, include: source => source
-                .Include(a => a.Distance));
+                .Include(a => a.Distance)
+                .Include(a => a.DistanceAge)
+                .Include(a => a.User)
+                .Include(a => a.Marathon).ThenInclude(x => x.MarathonTranslations));
             var distance = application.Distance;
             var user_email = cmd.PaymentDto.pg_user_contact_email;
             application = _applicationService.AssignNumber(application, distance);
             await _unit.ApplicationRepository.Update(application, save: true);
             await _unit.DistanceRepository.Update(distance, save: true);
-            await _emailService.SendStarterKitCodeAsync(user_email, application.StarterKitCode);
+
+            var user = application.User;
+            var marathon = application.Marathon;
+            await _emailService.SendStarterKitCodeAsync(user.Email, application.StarterKitCode, user.Name, user.Surname, distance.Name, marathon.Date.ToString("dd/MM/yyyy"), $"{application.DistanceAge.AgeFrom}-{application.DistanceAge.AgeTo}", marathon.MarathonTranslations.Where(x => x.LanguageId == 1).First().Name, marathon.MarathonTranslations.Where(x => x.LanguageId == 2).First().Name, marathon.MarathonTranslations.Where(x => x.LanguageId == 3).First().Name, application.Number.ToString());
             return HttpStatusCode.OK;
         }
         finally

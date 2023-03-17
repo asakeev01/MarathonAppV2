@@ -51,8 +51,8 @@ public class ApplicationRepository : BaseRepository<Application>, IApplicationRe
             worksheet.Cells[$"I{i}"].Value = application.User.PhoneNumber;
 
 
-            if (application.User.Gender == true) worksheet.Cells[$"J{i}"].Value = "Муж";
-            else worksheet.Cells[$"J{i}"].Value = "Жен";
+            if (application.User.Gender == true) worksheet.Cells[$"J{i}"].Value = "Male";
+            else worksheet.Cells[$"J{i}"].Value = "Female";
 
             if (application.Payment == Domain.Entities.Applications.ApplicationEnums.PaymentMethodEnum.PWD)
             {
