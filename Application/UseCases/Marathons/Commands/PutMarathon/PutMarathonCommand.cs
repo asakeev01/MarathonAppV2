@@ -79,7 +79,7 @@ public class PutMarathonCommandHandler : IRequestHandler<PutMarathonCommand, Htt
 
         foreach(var distance in marathon.Distances)
         {
-            distance.RegisteredParticipants = await _unit.ApplicationRepository.FindByCondition(x => x.DistanceId == distance.Id).CountAsync();
+            distance.RegisteredParticipants = await _unit.ApplicationRepository.FindByCondition(x => x.DistanceId == distance.Id && x.RemovalTime == null && x.PromocodeId == null).CountAsync();
             distance.ReservedPlaces = await _unit.PromocodeRepository.FindByCondition(x => x.DistanceId == distance.Id).CountAsync();
             distance.ActivatedReservedPlaces = await _unit.PromocodeRepository.FindByCondition(x => x.DistanceId == distance.Id && x.IsActivated == true).CountAsync();
         }
