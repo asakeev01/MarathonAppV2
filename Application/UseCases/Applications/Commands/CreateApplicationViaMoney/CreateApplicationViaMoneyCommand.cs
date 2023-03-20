@@ -57,6 +57,8 @@ public class CreatePaymentHandler : IRequestHandler<CreateApplicationViaMoneyCom
                     //await _paymentService.SendDeletePaymentAsync(application);
                     if (application.RemovalTime == null)
                         throw new AlreadyRegisteredException(_localizer);
+                    distance.InitializedPlaces -= 1;
+                    await _unit.DistanceRepository.Update(distance, save:true);
                     await _unit.ApplicationRepository.Delete(application, save: true);
                 }
             }

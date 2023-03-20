@@ -98,14 +98,6 @@ public class PaymentService : IPaymentService
             application.PaymentUrl = data.pg_redirect_url;
             await _unit.ApplicationRepository.Update(application, save: true);
         }
-        catch (PaymentNotInitializedException ex)
-        {
-            var distance = application.Distance;
-            distance.InitializedPlaces -= 1;
-            await _unit.DistanceRepository.Update(distance, save: true);
-            await _unit.ApplicationRepository.Delete(application, save: true);
-            throw ex;
-        }
         catch (Exception ex)
         {
             var distance = application.Distance;
