@@ -10,7 +10,7 @@ namespace Core.UseCases.Applications.Queries.ApplicationByMarathonPublic;
 public record GetApplicationByMarathonPublicOutDto : BaseDto<Application, GetApplicationByMarathonPublicOutDto>
 {
     public int Id { get; set; }
-    public int Number { get; set; }
+    public string Number { get; set; }
     public string? DistanceAge { get; set; }
     public string? Distance { get; set; }
     public bool IsPWD { get; set; }
