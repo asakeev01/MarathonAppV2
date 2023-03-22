@@ -29,7 +29,12 @@ public class GetVourcherHandler : IRequestHandler<GetPromocodesByVaucherIdQuery,
         var voucher = await _unit.VoucherRepository.FirstAsync(x => x.Id == request.VoucherId);
 
         var promocodes = _unit.PromocodeRepository
-            .FindByCondition(predicate:x => x.VoucherId == request.VoucherId, include: source => source.Include(x => x.Distance).Include(x => x.User));
+            .FindByCondition(predicate:x => x.VoucherId == request.VoucherId, include: source => 
+            source
+            .Include(x => x.Distance)
+            .Include(x => x.User)
+            .Include(x => x.Application)
+            );
         
         var promocodesDto = promocodes.Adapt<IEnumerable<GetPromocodesByVaucherIdQueryOutDto.PromocodeDto>>().AsQueryable().GridifyQueryable(request.Query);
 

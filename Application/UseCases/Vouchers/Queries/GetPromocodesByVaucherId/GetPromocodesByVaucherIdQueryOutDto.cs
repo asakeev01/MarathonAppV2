@@ -21,12 +21,14 @@ public record GetPromocodesByVaucherIdQueryOutDto : BaseDto<Voucher, GetPromocod
         public bool IsActivated { get; set; }
         public DateTime CreationDate { get; set; }
         public string Distance { get; set; }
+        public string? Number { get; set; }
         public UserDto User { get; set; }
 
         public override void AddCustomMappings()
         {
             SetCustomMappings()
-                .Map(x => x.Distance, y => y.Distance.Name);
+                .Map(x => x.Distance, y => y.Distance.Name)
+                .Map(x => x.Number, y => y.Application == null ? null : y.Application.Number.ToString());
         }
     }
         
@@ -52,6 +54,4 @@ public record GetPromocodesByVaucherIdQueryOutDto : BaseDto<Voucher, GetPromocod
         public int Id { get; set; }
         public string Name { get; set; }
     }
-        
-
 }

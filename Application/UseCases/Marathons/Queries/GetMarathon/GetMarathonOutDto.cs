@@ -80,6 +80,13 @@ public record GetMarathonOutDto : BaseDto<Marathon, GetMarathonOutDto>
             public DateTime DateEnd { get; set; }
             public double Price { get; set; }
             public int DistanceId { get; set; }
+            public bool IsToday { get; set; }
+
+            public override void AddCustomMappings()
+            {
+                SetCustomMappings()
+                    .Map(x => x.IsToday, (y => y.DateStart.Date <= DateTime.UtcNow.Date && y.DateEnd.Date >= DateTime.UtcNow.Date));
+            }
         }
 
         public record DistanceAgeDto : BaseDto<DistanceAge, DistanceAgeDto>

@@ -31,7 +31,7 @@ public class GenerateExcelPromocodesQueryHandler : IRequestHandler<GenerateExcel
 
         var voucher = await _unit.VoucherRepository.FirstAsync(x => x.Id == request.VoucherId);
         var promocodes = _unit.PromocodeRepository
-            .FindByCondition(predicate: x => x.VoucherId == request.VoucherId, include: source => source.Include(x => x.User));
+            .FindByCondition(predicate: x => x.VoucherId == request.VoucherId, include: source => source.Include(x => x.User).Include(x => x.Application));
 
         ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
@@ -45,8 +45,9 @@ public class GenerateExcelPromocodesQueryHandler : IRequestHandler<GenerateExcel
         worksheet.Cells["B2"].Value = "Статус";
         worksheet.Cells["C2"].Value = "Пользователь";
         worksheet.Cells["D2"].Value = "Телефонный номер";
-        worksheet.Cells["A1:D2"].Style.Font.Bold = true;
-        worksheet.Cells["A1:D2"].Style.Font.Size = 14;
+        worksheet.Cells["E2"].Value = "Стартовый номер";
+        worksheet.Cells["A1:E2"].Style.Font.Bold = true;
+        worksheet.Cells["A1:E2"].Style.Font.Size = 14;
         int i = 3;
         foreach(var promocode in promocodes)
         {
@@ -56,19 +57,20 @@ public class GenerateExcelPromocodesQueryHandler : IRequestHandler<GenerateExcel
                 var user = promocode.User;
                 worksheet.Cells["C" + i.ToString()].Value = $"{user.Name} {user.Surname}";
                 worksheet.Cells["D" + i.ToString()].Value = user.PhoneNumber;
+                worksheet.Cells["E" + i.ToString()].Value = promocode.Application.Number;
 
             }
             
-            worksheet.Cells[$"A{i}:D{i}"].Style.Fill.PatternType = ExcelFillStyle.Solid;
+            worksheet.Cells[$"A{i}:E{i}"].Style.Fill.PatternType = ExcelFillStyle.Solid;
             if (promocode.IsActivated)
             {
                 worksheet.Cells["B" + i.ToString()].Value = "Использован";
-                worksheet.Cells[$"A{i}:D{i}"].Style.Fill.BackgroundColor.SetColor(Color.Red);
+                worksheet.Cells[$"A{i}:E{i}"].Style.Fill.BackgroundColor.SetColor(Color.Red);
             }
             else
             {
                 worksheet.Cells["B" + i.ToString()].Value = "Не использован";
-                worksheet.Cells[$"A{i}:D{i}"].Style.Fill.BackgroundColor.SetColor(Color.Green);
+                worksheet.Cells[$"A{i}:E{i}"].Style.Fill.BackgroundColor.SetColor(Color.Green);
             }
             i += 1;
         }

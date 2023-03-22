@@ -1,4 +1,5 @@
-﻿using Domain.Entities.Distances;
+﻿using Domain.Entities.Applications;
+using Domain.Entities.Distances;
 using Domain.Entities.Users;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -16,4 +17,5 @@ public class Promocode
     public Voucher Voucher { get; set; }
     public long? UserId { get; set; }
     public User? User { get; set; }
+    public Application? Application { get; set; }
 }
