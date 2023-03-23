@@ -46,6 +46,7 @@ public class Worker : BackgroundService
                         _logger.LogInformation("Release place from - {0}", distance.Name);
                         distance.InitializedPlaces -= 1;
                         await context.DistanceRepository.Update(distance, save: true);
+                        _logger.LogInformation($"DistanceId = {distance.Id}; InitializedPlaces -= 1");
                         _logger.LogInformation("Place from - {0}, released", distance.Name);
                     }
                     await transaction.CommitAsync();

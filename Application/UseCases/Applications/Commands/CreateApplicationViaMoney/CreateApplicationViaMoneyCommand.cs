@@ -7,6 +7,7 @@ using Domain.Services.Interfaces;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 
 namespace Core.UseCases.Applications.Commands.CreateApplicationViaMoney;
 
@@ -23,14 +24,16 @@ public class CreatePaymentHandler : IRequestHandler<CreateApplicationViaMoneyCom
     private readonly IEmailService _emailService;
     private readonly IPaymentService _paymentService;
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly ILogger<CreatePaymentHandler> _logger;
 
-    public CreatePaymentHandler(IStringLocalizer<SharedResource> _localizer, IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService, IPaymentService paymentService)
+    public CreatePaymentHandler(IStringLocalizer<SharedResource> _localizer, IUnitOfWork unit, IApplicationService applicationService, IEmailService emailService, IPaymentService paymentService, ILogger<CreatePaymentHandler> logger)
     {
         this._localizer = _localizer;
         _unit = unit;
         _applicationService = applicationService;
         _emailService = emailService;
         _paymentService = paymentService;
+        _logger = logger;
     }
 
     public async Task<string> Handle(CreateApplicationViaMoneyCommand cmd, CancellationToken cancellationToken)
@@ -57,8 +60,9 @@ public class CreatePaymentHandler : IRequestHandler<CreateApplicationViaMoneyCom
                     //await _paymentService.SendDeletePaymentAsync(application);
                     if (application.RemovalTime == null)
                         throw new AlreadyRegisteredException(_localizer);
-                    distance.InitializedPlaces -= 1;
-                    await _unit.DistanceRepository.Update(distance, save:true);
+                    application.Distance.InitializedPlaces -= 1;
+                    await _unit.DistanceRepository.Update(application.Distance, save:true);
+                    _logger.LogInformation($"DistanceId = {application.Distance.Id}; InitializedPlaces -= 1");
                     await _unit.ApplicationRepository.Delete(application, save: true);
                 }
             }

@@ -12,16 +12,20 @@ using Domain.Entities.Vouchers;
 using Domain.Entities.Vouchers.Exceptions;
 using Domain.Services.Interfaces;
 using Microsoft.Extensions.Localization;
+using Microsoft.Extensions.Logging;
 
 namespace Domain.Services;
 
 public class ApplicationService : IApplicationService
 {
     private readonly IStringLocalizer<SharedResource> _localizer;
+    private readonly ILogger<ApplicationService> _logger;
 
-    public ApplicationService(IStringLocalizer<SharedResource> _localizer)
+    public ApplicationService(IStringLocalizer<SharedResource> _localizer, ILogger<ApplicationService> logger)
     {
         this._localizer = _localizer;
+        _logger = logger;
+
     }
 
     public async Task<Application> CreateApplicationForPWD(User user, Distance distance, List<string> oldStarterKidCodes)
@@ -216,6 +220,7 @@ public class ApplicationService : IApplicationService
         };
 
         distance.InitializedPlaces += 1;
+        _logger.LogInformation($"DistanceId = {distance.Id}; InitializedPlaces += 1");
 
         return result;
     }
@@ -263,6 +268,7 @@ public class ApplicationService : IApplicationService
         result.Number = distance.StartNumbersFrom + distance.ActivatedReservedPlaces + distance.RegisteredParticipants;
         result.RemovalTime = null;
         distance.InitializedPlaces -= 1;
+        _logger.LogInformation($"DistanceId = {distance.Id}; InitializedPlaces -= 1");
         distance.RegisteredParticipants += 1;
         return result;
     }

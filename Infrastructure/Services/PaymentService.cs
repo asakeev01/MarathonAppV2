@@ -103,6 +103,7 @@ public class PaymentService : IPaymentService
             var distance = application.Distance;
             distance.InitializedPlaces -= 1;
             await _unit.DistanceRepository.Update(distance, save: true);
+            _logger.LogInformation($"DistanceId = {distance.Id}; InitializedPlaces -= 1");
             await _unit.ApplicationRepository.Delete(application, save: true);
             throw ex;
         }
