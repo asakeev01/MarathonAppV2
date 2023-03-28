@@ -30,6 +30,7 @@ public class GetMyResultsHandler : IRequestHandler<GetResultsByMarathonQuery, Qu
         var results = _unit.ResultRepository.FindByCondition(x => x.Application.MarathonId == request.MarathonId, include: source => source
         .Include(x => x.Application).ThenInclude(x => x.Distance)
         .Include(x => x.Application).ThenInclude(x => x.DistanceAge)
+        .Include(x => x.Application).ThenInclude(x => x.User)
         .Include(x => x.Application).ThenInclude(x => x.Marathon).ThenInclude(x => x.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)
         )); ;
 
