@@ -23,9 +23,17 @@ public static class AppConstants
         Tuple.Create("M1", "Категория")
     };
 
+    public static readonly List<Tuple<string, string>> ResultsExcelColumns = new List<Tuple<string, string>>() {
+        Tuple.Create("A1", "Number" ),
+        Tuple.Create("B1", "CategoryPlace"),
+        Tuple.Create("C1", "GeneralPlace"),
+        Tuple.Create("D1", "GunTime"),
+        Tuple.Create("E1", "ChipTime"),
+    };
+
     public static readonly string DefaultLanguage = "en";
     /// <summary>
     /// Update this value when you throw new Exceptions
     /// </summary>
-    public const int CurrentMaxErrorCode = 30;
+    public const int CurrentMaxErrorCode = 31;
 }

@@ -37,6 +37,7 @@ public interface IUnitOfWork : IDisposable
 
     IEmailRepository? EmailRepository { get; }
 
+    IResultRepository? ResultRepository { get; }
 
     void Save();
     Task SaveAsync();

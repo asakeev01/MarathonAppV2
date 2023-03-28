@@ -168,6 +168,9 @@
   <data name="NoPlacesForPromocodesError" xml:space="preserve">
     <value>Нет мест для промокодов на дистанцию - {0}</value>
   </data>
+  <data name="NotFoundApplicationError" xml:space="preserve">
+    <value>Заявка с номером - {0}, не найдено</value>
+  </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} не найдено</value>
   </data>
