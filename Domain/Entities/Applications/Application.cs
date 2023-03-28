@@ -1,6 +1,7 @@
 ﻿using Domain.Entities.Applications.ApplicationEnums;
 using Domain.Entities.Distances;
 using Domain.Entities.Marathons;
+using Domain.Entities.Results;
 using Domain.Entities.Users;
 using Domain.Entities.Vouchers;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -36,4 +37,5 @@ public class Application
     public DistanceAge? DistanceAge { get; set; }
     public User User { get; set; }
     public Marathon? Marathon { get; set; }
+    public Result? Result { get; set; }
 }

@@ -168,6 +168,9 @@
   <data name="NoPlacesForPromocodesError" xml:space="preserve">
     <value>No slots for promo codes on this distance - {0}</value>
   </data>
+  <data name="NotFoundApplicationError" xml:space="preserve">
+    <value>Application with number - {0}, not found</value>
+  </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} not found</value>
   </data>

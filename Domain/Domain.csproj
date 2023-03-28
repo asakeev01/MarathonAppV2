@@ -8,6 +8,7 @@
 
     <ItemGroup>
       <Folder Include="Entities\Distances\Exceptions\" />
+      <Folder Include="Entities\Results\Exceptions\" />
       <Folder Include="Entities\Users\UserEnums\" />
       <Folder Include="Entities\Documents\" />
       <Folder Include="Entities\Users\Exceptions\" />

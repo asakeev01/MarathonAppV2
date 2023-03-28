@@ -168,6 +168,9 @@
   <data name="NoPlacesForPromocodesError" xml:space="preserve">
     <value>Дистанцияга - {0} жарнамалык коддор үчүн орун калган жок</value>
   </data>
+  <data name="NotFoundApplicationError" xml:space="preserve">
+    <value>Өтүнмөнүн номери - {0}, табылган жок</value>
+  </data>
   <data name="NotFoundError" xml:space="preserve">
     <value>{0} табылган жок</value>
   </data>
