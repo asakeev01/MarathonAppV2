@@ -18,6 +18,8 @@ namespace Core.UseCases.Applications.Queries.MyApplications
         public int? AgeFrom { get; set; }
         public int? AgeTo { get; set; }
         public bool IsPWD { get; set; }
+        public string StarterKitCode { get; set; }
+        public int Number { get; set; }
 
         public override void AddCustomMappings()
         {
