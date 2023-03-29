@@ -74,7 +74,7 @@ public record GetMyResultOutDto : BaseDto<Result, GetMyResultOutDto>
             .Map(x => x.User.Age, y => y.Application.User.GetAge(y.Application.Marathon.Date))
             .Map(x => x.User, y => y.Application.User)
             .Map(x => x.Marathon, y => y.Application.Marathon)
-            .Map(x => x.CategoryCount, y => y.Application.DistanceAgeId == null ? y.Application.Distance.Applications.Where(x => x.DistanceId == y.Application.DistanceId && x.IsPWD == true).Count() : y.Application.Distance.Applications.Where(x => x.DistanceId == y.Application.DistanceId && x.DistanceAgeId == y.Application.DistanceAgeId).Count())
+            .Map(x => x.CategoryCount, y => y.Application.DistanceAgeId == null ? y.Application.Distance.Applications.Where(x => x.DistanceId == y.Application.DistanceId && x.IsPWD == true && y.Application.User.Gender == x.User.Gender).Count() : y.Application.Distance.Applications.Where(x => x.DistanceId == y.Application.DistanceId && x.DistanceAgeId == y.Application.DistanceAgeId).Count())
             .Map(x => x.GeneralCount, y => y.Application.DistanceAgeId == null ? y.Application.Distance.Applications.Where(x => x.DistanceId == y.Application.DistanceId && x.IsPWD == true).Count() : y.Application.Distance.Applications.Where(x => x.DistanceId == y.Application.DistanceId && x.IsPWD != true).Count())
             ;
     }
