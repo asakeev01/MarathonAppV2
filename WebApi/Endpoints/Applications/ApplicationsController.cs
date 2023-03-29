@@ -21,6 +21,7 @@ using WebApi.Common.Extensions.ErrorHandlingServices;
 using WebApi.Endpoints.Applications.Dtos.Requests;
 using Domain.Entities.Users.Constants;
 using Core.UseCases.Applications.Queries.ApplicationByMarathonPublic;
+using Core.UseCases.Applications.Queries.ApplicationByNumber;
 
 namespace WebApi.Endpoints.Applications;
 
@@ -218,6 +219,25 @@ public class ApplicationsController : BaseController
         };
 
         var result = await _mediator.Send(applicationByStarterKitCodeQuery);
+
+        return Ok(result);
+    }
+
+    [HttpGet("starterkit-number/{marathonId}/{number}")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(typeof(ApplicationByNumberOutDto), StatusCodes.Status200OK)]
+    [Authorize(Roles = Roles.Owner + "," + Roles.Admin + "," + Roles.Volunteer)]
+    public async Task<ActionResult<HttpStatusCode>> ApplicationsByNumber(
+    [FromRoute] int number,
+    [FromRoute] int marathonId)
+    {
+        var applicationByNumberQuery = new ApplicationByNumberQuery()
+        {
+            Number = number,
+            MarathonId = marathonId
+        };
+
+        var result = await _mediator.Send(applicationByNumberQuery);
 
         return Ok(result);
     }
