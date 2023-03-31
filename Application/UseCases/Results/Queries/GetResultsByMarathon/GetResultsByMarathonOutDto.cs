@@ -5,15 +5,32 @@ using Domain.Entities.Users;
 using Domain.Entities.Marathons;
 using Domain.Entities.Applications;
 using Gridify;
+using Domain.Entities.Distances;
 
 namespace Core.UseCases.Results.Queries.GetResultsByMarathon;
 
 public record GetResultsByMarathonOutDto : BaseDto<Marathon, GetResultsByMarathonOutDto>
 {
-    public List<string> Distances { get; set; }
-    public List<string> DistanceAges { get; set; }
+    public IEnumerable<DistanceDto> Distances { get; set; }
 
     public QueryablePaging<ResultsDto> Results { get; set; }
+
+    public record DistanceDto : BaseDto<Distance, DistanceDto>
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+
+        public IEnumerable<DistanceAgeDto> DistanceAges { get; set; }
+
+        public record DistanceAgeDto : BaseDto<DistanceAge, DistanceAgeDto>
+        {
+            public int Id { get; set; }
+            public bool Gender { get; set; }
+            public int? AgeFrom { get; set; }
+            public int? AgeTo { get; set; }
+        }
+    }
+
 
     public record ResultsDto : BaseDto<Result, ResultsDto>
     {
@@ -62,6 +79,8 @@ public record GetResultsByMarathonOutDto : BaseDto<Marathon, GetResultsByMaratho
         {
             public int Id { get; set; }
             public string Number { get; set; }
+            public int DistanceId { get; set; }
+            public int? DistanceAgeId { get; set; }
             public string? DistanceAge { get; set; }
             public string? Distance { get; set; }
             public bool IsPWD { get; set; }

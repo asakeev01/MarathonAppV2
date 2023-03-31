@@ -45,8 +45,7 @@ public class GetMyResultsHandler : IRequestHandler<GetResultsByMarathonQuery, Ge
         var response = new GetResultsByMarathonOutDto()
         {
             Results = result,
-            Distances = distances,
-            DistanceAges = distanceAges
+            Distances = marathon.Distances.Adapt<IEnumerable<GetResultsByMarathonOutDto.DistanceDto>>(),
         };
 
 
