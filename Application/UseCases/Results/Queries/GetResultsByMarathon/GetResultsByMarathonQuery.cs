@@ -8,14 +8,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Core.UseCases.Results.Queries.GetResultsByMarathon;
 
-public class GetResultsByMarathonQuery : IRequest<QueryablePaging<GetResultsByMarathonOutDto>>
+public class GetResultsByMarathonQuery : IRequest<GetResultsByMarathonOutDto>
 {
     public int MarathonId { get; set; }
     public GridifyQuery Query { get; set; }
     public string LanguageCode { get; set; }
 }
 
-public class GetMyResultsHandler : IRequestHandler<GetResultsByMarathonQuery, QueryablePaging<GetResultsByMarathonOutDto>>
+public class GetMyResultsHandler : IRequestHandler<GetResultsByMarathonQuery, GetResultsByMarathonOutDto>
 {
     private readonly IUnitOfWork _unit;
 
@@ -24,7 +24,7 @@ public class GetMyResultsHandler : IRequestHandler<GetResultsByMarathonQuery, Qu
         _unit = unit;
     }
 
-    public async Task<QueryablePaging<GetResultsByMarathonOutDto>> Handle(GetResultsByMarathonQuery request,
+    public async Task<GetResultsByMarathonOutDto> Handle(GetResultsByMarathonQuery request,
         CancellationToken cancellationToken)
     {
         var results = _unit.ResultRepository.FindByCondition(x => x.Application.MarathonId == request.MarathonId, include: source => source
@@ -34,8 +34,19 @@ public class GetMyResultsHandler : IRequestHandler<GetResultsByMarathonQuery, Qu
         .Include(x => x.Application).ThenInclude(x => x.Marathon).ThenInclude(x => x.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)
         )); ;
 
-        var result = results.Adapt<IEnumerable<GetResultsByMarathonOutDto>>().AsQueryable().GridifyQueryable(request.Query);
+        var result = results.Adapt<IEnumerable<GetResultsByMarathonOutDto.ResultsDto>>().AsQueryable().GridifyQueryable(request.Query);
 
-        return result;
+        var firstResult = results.FirstOrDefault();
+
+        var distances = firstResult == null ? null : firstResult.Application.Marathon.Distances.Select(x => x.Name).ToList();
+
+        var response = new GetResultsByMarathonOutDto()
+        {
+            Results = result,
+            Distances = distances,
+        };
+
+
+        return response;
     }
 }
