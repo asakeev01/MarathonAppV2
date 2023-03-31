@@ -36,14 +36,17 @@ public class GetMyResultsHandler : IRequestHandler<GetResultsByMarathonQuery, Ge
 
         var result = results.Adapt<IEnumerable<GetResultsByMarathonOutDto.ResultsDto>>().AsQueryable().GridifyQueryable(request.Query);
 
-        var firstResult = results.FirstOrDefault();
+        var marathon = await _unit.MarathonRepository.FirstAsync(x => x.Id == request.MarathonId, include: source => source
+        .Include(x => x.Distances).ThenInclude(x => x.DistanceAges));
 
-        var distances = firstResult == null ? null : firstResult.Application.Marathon.Distances.Select(x => x.Name).ToList();
+        var distances = marathon.Distances.Select(x => x.Name).ToList();
+        var distanceAges = marathon.Distances.SelectMany(x => x.DistanceAges.Select(x => $"{x.AgeFrom}-{x.AgeTo}")).ToList();
 
         var response = new GetResultsByMarathonOutDto()
         {
             Results = result,
             Distances = distances,
+            DistanceAges = distanceAges
         };
 
 
