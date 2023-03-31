@@ -11,6 +11,7 @@ namespace Core.UseCases.Results.Queries.GetResultsByMarathon;
 public record GetResultsByMarathonOutDto : BaseDto<Marathon, GetResultsByMarathonOutDto>
 {
     public List<string> Distances { get; set; }
+    public List<string> DistanceAges { get; set; }
 
     public QueryablePaging<ResultsDto> Results { get; set; }
 
