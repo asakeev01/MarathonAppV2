@@ -22,7 +22,7 @@ public record PrintResultOutDto : BaseDto<Result, PrintResultOutDto>
             .Map(x => x.Name, y => y.Application.User.Name)
             .Map(x => x.Surname, y => y.Application.User.Surname)
             .Map(x => x.Distance, y => y.Application.Distance.Name)
-            .Map(x => x.DistanceAge, y => y.Application.DistanceAge == null ? "" : $"{y.Application.DistanceAge.AgeFrom}-{y.Application.DistanceAge.AgeTo}")
+            .Map(x => x.DistanceAge, y => y.Application.DistanceAgeId == null ? "" : $"{y.Application.DistanceAge.AgeFrom}-{y.Application.DistanceAge.AgeTo}")
             .Map(x => x.CategoryCount, y => y.Application.DistanceAgeId == null ? y.Application.Distance.Applications.Where(x => x.DistanceId == y.Application.DistanceId && x.IsPWD == true && y.Application.User.Gender == x.User.Gender).Count() : y.Application.Distance.Applications.Where(x => x.DistanceId == y.Application.DistanceId && x.DistanceAgeId == y.Application.DistanceAgeId).Count())
             .Map(x => x.GeneralCount, y => y.Application.DistanceAgeId == null ? y.Application.Distance.Applications.Where(x => x.DistanceId == y.Application.DistanceId && x.IsPWD == true).Count() : y.Application.Distance.Applications.Where(x => x.DistanceId == y.Application.DistanceId && x.IsPWD != true).Count())
             ;
