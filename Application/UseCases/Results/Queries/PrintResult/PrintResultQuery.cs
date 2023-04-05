@@ -25,11 +25,12 @@ public class PrintResultHandler : IRequestHandler<PrintResultQuery, PrintResultO
     public async Task<PrintResultOutDto> Handle(PrintResultQuery request,
         CancellationToken cancellationToken)
     {
+
         var result = await _unit.ResultRepository.FirstToAsync<PrintResultOutDto>(x => x.Id == request.ResultId, include: source => source
-        .Include(x => x.Application).ThenInclude(x => x.Distance).ThenInclude(x => x.Applications)
         .Include(x => x.Application).ThenInclude(x => x.DistanceAge)
         .Include(x => x.Application).ThenInclude(x => x.User)
         .Include(x => x.Application).ThenInclude(x => x.Marathon)
+        .Include(x => x.Application).ThenInclude(x => x.Distance).ThenInclude(x => x.Applications).ThenInclude(x => x.User)
         );
 
         return result;
