@@ -15,10 +15,14 @@ public record PrintResultOutDto : BaseDto<Result, PrintResultOutDto>
     public string ChipTime { get; set; }
     public string Distance { get; set; }
     public string DistanceAge { get; set; }
+    public string Number { get; set; }
+    public bool Gender { get; set; }
 
     public override void AddCustomMappings()
     {
         SetCustomMappings()
+            .Map(x => x.Number, y => y.Application.Number)
+            .Map(x => x.Gender, y => y.Application.User.Gender)
             .Map(x => x.Name, y => y.Application.User.Name)
             .Map(x => x.Surname, y => y.Application.User.Surname)
             .Map(x => x.Distance, y => y.Application.Distance.Name)
