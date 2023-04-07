@@ -31,13 +31,19 @@ public class SetResultByExcelHandler : IRequestHandler<SetResultByExcelCommand, 
         };
         using var tran = new TransactionScope(TransactionScopeOption.Required, options, TransactionScopeAsyncFlowOption.Enabled);
             var marathon = await _unit.MarathonRepository.FirstAsync(x => x.Id == cmd.MarathonId, include: source => source
-            .Include(x => x.MarathonTranslations));
+            .Include(x => x.MarathonTranslations)
+            .Include(x => x.Distances).ThenInclude(x => x.DistanceAges)
+            .Include(x => x.Distances)
+            );
 
         var marathonName = marathon.MarathonTranslations.Where(x => x.LanguageId == 1).First().Name;
 
-        var applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.MarathonId == cmd.MarathonId);
+        var applications = _unit.ApplicationRepository.FindByCondition(predicate: x => x.MarathonId == cmd.MarathonId, include: source => source
+            .Include(x => x.User)
+            .Include(x => x.Distance)
+            .Include(x => x.DistanceAge));
 
-        await _unit.ResultRepository.SetResultsByExcel(applications, cmd.ExcelFile, marathonName, marathon.Id);
+        await _unit.ResultRepository.SetResultsByExcel(applications, cmd.ExcelFile, marathon);
 
         tran.Complete();
 

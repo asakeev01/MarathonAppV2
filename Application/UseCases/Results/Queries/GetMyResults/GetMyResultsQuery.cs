@@ -30,11 +30,13 @@ public class GetMyResultsHandler : IRequestHandler<GetMyResultsQuery, QueryableP
         request.LanguageCode = LanguageHelpers.CheckLanguageCode(request.LanguageCode);
 
         var results = _unit.ResultRepository.FindByCondition(x => x.Application.UserId == request.UserId, include: source => source
+        .Include(x => x.Application).ThenInclude(a => a.DistanceAge)
+        .Include(x => x.Application).ThenInclude(a => a.User)
         .Include(x => x.Application).ThenInclude(x => x.Distance)
-        .Include(x => x.Application).ThenInclude(x => x.DistanceAge)
-        .Include(x => x.Application).ThenInclude(x => x.User)
-        .Include(x => x.Application).ThenInclude(x => x.Marathon).ThenInclude(x => x.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)
+        .Include(x => x.Application).ThenInclude(a => a.Marathon).ThenInclude(b => b.MarathonTranslations.Where(t => t.Language.Code == request.LanguageCode)
         ));
+
+        results = results.Include(x => x.Application).ThenInclude(a => a.Distance).ThenInclude(x => x.Applications);
 
         var result = results.Adapt<IEnumerable<GetMyResultOutDto>>().AsQueryable().GridifyQueryable(request.Query);
 

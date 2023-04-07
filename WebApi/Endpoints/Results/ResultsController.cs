@@ -114,6 +114,9 @@ public class ResultsController : BaseController
         };
         var result = await _mediator.Send(printResultQuery);
 
-        return Ok(result);
+        HttpContext.Response.Headers.Add("content-disposition", $"attachment; filename=My_Certificate.pdf");
+        HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
+        this.Response.ContentType = "application/pdf";
+        return File(result, "application/pdf");
     }
 }
