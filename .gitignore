@@ -879,5 +879,5 @@ WebApi/staticfiles/Marathons/
 WebApi/staticfiles/Partners/
 WebApi/staticfiles/Documents/
 WebApi/staticfiles/*
-!WebApi/staticfiles/Result/
+!WebApi/staticfiles/Result/ResultHtml
 .DS_Store.DS_Store
