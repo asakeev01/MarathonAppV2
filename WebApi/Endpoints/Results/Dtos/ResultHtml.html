@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <style>
+
+        body {{
+            line-height: 30px;
+            margin: 0 auto;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-family: 'Asap', sans-serif;
+            width: 80%;
+        }}
+
+        p {{
+            margin-top: 0;
+            margin-bottom: 0;
+        }}
+
+        .row {{
+            height: 31%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }}
+
+        .secondRow {{
+                margin-top: 25px;
+                height: 38%;
+            }}
+
+        .participant {{
+            font-size: 24px;
+            font-weight: 800;
+            margin: 0;
+            text-transform: capitalize;
+        }}
+
+        p {{
+            color: #000;
+            font-size: 24px;
+            font-weight: 500;
+            margin: 0;
+        }}
+
+        span {{
+            font-weight: 600;
+            font-size: 24px;
+        }}
+
+        .distanceName {{
+            word-wrap: break-word;
+            text-align: center;
+        }}
+
+    </style>
+</head>
+
+<body>
+    <div class="row">
+    </div>
+    <div class="row secondRow">
+        <h3 class="participant">{0} {1}</h3>
+        <p>successfully covered distance:</p>
+        <p class="distanceName">{2}</p>
+         <p>in</p>
+        <p>Gun time: <span>{3}</span></p>
+        <p>Chip time: <span>{4}</span></p>
+        <p>and took place</p>
+        <p><span>{5}/{6}</span> overall</p>
+        <p><span>{7}/{8}</span> in <span>{9} {10}</span> category</p>
+        <p>BIB: <span>{11}</span></p>
+    </div>
+    <div class="row">
+    </div>
+</body>
+
+</html>
