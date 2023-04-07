@@ -6,6 +6,7 @@ using Mapster;
 using MediatR;
 using Microsoft.AspNetCore.Html;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.VisualBasic.FileIO;
 using PuppeteerSharp;
 
 namespace Core.UseCases.Results.Queries.PrintResult;
@@ -34,9 +35,7 @@ public class PrintResultHandler : IRequestHandler<PrintResultQuery, byte[]>
         .Include(x => x.Application).ThenInclude(x => x.Marathon)
         .Include(x => x.Application).ThenInclude(x => x.Distance)
         );
-
-
-        var html1 = File.ReadAllText(Path.Combine("Endpoints", "Results", "Dtos", "ResultHtml.html"));
+        var html1 = File.ReadAllText(Path.Combine(Directory.GetCurrentDirectory(), "staticfiles", "Result", "ResultHtml.html"));
         html1 = String.Format(html1, result.Name, result.Surname, result.Distance, result.GunTime, result.ChipTime, result.GeneralPlace, result.GeneralCount, result.CategoryPlace, result.CategoryCount, result.Gender, result.DistanceAge, result.Number);
 
         var options = new LaunchOptions
