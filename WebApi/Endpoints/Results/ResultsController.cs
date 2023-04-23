@@ -58,7 +58,6 @@ public class ResultsController : BaseController
     [HttpGet("marathon/{marathonId}", Name = "GetResultsByMarathonId")]
     [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
     [ProducesResponseType(typeof(QueryablePaging<GetResultsByMarathonOutDto>), StatusCodes.Status200OK)]
-    [Authorize]
     public async Task<ActionResult<QueryablePaging<GetResultsByMarathonOutDto>>> GetResultsByMarathon([FromQuery] GridifyQuery query, [FromRoute] int marathonId)
     {
         var id = _httpContext.HttpContext.User.FindFirst(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -114,10 +113,10 @@ public class ResultsController : BaseController
         };
         var result = await _mediator.Send(printResultQuery);
 
-        //HttpContext.Response.Headers.Add("content-disposition", $"attachment; filename=My_Certificate.pdf");
-        //HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
-        //this.Response.ContentType = "application/pdf";
-        //return File(result, "application/pdf");
+        HttpContext.Response.Headers.Add("content-disposition", $"attachment; filename=My_Certificate.pdf");
+        HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
+        this.Response.ContentType = "application/pdf";
+        return File(result, "application/pdf");
         return Ok(result);
     }
 }

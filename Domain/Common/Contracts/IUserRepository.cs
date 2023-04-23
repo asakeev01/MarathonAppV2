@@ -20,4 +20,5 @@ public interface IUserRepository : IBaseRepository<User>
     Task ChangePasswordAsync(User user, string password, string newPassword);
     Task UpdateAsync(User user);
     Task DeleteAsync(User user);
+    Task<byte[]> GenerateExcel(IQueryable<User> users);
 }

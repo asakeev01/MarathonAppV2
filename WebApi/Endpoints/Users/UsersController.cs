@@ -2,6 +2,7 @@
 using System.Net;
 using System.Net.Mime;
 using System.Security.Claims;
+using Core.UseCases.Applications.Queries.GenerateExcelApplications;
 using Core.UseCases.Users.Commands.DeleteAdminAsOwner;
 using Core.UseCases.Users.Commands.UpdateUserAsAdmin;
 using Core.UseCases.Users.Commands.UpdateUserProfile;
@@ -9,6 +10,7 @@ using Core.UseCases.Users.Queries.GetAdminsAsOwner;
 using Core.UseCases.Users.Queries.GetUserAsAdmin;
 using Core.UseCases.Users.Queries.GetUserProfile;
 using Core.UseCases.Users.Queries.GetUsersAsAdmin;
+using Core.UseCases.Users.Queries.GetUsersExcel;
 using Domain.Entities.Users.Constants;
 using FluentValidation;
 using Gridify;
@@ -168,6 +170,24 @@ public class UsersController : BaseController
         var result = await _mediator.Send(command);
 
         return Ok(result);
+    }
+
+    /// <summary>
+    /// Export Users to excel
+    /// </summary>
+    [HttpGet("excel")]
+    [ProducesDefaultResponseType(typeof(CustomProblemDetails))]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    //[Authorize(Roles = Roles.Owner + "," + Roles.Admin)]
+    public async Task<ActionResult> GenerateExcelPromocodes()
+    {
+        var getUsersExcelQuery = new GetUsersExcelQuery();
+
+        var result = await _mediator.Send(getUsersExcelQuery);
+        HttpContext.Response.Headers.Add("content-disposition", $"attachment; filename=Users_{DateTime.Now.ToString("dd/MM/yyyy")}.xlsx");
+        HttpContext.Response.Headers.Add("Access-Control-Expose-Headers", "Content-Disposition");
+        this.Response.ContentType = "application/vnd.ms-excel";
+        return File(result, "application/vnd.ms-excel");
     }
 }
 
