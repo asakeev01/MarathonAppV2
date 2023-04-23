@@ -10,6 +10,7 @@ EXPOSE 80
 
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
+RUN apt-get install -y libglib2.0-0
 
 WORKDIR /src
 
