@@ -31,7 +31,6 @@
       <Folder Include="UseCases\Auth\Commands\Login\" />
       <Folder Include="UseCases\Auth\Commands\Login\Google\" />
       <Folder Include="UseCases\Users\Commands\UpdateUserProfile\" />
-      <Folder Include="UseCases\Users\Queries\" />
       <Folder Include="UseCases\Users\Queries\GetUserProfile\" />
       <Folder Include="UseCases\Documents\" />
       <Folder Include="UseCases\Documents\Commands\" />

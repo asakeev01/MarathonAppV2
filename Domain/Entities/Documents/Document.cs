@@ -16,5 +16,19 @@ public class Document
     public bool IsArchived { get; set; } = false;
     public long UserId { get; set; }
     public User User { get; set; }
+
+    public string GetString()
+    {
+        string result = "";
+        if (this.FrontPassportPath != null || this.BackPassportPath != null)
+            result += "Паспорт ";
+        if (this.InsurancePath != null || this.BackInsurancePath != null)
+            result += "Страховка ";
+        if (this.BackDisabilityPath != null || this.DisabilityPath != null)
+            result += "Инвалидность ";
+        if (result == "")
+            result = "Отсутсвует";
+        return result;
+    }
 }
 
