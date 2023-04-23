@@ -10,7 +10,6 @@ EXPOSE 80
 
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
-RUN apt-get install -y libglib2.0-0
 
 WORKDIR /src
 
@@ -21,6 +20,11 @@ COPY ["Domain/Domain.csproj", "Domain/"]
 COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 
 COPY ["WebApi/WebApi.csproj", "WebApi/"]
+
+RUN apt-get update && \
+    apt-get install -y libglib2.0-0 && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN dotnet restore "WebApi/WebApi.csproj"
 
