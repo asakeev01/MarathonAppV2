@@ -67,6 +67,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />
       <PackageReference Include="Microsoft.Extensions.Identity.Stores" Version="6.0.7" />
       <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="6.0.9" />
+      <PackageReference Include="PuppeteerSharp" Version="9.1.0" />
     </ItemGroup>
 
     <ItemGroup>
