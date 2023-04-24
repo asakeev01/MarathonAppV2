@@ -21,6 +21,26 @@ COPY ["Infrastructure/Infrastructure.csproj", "Infrastructure/"]
 
 COPY ["WebApi/WebApi.csproj", "WebApi/"]
 
+RUN dotnet restore "WebApi/WebApi.csproj"
+
+COPY . .
+
+WORKDIR "/src/WebApi"
+
+RUN dotnet build "WebApi.csproj" -c Release -o /app/build
+
+
+
+FROM build AS publish
+
+RUN dotnet publish "WebApi.csproj" -c Release -o /app/publish
+
+
+
+FROM base AS final
+
+WORKDIR /app
+
 RUN apt-get update && \
     apt-get install -y \
         libasound2 \
@@ -67,26 +87,6 @@ RUN apt-get update && \
         xdg-utils && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-RUN dotnet restore "WebApi/WebApi.csproj"
-
-COPY . .
-
-WORKDIR "/src/WebApi"
-
-RUN dotnet build "WebApi.csproj" -c Release -o /app/build
-
-
-
-FROM build AS publish
-
-RUN dotnet publish "WebApi.csproj" -c Release -o /app/publish
-
-
-
-FROM base AS final
-
-WORKDIR /app
 
 RUN mkdir /app/staticfiles
 
