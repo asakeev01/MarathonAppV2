@@ -26,3 +26,8 @@ I developed a backend part of the web application for the RunTheSilkRoad organiz
 15. Voucher - Admins are able to create, view, delete and download vouchers as Excel file for the corporate applicants.
 16. Starter kit - Volunteers and admins are able to issue starter kits.
 17. Marathons - Admins are able to create marathons.
+
+
+## Design
+### Architecture
+The Project follows clean architecture with CQRS pattern. CQRS is done using Mediatr library. Here is a diagram of architecture:
