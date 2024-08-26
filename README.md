@@ -1,5 +1,5 @@
 # MarathonAppV2
-I developed a web application for the RunTheSilkRoad organization, which manages marathon events in Kyrgyzstan. The app streamlines various business processes such as participant registration, event organization, and result tracking, all of which were previously handled manually with basic tools like Excel and Google Forms. This project modernized their operations to accommodate the rapidly growing number of marathon participants and events.
+I developed a backend part of the web application for the RunTheSilkRoad organization, which manages marathon events in Kyrgyzstan. The app streamlines various business processes such as participant registration, event organization, paying fees and result tracking, all previously handled manually with basic tools like Excel and Google Forms. This project modernized their operations to accommodate the rapidly growing number of marathon participants and events.
 
 ## Requirements
 ### User part:
