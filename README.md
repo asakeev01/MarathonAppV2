@@ -1,8 +1,8 @@
 # MarathonAppV2
 I developed a web application for the RunTheSilkRoad organization, which manages marathon events in Kyrgyzstan. The app streamlines various business processes such as participant registration, event organization, and result tracking, all of which were previously handled manually with basic tools like Excel and Google Forms. This project modernized their operations to accommodate the rapidly growing number of marathon participants and events.
 
-##Requirements
-###User part:
+## Requirements
+### User part:
 
 1. Registration - User will fill in the fields with email, password, and confirm password, in order to be saved in the system, mail will be sent to confirm the email in the system.
 2. Authorization/Authentication - User will have a role for accessing just allowed parts of the website, login, and logout.
@@ -16,7 +16,7 @@ I developed a web application for the RunTheSilkRoad organization, which manages
 10. Marathons - User is able to view all available marathons.
 
 
-###Admin panel:
+### Admin panel:
 
 10. Roles in admin panel - There is one owner who has access to every part of admin panel, admin also has access to every part of admin panel(except creation, editing, deleting volunteers and admins), volunteer is limited depending on business process.
 11. Creation of volunteers and admins - Owner is able to create volunteers or admins.
