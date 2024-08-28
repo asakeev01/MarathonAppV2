@@ -39,3 +39,47 @@ The WebApi Project’s Infrastructure is dependent on Domain and Application pro
 https://www.youtube.com/watch?v=tLk4pZZtiDY&t=379s
 ### Mediatr
 Mediatr used in this template to implement CQRS Pattern. Here is a diagram of the CQRS Pattern:
+![Alt Text](/images/cqrs2.png)
+![Alt Text](/images/mar1.png)
+
+You send Commands and Queries using Mediatr in your controller in this way: **await _mediator.Send(command);**
+You can also add behaviours to your mediatr request. Configs are here: **src/WebApi/Common/Extensions/MediatrServices/MediatrServiceExtension.cs**
+
+### Objectives of architecture
+- Base for future extensions.
+- Clear picture of the workflow of the application.
+- Speed of development.
+
+## Implementation
+
+### Solution Structure
+### Conventions
+
+- All RequestDto should be named with postfixRequestDto:**TransferRequestDto**
+- All Commands should be named with postfix Command:**WithdrawCommand**
+- All Queries should be named with postfix Query:**GetUserAccountQuery**
+- All Responses from Commands and Queries should be named with postfix OutDto:**GetUserAccountOutDto**
+- All folders should be created using plural form:
+**+ Correct: Extensions**
+**- Incorrect: Extension**
+
+### Responsibility of each layer
+
+### WebApi Project
+
+Depends on Application, Domain and Infrastructure Projects.
+Consists of Common,Endpoints, staticfiles Folders and appsettings.json.
+
+- Common folder contains all Common things related our API (For example: you may create folders for Extensions, Bases, Attributes, Helpers, Filters, Middlewares, Resources).
+
+- Endpoints folder contains Controllers, Request Dtos with their Validaitons, Swagger Examples (Divided based on entity that you are mainly working on)
+
+- staticfiles folder contains files of the project(For example: the logos of the partner companies)
+Contains Swagger, Request DTOs for binding, Swagger Examples, Library Configurations, Sending Commands and Queries using Mediatr.
+
+- Library Configurations Path: src/WebApi/Common/Extensions (Ef, Validation, Mediatr and other services cnofigs are here)
+
+- Validation of Request Dtos: src/WebApi/Endpoints/Users/Dtos/Requests (Divided based on entity). See example of validation in src/WebApi/Endpoints/Accounts/Dtos/Requests/TransferRequestDto.cs
+
+- Swagger Response and Request Examples: src/WebApi/Endpoints/Users/Dtos/SwaggeExamples (Divided based on entity)
+
