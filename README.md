@@ -1,4 +1,6 @@
 # MarathonAppV2
+![Alt Text](/images/runningImg.jpeg)
+
 I developed a backend part of the web application for the RunTheSilkRoad organization, which manages marathon events in Kyrgyzstan. The app streamlines various business processes such as participant registration, event organization, paying fees and result tracking, all previously handled manually with basic tools like Excel and Google Forms. This project modernized their operations to accommodate the rapidly growing number of marathon participants and events.
 
 ## Requirements
@@ -31,3 +33,9 @@ I developed a backend part of the web application for the RunTheSilkRoad organiz
 ## Design
 ### Architecture
 The Project follows clean architecture with CQRS pattern. CQRS is done using Mediatr library. Here is a diagram of architecture:
+![Alt Text](/images/cqrs.jpeg)
+
+The WebApi Project’s Infrastructure is dependent on Domain and Application projects. Application is dependent on Domain Project.
+https://www.youtube.com/watch?v=tLk4pZZtiDY&t=379s
+### Mediatr
+Mediatr used in this template to implement CQRS Pattern. Here is a diagram of the CQRS Pattern:
