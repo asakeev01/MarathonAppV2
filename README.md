@@ -241,3 +241,5 @@ Here is example of proper docs of swagger endpoint:
 ![Alt Text](/images/mar8.png)
 
 Configs are here: src/WebApi/Common/Extensions/SwaggerServices/SwaggerServiceExtension.cs
+
+## Result
